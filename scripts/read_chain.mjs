@@ -6,6 +6,51 @@ import { dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { createHash } from "node:crypto";
 
+// Stored Consensus 2.0 statuses differ from the SDK's older projected enum.
+const STORED_STATUSES = [
+  "UNINITIALIZED", "PENDING", "PROPOSING", "COMMITTING", "REVEALING",
+  "ACCEPTED", "UNDETERMINED", "FINALIZED", "CANCELED", "APPEAL_REVEALING",
+  "APPEAL_COMMITTING", "VALIDATORS_TIMEOUT", "LEADER_TIMEOUT", "LEADER_REVEALING",
+];
+const RESULTS = ["IDLE", "AGREE", "DISAGREE", "TIMEOUT", "DETERMINISTIC_VIOLATION", "NO_MAJORITY", "MAJORITY_AGREE", "MAJORITY_DISAGREE"];
+const EXECUTION_RESULTS = ["NOT_VOTED", "FINISHED_WITH_RETURN", "FINISHED_WITH_ERROR"];
+
+export function storedReceipt(projected, transaction, rounds, block) {
+  const status = Number(transaction?.status);
+  if (transaction?.status == null || !Number.isInteger(status) || !STORED_STATUSES[status] || !Array.isArray(rounds)) {
+    throw new Error("invalid stored consensus receipt");
+  }
+  if (transaction.numOfInitialValidators === undefined) {
+    throw new Error("stored receipt has no initial validator count");
+  }
+  const stored = {
+    ...transaction,
+    txId: transaction.id,
+    status,
+    statusName: STORED_STATUSES[status],
+    numOfInitialValidators: String(transaction.numOfInitialValidators),
+    // Trace round arguments and numOfRounds use the array index. A stored
+    // round's own `round` field can repeat after an idle leader replacement.
+    numOfRounds: String(Math.max(0, rounds.length - 1)),
+    lastRound: rounds.at(-1) ?? null,
+    readStateBlockRange: transaction.readStateBlockRanges?.at(-1) ?? projected.readStateBlockRange,
+    resultName: RESULTS[Number(transaction.result)] ?? "UNKNOWN",
+    txExecutionResult: Number(transaction.txExecutionResult),
+    txExecutionResultName: EXECUTION_RESULTS[Number(transaction.txExecutionResult)] ?? "UNKNOWN",
+  };
+  return {
+    ...projected,
+    ...stored,
+    currentTimestamp: String(block.timestamp),
+    status_basis: "getTransactionAllData",
+    stored_block: { number: String(block.number), hash: block.hash, timestamp: String(block.timestamp) },
+    stored_receipt: stored,
+    stored_rounds: rounds,
+    projected_receipt: projected,
+  };
+}
+
+async function main() {
 const input = process.argv.slice(2);
 const call = input[0] === "--call";
 const tx = input[0];
@@ -29,7 +74,17 @@ if (call) {
     return item instanceof Map ? Object.fromEntries(item) : item;
   }));
 } else {
-const receipt = await client.getTransaction({ hash: tx });
+const { createPublicClient, http } = await import(pathToFileURL(join(root, "node_modules/viem/_esm/index.js")));
+const publicClient = createPublicClient({ chain: chains.testnetBradbury, transport: http(endpoint || undefined) });
+const block = await publicClient.getBlock();
+const spec = chains.testnetBradbury.consensusDataContract;
+const [projected, allData] = await Promise.all([
+  client.getTransaction({ hash: tx }),
+  publicClient.readContract({ address: spec.address, abi: spec.abi, functionName: "getTransactionAllData", args: [tx], blockNumber: block.number }),
+]);
+const [transaction, rounds] = allData;
+if (transaction.id.toLowerCase() !== tx.toLowerCase()) throw new Error("stored transaction ID differs from request");
+const receipt = storedReceipt(projected, transaction, rounds, block);
 if (!snapshotHash) {
   console.log(JSON.stringify(receipt, (_, value) => typeof value === "bigint" ? value.toString() : value));
 } else {
@@ -67,3 +122,6 @@ if (!snapshotHash) {
   console.log(JSON.stringify(found));
 }
 }
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) await main();

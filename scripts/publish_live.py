@@ -16,7 +16,7 @@ def escape(value):
 def public_infrastructure(failure):
     # Full RPC/explorer captures stay in the run archive. Publish only evidence
     # needed to distinguish protocol outcomes from contract judgements.
-    result = {key: failure[key] for key in ("id", "tx", "envelope_hash", "entry_class", "status", "reason") if key in failure}
+    result = {key: failure[key] for key in ("id", "tx", "envelope_hash", "entry_class", "status", "consensus_outcome", "reason") if key in failure}
     receipt = failure.get("receipt") or {}
     result["receipt_summary"] = {key: receipt[key] for key in ("statusName", "resultName", "txExecutionResultName", "numOfRounds", "sender", "recipient", "currentTimestamp") if key in receipt}
     if receipt.get("lastRound"):
@@ -36,7 +36,7 @@ def refresh_record(row, address):
             raise ValueError("chain state changed before publication: %s (%s)" % (row["id"], key))
     receipt = collector.lookup_receipt(collector.EXPLORER, "", row["tx"], 30)
     status = collector.status_of(receipt)
-    if status not in {"FINALIZED", "ACCEPTED", "SUCCESS"}:
+    if status not in {"FINALIZED", "ACCEPTED", "SUCCESS"} or collector.is_consensus_timeout(receipt):
         raise ValueError("consensus no longer accepted: %s (%s)" % (row["id"], status))
     if (receipt.get("recipient") or "").lower() != address.lower():
         raise ValueError("receipt belongs to another contract: " + row["id"])

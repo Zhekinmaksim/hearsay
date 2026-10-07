@@ -169,11 +169,83 @@ class ReceiptsTest(unittest.TestCase):
             self.assertIn("not a contract rejection", result["reason"])
 
     def test_rpc_receipt_overrides_stale_explorer(self):
-        response = type("Result", (), {"returncode": 0, "stdout": json.dumps({"status": 12, "statusName": "VALIDATORS_TIMEOUT", "resultName": "TIMEOUT"}), "stderr": ""})()
+        response = type("Result", (), {"returncode": 0, "stdout": json.dumps({"status_basis": "getTransactionAllData", "stored_receipt": {"status": 11}, "status": 11, "statusName": "VALIDATORS_TIMEOUT", "resultName": "TIMEOUT"}), "stderr": ""})()
         with patch.object(collector.subprocess, "run", return_value=response), patch.object(collector, "fetch_receipt", return_value={"status": "accepted"}):
             receipt = collector.lookup_receipt(collector.EXPLORER, "", self.tx, 1)
         self.assertEqual(collector.status_of(receipt), "VALIDATORS_TIMEOUT")
         self.assertEqual(receipt["explorer_receipt"]["status"], "accepted")
+
+    def test_stored_pending_state_overrides_projected_terminal_labels(self):
+        for projected in ("ACCEPTED", "FINALIZED", "VALIDATORS_TIMEOUT", "LEADER_TIMEOUT"):
+            receipt = {"statusName": projected, "stored_receipt": {"status": 3}, "projected_receipt": {"statusName": projected}}
+            self.assertEqual(collector.status_of(receipt), "COMMITTING")
+            result = diagnosis.diagnose(self.row, receipt, {}, True)
+            self.assertEqual(result["verdict"], "UNRESOLVED")
+
+    def test_stored_leader_reveal_is_not_a_timeout(self):
+        receipt = {"statusName": "LEADER_TIMEOUT", "stored_receipt": {"status": 13}}
+        self.assertEqual(collector.status_of(receipt), "LEADER_REVEALING")
+        self.assertNotIn(collector.status_of(receipt), collector.TERMINAL)
+        self.assertFalse(collector.is_consensus_timeout(receipt))
+
+    def test_finalized_stored_timeout_is_not_a_judged_refusal(self):
+        receipt = {"statusName": "FINALIZED", "stored_receipt": {"status": 7, "result": 3}}
+        self.assertEqual(collector.status_of(receipt), "FINALIZED")
+        self.assertTrue(collector.is_consensus_timeout(receipt))
+        result = diagnosis.diagnose(self.row, receipt, {}, True)
+        self.assertEqual(result["verdict"], "CONSENSUS TIMEOUT")
+        self.assertIn("not a contract rejection", result["reason"])
+
+    def test_past_or_projected_timeout_cannot_fail_a_current_round(self):
+        receipt = {"statusName": "VALIDATORS_TIMEOUT", "resultName": "TIMEOUT", "lastRound": {"result": 3}, "stored_receipt": {"status": 3, "result": 0}}
+        self.assertFalse(collector.is_consensus_timeout(receipt))
+        receipt["stored_receipt"] = {"status": 7, "result": 1}
+        self.assertFalse(collector.is_consensus_timeout(receipt))
+
+    def test_publication_refuses_finalized_stored_timeout(self):
+        record = collector.assemble_record(self.row, self.entry, self.env, 2, self.receipt)
+        receipt = {"statusName": "FINALIZED", "recipient": "address", "stored_receipt": {"status": 7, "result": 3}}
+        with patch.object(collector, "read_entry", return_value=self.entry), patch.object(collector, "lookup_receipt", return_value=receipt):
+            with self.assertRaisesRegex(ValueError, "no longer accepted"):
+                publisher.refresh_record(record, "address")
+
+    def test_unknown_stored_status_cannot_fall_back_to_projection(self):
+        for stored in ({}, {"status": 99}, {"status": "invalid"}, None):
+            receipt = {"statusName": "FINALIZED", "stored_receipt": stored}
+            self.assertEqual(collector.status_of(receipt), "PENDING")
+
+    def test_live_lookup_requires_stored_status_evidence(self):
+        response = type("Result", (), {"returncode": 0, "stdout": json.dumps({"statusName": "FINALIZED"}), "stderr": ""})()
+        with patch.object(collector.subprocess, "run", return_value=response):
+            with self.assertRaisesRegex(RuntimeError, "lacks stored"):
+                collector.lookup_receipt(collector.EXPLORER, "", self.tx, 1)
+
+    def test_resume_skips_diagnosed_finalized_timeout_without_resending(self):
+        with tempfile.TemporaryDirectory(prefix="hearsay-resume-") as folder:
+            folder = Path(folder)
+            (folder / "live").mkdir()
+            address, account = "0x" + "12" * 20, "0x" + "34" * 20
+            candidate = {"id": "retained-timeout", "class": self.env["entry_class"], "claim": self.env["claim"], "source_url": self.env["source_url"]}
+            for key in ("supports", "author_note", "expects"):
+                if self.env.get(key):
+                    candidate[key] = self.env[key]
+            policy = {"min_rounds": 2, "write_bond": 1000, "challenge_bond": 2000, "cascade_depth": 3, "admit_ttl": 50}
+            seed = folder / "seed.json"
+            seed.write_text(json.dumps({"entries": [candidate], "space": policy}))
+            (folder / "bradbury.jsonl").write_text(json.dumps(dict(self.row, address=address, consensus_max_rotations=0)) + "\n")
+            (folder / "live/infrastructure-failures.json").write_text(json.dumps([{"tx": self.tx, "status": "FINALIZED", "consensus_outcome": "TIMEOUT"}]))
+            argv = ["run_live.py", "--run-dir", str(folder), "--seed", str(seed), "--address", address, "--account", account, "--max-rotations", "0", "--accept-diagnosed-timeouts"]
+            with patch.object(sys, "argv", argv), patch.object(collector, "read_call", return_value=dict(policy, owner=account)), patch.object(collector, "lookup_receipt") as lookup, patch.object(runner.subprocess, "run") as send:
+                self.assertEqual(runner.main(), 0)
+            lookup.assert_not_called()
+            send.assert_not_called()
+
+    def test_publication_refuses_stale_projected_acceptance(self):
+        record = collector.assemble_record(self.row, self.entry, self.env, 2, self.receipt)
+        receipt = {"statusName": "ACCEPTED", "recipient": "address", "stored_receipt": {"status": 10}}
+        with patch.object(collector, "read_entry", return_value=self.entry), patch.object(collector, "lookup_receipt", return_value=receipt):
+            with self.assertRaisesRegex(ValueError, "no longer accepted"):
+                publisher.refresh_record(record, "address")
 
     def test_cli_checkpoints_missing_state_and_preserves_records(self):
         with tempfile.TemporaryDirectory(prefix="hearsay-receipts-") as folder:

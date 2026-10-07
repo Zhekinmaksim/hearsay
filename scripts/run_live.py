@@ -53,7 +53,7 @@ def main():
     collected = {json.loads(line)["tx"] for line in records.read_text().splitlines() if line.strip()} if records.exists() else set()
     failures_path = run_dir / "live/infrastructure-failures.json"
     failures = json.loads(failures_path.read_text()) if failures_path.exists() and args.accept_diagnosed_timeouts else []
-    known_failures = {failure["tx"] for failure in failures if failure["status"] in collector.TIMEOUTS}
+    known_failures = {failure["tx"] for failure in failures if failure["status"] in collector.TIMEOUTS or failure.get("consensus_outcome") == "TIMEOUT"}
     refused_path = run_dir / "live/refused.json"
     refused = json.loads(refused_path.read_text()) if refused_path.exists() else []
     prevented = {row["id"] for row in refused}
@@ -133,7 +133,7 @@ def main():
                 continue
             collector.checkpoint(run_dir / "receipts" / (row["tx"] + ".json"), {"receipt": receipt})
             status = collector.status_of(receipt)
-            if status in collector.TIMEOUTS:
+            if collector.is_consensus_timeout(receipt):
                 # Explorer projection can briefly show a timeout while a
                 # funded rotation is already restarting execution.
                 timeout_since = timeout_since or time.monotonic()
@@ -158,7 +158,7 @@ def main():
             findings = json.loads((run_dir / "diagnosis.json").read_text())["transactions"]
             finding = next((item for item in findings if item["tx"] == row["tx"]), None)
             if finding and finding["verdict"] == "CONSENSUS TIMEOUT" and all(issue["tx"] == row["tx"] for issue in unexplained):
-                failures.append({"id": candidate["id"], "tx": row["tx"], "envelope_hash": fingerprint, "entry_class": env["entry_class"], "status": finding["status"], "reason": finding["reason"], "receipt": finding["receipt"]})
+                failures.append({"id": candidate["id"], "tx": row["tx"], "envelope_hash": fingerprint, "entry_class": env["entry_class"], "status": finding["status"], "consensus_outcome": "TIMEOUT", "reason": finding["reason"], "receipt": finding["receipt"]})
                 collector.checkpoint(failures_path, failures)
                 known_failures.add(row["tx"])
                 print(candidate["id"], finding["status"], "no judged state; retained as infrastructure outcome", flush=True)

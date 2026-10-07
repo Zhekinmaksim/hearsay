@@ -42,8 +42,19 @@ All writes are sequential. No pending transaction has been resubmitted.
 The first claim is independently supported by its real primary source:
 https://find-and-update.company-information.service.gov.uk/company/00048839.
 It states that Companies House lists BARCLAYS PLC, number 00048839, as Active.
-The leader trace of the replacement's initial write returned result_code=0,
-without stderr. Missing application state is not counted as a contract refusal.
+Stored on-chain eqBlocksOutputs for Prudential, replacement Unilever and bounded
+Barclays contain the correct nonempty registry text and both support outputs
+`supported: true`. Prudential and Unilever also record no contradiction.
+Timeouts dominate the failed rounds. Debug traces may replay execution, so they
+do not establish the original execution cost or which external call timed out.
+Missing application state is not counted as a contract refusal.
+
+The installed SDK's getTransaction falls back from an absent
+numOfInitialValidators to initialRotations (dist/index.js line 1299). Thus a
+reported initial count of 0 or 3 can actually be the rotation limit. Original
+addTransaction calldata confirms five initial validators. Its vote enum also
+labels value 4 DETERMINISTIC_VIOLATION, whereas explorer enrichment identifies
+that value as nondet_disagree; this label does not prove a deterministic bug.
 
 ## Questions for maintainers
 

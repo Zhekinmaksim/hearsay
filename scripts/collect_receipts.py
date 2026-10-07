@@ -35,6 +35,11 @@ EXPLORER = "https://explorer-bradbury.genlayer.com"
 FAILED = {"ERROR", "CANCELED", "CANCELLED", "REVERTED", "FAILED"}
 TIMEOUTS = {"VALIDATORS_TIMEOUT", "LEADER_TIMEOUT"}
 TERMINAL = FAILED | TIMEOUTS | {"FINALIZED", "ACCEPTED", "UNDETERMINED", "SUCCESS"}
+STORED_STATUSES = (
+    "UNINITIALIZED", "PENDING", "PROPOSING", "COMMITTING", "REVEALING",
+    "ACCEPTED", "UNDETERMINED", "FINALIZED", "CANCELED", "APPEAL_REVEALING",
+    "APPEAL_COMMITTING", "VALIDATORS_TIMEOUT", "LEADER_TIMEOUT", "LEADER_REVEALING",
+)
 
 
 def fetch_json(url, timeout):
@@ -128,7 +133,7 @@ def read_entry(endpoint, address, entry_id, timeout):
 
 
 def lookup_receipt(explorer, endpoint, tx, timeout):
-    """RPC status is authoritative; explorer enrichment may describe an old round."""
+    """Stored consensus state gates settlement; projected/explorer views are evidence."""
     command = ["node", str(ROOT / "scripts/read_chain.mjs"), tx]
     if endpoint:
         command.append(endpoint)
@@ -136,6 +141,8 @@ def lookup_receipt(explorer, endpoint, tx, timeout):
     if result.returncode:
         raise RuntimeError(result.stderr.strip() or "RPC receipt lookup failed")
     receipt = json.loads(result.stdout)
+    if receipt.get("status_basis") != "getTransactionAllData" or not isinstance(receipt.get("stored_receipt"), dict):
+        raise RuntimeError("RPC receipt lacks stored consensus status")
     try:
         receipt["explorer_receipt"] = fetch_receipt(explorer, tx, timeout)
     except Exception as exc:
@@ -146,11 +153,31 @@ def lookup_receipt(explorer, endpoint, tx, timeout):
 def status_of(receipt):
     if not isinstance(receipt, dict):
         return "PENDING"
+    stored = receipt.get("stored_receipt")
+    if "stored_receipt" in receipt:
+        # Numeric stored state wins over SDK labels and time-based projection.
+        # Unknown or missing state cannot authorize another write/publication.
+        if not isinstance(stored, dict):
+            return "PENDING"
+        try:
+            code = int(stored["status"])
+        except (KeyError, TypeError, ValueError):
+            return "PENDING"
+        return STORED_STATUSES[code] if 0 <= code < len(STORED_STATUSES) else "PENDING"
     for key in ("statusName", "status_name", "consensus_status", "status"):
         if receipt.get(key):
             value = str(receipt[key]).upper()
             return {"VALIDATORSTIMEOUT": "VALIDATORS_TIMEOUT", "LEADERTIMEOUT": "LEADER_TIMEOUT", "APPEALCOMMITTING": "APPEAL_COMMITTING", "APPEALREVEALING": "APPEAL_REVEALING"}.get(value.replace("_", ""), value)
     return "PENDING"
+
+
+def is_consensus_timeout(receipt):
+    """A finalized timeout remains a timeout; a projected old round proves none."""
+    status = status_of(receipt)
+    if status in TIMEOUTS:
+        return True
+    stored = receipt.get("stored_receipt") if isinstance(receipt, dict) else None
+    return status == "FINALIZED" and isinstance(stored, dict) and stored.get("result") in (3, "3")
 
 
 def load_manifest(path):
@@ -318,7 +345,7 @@ def main():
                 raise ValueError("still settling: " + status_of(receipt))
             if status_of(receipt) in FAILED:
                 raise ValueError("failed transaction: " + status_of(receipt))
-            if status_of(receipt) in TIMEOUTS:
+            if is_consensus_timeout(receipt):
                 raise ValueError("consensus timeout: " + status_of(receipt))
             if not judged:
                 raise ValueError("terminal receipt without matching entry; run diagnose_missing.py")

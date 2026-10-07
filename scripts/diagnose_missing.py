@@ -40,7 +40,7 @@ def diagnose(row, receipt, index, complete):
     if hit:
         verdict = "RECOVERABLE"
         reason = "matching envelope found on chain as entry %d" % hit["entry_id"]
-    elif status in collector.TIMEOUTS:
+    elif collector.is_consensus_timeout(receipt):
         verdict = "CONSENSUS TIMEOUT"
         reason = "protocol validation/execution timed out; this is not a contract rejection"
     elif status in collector.FAILED:

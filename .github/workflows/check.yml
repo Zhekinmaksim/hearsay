@@ -29,6 +29,7 @@ jobs:
         with:
           node-version: "22"
       - run: make bridge-test
+      - run: make chain-test
       - run: make parity
       - run: make gate-parity
       - run: npm install --no-save jsdom

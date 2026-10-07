@@ -269,6 +269,7 @@ make replay      # every corpus row, re-derived from the votes it records
 make parity      # the page's JavaScript against the Python, same vectors
 make page        # drive every control on the built page (needs jsdom)
 make receipts-test # offline checks for collection and diagnosis
+make chain-test # stored consensus status and SDK projection stay distinct
 make bridge-test # transaction journal survives a lost RPC reply, no network
 ```
 
@@ -307,6 +308,12 @@ state does not establish why the entry is missing.
 State reads use the installed SDK's machine JSON against Bradbury, independent
 of the CLI's active network. Large integers retain their exact value, and
 multiline claims are never reparsed as JavaScript display text.
+
+Receipts take status, result, initial validator count and the latest stored
+round from `getTransactionAllData` at a recorded EVM block. The SDK's timestamp
+projection is retained separately; its legacy enum and repeated round lookup
+must not override stored state. A finalized protocol timeout remains an
+infrastructure outcome and is never turned into an admitted record.
 
 `get_entry` exposes the snapshot hash. `scripts/enrich_snapshots.py` recovers
 the exact pinned bytes from GenVM trace storage, matches their SHA-256 to that
