@@ -1,5 +1,7 @@
 # Bradbury consensus liveness report
 
+Published reports: [Bradbury recovery #426](https://github.com/genlayerlabs/genlayer-cli/issues/426) and [SDK validator-count #231](https://github.com/genlayerlabs/genlayer-js/issues/231). Their submitted texts are preserved in [docs/issues](issues/README.md).
+
 Observed at 2026-10-07T14:56:00+00:00. This report contains public chain data only.
 
 Environment: GenLayer CLI 0.39.1, its bundled genlayer-js 1.1.8, Bradbury
