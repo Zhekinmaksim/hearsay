@@ -351,6 +351,13 @@ RPC acknowledgement separately. If sending fails, inspect the run's
 `bradbury.jsonl.broadcasts.jsonl` and chain receipt before retrying. A missing
 HTTP response does not establish that the transaction was never broadcast.
 
+SDK 1.1.8 captures intermediate client objects, so overriding methods on its
+final client does not intercept submission. The bridge guards its actual fetch
+transport. Explicit RPC capacity rejections receive bounded retries of the same
+signed bytes; an ambiguous failure stops. A restart without a recorded protocol
+ID requires reconciliation, and `expected_nonce` can pin a reconciled attempt.
+The bridge checks this before broadcasting and keeps signed bytes only in memory.
+
 After deploying and confirming `open_space`, run:
 
 ```sh

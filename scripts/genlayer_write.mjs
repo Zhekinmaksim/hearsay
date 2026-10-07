@@ -9,7 +9,7 @@ import { appendFileSync, closeSync, fsyncSync, openSync, readFileSync, realpathS
 import { dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { createHash } from "node:crypto";
-import { broadcastWithJournal } from "./broadcast.mjs";
+import { assertBroadcastReconciled, createBroadcastFetch } from "./broadcast.mjs";
 
 function option(name) {
   const position = process.argv.indexOf(name);
@@ -35,6 +35,9 @@ if (!["deploy", "open_space", "write_entry", "challenge", "confirm_challenge", "
 if (!Array.isArray(request.args) || !/^\d+$/.test(String(request.value))) fail("invalid args or value");
 if (request.method === "write_entry" && !request.envelope_hash) fail("write requires envelope_hash metadata");
 if (request.consensus_max_rotations !== undefined && (!Number.isSafeInteger(request.consensus_max_rotations) || request.consensus_max_rotations < 0)) fail("invalid rotation limit");
+if (request.expected_nonce !== undefined &&
+    ((typeof request.expected_nonce === "number" && (!Number.isSafeInteger(request.expected_nonce) || request.expected_nonce < 0)) ||
+     !/^\d+$/.test(String(request.expected_nonce)))) fail("invalid expected_nonce");
 let code;
 if (request.method === "deploy") {
   if (String(request.value) !== "0") fail("deploy first, then fund open_space");
@@ -46,12 +49,15 @@ if (process.argv.includes("--plan")) {
   console.log(recorded);
   process.exit(0);
 }
+// A restarted process must not choose a fresh nonce after a lost RPC reply or
+// a crash between EVM acknowledgement and protocol-ID checkpointing.
+assertBroadcastReconciled(manifest, { method: request.method, id: request.id });
 
 const cliEntry = realpathSync(execFileSync("which", ["genlayer"], { encoding: "utf8" }).trim());
 const cliRoot = resolve(dirname(cliEntry), "..");
 const sdk = await import(pathToFileURL(join(cliRoot, "node_modules/genlayer-js/dist/index.js")));
 const chains = await import(pathToFileURL(join(cliRoot, "node_modules/genlayer-js/dist/chains/index.js")));
-const { keccak256 } = await import(pathToFileURL(join(cliRoot, "node_modules/viem/_esm/index.js")));
+const { keccak256, parseTransaction } = await import(pathToFileURL(join(cliRoot, "node_modules/viem/_esm/index.js")));
 const keytarModule = await import(pathToFileURL(join(cliRoot, "node_modules/keytar/lib/keytar.js")));
 const keytar = keytarModule.default || keytarModule;
 const configPath = process.env.GENLAYER_CONFIG || join(process.env.HOME, ".genlayer/genlayer-config.json");
@@ -62,29 +68,25 @@ if (!privateKey) fail("unlock the active account with genlayer account unlock");
 const account = sdk.createAccount(privateKey);
 if (account.address.toLowerCase() !== request.expected_account.toLowerCase()) fail("active account differs from expected_account");
 const client = sdk.createClient({ chain: chains.testnetBradbury, account });
-// Bradbury estimates can underfund an internal call after EIP-150 forwarding.
-// Reserve a margin; unused gas is not charged. Do not cap an oversized estimate.
-const estimate = client.estimateTransactionGas;
-let estimationFailed = false;
-client.estimateTransactionGas = async parameters => {
-  try { return (await estimate(parameters)) * (request.method === "deploy" ? 100n : 125n) / 100n; }
-  catch (error) { estimationFailed = true; throw error; }
-};
-const send = client.sendRawTransaction;
-client.sendRawTransaction = async parameters => {
-  if (estimationFailed) fail("gas estimation failed; no transaction was broadcast");
-  const expectedHash = keccak256(parameters.serializedTransaction);
-  // Save the public hash before I/O: a lost HTTP reply must not invite a resend.
-  return broadcastWithJournal(parameters, send, {
-    path: manifest + ".broadcasts.jsonl", expectedHash, method: request.method, id: request.id,
-  });
-};
-const hash = request.method === "deploy" ? await client.deployContract({
+// SDK 1.1.8 closes over intermediate client copies. Its lexical fetch transport
+// bypasses changes to finalClient.sendRawTransaction/estimateTransactionGas.
+// Intercept the actual transport, preserving SDK encoding/signing and receipts.
+const originalFetch = globalThis.fetch;
+globalThis.fetch = createBroadcastFetch(originalFetch, {
+  rpcUrl: client.chain.rpcUrls.default.http[0], hashTransaction: keccak256, parseTransaction,
+  journal: { path: manifest + ".broadcasts.jsonl", method: request.method, id: request.id },
+  expectedNonce: request.expected_nonce,
+  gasMarginNumerator: request.method === "deploy" ? 100n : 125n,
+});
+let hash;
+try {
+hash = request.method === "deploy" ? await client.deployContract({
   account, code, args: request.args.map(integers), consensusMaxRotations: request.consensus_max_rotations,
 }) : await client.writeContract({
   account, address: request.address, functionName: request.method,
   args: request.args.map(integers), value: BigInt(request.value), consensusMaxRotations: request.consensus_max_rotations,
 });
+} finally { globalThis.fetch = originalFetch; }
 const row = {
   tx: hash, method: request.method, address: request.address,
   sender: account.address, value: String(request.value),

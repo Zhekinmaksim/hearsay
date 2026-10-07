@@ -2,6 +2,7 @@
 """Verify collected live records against state and build a separate public page."""
 import argparse
 from collections import Counter
+from datetime import datetime, timezone
 import html
 import json
 from pathlib import Path
@@ -67,8 +68,10 @@ def build_page(corpus):
     earlier = corpus.get("previous_runs") or ([corpus["previous_run"]] if corpus.get("previous_run") else [])
     previous = ''.join('<p class="note flag">An earlier deployment stopped before completing consensus. '
                        '<a href="%s">Its verified checkpoint is preserved</a>; those entries are excluded from this report.</p>' % escape(prior["checkpoint"]) for prior in earlier)
+    published = corpus.get("published_at")
+    date = datetime.fromisoformat(published).astimezone(timezone.utc).strftime("%d %B %Y").lstrip("0") + " UTC" if published else "checkpoint preview"
     replacements = {
-        "DATE": "7 October 2026", "LEAD": "%d of %d judged honest entries were admitted. False rejections lead the record, followed by admission rates for each attack class." % (report["honest_admitted"], report["honest_attempts"]),
+        "DATE": date, "LEAD": "%d of %d judged honest entries were admitted. False rejections lead the record, followed by admission rates for each attack class." % (report["honest_admitted"], report["honest_attempts"]),
         "FALSE_RATE": "%d/1000" % report["false_rejection_milli"],
         "FALSE_COUNT": "%d of %d honest entries refused." % (report["honest_attempts"] - report["honest_admitted"], report["honest_attempts"]),
         "JUDGED": str(len(corpus["entries"])), "PREVENTED": str(len(corpus["refused_at_write"])),
@@ -143,6 +146,7 @@ def main():
         raise ValueError("deployment metadata target mismatch")
     corpus = {
         "run": "bradbury", "contract_address": args.address,
+        "published_at": datetime.now(timezone.utc).isoformat(),
         "deployment_tx": metadata["deployment_tx"], "space_id": args.space,
         "source_sha256": metadata["source_sha256"],
         "deployment_source_sha256": metadata["deployment_source_sha256"],
