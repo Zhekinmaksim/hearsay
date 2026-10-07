@@ -13,6 +13,18 @@ def escape(value):
     return html.escape(str(value), quote=True)
 
 
+def public_infrastructure(failure):
+    # Full RPC/explorer captures stay in the run archive. Publish only evidence
+    # needed to distinguish protocol outcomes from contract judgements.
+    result = {key: failure[key] for key in ("id", "tx", "envelope_hash", "entry_class", "status", "reason") if key in failure}
+    receipt = failure.get("receipt") or {}
+    result["receipt_summary"] = {key: receipt[key] for key in ("statusName", "resultName", "txExecutionResultName", "numOfRounds", "sender", "recipient", "currentTimestamp") if key in receipt}
+    if receipt.get("lastRound"):
+        last = receipt["lastRound"]
+        result["receipt_summary"]["last_round"] = {key: last[key] for key in ("round", "votesCommitted", "votesRevealed", "validatorVotes", "roundValidators") if key in last}
+    return result
+
+
 def refresh_record(row, address):
     """Do not publish an admission rolled back by a later consensus round."""
     current = collector.read_entry("", address, row["entry_id"], 30)
@@ -52,9 +64,9 @@ def build_page(corpus):
     infrastructure = ''.join('<p class="note flag"><strong>%s</strong> · %s · <a href="%s/tx/%s">Receipt</a><br>%s</p>' % (escape(row["id"]), escape(row["status"]), collector.EXPLORER, escape(row["tx"]), escape(row["reason"])) for row in corpus.get("infrastructure_failures", [])) or '<p class="empty">None.</p>'
     options = ''.join('<option value="%s">%s</option>' % (escape(item["class"]), escape(item["class"])) for item in corpus["report"]["classes"])
     report, policy = corpus["report"], corpus["policy"]
-    prior = corpus.get("previous_run")
-    previous = ('<p class="note flag">An earlier deployment stopped at an unresolved protocol appeal. '
-                '<a href="%s">Its verified checkpoint is preserved</a>; those entries are excluded from this report.</p>' % escape(prior["checkpoint"])) if prior else ""
+    earlier = corpus.get("previous_runs") or ([corpus["previous_run"]] if corpus.get("previous_run") else [])
+    previous = ''.join('<p class="note flag">An earlier deployment stopped before completing consensus. '
+                       '<a href="%s">Its verified checkpoint is preserved</a>; those entries are excluded from this report.</p>' % escape(prior["checkpoint"]) for prior in earlier)
     replacements = {
         "DATE": "7 October 2026", "LEAD": "%d of %d judged honest entries were admitted. False rejections lead the record, followed by admission rates for each attack class." % (report["honest_admitted"], report["honest_attempts"]),
         "FALSE_RATE": "%d/1000" % report["false_rejection_milli"],
@@ -134,10 +146,13 @@ def main():
         "deployment_tx": metadata["deployment_tx"], "space_id": args.space,
         "health_warning": "Verdicts were collected from consensus state. Accepted receipts remain provisional until finalization. Pinned source bytes were recovered from GenVM traces and hash-checked against contract state. All controls use one registry.",
         "policy": policy, "entries": rows, "refused_at_write": refused,
-        "infrastructure_failures": failures,
-        "infrastructure_history": infrastructure_history,
+        "infrastructure_failures": [public_infrastructure(failure) for failure in failures],
+        "infrastructure_history": [public_infrastructure(failure) for failure in infrastructure_history],
         "report": report, "solvency": solvency,
+        "protocol": metadata.get("protocol", {"initial_validators": 5, "max_rotations": 3}),
     }
+    if metadata.get("previous_deployments"):
+        corpus["previous_runs"] = [dict(prior, included_in_report=False) for prior in metadata["previous_deployments"]]
     if metadata.get("supersedes"):
         corpus["previous_run"] = {
             "contract_address": metadata["supersedes"],

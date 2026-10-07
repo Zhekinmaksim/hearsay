@@ -397,6 +397,12 @@ different deployments into one control denominator. Enrich its records with
 explicit `--records` and `--out` paths, then publish with those records,
 `--run-dir` and the replacement's `--deployment` metadata.
 
+`--max-rotations 0` keeps the network's five initial validators and disables
+leader replacements. Record this operating parameter with the deployment;
+a resume rejects a different limit. It leaves both source framings and the
+contract's admission rule unchanged. This limits one source of validator-pool
+exhaustion; appeals can still expand the committee and depend on network health.
+
 `make dry-run` produces a real corpus file with real hashes, real snapshots and
 a real verdict per entry. It does not produce a defence measurement, and its own
 header says so: the judge in that run is a scripted stand-in that answers what

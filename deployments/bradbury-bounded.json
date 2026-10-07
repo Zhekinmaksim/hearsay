@@ -1,0 +1,27 @@
+{
+  "network": "testnet-bradbury",
+  "chain_id": 4221,
+  "address": "0xD596971Da562647Cddd13Ec095a3431073682340",
+  "deployment_tx": "0xee89a6430fcca7bb1de61a59e607bba9c9c37bdf23d6afd8437f406ca900f7e2",
+  "source_sha256": "bd3140aab5f2c83e8067c6684f64b543cdedbdc90ec789e0997e1c1c7e9f7acb",
+  "deployment_source_sha256": "b8ed0663f5734e31dc5ea3a5a71bcb7ce96ccded8e3e502704ec7c7d524dc0e2",
+  "execution_result": "FINISHED_WITH_RETURN",
+  "verified_views": [
+    "entry_count",
+    "solvency"
+  ],
+  "protocol": {
+    "initial_validators": 5,
+    "max_rotations": 0
+  },
+  "previous_deployments": [
+    {
+      "address": "0x774237BD6e669bF1Af1b8F807ada3A0d4889987F",
+      "checkpoint": "bradbury-checkpoint.json"
+    },
+    {
+      "address": "0x2390Ca5C7E369aD63ECbB4bF36509e7f7B7219B9",
+      "checkpoint": "bradbury-rescue-checkpoint.json"
+    }
+  ]
+}

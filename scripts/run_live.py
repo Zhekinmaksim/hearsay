@@ -15,12 +15,14 @@ import time
 import collect_receipts as collector
 
 
-def validate_manifest_target(path, address):
+def validate_manifest_target(path, address, max_rotations=3):
     """A resume must never borrow transactions from another deployment."""
     if path.exists():
         for row in collector.load_manifest(path):
             if row.get("address", "").lower() != address.lower():
                 raise ValueError("manifest belongs to a different contract")
+            if row.get("consensus_max_rotations", 3) != max_rotations:
+                raise ValueError("manifest uses a different protocol rotation limit")
 
 
 def main():
@@ -30,6 +32,7 @@ def main():
     ap.add_argument("--account", required=True, help="expected public account address")
     ap.add_argument("--space", type=int, default=0)
     ap.add_argument("--run-dir", default="runs", help="isolated manifest, entries, receipts and diagnostics for this deployment")
+    ap.add_argument("--max-rotations", type=int, default=3, help="leader replacements; initial validator count remains the network default")
     ap.add_argument("--limit", type=int, default=None, help="maximum NEW writes in this invocation")
     ap.add_argument("--timeout", type=int, default=30)
     ap.add_argument("--wait", type=int, default=300)
@@ -40,7 +43,9 @@ def main():
     run_dir.mkdir(parents=True, exist_ok=True)
     seed = json.loads(Path(args.seed).read_text())
     manifest = run_dir / "bradbury.jsonl"
-    validate_manifest_target(manifest, args.address)
+    if args.max_rotations < 0:
+        raise ValueError("negative rotation limit")
+    validate_manifest_target(manifest, args.address, args.max_rotations)
     records = run_dir / "records.jsonl"
     folder = run_dir / "live/entries"
     folder.mkdir(parents=True, exist_ok=True)
@@ -103,6 +108,7 @@ def main():
                 "method": "write_entry", "value": str(space["write_bond"]),
                 "args": [args.space, env["entry_class"], json.dumps(env, ensure_ascii=False)],
                 "envelope_hash": fingerprint, "file": str(path), "id": candidate["id"],
+                "consensus_max_rotations": args.max_rotations,
             }
             request_path = run_dir / "live/request.json"
             collector.checkpoint(request_path, request)

@@ -39,6 +39,8 @@ class ReceiptsTest(unittest.TestCase):
             runner.validate_manifest_target(path, "0x" + "12" * 20)
             with self.assertRaisesRegex(ValueError, "different contract"):
                 runner.validate_manifest_target(path, "0x" + "34" * 20)
+            with self.assertRaisesRegex(ValueError, "different protocol"):
+                runner.validate_manifest_target(path, "0x" + "12" * 20, 0)
 
     def test_malformed_cli_is_a_read_error(self):
         with self.assertRaises(RuntimeError):

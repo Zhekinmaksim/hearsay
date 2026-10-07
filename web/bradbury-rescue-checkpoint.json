@@ -1,0 +1,308 @@
+{
+  "run": "bradbury-incomplete",
+  "complete": false,
+  "contract_address": "0x2390Ca5C7E369aD63ECbB4bF36509e7f7B7219B9",
+  "deployment_tx": "0xfb95dcc3c5b8663f794d0a05522c4648b6ed746941b66c2a72c6fef6261c7fe4",
+  "space_id": 0,
+  "policy": {
+    "admit_ttl": 1000,
+    "admitted": 3,
+    "cascade_depth": 3,
+    "challenge_bond": 2000,
+    "entries": 3,
+    "min_rounds": 2,
+    "name": "companies-house-live",
+    "open": true,
+    "owner": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+    "policy": "Claims about company registry status, names, incorporation and filings; primary sources or explicitly dated archives only.",
+    "pool": 503000,
+    "space_id": 0,
+    "write_bond": 1000
+  },
+  "entries": [
+    {
+      "admitted_at": 1,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists BARCLAYS PLC (company number 00048839) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 0,
+      "envelope_hash": "8c19c9b369173c1ed28737c342446d2d19ded17f0184278d880a368623b7feab",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "a41262eef58449bfd577bcf62c966d48c52ab3084be593a26686505193185360",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00048839",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-00048839",
+      "tx": "0xf463d45a578f83f73377e14d9fb7b0dcb022340ea238f9eaad07b742b6cf8998",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists BARCLAYS PLC (company number 00048839) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00048839",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:14a77b8071aa2a5e62756677fb25b3350181b3418e92bce188e85b7c3ffc1578",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nBARCLAYS PLC\n\nCompany number 00048839\n\nFollow this company File for this company\nCompany\nOverview\nfor BARCLAYS PLC (00048839)\nFiling history\nfor BARCLAYS PLC (00048839)\nPeople\nfor BARCLAYS PLC (00048839)\nMore\nfor BARCLAYS PLC (00048839)\nRegistered office address\n1 Churchill Place, London, E14 5HP\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n20 July 1896\nAccounts\n\nNext accounts made up to 31 December 2026\ndue by 30 June 2027\n\nLast accounts made up to 31 December 2025\n\nConfirmation statement\n\nNext statement date 1 November 2026\ndue by 15 November 2026\n\nLast statement dated 1 November 2025\n\nNature of business (SIC)\n64191 - Banks\nPrevious company names\nPrevious company names\nName Period\nBARCLAYS BANK PLC 15 Feb 1982 - 01 Jan 1985\nBARCLAYS BANK LIMITED 17 Feb 1916 - 15 Feb 1982\nBARCLAY & COMPANY LIMITED 20 Jul 1896 - 17 Feb 1916\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "a41262eef58449bfd577bcf62c966d48c52ab3084be593a26686505193185360",
+        "trace_round": 0,
+        "trace_transaction_id": "0xf463d45a578f83f73377e14d9fb7b0dcb022340ea238f9eaad07b742b6cf8998",
+        "storage_key": "055dc3cafbf50f47a37c50d00c734c121fd179068d5d76607d7f5016bd29ab2900000000"
+      },
+      "consensus_checkpoint": {
+        "status": "FINALIZED",
+        "result": "AGREE",
+        "chain_timestamp": "1791384637"
+      }
+    },
+    {
+      "admitted_at": 2,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists HSBC HOLDINGS PLC (company number 00617987) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 1,
+      "envelope_hash": "0e46bea864e1fdd3fdbb05287a5f4a8f01c94b8def3e0f268cd2761bcadc1b3f",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "d762352d0c91d1e5f76f4bfa292610771dc676e359cdc7802ac85e46bbb14230",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00617987",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-00617987",
+      "tx": "0xd62ea8abe28c9710fc950bda25ce55936e53744e28063db191be2f9b823420f1",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists HSBC HOLDINGS PLC (company number 00617987) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00617987",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:95ea48d4fd9012a2d5d0d305db05cebafe3227b45226c537387182720ddae32d",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nHSBC HOLDINGS PLC\n\nCompany number 00617987\n\nFollow this company File for this company\nCompany\nOverview\nfor HSBC HOLDINGS PLC (00617987)\nFiling history\nfor HSBC HOLDINGS PLC (00617987)\nPeople\nfor HSBC HOLDINGS PLC (00617987)\nMore\nfor HSBC HOLDINGS PLC (00617987)\nRegistered office address\n8 Canada Square, London, E14 5HQ\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n1 January 1959\nAccounts\n\nNext accounts made up to 31 December 2026\ndue by 30 June 2027\n\nLast accounts made up to 31 December 2025\n\nConfirmation statement\n\nNext statement date 30 April 2027\ndue by 14 May 2027\n\nLast statement dated 30 April 2026\n\nNature of business (SIC)\n70100 - Activities of head offices\nPrevious company names\nPrevious company names\nName Period\nSILOM LIMITED 13 Aug 1981 - 12 Dec 1990\nVERNAT EASTERN AGENCIES LIMITED 10 Feb 1959 - 13 Aug 1981\nVERNAT TRADING CO. LIMITED 01 Jan 1959 - 10 Feb 1959\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "d762352d0c91d1e5f76f4bfa292610771dc676e359cdc7802ac85e46bbb14230",
+        "trace_round": 0,
+        "trace_transaction_id": "0xd62ea8abe28c9710fc950bda25ce55936e53744e28063db191be2f9b823420f1",
+        "storage_key": "c843ef704039c87e8f9ccf2801c0b921830daaad095e058840141dbcceb2640500000000"
+      },
+      "consensus_checkpoint": {
+        "status": "FINALIZED",
+        "result": "AGREE",
+        "chain_timestamp": "1791384637"
+      }
+    },
+    {
+      "admitted_at": 3,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists SHELL PLC (company number 04366849) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 2,
+      "envelope_hash": "23f75f0b8cd6897bda5e749c6e18b3e1208e79a89be60392c49b48d7703bf096",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "efbbdef207cd471224c01d3b62370e17e1ccee49ebd8bfb8e7178f208058d82a",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/04366849",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-04366849",
+      "tx": "0xbf864c809b71d494121431edb9cf3e3b37021f57c91f114aac8afa2d6d693cce",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists SHELL PLC (company number 04366849) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/04366849",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:c73c15eddb4d5823ddccc32c87c31f3b5a85a336675278aad1fc3383edca9bb0",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nSHELL PLC\n\nCompany number 04366849\n\nFollow this company File for this company\nCompany\nOverview\nfor SHELL PLC (04366849)\nFiling history\nfor SHELL PLC (04366849)\nPeople\nfor SHELL PLC (04366849)\nMore\nfor SHELL PLC (04366849)\nRegistered office address\nShell Centre, London, SE1 7NA\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n5 February 2002\nAccounts\n\nNext accounts made up to 31 December 2026\ndue by 30 June 2027\n\nLast accounts made up to 31 December 2025\n\nConfirmation statement\n\nNext statement date 1 October 2027\ndue by 15 October 2027\n\nLast statement dated 1 October 2026\n\nNature of business (SIC)\n70100 - Activities of head offices\nPrevious company names\nPrevious company names\nName Period\nROYAL DUTCH SHELL PLC 27 Oct 2004 - 21 Jan 2022\nFORTHDEAL LIMITED 05 Feb 2002 - 27 Oct 2004\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "efbbdef207cd471224c01d3b62370e17e1ccee49ebd8bfb8e7178f208058d82a",
+        "trace_round": 0,
+        "trace_transaction_id": "0xbf864c809b71d494121431edb9cf3e3b37021f57c91f114aac8afa2d6d693cce",
+        "storage_key": "5af1612077b97f6259650062b20a753cbc170800914cfe1fb82c51d929f4190700000000"
+      },
+      "consensus_checkpoint": {
+        "status": "FINALIZED",
+        "result": "AGREE",
+        "chain_timestamp": "1791384636"
+      }
+    }
+  ],
+  "refused_at_write": [],
+  "report": {
+    "classes": [
+      {
+        "admission_rate_milli": 1000,
+        "attempts": 3,
+        "class": "honest",
+        "ever_admitted": 3,
+        "inconclusive": 0,
+        "settled": false
+      }
+    ],
+    "deferred": 0,
+    "entries": 3,
+    "false_rejection_milli": 0,
+    "honest_admitted": 3,
+    "honest_attempts": 3,
+    "prevented_by_construction": [
+      "citation_laundering"
+    ],
+    "space_id": 0
+  },
+  "solvency": {
+    "balanced": true,
+    "credited": 0,
+    "escrowed": 503000,
+    "held": 503000,
+    "pools": 503000
+  },
+  "required_honest_judgements": 20,
+  "coverage": {
+    "candidates": 36,
+    "judged": 3,
+    "infrastructure_failures": 2,
+    "pending": 1,
+    "unsubmitted": 30
+  },
+  "infrastructure_failures": [
+    {
+      "id": "honest-00102498",
+      "tx": "0x0c5c16af0d75620425814e3788cb38a702c1b6331ff94330cd5d915195e5270f",
+      "envelope_hash": "e54fd22ffae84711fbf36ef247adad0a95d1259740ef4eddfe988eb6f589e4cc",
+      "entry_class": "honest",
+      "status": "VALIDATORS_TIMEOUT",
+      "reason": "protocol validation/execution timed out; this is not a contract rejection",
+      "receipt_summary": {
+        "statusName": "VALIDATORS_TIMEOUT",
+        "resultName": "TIMEOUT",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "6",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0x2390Ca5C7E369aD63ECbB4bF36509e7f7B7219B9",
+        "currentTimestamp": "1791381532",
+        "last_round": {
+          "round": "0",
+          "votesCommitted": "5",
+          "votesRevealed": "5",
+          "validatorVotes": [
+            3,
+            1,
+            3,
+            3,
+            3
+          ],
+          "roundValidators": [
+            "0x0c526A6af46A038E31dA21C123756Ab2D75f06Bc",
+            "0x7538369A22a176afFccb6B273eedfbb92780bf22",
+            "0xfd811B16001077243e07173ec72a4735FF04C3AA",
+            "0xB93a46B843fB32E8Ce392e68eDFE93Faa4a40817",
+            "0x4f36CB2C58385575fafb443d80E3c290b12DA6aE"
+          ]
+        }
+      }
+    },
+    {
+      "id": "honest-00445790",
+      "tx": "0x6084a9618892e756c6ac699b25b88e9bf59deb8ea13f69bddda72dac06d6cd59",
+      "envelope_hash": "165204949f42794b6e67ddd38d201c98edfd4cd3aec683dc9ae7d3db73867f20",
+      "entry_class": "honest",
+      "status": "VALIDATORS_TIMEOUT",
+      "reason": "protocol validation/execution timed out; this is not a contract rejection",
+      "receipt_summary": {
+        "statusName": "VALIDATORS_TIMEOUT",
+        "resultName": "TIMEOUT",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "4",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0x2390Ca5C7E369aD63ECbB4bF36509e7f7B7219B9",
+        "currentTimestamp": "1791382125",
+        "last_round": {
+          "round": "0",
+          "votesCommitted": "5",
+          "votesRevealed": "5",
+          "validatorVotes": [
+            3,
+            1,
+            1,
+            3,
+            3
+          ],
+          "roundValidators": [
+            "0x3a130401885fD9322E2E21174A5496065f716b35",
+            "0x9D998aD7C7f9Cc448A4DbDf49edD7CADBe3d57B6",
+            "0x422357d87B035e478777C84748BAC834CE2A9597",
+            "0xfd811B16001077243e07173ec72a4735FF04C3AA",
+            "0xB7551beF37a05995218f9a1BB7A93e5B6705f535"
+          ]
+        }
+      }
+    }
+  ],
+  "pending": {
+    "tx": "0x1a976d68c60c44cd4af5e93b7de0c556cb7606d047d26b5f031d6c44af82b0ad",
+    "status": "COMMITTING",
+    "chain_timestamp": "1791384639",
+    "round": "4",
+    "committed": "13",
+    "revealed": "0",
+    "committee_size": 23,
+    "scan_complete": true,
+    "diagnosis": "UNRESOLVED",
+    "recovery_error": "ValidatorSelectionFailed (0x1f90236d)",
+    "active_validators_observed": 34
+  },
+  "health_warning": "Incomplete replacement run. It stopped on a protocol validator-selection failure. No entries from this deployment are combined with another cohort."
+}

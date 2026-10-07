@@ -34,6 +34,7 @@ if (!/^0x[0-9a-f]{40}$/i.test(request.expected_account)) fail("expected_account 
 if (!["deploy", "open_space", "write_entry", "challenge", "confirm_challenge", "rejudge", "expire", "withdraw", "fund_space"].includes(request.method)) fail("unknown Hearsay write method");
 if (!Array.isArray(request.args) || !/^\d+$/.test(String(request.value))) fail("invalid args or value");
 if (request.method === "write_entry" && !request.envelope_hash) fail("write requires envelope_hash metadata");
+if (request.consensus_max_rotations !== undefined && (!Number.isSafeInteger(request.consensus_max_rotations) || request.consensus_max_rotations < 0)) fail("invalid rotation limit");
 let code;
 if (request.method === "deploy") {
   if (String(request.value) !== "0") fail("deploy first, then fund open_space");
@@ -79,14 +80,15 @@ client.sendRawTransaction = async parameters => {
   });
 };
 const hash = request.method === "deploy" ? await client.deployContract({
-  account, code, args: request.args.map(integers),
+  account, code, args: request.args.map(integers), consensusMaxRotations: request.consensus_max_rotations,
 }) : await client.writeContract({
   account, address: request.address, functionName: request.method,
-  args: request.args.map(integers), value: BigInt(request.value),
+  args: request.args.map(integers), value: BigInt(request.value), consensusMaxRotations: request.consensus_max_rotations,
 });
 const row = {
   tx: hash, method: request.method, address: request.address,
   sender: account.address, value: String(request.value),
+  consensus_max_rotations: request.consensus_max_rotations ?? client.chain.defaultConsensusMaxRotations,
   ...(request.envelope_hash ? { envelope_hash: request.envelope_hash } : {}),
   ...(request.file ? { file: request.file } : {}),
   ...(request.id ? { id: request.id } : {}),
