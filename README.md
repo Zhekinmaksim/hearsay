@@ -418,6 +418,20 @@ in [Consensus decision comparison](docs/consensus-decisions.md). Its run lives i
 `runs/bradbury-decisions` and must complete the same publication checks; results
 from the earlier deployments are excluded from its denominator.
 
+To save an incomplete run, use an explicit checkpoint path:
+
+```sh
+python3 scripts/publish_checkpoint.py \
+  --run-dir runs/bradbury-decisions \
+  --records runs/bradbury-decisions/verified-records.jsonl \
+  --deployment deployments/bradbury-decisions.json \
+  --seed corpus/live.json --out web/bradbury-decisions-checkpoint.json
+```
+
+This verifies current chain state, pinned bytes and votes, preserves unresolved
+transactions and infrastructure history, and always marks the result incomplete.
+It does not bypass the full live publisher's coverage requirements.
+
 `make dry-run` produces a real corpus file with real hashes, real snapshots and
 a real verdict per entry. It does not produce a defence measurement, and its own
 header says so: the judge in that run is a scripted stand-in that answers what

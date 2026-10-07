@@ -1,0 +1,876 @@
+{
+  "run": "bradbury-checkpoint",
+  "complete": false,
+  "defence_conclusion": null,
+  "required_honest_judgements": 20,
+  "contract_address": "0xD596971Da562647Cddd13Ec095a3431073682340",
+  "deployment_tx": "0xee89a6430fcca7bb1de61a59e607bba9c9c37bdf23d6afd8437f406ca900f7e2",
+  "space_id": 0,
+  "source_sha256": "bd3140aab5f2c83e8067c6684f64b543cdedbdc90ec789e0997e1c1c7e9f7acb",
+  "deployment_source_sha256": "b8ed0663f5734e31dc5ea3a5a71bcb7ce96ccded8e3e502704ec7c7d524dc0e2",
+  "consensus_policy": null,
+  "experiment": false,
+  "protocol": {
+    "initial_validators": 5,
+    "max_rotations": 0
+  },
+  "policy": {
+    "admit_ttl": 1000,
+    "admitted": 4,
+    "cascade_depth": 3,
+    "challenge_bond": 2000,
+    "entries": 4,
+    "min_rounds": 2,
+    "name": "companies-house-live",
+    "open": true,
+    "owner": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+    "policy": "Claims about company registry status, names, incorporation and filings; primary sources or explicitly dated archives only.",
+    "pool": 504000,
+    "space_id": 0,
+    "write_bond": 1000
+  },
+  "health_warning": "Incomplete checkpoint. Verified observations only; no defence conclusion. Accepted receipts remain provisional. A full report requires complete candidate coverage and at least 20 judged honest controls.",
+  "coverage": {
+    "candidates": 36,
+    "judged": 4,
+    "honest_judged": 4,
+    "infrastructure_failures": 1,
+    "unresolved": 1,
+    "prevented": 0,
+    "unsubmitted": 30
+  },
+  "entries": [
+    {
+      "admitted_at": 1,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists HSBC HOLDINGS PLC (company number 00617987) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 0,
+      "envelope_hash": "0e46bea864e1fdd3fdbb05287a5f4a8f01c94b8def3e0f268cd2761bcadc1b3f",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "d762352d0c91d1e5f76f4bfa292610771dc676e359cdc7802ac85e46bbb14230",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00617987",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-00617987",
+      "tx": "0xe94c58ae1a956651bba78689c5fbbafd457ce29c07a551f10643a29434644f06",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists HSBC HOLDINGS PLC (company number 00617987) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00617987",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:95ea48d4fd9012a2d5d0d305db05cebafe3227b45226c537387182720ddae32d",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nHSBC HOLDINGS PLC\n\nCompany number 00617987\n\nFollow this company File for this company\nCompany\nOverview\nfor HSBC HOLDINGS PLC (00617987)\nFiling history\nfor HSBC HOLDINGS PLC (00617987)\nPeople\nfor HSBC HOLDINGS PLC (00617987)\nMore\nfor HSBC HOLDINGS PLC (00617987)\nRegistered office address\n8 Canada Square, London, E14 5HQ\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n1 January 1959\nAccounts\n\nNext accounts made up to 31 December 2026\ndue by 30 June 2027\n\nLast accounts made up to 31 December 2025\n\nConfirmation statement\n\nNext statement date 30 April 2027\ndue by 14 May 2027\n\nLast statement dated 30 April 2026\n\nNature of business (SIC)\n70100 - Activities of head offices\nPrevious company names\nPrevious company names\nName Period\nSILOM LIMITED 13 Aug 1981 - 12 Dec 1990\nVERNAT EASTERN AGENCIES LIMITED 10 Feb 1959 - 13 Aug 1981\nVERNAT TRADING CO. LIMITED 01 Jan 1959 - 10 Feb 1959\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "d762352d0c91d1e5f76f4bfa292610771dc676e359cdc7802ac85e46bbb14230",
+        "trace_round": 0,
+        "trace_transaction_id": "0xe94c58ae1a956651bba78689c5fbbafd457ce29c07a551f10643a29434644f06",
+        "storage_key": "055dc3cafbf50f47a37c50d00c734c121fd179068d5d76607d7f5016bd29ab2900000000"
+      },
+      "consensus_checkpoint": {
+        "statusName": "FINALIZED",
+        "resultName": "AGREE",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "0",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0xD596971Da562647Cddd13Ec095a3431073682340",
+        "currentTimestamp": "1791393205",
+        "last_round": {
+          "round": "0",
+          "votesCommitted": "5",
+          "votesRevealed": "5",
+          "validatorVotes": [
+            3,
+            1,
+            1,
+            3,
+            1
+          ],
+          "roundValidators": [
+            "0x3f5cAED686336ED9cF3Dede61154B0Cd67Fb9bD7",
+            "0x2CD9051E10cd1547a7b64eF61EbF1E608235dBda",
+            "0x7538369A22a176afFccb6B273eedfbb92780bf22",
+            "0x3B940A5b4A762583453D9e9Cf0981BE0426A8e79",
+            "0xb4Fb7ADc6877a6A16bd131c7c9270834bD3DEf34"
+          ]
+        },
+        "status": "FINALIZED",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23732233",
+          "hash": "0x01084e3ed6c220f94b65d3e2cafa35c8cba9735339668031c47ad599c7fcc708",
+          "timestamp": "1791393205"
+        },
+        "initial_validators": "5",
+        "round_array_index": "0",
+        "projected_status": "FINALIZED"
+      }
+    },
+    {
+      "admitted_at": 2,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists BP P.L.C. (company number 00102498) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 1,
+      "envelope_hash": "e54fd22ffae84711fbf36ef247adad0a95d1259740ef4eddfe988eb6f589e4cc",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "100c06830b6454b4b5bac2b83fb36f9e91b1e592fe89359184fa88a922566a4f",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00102498",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-00102498",
+      "tx": "0x8ebd98b89f7443678d711560a5e245a196884736cc6c71504287649321118465",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists BP P.L.C. (company number 00102498) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00102498",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:b085c7fe5fe62afb17520b33d00d995ca659544c02ea9ef4978ad008cea14ec6",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nBP P.L.C.\n\nCompany number 00102498\n\nFollow this company File for this company\nCompany\nOverview\nfor BP P.L.C. (00102498)\nFiling history\nfor BP P.L.C. (00102498)\nPeople\nfor BP P.L.C. (00102498)\nMore\nfor BP P.L.C. (00102498)\nRegistered office address\n1 St James's Square, London, SW1Y 4PD\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n14 April 1909\nAccounts\n\nNext accounts made up to 31 December 2026\ndue by 30 June 2027\n\nLast accounts made up to 31 December 2025\n\nConfirmation statement\n\nNext statement date 5 May 2027\ndue by 19 May 2027\n\nLast statement dated 5 May 2026\n\nNature of business (SIC)\n70100 - Activities of head offices\nPrevious company names\nPrevious company names\nName Period\nBP AMOCO P.L.C. 31 Dec 1998 - 01 May 2001\nTHE BRITISH PETROLEUM COMPANY P.L.C. 14 Apr 1909 - 31 Dec 1998\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "100c06830b6454b4b5bac2b83fb36f9e91b1e592fe89359184fa88a922566a4f",
+        "trace_round": 0,
+        "trace_transaction_id": "0x8ebd98b89f7443678d711560a5e245a196884736cc6c71504287649321118465",
+        "storage_key": "c843ef704039c87e8f9ccf2801c0b921830daaad095e058840141dbcceb2640500000000"
+      },
+      "consensus_checkpoint": {
+        "statusName": "FINALIZED",
+        "resultName": "AGREE",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "0",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0xD596971Da562647Cddd13Ec095a3431073682340",
+        "currentTimestamp": "1791393213",
+        "last_round": {
+          "round": "0",
+          "votesCommitted": "5",
+          "votesRevealed": "5",
+          "validatorVotes": [
+            1,
+            1,
+            3,
+            1,
+            1
+          ],
+          "roundValidators": [
+            "0x7538369A22a176afFccb6B273eedfbb92780bf22",
+            "0x79485eF57aC2055dC83b9E7b2C9Cf184Fc79648E",
+            "0xF01877B6Ac60861CA3b134e0E483C482679b4682",
+            "0x422357d87B035e478777C84748BAC834CE2A9597",
+            "0xb4Fb7ADc6877a6A16bd131c7c9270834bD3DEf34"
+          ]
+        },
+        "status": "FINALIZED",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23732240",
+          "hash": "0x05db213cc2e111d02580b017234f2fd7cb546bcf42dbb369a58270b560089690",
+          "timestamp": "1791393213"
+        },
+        "initial_validators": "5",
+        "round_array_index": "0",
+        "projected_status": "FINALIZED"
+      }
+    },
+    {
+      "admitted_at": 3,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists SHELL PLC (company number 04366849) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 2,
+      "envelope_hash": "23f75f0b8cd6897bda5e749c6e18b3e1208e79a89be60392c49b48d7703bf096",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "efbbdef207cd471224c01d3b62370e17e1ccee49ebd8bfb8e7178f208058d82a",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/04366849",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-04366849",
+      "tx": "0xea9f604203e27a96916f1aa4bd1b1c9d51b2aea0c18d3ab867677f59f703c8ff",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists SHELL PLC (company number 04366849) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/04366849",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:c73c15eddb4d5823ddccc32c87c31f3b5a85a336675278aad1fc3383edca9bb0",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nSHELL PLC\n\nCompany number 04366849\n\nFollow this company File for this company\nCompany\nOverview\nfor SHELL PLC (04366849)\nFiling history\nfor SHELL PLC (04366849)\nPeople\nfor SHELL PLC (04366849)\nMore\nfor SHELL PLC (04366849)\nRegistered office address\nShell Centre, London, SE1 7NA\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n5 February 2002\nAccounts\n\nNext accounts made up to 31 December 2026\ndue by 30 June 2027\n\nLast accounts made up to 31 December 2025\n\nConfirmation statement\n\nNext statement date 1 October 2027\ndue by 15 October 2027\n\nLast statement dated 1 October 2026\n\nNature of business (SIC)\n70100 - Activities of head offices\nPrevious company names\nPrevious company names\nName Period\nROYAL DUTCH SHELL PLC 27 Oct 2004 - 21 Jan 2022\nFORTHDEAL LIMITED 05 Feb 2002 - 27 Oct 2004\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "efbbdef207cd471224c01d3b62370e17e1ccee49ebd8bfb8e7178f208058d82a",
+        "trace_round": 0,
+        "trace_transaction_id": "0xea9f604203e27a96916f1aa4bd1b1c9d51b2aea0c18d3ab867677f59f703c8ff",
+        "storage_key": "5af1612077b97f6259650062b20a753cbc170800914cfe1fb82c51d929f4190700000000"
+      },
+      "consensus_checkpoint": {
+        "statusName": "FINALIZED",
+        "resultName": "AGREE",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "0",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0xD596971Da562647Cddd13Ec095a3431073682340",
+        "currentTimestamp": "1791393226",
+        "last_round": {
+          "round": "0",
+          "votesCommitted": "5",
+          "votesRevealed": "5",
+          "validatorVotes": [
+            3,
+            3,
+            1,
+            1,
+            1
+          ],
+          "roundValidators": [
+            "0xB93a46B843fB32E8Ce392e68eDFE93Faa4a40817",
+            "0x4FC292d5D255Ec8Ad4cdcd36c5E188dfEE9D160e",
+            "0x9F6aa7364D20CF25F054Ea83f3CB950317fD34b6",
+            "0x79485eF57aC2055dC83b9E7b2C9Cf184Fc79648E",
+            "0xb4Fb7ADc6877a6A16bd131c7c9270834bD3DEf34"
+          ]
+        },
+        "status": "FINALIZED",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23732251",
+          "hash": "0xf462783382cc41e555554377c28719749d53bc7dd18ee70c0d91009849fa2f7f",
+          "timestamp": "1791393226"
+        },
+        "initial_validators": "5",
+        "round_array_index": "0",
+        "projected_status": "FINALIZED"
+      }
+    },
+    {
+      "admitted_at": 4,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists TESCO PLC (company number 00445790) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 3,
+      "envelope_hash": "165204949f42794b6e67ddd38d201c98edfd4cd3aec683dc9ae7d3db73867f20",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "b529d694bbbb9de37c770011ab272184d6bf8de150a0cd2a0675fde1e1e67cfb",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00445790",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-00445790",
+      "tx": "0xbe67afb6e746c07e638181bff01ef414aa5bc21b759c607c2e6e033dc7ac2fb3",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists TESCO PLC (company number 00445790) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00445790",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:ff58f1f65fab5750efdaf7d73c53b7920e6ae50a834755620b3bfb64e5c2c04e",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nTESCO PLC\n\nCompany number 00445790\n\nFollow this company File for this company\nCompany\nOverview\nfor TESCO PLC (00445790)\nFiling history\nfor TESCO PLC (00445790)\nPeople\nfor TESCO PLC (00445790)\nCharges\nfor TESCO PLC (00445790)\nMore\nfor TESCO PLC (00445790)\nRegistered office address\nTesco House, Shire Park, Kestrel Way, Welwyn Garden City, United Kingdom, AL7 1GA\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n27 November 1947\nAccounts\n\nNext accounts made up to 26 February 2027\ndue by 26 August 2027\n\nLast accounts made up to 28 February 2026\n\nConfirmation statement\n\nNext statement date 18 June 2027\ndue by 2 July 2027\n\nLast statement dated 18 June 2026\n\nNature of business (SIC)\n47110 - Retail sale in non-specialised stores with food, beverages or tobacco predominating\nPrevious company names\nPrevious company names\nName Period\nTESCO STORES (HOLDINGS) PUBLIC LIMITED COMPANY 14 Dec 1981 - 25 Aug 1983\nTESCO STORES (HOLDINGS) LIMITED 27 Nov 1947 - 14 Dec 1981\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "b529d694bbbb9de37c770011ab272184d6bf8de150a0cd2a0675fde1e1e67cfb",
+        "trace_round": 0,
+        "trace_transaction_id": "0xbe67afb6e746c07e638181bff01ef414aa5bc21b759c607c2e6e033dc7ac2fb3",
+        "storage_key": "2465f947b845713016adab30f9c3956a5f5b7fe595f6d4719a392878d5738ec600000000"
+      },
+      "consensus_checkpoint": {
+        "statusName": "FINALIZED",
+        "resultName": "AGREE",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "0",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0xD596971Da562647Cddd13Ec095a3431073682340",
+        "currentTimestamp": "1791393232",
+        "last_round": {
+          "round": "0",
+          "votesCommitted": "5",
+          "votesRevealed": "5",
+          "validatorVotes": [
+            3,
+            1,
+            3,
+            1,
+            1
+          ],
+          "roundValidators": [
+            "0x0c526A6af46A038E31dA21C123756Ab2D75f06Bc",
+            "0xa856ae1b278F030082c66Fa50A5F51F485D1F940",
+            "0x4Cd1ab61867487F45988dB08eb18bd00e20c518a",
+            "0x422357d87B035e478777C84748BAC834CE2A9597",
+            "0x9F6aa7364D20CF25F054Ea83f3CB950317fD34b6"
+          ]
+        },
+        "status": "FINALIZED",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23732259",
+          "hash": "0x001e4b2000afd4ea7056c3bca6a9c0da11ca657cda0b2c470e3fd145682e1210",
+          "timestamp": "1791393232"
+        },
+        "initial_validators": "5",
+        "round_array_index": "0",
+        "projected_status": "FINALIZED"
+      }
+    }
+  ],
+  "refused_at_write": [],
+  "infrastructure_failures": [
+    {
+      "id": "honest-00048839",
+      "tx": "0x31a99972d4a097296c89d07606f2156e56937ccc9bbb29e5843f53c92367b584",
+      "envelope_hash": "8c19c9b369173c1ed28737c342446d2d19ded17f0184278d880a368623b7feab",
+      "entry_class": "honest",
+      "status": "FINALIZED",
+      "receipt_summary": {
+        "statusName": "FINALIZED",
+        "resultName": "TIMEOUT",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "3",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0xD596971Da562647Cddd13Ec095a3431073682340",
+        "currentTimestamp": "1791393203",
+        "last_round": {
+          "round": "3",
+          "votesCommitted": "13",
+          "votesRevealed": "13",
+          "validatorVotes": [
+            1,
+            1,
+            3,
+            3,
+            1,
+            4,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            4
+          ],
+          "roundValidators": [
+            "0x8E7765267023F88d4155d52F4ce2319aDDf1dc33",
+            "0x2CD9051E10cd1547a7b64eF61EbF1E608235dBda",
+            "0x0c526A6af46A038E31dA21C123756Ab2D75f06Bc",
+            "0xfd811B16001077243e07173ec72a4735FF04C3AA",
+            "0x992E8D62263eD1Fe2E14FfB11aDf1080edBe4b5a",
+            "0xb4Fb7ADc6877a6A16bd131c7c9270834bD3DEf34",
+            "0xB93a46B843fB32E8Ce392e68eDFE93Faa4a40817",
+            "0x9D998aD7C7f9Cc448A4DbDf49edD7CADBe3d57B6",
+            "0xa856ae1b278F030082c66Fa50A5F51F485D1F940",
+            "0x3a130401885fD9322E2E21174A5496065f716b35",
+            "0x96298d411a2D622945BEACa6112374583b501d52",
+            "0x58a7b7ac6Cb01843e4e5af117C551E59449E0F49",
+            "0x27276953fa2052A5178Ae5a3D114a3DFB9A2fC98"
+          ]
+        },
+        "status": "FINALIZED",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23732229",
+          "hash": "0x526ca33c93296ce06418dea8ad1163d5aeb03b71684d326c6745006095107aaa",
+          "timestamp": "1791393203"
+        },
+        "initial_validators": "5",
+        "round_array_index": "3",
+        "projected_status": "FINALIZED"
+      },
+      "consensus_outcome": "TIMEOUT",
+      "diagnosis": "CONSENSUS TIMEOUT",
+      "reason": "Finalized protocol timeout; complete entry scan found no matching state. This is not a contract rejection."
+    }
+  ],
+  "infrastructure_history": [
+    {
+      "id": "honest-00048839",
+      "tx": "0x31a99972d4a097296c89d07606f2156e56937ccc9bbb29e5843f53c92367b584",
+      "envelope_hash": "8c19c9b369173c1ed28737c342446d2d19ded17f0184278d880a368623b7feab",
+      "entry_class": "honest",
+      "status": "VALIDATORS_TIMEOUT",
+      "reason": "protocol validation/execution timed out; this is not a contract rejection",
+      "receipt_summary": {
+        "statusName": "VALIDATORS_TIMEOUT",
+        "resultName": "TIMEOUT",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "3",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0xD596971Da562647Cddd13Ec095a3431073682340",
+        "currentTimestamp": "1791384963",
+        "last_round": {
+          "round": "3",
+          "votesCommitted": "13",
+          "votesRevealed": "13",
+          "validatorVotes": [
+            1,
+            1,
+            3,
+            3,
+            1,
+            4,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            4
+          ],
+          "roundValidators": [
+            "0x8E7765267023F88d4155d52F4ce2319aDDf1dc33",
+            "0x2CD9051E10cd1547a7b64eF61EbF1E608235dBda",
+            "0x0c526A6af46A038E31dA21C123756Ab2D75f06Bc",
+            "0xfd811B16001077243e07173ec72a4735FF04C3AA",
+            "0x992E8D62263eD1Fe2E14FfB11aDf1080edBe4b5a",
+            "0xb4Fb7ADc6877a6A16bd131c7c9270834bD3DEf34",
+            "0xB93a46B843fB32E8Ce392e68eDFE93Faa4a40817",
+            "0x9D998aD7C7f9Cc448A4DbDf49edD7CADBe3d57B6",
+            "0xa856ae1b278F030082c66Fa50A5F51F485D1F940",
+            "0x3a130401885fD9322E2E21174A5496065f716b35",
+            "0x96298d411a2D622945BEACa6112374583b501d52",
+            "0x58a7b7ac6Cb01843e4e5af117C551E59449E0F49",
+            "0x27276953fa2052A5178Ae5a3D114a3DFB9A2fC98"
+          ]
+        }
+      }
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "honest-00041424",
+      "tx": "0xdc4f65d7ea5c2cb40d2b712dd85d923e1bdb0186780a97e4f62119c4d18f2d6f",
+      "envelope_hash": "3cd1b142719c89e1ee3f40b2bcc901dfd885b495fe12f8514954ffade01762b9",
+      "entry_class": "honest",
+      "status": "COMMITTING",
+      "receipt_summary": {
+        "statusName": "COMMITTING",
+        "resultName": "IDLE",
+        "txExecutionResultName": "NOT_VOTED",
+        "numOfRounds": "6",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0xD596971Da562647Cddd13Ec095a3431073682340",
+        "currentTimestamp": "1791393246",
+        "last_round": {
+          "round": "4",
+          "votesCommitted": "13",
+          "votesRevealed": "0",
+          "validatorVotes": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "roundValidators": [
+            "0x3B940A5b4A762583453D9e9Cf0981BE0426A8e79",
+            "0x4Cd1ab61867487F45988dB08eb18bd00e20c518a",
+            "0xfd811B16001077243e07173ec72a4735FF04C3AA",
+            "0x183217483618c4EBd34C987DE400e01bEFfe5860",
+            "0xb4Fb7ADc6877a6A16bd131c7c9270834bD3DEf34",
+            "0x96298d411a2D622945BEACa6112374583b501d52",
+            "0x79485eF57aC2055dC83b9E7b2C9Cf184Fc79648E",
+            "0xA58D6FcCD69eaafB5869dA58913f116045D75444",
+            "0xa856ae1b278F030082c66Fa50A5F51F485D1F940",
+            "0xB7551beF37a05995218f9a1BB7A93e5B6705f535",
+            "0x3B940A5b4A762583453D9e9Cf0981BE0426A8e79",
+            "0x4Cd1ab61867487F45988dB08eb18bd00e20c518a",
+            "0x8E7765267023F88d4155d52F4ce2319aDDf1dc33",
+            "0xfd811B16001077243e07173ec72a4735FF04C3AA",
+            "0x183217483618c4EBd34C987DE400e01bEFfe5860",
+            "0xb4Fb7ADc6877a6A16bd131c7c9270834bD3DEf34",
+            "0x96298d411a2D622945BEACa6112374583b501d52",
+            "0x79485eF57aC2055dC83b9E7b2C9Cf184Fc79648E",
+            "0x9F6aa7364D20CF25F054Ea83f3CB950317fD34b6",
+            "0xA58D6FcCD69eaafB5869dA58913f116045D75444",
+            "0xa856ae1b278F030082c66Fa50A5F51F485D1F940",
+            "0xB7551beF37a05995218f9a1BB7A93e5B6705f535",
+            "0x9D998aD7C7f9Cc448A4DbDf49edD7CADBe3d57B6"
+          ]
+        },
+        "status": "COMMITTING",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23732270",
+          "hash": "0xf161b00bccd37c4bda037f8364404bc40c93733701049d9a6bd5bb480e88e277",
+          "timestamp": "1791393246"
+        },
+        "initial_validators": "5",
+        "round_array_index": "6",
+        "projected_status": "UNDETERMINED"
+      },
+      "diagnosis": "UNRESOLVED",
+      "reason": "no matching entry; stored consensus has not established a final timeout",
+      "matching_entry_id": null
+    }
+  ],
+  "pending": [
+    {
+      "id": "honest-00041424",
+      "tx": "0xdc4f65d7ea5c2cb40d2b712dd85d923e1bdb0186780a97e4f62119c4d18f2d6f",
+      "envelope_hash": "3cd1b142719c89e1ee3f40b2bcc901dfd885b495fe12f8514954ffade01762b9",
+      "entry_class": "honest",
+      "status": "COMMITTING",
+      "receipt_summary": {
+        "statusName": "COMMITTING",
+        "resultName": "IDLE",
+        "txExecutionResultName": "NOT_VOTED",
+        "numOfRounds": "6",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0xD596971Da562647Cddd13Ec095a3431073682340",
+        "currentTimestamp": "1791393246",
+        "last_round": {
+          "round": "4",
+          "votesCommitted": "13",
+          "votesRevealed": "0",
+          "validatorVotes": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "roundValidators": [
+            "0x3B940A5b4A762583453D9e9Cf0981BE0426A8e79",
+            "0x4Cd1ab61867487F45988dB08eb18bd00e20c518a",
+            "0xfd811B16001077243e07173ec72a4735FF04C3AA",
+            "0x183217483618c4EBd34C987DE400e01bEFfe5860",
+            "0xb4Fb7ADc6877a6A16bd131c7c9270834bD3DEf34",
+            "0x96298d411a2D622945BEACa6112374583b501d52",
+            "0x79485eF57aC2055dC83b9E7b2C9Cf184Fc79648E",
+            "0xA58D6FcCD69eaafB5869dA58913f116045D75444",
+            "0xa856ae1b278F030082c66Fa50A5F51F485D1F940",
+            "0xB7551beF37a05995218f9a1BB7A93e5B6705f535",
+            "0x3B940A5b4A762583453D9e9Cf0981BE0426A8e79",
+            "0x4Cd1ab61867487F45988dB08eb18bd00e20c518a",
+            "0x8E7765267023F88d4155d52F4ce2319aDDf1dc33",
+            "0xfd811B16001077243e07173ec72a4735FF04C3AA",
+            "0x183217483618c4EBd34C987DE400e01bEFfe5860",
+            "0xb4Fb7ADc6877a6A16bd131c7c9270834bD3DEf34",
+            "0x96298d411a2D622945BEACa6112374583b501d52",
+            "0x79485eF57aC2055dC83b9E7b2C9Cf184Fc79648E",
+            "0x9F6aa7364D20CF25F054Ea83f3CB950317fD34b6",
+            "0xA58D6FcCD69eaafB5869dA58913f116045D75444",
+            "0xa856ae1b278F030082c66Fa50A5F51F485D1F940",
+            "0xB7551beF37a05995218f9a1BB7A93e5B6705f535",
+            "0x9D998aD7C7f9Cc448A4DbDf49edD7CADBe3d57B6"
+          ]
+        },
+        "status": "COMMITTING",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23732270",
+          "hash": "0xf161b00bccd37c4bda037f8364404bc40c93733701049d9a6bd5bb480e88e277",
+          "timestamp": "1791393246"
+        },
+        "initial_validators": "5",
+        "round_array_index": "6",
+        "projected_status": "UNDETERMINED"
+      },
+      "diagnosis": "UNRESOLVED",
+      "reason": "no matching entry; stored consensus has not established a final timeout",
+      "matching_entry_id": null
+    }
+  ],
+  "unsubmitted_candidates": [
+    {
+      "id": "honest-03888792",
+      "class": "honest",
+      "envelope_hash": "8ae81f5abf4687def4f9e5894e898b1d3a1f9c0856ce0a7b5f53c553a58e48b4"
+    },
+    {
+      "id": "honest-02723534",
+      "class": "honest",
+      "envelope_hash": "b12b682b491ff9d15b9998965264bbba52678db9351d7061bbc80eeb49269841"
+    },
+    {
+      "id": "honest-01833679",
+      "class": "honest",
+      "envelope_hash": "45681af63e953dddb501b63e118ff30b6817f2689261fc7c3f3a1cb9e107402b"
+    },
+    {
+      "id": "honest-04190816",
+      "class": "honest",
+      "envelope_hash": "b66201b755681745388cf065c425d81f8ccf4e2ac82f7d79f2b502e936b5e0ac"
+    },
+    {
+      "id": "honest-sc045551",
+      "class": "honest",
+      "envelope_hash": "21294ee16b11b44724c70915c2b3c6daae94b6afe3176f316a2f78ebe675fa1d"
+    },
+    {
+      "id": "honest-sc095000",
+      "class": "honest",
+      "envelope_hash": "a9aee100889d80127df370d9b153289c9a248fa469aaa79efa9a96adbe30c555"
+    },
+    {
+      "id": "honest-00023307",
+      "class": "honest",
+      "envelope_hash": "3c68da5edd1f38de0eb5063c7c89b780c9ee2f046223ea6a9c25a67bc499389e"
+    },
+    {
+      "id": "honest-06270876",
+      "class": "honest",
+      "envelope_hash": "b4e7e455122fdb9895e262f9680785fbcaea2fd75d25fd50fd6fb8b0a1af6594"
+    },
+    {
+      "id": "honest-01470151",
+      "class": "honest",
+      "envelope_hash": "371b876a7916efdcdba327caf1fea9c4594f458e589b546b9d05f1e43e54e9b9"
+    },
+    {
+      "id": "honest-07524813",
+      "class": "honest",
+      "envelope_hash": "0742ba17e02d10477239c413487b21d34b7f37af7332752d27a0132554e4f177"
+    },
+    {
+      "id": "honest-02468686",
+      "class": "honest",
+      "envelope_hash": "1eb6100627855f22b1702154db00005bd929d5b595b1a9e4710a52cd2e32b516"
+    },
+    {
+      "id": "honest-01417162",
+      "class": "honest",
+      "envelope_hash": "a3fd7cb9ac2fd20472292285b731848e0f81814cdbfd9f41a6123b7d31c9f91d"
+    },
+    {
+      "id": "honest-04256886",
+      "class": "honest",
+      "envelope_hash": "5addef5348f1b8675e4c16444eaa85f799eb8e7e55772da759c70e5109bc2000"
+    },
+    {
+      "id": "honest-00185647",
+      "class": "honest",
+      "envelope_hash": "e246e3b96faa3d7f68f7f099984880bd916dfbdc4834f44d97896d76efe0d752"
+    },
+    {
+      "id": "honest-04031152",
+      "class": "honest",
+      "envelope_hash": "4d972e2d1ffb59ed424cd3a86cf75b33c1b3e7c18a0cf08904c06c7088c48b65"
+    },
+    {
+      "id": "honest-01397169",
+      "class": "honest",
+      "envelope_hash": "99fbf51b4d495a3ebae640ea7d0082a3be625a4ca6bff4f21b9f1dcf1d7cbe07"
+    },
+    {
+      "id": "honest-03033654",
+      "class": "honest",
+      "envelope_hash": "a2f982ee18ae5b57d8ce840295dd704e33e86a32feda4d8940a9728aacaf1e74"
+    },
+    {
+      "id": "honest-00538154",
+      "class": "honest",
+      "envelope_hash": "b9d0b4ef40753eff3405e77e9217123ffb75441b72a170ffffed669bbec78f6c"
+    },
+    {
+      "id": "honest-04951416",
+      "class": "honest",
+      "envelope_hash": "5dbf29214c05c94b6cc7bf34141ad8c546e034b638417cdf598c1720f0d17e62"
+    },
+    {
+      "id": "honest-00234106",
+      "class": "honest",
+      "envelope_hash": "84d726debf99b48598432a5aa5b7bdede9280a689c834b25f0e8ac6ea4e418de"
+    },
+    {
+      "id": "injection-override",
+      "class": "direct_injection",
+      "envelope_hash": "491e73e09bc7de04ccc0aa456335da31eaac73d54837d066ae9c6cf3dd77db41"
+    },
+    {
+      "id": "injection-role",
+      "class": "direct_injection",
+      "envelope_hash": "a9febbd6011c0bca953870a97d7419b9be9ca9141da654be75f7d065bcb83a98"
+    },
+    {
+      "id": "injection-fence",
+      "class": "direct_injection",
+      "envelope_hash": "02d91d6f621c2e65f7f0333ca5f5bce7234ec351770e2008e8f5b0a0158ea935"
+    },
+    {
+      "id": "forgery-status",
+      "class": "source_forgery",
+      "envelope_hash": "33bd7ecef7659bcfb2cbaae7ce5b54240a17dfb555b995aba2d803243e556932"
+    },
+    {
+      "id": "forgery-wrong-company",
+      "class": "source_forgery",
+      "envelope_hash": "aa651c05c33dbbc82587952e224f1aede1f0c195f6fd9c291c3962266a9a1a85"
+    },
+    {
+      "id": "forgery-unsupported-event",
+      "class": "source_forgery",
+      "envelope_hash": "250cbe1d59b3bed29716c12e907acebd57b14ff989246de662819b105d4ebbfe"
+    },
+    {
+      "id": "slow-poison",
+      "class": "slow_poison",
+      "envelope_hash": "c44ad8357091a22528878fb7613f986c0f277228b3de5c8e49d0917afbddf34b"
+    },
+    {
+      "id": "stale-name",
+      "class": "stale_truth",
+      "envelope_hash": "c54edc9181a0be2fa6265e6708a27f15e857a2e61c0a6020ab2b5c7f5bbe187a"
+    },
+    {
+      "id": "flooding",
+      "class": "flooding",
+      "envelope_hash": "9f38cc0c53a1d6f44f4ec38f1cd9776f6a47d108b700c32d18f48b5a5606c9dd"
+    },
+    {
+      "id": "laundering",
+      "class": "citation_laundering",
+      "envelope_hash": "d687ee5aa75b82e56a8e6839d941974202eec162f219c4659c44ae6e8124e6ad"
+    }
+  ],
+  "report": {
+    "classes": [
+      {
+        "admission_rate_milli": 1000,
+        "attempts": 4,
+        "class": "honest",
+        "ever_admitted": 4,
+        "inconclusive": 0,
+        "settled": false
+      }
+    ],
+    "deferred": 0,
+    "entries": 4,
+    "false_rejection_milli": 0,
+    "honest_admitted": 4,
+    "honest_attempts": 4,
+    "prevented_by_construction": [
+      "citation_laundering"
+    ],
+    "space_id": 0
+  },
+  "report_scope": "current on-chain space; may include entries awaiting snapshot verification",
+  "report_matches_verified_entries": true,
+  "solvency": {
+    "balanced": true,
+    "credited": 0,
+    "escrowed": 504000,
+    "held": 504000,
+    "pools": 504000
+  },
+  "previous_runs": [
+    {
+      "address": "0x774237BD6e669bF1Af1b8F807ada3A0d4889987F",
+      "checkpoint": "bradbury-checkpoint.json",
+      "included_in_report": false
+    },
+    {
+      "address": "0x2390Ca5C7E369aD63ECbB4bF36509e7f7B7219B9",
+      "checkpoint": "bradbury-rescue-checkpoint.json",
+      "included_in_report": false
+    }
+  ],
+  "checked_at": "2026-10-07T17:14:04.932612+00:00"
+}

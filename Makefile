@@ -1,12 +1,15 @@
-.PHONY: test receipts-test chain-test bridge-test gate-parity parity page live-page vectors replay dry-run assets site gate check lint all
+.PHONY: test receipts-test checkpoint-test chain-test bridge-test gate-parity parity page live-page vectors replay dry-run assets site gate check lint all
 
-all: lint test receipts-test chain-test bridge-test dry-run replay assets site parity gate-parity page live-page
+all: lint test receipts-test checkpoint-test chain-test bridge-test dry-run replay assets site parity gate-parity page live-page
 
 test:
 	python3 test/run_tests.py
 
 receipts-test:
 	python3 -m unittest discover -s test -p 'test_receipts.py'
+
+checkpoint-test:
+	python3 -m unittest discover -s test -p 'test_checkpoint.py'
 
 chain-test:
 	node test/chain-receipt.mjs
@@ -62,4 +65,4 @@ lint:
 	python3 -m py_compile contracts/hearsay.py cli/entry.py cli/gate.py \
 		scripts/dry_run.py scripts/build_site.py scripts/replay_corpus.py \
 		scripts/collect_receipts.py scripts/diagnose_missing.py scripts/run_live.py \
-		scripts/build_deploy.py scripts/publish_live.py scripts/enrich_snapshots.py test/run_tests.py test/model.py
+		scripts/build_deploy.py scripts/publish_live.py scripts/publish_checkpoint.py scripts/enrich_snapshots.py test/run_tests.py test/model.py

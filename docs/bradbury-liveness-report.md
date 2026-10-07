@@ -32,7 +32,7 @@ All writes are sequential. No pending transaction has been resubmitted.
 3. Replacement `0xD596971Da562647Cddd13Ec095a3431073682340` used
    maxRotations=0. Constructor and open_space were accepted. The first write
    `0x31a99972d4a097296c89d07606f2156e56937ccc9bbb29e5843f53c92367b584`
-   has status VALIDATORS_TIMEOUT, round 3, committee
+   has stored status FINALIZED with result TIMEOUT, round 3, committee
    13, commits 13, reveals
    13. Decoded EVM calldata confirms _maxRotations=0 and
    _numOfInitialValidators=5. SDK getTransaction currently reports
@@ -56,7 +56,36 @@ addTransaction calldata confirms five initial validators. Its vote enum also
 labels value 4 DETERMINISTIC_VIOLATION, whereas explorer enrichment identifies
 that value as nondet_disagree; this label does not prove a deterministic bug.
 
-## Questions for maintainers
+## Parsed-decision experiment
+
+With user authorization, deployment
+`0xb8BAd484689a32357Caa6E0F427D31B29347fdB4` changes only the comparison of
+parsed boolean/conflict decisions to `strict_eq`. Source-fetch comparison and
+five initial validators remain unchanged. Source and packed deployment hashes
+are recorded in `deployments/bradbury-decisions.json`; no earlier entries count
+towards this experiment.
+
+The first write, `0x119ceed3267d1304cf691a0d6c7cfb2efd53135ac647bfb990ee40d2ae3bdcff`,
+was accepted with four agreements and one timeout. Its pinned source and
+`yes/yes` support votes reproduce. Stored equivalence outputs contain typed
+`true/true`, rather than the original JSON response strings.
+
+The second write, `0xbfbeb7d712d834a94b8f00ccba3ae98f06466db39dee7ad9fcd3f8902e45b8c0`,
+stored a correct source and `true/true/-1` decisions but entered an appeal after
+initial timeout votes. A public `processIdleness` call succeeded in EVM at
+`0x85a9257b3a11f1a749b0256d8f885d38e057768cedf41f592e443556eaa11dd6`;
+the immediate stored status remained APPEAL_COMMITTING. Later the transaction
+reached APPEAL_REVEALING, with ten of eleven votes revealed. This does not prove
+that the recovery call caused the later transition or resolved the transaction.
+
+Both initial-round debug traces returned successfully. Replay metrics reported
+zero LLM/web calls, so they cannot measure original provider calls or latency.
+The HSBC trace's storage-pickling warning is retained in the local audit; it
+does not by itself establish a failed execution. Reduced comparison calls are
+inferred from the code and pinned SDK, not measured speed. The experiment has
+not completed the honest cohort or attack coverage.
+
+## Open investigation questions
 
 - What supported public recovery operation can release these exact transactions?
 - Can an appeal/idle transition get stuck when it cannot select the next committee?

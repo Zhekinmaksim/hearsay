@@ -16,6 +16,7 @@ jobs:
       - run: make lint
       - run: make test
       - run: make receipts-test
+      - run: make checkpoint-test
       - run: make dry-run
       - run: make replay
       # The icons and the share card are redrawn in CI so a stale card cannot

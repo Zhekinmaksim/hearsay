@@ -40,6 +40,12 @@ def main():
             '</header>\n  <p class="whereabouts"><a href="live.html">Live Bradbury record — sources, votes and receipts</a> · offline stand below</p>',
             1,
         )
+    elif os.path.exists(os.path.join(ROOT, "web", "bradbury-decisions-checkpoint.json")):
+        template = template.replace(
+            "</header>",
+            '</header>\n  <p class="whereabouts">Bradbury experiment incomplete: pending protocol consensus. <a href="bradbury-decisions-checkpoint.json">Current verified checkpoint</a> · <a href="bradbury-checkpoint.json">Earlier deployment</a> · offline stand below</p>',
+            1,
+        )
     elif os.path.exists(os.path.join(ROOT, "web", "bradbury-checkpoint.json")):
         template = template.replace(
             "</header>",

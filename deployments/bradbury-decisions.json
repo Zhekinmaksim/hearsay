@@ -22,8 +22,13 @@
     {
       "address": "0x2390Ca5C7E369aD63ECbB4bF36509e7f7B7219B9",
       "checkpoint": "bradbury-rescue-checkpoint.json"
+    },
+    {
+      "address": "0xD596971Da562647Cddd13Ec095a3431073682340",
+      "checkpoint": "bradbury-bounded-checkpoint.json"
     }
   ],
   "consensus_policy": "strict equality of parsed decisions; source-fetch remains comparative",
-  "experiment": true
+  "experiment": true,
+  "open_space_tx": "0x2524f4afd6630c5d77094a9c93a0d75d1d94e789c75c1940372ea36e1938c3b0"
 }
