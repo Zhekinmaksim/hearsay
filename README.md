@@ -362,12 +362,22 @@ python3 scripts/publish_live.py --address "$CONTRACT"
 make site page live-page
 ```
 
-The publisher checks the chain count, solvency, honest cohort and every verdict
+The publisher checks the chain count, solvency, honest cohort and every verdict,
+then rereads each entry and its current RPC status to reject rolled-back state
+or a reopened appeal
 before writing `web/live-corpus.json` and a separate `web/live.html`. The live
 page links each transaction, publishes every vote, filters by class, and replays
 editable receipts locally. `make live-page` checks its controls independently
 of the fifty checks for the offline stand. Accepted consensus state is labelled
 as accepted; it is not presented as finalization.
+
+The public `web/bradbury-checkpoint.json` is an explicitly incomplete snapshot
+of the current run, with pinned source bytes, finalized receipts, diagnosed
+infrastructure failures and the unresolved transaction. It is not the live
+defence measurement. Resume `scripts/run_live.py` with the same manifest after
+the pending consensus round resolves; it will not resend existing transactions.
+The complete publisher still requires at least twenty judged honest controls
+and coverage of every submitted candidate.
 
 `make dry-run` produces a real corpus file with real hashes, real snapshots and
 a real verdict per entry. It does not produce a defence measurement, and its own

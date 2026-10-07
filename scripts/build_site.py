@@ -40,6 +40,12 @@ def main():
             '</header>\n  <p class="whereabouts"><a href="live.html">Live Bradbury record — sources, votes and receipts</a> · offline stand below</p>',
             1,
         )
+    elif os.path.exists(os.path.join(ROOT, "web", "bradbury-checkpoint.json")):
+        template = template.replace(
+            "</header>",
+            '</header>\n  <p class="whereabouts">Bradbury run incomplete: pending protocol consensus. <a href="bradbury-checkpoint.json">Verified checkpoint</a> · offline stand below</p>',
+            1,
+        )
     if MARKER not in template or LIB_MARKER not in template:
         print("template is missing a marker", file=sys.stderr)
         return 2

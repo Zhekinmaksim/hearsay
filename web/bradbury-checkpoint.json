@@ -1,0 +1,1003 @@
+{
+  "run": "bradbury-incomplete",
+  "complete": false,
+  "required_honest_judgements": 20,
+  "health_warning": "Incomplete live run. Fifteen honest judgements are available; no attack candidate has reached judgement. The next write is stopped while the current protocol appeal remains unresolved. This is a checkpoint, not the completed defence measurement.",
+  "contract_address": "0x774237BD6e669bF1Af1b8F807ada3A0d4889987F",
+  "deployment_tx": "0x80bb031b645a374bb1fc8dba5f076cdf52cac0a024d005b8df9356d8229d64f3",
+  "space_id": 0,
+  "policy": {
+    "admit_ttl": 1000,
+    "admitted": 15,
+    "cascade_depth": 3,
+    "challenge_bond": 2000,
+    "entries": 15,
+    "min_rounds": 2,
+    "name": "companies-house-live",
+    "open": true,
+    "owner": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+    "policy": "Claims about company registry status, names, incorporation and filings; primary sources or explicitly dated archives only.",
+    "pool": 515000,
+    "space_id": 0,
+    "write_bond": 1000
+  },
+  "coverage": {
+    "candidates": 36,
+    "judged": 15,
+    "honest_judged": 15,
+    "infrastructure_failures": 6,
+    "pending": 1,
+    "unsubmitted": 14
+  },
+  "entries": [
+    {
+      "admitted_at": 1,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists BARCLAYS PLC (company number 00048839) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 0,
+      "envelope_hash": "8c19c9b369173c1ed28737c342446d2d19ded17f0184278d880a368623b7feab",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "a41262eef58449bfd577bcf62c966d48c52ab3084be593a26686505193185360",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00048839",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-00048839",
+      "tx": "0x1a3af3ab75c9cdbcd4a3c26c1bd306e2078da2c8b0a7e4eb6c986a6e88ed1a29",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists BARCLAYS PLC (company number 00048839) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00048839",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:14a77b8071aa2a5e62756677fb25b3350181b3418e92bce188e85b7c3ffc1578",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nBARCLAYS PLC\n\nCompany number 00048839\n\nFollow this company File for this company\nCompany\nOverview\nfor BARCLAYS PLC (00048839)\nFiling history\nfor BARCLAYS PLC (00048839)\nPeople\nfor BARCLAYS PLC (00048839)\nMore\nfor BARCLAYS PLC (00048839)\nRegistered office address\n1 Churchill Place, London, E14 5HP\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n20 July 1896\nAccounts\n\nNext accounts made up to 31 December 2026\ndue by 30 June 2027\n\nLast accounts made up to 31 December 2025\n\nConfirmation statement\n\nNext statement date 1 November 2026\ndue by 15 November 2026\n\nLast statement dated 1 November 2025\n\nNature of business (SIC)\n64191 - Banks\nPrevious company names\nPrevious company names\nName Period\nBARCLAYS BANK PLC 15 Feb 1982 - 01 Jan 1985\nBARCLAYS BANK LIMITED 17 Feb 1916 - 15 Feb 1982\nBARCLAY & COMPANY LIMITED 20 Jul 1896 - 17 Feb 1916\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "a41262eef58449bfd577bcf62c966d48c52ab3084be593a26686505193185360",
+        "trace_round": 0,
+        "trace_transaction_id": "0x1a3af3ab75c9cdbcd4a3c26c1bd306e2078da2c8b0a7e4eb6c986a6e88ed1a29",
+        "storage_key": "055dc3cafbf50f47a37c50d00c734c121fd179068d5d76607d7f5016bd29ab2900000000"
+      },
+      "consensus_checkpoint": {
+        "status": "FINALIZED",
+        "result": "AGREE",
+        "chain_timestamp": "1791373805"
+      }
+    },
+    {
+      "admitted_at": 2,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists HSBC HOLDINGS PLC (company number 00617987) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 1,
+      "envelope_hash": "0e46bea864e1fdd3fdbb05287a5f4a8f01c94b8def3e0f268cd2761bcadc1b3f",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "d762352d0c91d1e5f76f4bfa292610771dc676e359cdc7802ac85e46bbb14230",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00617987",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-00617987",
+      "tx": "0xbc2c055e9e473952b6ed5fab66a5eb4cf8b3559cebcd943332e12305ea5f18bc",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists HSBC HOLDINGS PLC (company number 00617987) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00617987",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:95ea48d4fd9012a2d5d0d305db05cebafe3227b45226c537387182720ddae32d",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nHSBC HOLDINGS PLC\n\nCompany number 00617987\n\nFollow this company File for this company\nCompany\nOverview\nfor HSBC HOLDINGS PLC (00617987)\nFiling history\nfor HSBC HOLDINGS PLC (00617987)\nPeople\nfor HSBC HOLDINGS PLC (00617987)\nMore\nfor HSBC HOLDINGS PLC (00617987)\nRegistered office address\n8 Canada Square, London, E14 5HQ\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n1 January 1959\nAccounts\n\nNext accounts made up to 31 December 2026\ndue by 30 June 2027\n\nLast accounts made up to 31 December 2025\n\nConfirmation statement\n\nNext statement date 30 April 2027\ndue by 14 May 2027\n\nLast statement dated 30 April 2026\n\nNature of business (SIC)\n70100 - Activities of head offices\nPrevious company names\nPrevious company names\nName Period\nSILOM LIMITED 13 Aug 1981 - 12 Dec 1990\nVERNAT EASTERN AGENCIES LIMITED 10 Feb 1959 - 13 Aug 1981\nVERNAT TRADING CO. LIMITED 01 Jan 1959 - 10 Feb 1959\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "d762352d0c91d1e5f76f4bfa292610771dc676e359cdc7802ac85e46bbb14230",
+        "trace_round": 0,
+        "trace_transaction_id": "0xbc2c055e9e473952b6ed5fab66a5eb4cf8b3559cebcd943332e12305ea5f18bc",
+        "storage_key": "c843ef704039c87e8f9ccf2801c0b921830daaad095e058840141dbcceb2640500000000"
+      },
+      "consensus_checkpoint": {
+        "status": "FINALIZED",
+        "result": "AGREE",
+        "chain_timestamp": "1791373805"
+      }
+    },
+    {
+      "admitted_at": 3,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists BP P.L.C. (company number 00102498) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 2,
+      "envelope_hash": "e54fd22ffae84711fbf36ef247adad0a95d1259740ef4eddfe988eb6f589e4cc",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "100c06830b6454b4b5bac2b83fb36f9e91b1e592fe89359184fa88a922566a4f",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00102498",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-00102498",
+      "tx": "0xcf1519e0b950187399823298aa606e0c28242b2ecc80a1b3af5f03973216ed76",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists BP P.L.C. (company number 00102498) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00102498",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:b085c7fe5fe62afb17520b33d00d995ca659544c02ea9ef4978ad008cea14ec6",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nBP P.L.C.\n\nCompany number 00102498\n\nFollow this company File for this company\nCompany\nOverview\nfor BP P.L.C. (00102498)\nFiling history\nfor BP P.L.C. (00102498)\nPeople\nfor BP P.L.C. (00102498)\nMore\nfor BP P.L.C. (00102498)\nRegistered office address\n1 St James's Square, London, SW1Y 4PD\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n14 April 1909\nAccounts\n\nNext accounts made up to 31 December 2026\ndue by 30 June 2027\n\nLast accounts made up to 31 December 2025\n\nConfirmation statement\n\nNext statement date 5 May 2027\ndue by 19 May 2027\n\nLast statement dated 5 May 2026\n\nNature of business (SIC)\n70100 - Activities of head offices\nPrevious company names\nPrevious company names\nName Period\nBP AMOCO P.L.C. 31 Dec 1998 - 01 May 2001\nTHE BRITISH PETROLEUM COMPANY P.L.C. 14 Apr 1909 - 31 Dec 1998\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "100c06830b6454b4b5bac2b83fb36f9e91b1e592fe89359184fa88a922566a4f",
+        "trace_round": 0,
+        "trace_transaction_id": "0xcf1519e0b950187399823298aa606e0c28242b2ecc80a1b3af5f03973216ed76",
+        "storage_key": "5af1612077b97f6259650062b20a753cbc170800914cfe1fb82c51d929f4190700000000"
+      },
+      "consensus_checkpoint": {
+        "status": "FINALIZED",
+        "result": "AGREE",
+        "chain_timestamp": "1791373805"
+      }
+    },
+    {
+      "admitted_at": 4,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists SHELL PLC (company number 04366849) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 3,
+      "envelope_hash": "23f75f0b8cd6897bda5e749c6e18b3e1208e79a89be60392c49b48d7703bf096",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "efbbdef207cd471224c01d3b62370e17e1ccee49ebd8bfb8e7178f208058d82a",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/04366849",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-04366849",
+      "tx": "0xb55f795905753bd7d2ee61e3ffd1c71db2a171ae87b9f5641e4a7110cc53a813",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists SHELL PLC (company number 04366849) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/04366849",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:c73c15eddb4d5823ddccc32c87c31f3b5a85a336675278aad1fc3383edca9bb0",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nSHELL PLC\n\nCompany number 04366849\n\nFollow this company File for this company\nCompany\nOverview\nfor SHELL PLC (04366849)\nFiling history\nfor SHELL PLC (04366849)\nPeople\nfor SHELL PLC (04366849)\nMore\nfor SHELL PLC (04366849)\nRegistered office address\nShell Centre, London, SE1 7NA\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n5 February 2002\nAccounts\n\nNext accounts made up to 31 December 2026\ndue by 30 June 2027\n\nLast accounts made up to 31 December 2025\n\nConfirmation statement\n\nNext statement date 1 October 2027\ndue by 15 October 2027\n\nLast statement dated 1 October 2026\n\nNature of business (SIC)\n70100 - Activities of head offices\nPrevious company names\nPrevious company names\nName Period\nROYAL DUTCH SHELL PLC 27 Oct 2004 - 21 Jan 2022\nFORTHDEAL LIMITED 05 Feb 2002 - 27 Oct 2004\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "efbbdef207cd471224c01d3b62370e17e1ccee49ebd8bfb8e7178f208058d82a",
+        "trace_round": 0,
+        "trace_transaction_id": "0xb55f795905753bd7d2ee61e3ffd1c71db2a171ae87b9f5641e4a7110cc53a813",
+        "storage_key": "2465f947b845713016adab30f9c3956a5f5b7fe595f6d4719a392878d5738ec600000000"
+      },
+      "consensus_checkpoint": {
+        "status": "FINALIZED",
+        "result": "AGREE",
+        "chain_timestamp": "1791373805"
+      }
+    },
+    {
+      "admitted_at": 5,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists TESCO PLC (company number 00445790) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 4,
+      "envelope_hash": "165204949f42794b6e67ddd38d201c98edfd4cd3aec683dc9ae7d3db73867f20",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "b529d694bbbb9de37c770011ab272184d6bf8de150a0cd2a0675fde1e1e67cfb",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00445790",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-00445790",
+      "tx": "0x3cfe8d363c577ed2e2337dbb1e0e8efc84929fa801399b378bc6de5e5685a8b4",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists TESCO PLC (company number 00445790) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00445790",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:ff58f1f65fab5750efdaf7d73c53b7920e6ae50a834755620b3bfb64e5c2c04e",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nTESCO PLC\n\nCompany number 00445790\n\nFollow this company File for this company\nCompany\nOverview\nfor TESCO PLC (00445790)\nFiling history\nfor TESCO PLC (00445790)\nPeople\nfor TESCO PLC (00445790)\nCharges\nfor TESCO PLC (00445790)\nMore\nfor TESCO PLC (00445790)\nRegistered office address\nTesco House, Shire Park, Kestrel Way, Welwyn Garden City, United Kingdom, AL7 1GA\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n27 November 1947\nAccounts\n\nNext accounts made up to 26 February 2027\ndue by 26 August 2027\n\nLast accounts made up to 28 February 2026\n\nConfirmation statement\n\nNext statement date 18 June 2027\ndue by 2 July 2027\n\nLast statement dated 18 June 2026\n\nNature of business (SIC)\n47110 - Retail sale in non-specialised stores with food, beverages or tobacco predominating\nPrevious company names\nPrevious company names\nName Period\nTESCO STORES (HOLDINGS) PUBLIC LIMITED COMPANY 14 Dec 1981 - 25 Aug 1983\nTESCO STORES (HOLDINGS) LIMITED 27 Nov 1947 - 14 Dec 1981\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "b529d694bbbb9de37c770011ab272184d6bf8de150a0cd2a0675fde1e1e67cfb",
+        "trace_round": 0,
+        "trace_transaction_id": "0x3cfe8d363c577ed2e2337dbb1e0e8efc84929fa801399b378bc6de5e5685a8b4",
+        "storage_key": "f72b6d75e97ac8ffcc7f99510464c8669d115fbd6eab3b6a9158d1c01e2a848e00000000"
+      },
+      "consensus_checkpoint": {
+        "status": "FINALIZED",
+        "result": "AGREE",
+        "chain_timestamp": "1791373809"
+      }
+    },
+    {
+      "admitted_at": 6,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists UNILEVER PLC (company number 00041424) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 5,
+      "envelope_hash": "3cd1b142719c89e1ee3f40b2bcc901dfd885b495fe12f8514954ffade01762b9",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "fbd20593d50e173209b241060ad4274e7afd01fd7f611ca332615649867a6a1a",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00041424",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-00041424",
+      "tx": "0xfdbcefcb56acda70865d1dc4f7b764742768396c67edcf27b708f07eb545d95b",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists UNILEVER PLC (company number 00041424) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00041424",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:a747f8e672eb0ffac312b6fc9a18a4d12b028d9eda859ef316249e0ba1161eb9",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nUNILEVER PLC\n\nCompany number 00041424\n\nFollow this company File for this company\nCompany\nOverview\nfor UNILEVER PLC (00041424)\nFiling history\nfor UNILEVER PLC (00041424)\nPeople\nfor UNILEVER PLC (00041424)\nMore\nfor UNILEVER PLC (00041424)\nRegistered office address\nPort Sunlight, Wirral, Merseyside, CH62 4ZD\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n21 June 1894\nAccounts\n\nNext accounts made up to 31 December 2026\ndue by 30 June 2027\n\nLast accounts made up to 31 December 2025\n\nConfirmation statement\n\nNext statement date 9 June 2027\ndue by 23 June 2027\n\nLast statement dated 9 June 2026\n\nNature of business (SIC)\n70100 - Activities of head offices\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "fbd20593d50e173209b241060ad4274e7afd01fd7f611ca332615649867a6a1a",
+        "trace_round": 0,
+        "trace_transaction_id": "0xfdbcefcb56acda70865d1dc4f7b764742768396c67edcf27b708f07eb545d95b",
+        "storage_key": "eeabad32a52f9aca1fbf1795f155b9305aa2e6f20e85911713847770c8fbfccb00000000"
+      },
+      "consensus_checkpoint": {
+        "status": "FINALIZED",
+        "result": "AGREE",
+        "chain_timestamp": "1791373809"
+      }
+    },
+    {
+      "admitted_at": 7,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists ASTRAZENECA PLC (company number 02723534) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 6,
+      "envelope_hash": "b12b682b491ff9d15b9998965264bbba52678db9351d7061bbc80eeb49269841",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "966e7a281ac942e8ea2a51ff7e0e2ea2c6caae5b6d18b8aa5cb0de2276679717",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/02723534",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-02723534",
+      "tx": "0x03fb0620550c8d493e49d9fd29864de02792aa3e09a6813628cba9c0bce3e5e0",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists ASTRAZENECA PLC (company number 02723534) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/02723534",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:1972bdbcd8bc123e6255b9e49bb5413d8258b03eaea01a96b2a5b9dd2a723b4a",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nASTRAZENECA PLC\n\nCompany number 02723534\n\nFollow this company File for this company\nCompany\nOverview\nfor ASTRAZENECA PLC (02723534)\nFiling history\nfor ASTRAZENECA PLC (02723534)\nPeople\nfor ASTRAZENECA PLC (02723534)\nCharges\nfor ASTRAZENECA PLC (02723534)\nMore\nfor ASTRAZENECA PLC (02723534)\nRegistered office address\n1 Francis Crick Avenue, Cambridge Biomedical Campus, Cambridge, United Kingdom, CB2 0AA\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n17 June 1992\nAccounts\n\nNext accounts made up to 31 December 2026\ndue by 30 June 2027\n\nLast accounts made up to 31 December 2025\n\nConfirmation statement\n\nNext statement date 15 May 2027\ndue by 29 May 2027\n\nLast statement dated 15 May 2026\n\nNature of business (SIC)\n21100 - Manufacture of basic pharmaceutical products\n21200 - Manufacture of pharmaceutical preparations\n46460 - Wholesale of pharmaceutical goods\n72110 - Research and experimental development on biotechnology\nPrevious company names\nPrevious company names\nName Period\nZENECA GROUP PLC 16 Feb 1993 - 05 Apr 1999\nHACKPLIMCO (NO. FIVE) PUBLIC LIMITED COMPANY 25 Sep 1992 - 16 Feb 1993\nICI BIOSCIENCE PLC 13 Jul 1992 - 25 Sep 1992\nHACKPLIMCO (NO.FIVE) PUBLIC LIMITED COMPANY 17 Jun 1992 - 13 Jul 1992\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "966e7a281ac942e8ea2a51ff7e0e2ea2c6caae5b6d18b8aa5cb0de2276679717",
+        "trace_round": 0,
+        "trace_transaction_id": "0x03fb0620550c8d493e49d9fd29864de02792aa3e09a6813628cba9c0bce3e5e0",
+        "storage_key": "8a279aa5fe317f88a0ddd5062e4427be8c5606ddcf354996d5db99e50a58558100000000"
+      },
+      "consensus_checkpoint": {
+        "status": "FINALIZED",
+        "result": "AGREE",
+        "chain_timestamp": "1791373809"
+      }
+    },
+    {
+      "admitted_at": 8,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists VODAFONE GROUP PUBLIC LIMITED COMPANY (company number 01833679) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 7,
+      "envelope_hash": "45681af63e953dddb501b63e118ff30b6817f2689261fc7c3f3a1cb9e107402b",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "aca7e7633fbd8fb3d0fd13dc2fd4bc69d0b4d8cb68a2501730f5964a4164219a",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/01833679",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-01833679",
+      "tx": "0x53c52c784c4678d1aa195aa67a9b83453b66c1597ac10b4641074e60a13f18f7",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists VODAFONE GROUP PUBLIC LIMITED COMPANY (company number 01833679) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/01833679",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:17b82d568946c0643cdd76a956a936e6443dbf1a0d75616da54273c65bc15d49",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nVODAFONE GROUP PUBLIC LIMITED COMPANY\n\nCompany number 01833679\n\nFollow this company File for this company\nCompany\nOverview\nfor VODAFONE GROUP PUBLIC LIMITED COMPANY (01833679)\nFiling history\nfor VODAFONE GROUP PUBLIC LIMITED COMPANY (01833679)\nPeople\nfor VODAFONE GROUP PUBLIC LIMITED COMPANY (01833679)\nCharges\nfor VODAFONE GROUP PUBLIC LIMITED COMPANY (01833679)\nMore\nfor VODAFONE GROUP PUBLIC LIMITED COMPANY (01833679)\nRegistered office address\nVodafone House, The Connection, Newbury, Berkshire, RG14 2FN\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n17 July 1984\nAccounts\n\nNext accounts made up to 31 March 2027\ndue by 30 September 2027\n\nLast accounts made up to 31 March 2026\n\nConfirmation statement\n\nNext statement date 15 August 2027\ndue by 29 August 2027\n\nLast statement dated 15 August 2026\n\nNature of business (SIC)\n61900 - Other telecommunications activities\n70100 - Activities of head offices\nPrevious company names\nPrevious company names\nName Period\nVODAFONE AIRTOUCH PUBLIC LIMITED COMPANY 29 Jun 1999 - 28 Jul 2000\nVODAFONE GROUP PUBLIC LIMITED COMPANY 16 Sep 1991 - 29 Jun 1999\nRACAL TELECOM PUBLIC LIMITED COMPANY 11 Jan 1989 - 16 Sep 1991\nRACAL TELECOM LIMITED 05 Sep 1988 - 11 Jan 1989\nRACAL TELECOMMUNICATIONS GROUP LIMITED 17 Sep 1985 - 05 Sep 1988\nRACAL STRATEGIC RADIO LIMITED 17 Jul 1984 - 17 Sep 1985\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "aca7e7633fbd8fb3d0fd13dc2fd4bc69d0b4d8cb68a2501730f5964a4164219a",
+        "trace_round": 0,
+        "trace_transaction_id": "0x53c52c784c4678d1aa195aa67a9b83453b66c1597ac10b4641074e60a13f18f7",
+        "storage_key": "f7d8ad54c873410e3575f613c1570941ecc375476091251b312e0e9455918b8d00000000"
+      },
+      "consensus_checkpoint": {
+        "status": "FINALIZED",
+        "result": "AGREE",
+        "chain_timestamp": "1791373809"
+      }
+    },
+    {
+      "admitted_at": 9,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists BT GROUP PLC (company number 04190816) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 8,
+      "envelope_hash": "b66201b755681745388cf065c425d81f8ccf4e2ac82f7d79f2b502e936b5e0ac",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "40c9acabef7d8ffeeef2ad78f8e0a1b7bb923af6bd6fe83187cfbb876367c62b",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/04190816",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-04190816",
+      "tx": "0x6b2125d2b5be1af2d27f0b819a440c230eb679a57cf4f84e7898fe22a5683903",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists BT GROUP PLC (company number 04190816) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/04190816",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:c42368833cfc53567b439b576ef15b281d72947810d197315e32403661507fd7",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nBT GROUP PLC\n\nCompany number 04190816\n\nFollow this company File for this company\nCompany\nOverview\nfor BT GROUP PLC (04190816)\nFiling history\nfor BT GROUP PLC (04190816)\nPeople\nfor BT GROUP PLC (04190816)\nMore\nfor BT GROUP PLC (04190816)\nRegistered office address\n1 Braham Street, London, United Kingdom, E1 8EE\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n30 March 2001\nAccounts\n\nNext accounts made up to 31 March 2027\ndue by 30 September 2027\n\nLast accounts made up to 31 March 2026\n\nConfirmation statement\n\nNext statement date 12 April 2027\ndue by 26 April 2027\n\nLast statement dated 12 April 2026\n\nNature of business (SIC)\n61900 - Other telecommunications activities\nPrevious company names\nPrevious company names\nName Period\nNEWGATE TELECOMMUNICATIONS LIMITED 30 Mar 2001 - 11 Sep 2001\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "40c9acabef7d8ffeeef2ad78f8e0a1b7bb923af6bd6fe83187cfbb876367c62b",
+        "trace_round": 0,
+        "trace_transaction_id": "0x6b2125d2b5be1af2d27f0b819a440c230eb679a57cf4f84e7898fe22a5683903",
+        "storage_key": "7ad13bc55dc36175bdd1a9d2c1bb79638df792b1117c752942d6ffe04ae5ef6200000000"
+      },
+      "consensus_checkpoint": {
+        "status": "FINALIZED",
+        "result": "AGREE",
+        "chain_timestamp": "1791373819"
+      }
+    },
+    {
+      "admitted_at": 10,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists NATWEST GROUP PLC (company number SC045551) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 9,
+      "envelope_hash": "21294ee16b11b44724c70915c2b3c6daae94b6afe3176f316a2f78ebe675fa1d",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "ebb9a8632d133b7aa12a76980cbb44f0730b67f72f7f3dbf1a17a88d23510ded",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/SC045551",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-sc045551",
+      "tx": "0x95672e6685c6c5816060f84a2457dea2c9babaf4fc239ad2eeeb700016168bff",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists NATWEST GROUP PLC (company number SC045551) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/SC045551",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:91a502ef73ee55dff0249574827722d7eb161941fee7678f63dc4267d5c143ae",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nNATWEST GROUP PLC\n\nCompany number SC045551\n\nFollow this company File for this company\nCompany\nOverview\nfor NATWEST GROUP PLC (SC045551)\nFiling history\nfor NATWEST GROUP PLC (SC045551)\nPeople\nfor NATWEST GROUP PLC (SC045551)\nMore\nfor NATWEST GROUP PLC (SC045551)\nRegistered office address\n36 St Andrew Square, Edinburgh, EH2 2YB\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n25 March 1968\nAccounts\n\nNext accounts made up to 31 December 2026\ndue by 30 June 2027\n\nLast accounts made up to 31 December 2025\n\nConfirmation statement\n\nNext statement date 14 January 2027\ndue by 28 January 2027\n\nLast statement dated 14 January 2026\n\nNature of business (SIC)\n64205 - Activities of financial services holding companies\nPrevious company names\nPrevious company names\nName Period\nTHE ROYAL BANK OF SCOTLAND GROUP PUBLIC LIMITED COMPANY 10 Mar 1982 - 22 Jul 2020\nTHE ROYAL BANK OF SCOTLAND GROUP LIMITED 03 Sep 1979 - 10 Mar 1982\nNATIONAL AND COMMERCIAL BANKING GROUP LIMITED 25 Mar 1968 - 03 Sep 1979\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "ebb9a8632d133b7aa12a76980cbb44f0730b67f72f7f3dbf1a17a88d23510ded",
+        "trace_round": 0,
+        "trace_transaction_id": "0x95672e6685c6c5816060f84a2457dea2c9babaf4fc239ad2eeeb700016168bff",
+        "storage_key": "2b725eda231f59deb1f5eef3a690109b3b9248d6b6f6fee147addb3f107bae5400000000"
+      },
+      "consensus_checkpoint": {
+        "status": "FINALIZED",
+        "result": "AGREE",
+        "chain_timestamp": "1791373819"
+      }
+    },
+    {
+      "admitted_at": 11,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists DIAGEO PLC (company number 00023307) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 10,
+      "envelope_hash": "3c68da5edd1f38de0eb5063c7c89b780c9ee2f046223ea6a9c25a67bc499389e",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "2d46bb350cb577a285f721c6117ed7c566ce9bb67ba99783866e96b51111ff55",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00023307",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-00023307",
+      "tx": "0xe43a87513828a673c34f3ee19e7774c9bdb0c5a9cdca04430e94869428204883",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists DIAGEO PLC (company number 00023307) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00023307",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:6ab89b85d942e013f98d4a84a403d9559281def0d64aca9e0486f7d4c122e799",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nDIAGEO PLC\n\nCompany number 00023307\n\nFollow this company File for this company\nCompany\nOverview\nfor DIAGEO PLC (00023307)\nFiling history\nfor DIAGEO PLC (00023307)\nPeople\nfor DIAGEO PLC (00023307)\nMore\nfor DIAGEO PLC (00023307)\nRegistered office address\n16 Great Marlborough Street, London, United Kingdom, W1F 7HS\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n21 October 1886\nAccounts\n\nNext accounts made up to 30 June 2026\ndue by 31 December 2026\n\nLast accounts made up to 30 June 2025\n\nConfirmation statement\n\nNext statement date 30 June 2027\ndue by 14 July 2027\n\nLast statement dated 30 June 2026\n\nNature of business (SIC)\n70100 - Activities of head offices\nPrevious company names\nPrevious company names\nName Period\nGUINNESS PLC 16 Dec 1997 - 17 Dec 1997\nGUINNESS PLC. 01 May 1985 - 16 Dec 1997\nARTHUR GUINNESS AND SONS PLC 01 Mar 1982 - 01 May 1985\nARTHUR GUINNESS SON AND COMPANY LIMITED 21 Oct 1886 - 01 Mar 1982\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "2d46bb350cb577a285f721c6117ed7c566ce9bb67ba99783866e96b51111ff55",
+        "trace_round": 0,
+        "trace_transaction_id": "0xe43a87513828a673c34f3ee19e7774c9bdb0c5a9cdca04430e94869428204883",
+        "storage_key": "6111b850b74bed6e788df38f0f29e981542cb5311eefea3432f1762a0fffc6e000000000"
+      },
+      "consensus_checkpoint": {
+        "status": "FINALIZED",
+        "result": "AGREE",
+        "chain_timestamp": "1791373819"
+      }
+    },
+    {
+      "admitted_at": 12,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists RECKITT BENCKISER GROUP PLC (company number 06270876) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 11,
+      "envelope_hash": "b4e7e455122fdb9895e262f9680785fbcaea2fd75d25fd50fd6fb8b0a1af6594",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "f0f058d7ca30061641101ab69c32a84714785e176291bb447b195219c03d57ba",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/06270876",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-06270876",
+      "tx": "0xab3d8872724f0b6b191f2829919ed1c77a020648e6f2543c647e35947a4ac2f8",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists RECKITT BENCKISER GROUP PLC (company number 06270876) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/06270876",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:98ed1617b5aa96b7e5696ff9b5e6f20552cf3212da015f60850f86817a30f4e3",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nRECKITT BENCKISER GROUP PLC\n\nCompany number 06270876\n\nFollow this company File for this company\nCompany\nOverview\nfor RECKITT BENCKISER GROUP PLC (06270876)\nFiling history\nfor RECKITT BENCKISER GROUP PLC (06270876)\nPeople\nfor RECKITT BENCKISER GROUP PLC (06270876)\nMore\nfor RECKITT BENCKISER GROUP PLC (06270876)\nRegistered office address\n103-105 Bath Road, Slough, Berkshire, SL1 3UH\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n6 June 2007\nAccounts\n\nNext accounts made up to 31 December 2026\ndue by 30 June 2027\n\nLast accounts made up to 31 December 2025\n\nConfirmation statement\n\nNext statement date 9 September 2027\ndue by 23 September 2027\n\nLast statement dated 9 September 2026\n\nNature of business (SIC)\n70100 - Activities of head offices\nPrevious company names\nPrevious company names\nName Period\nRECKITT BENCKISER GROUP LIMITED 24 Jul 2007 - 30 Aug 2007\nTRUSHELFCO (NO.3293) LIMITED 06 Jun 2007 - 24 Jul 2007\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "f0f058d7ca30061641101ab69c32a84714785e176291bb447b195219c03d57ba",
+        "trace_round": 0,
+        "trace_transaction_id": "0xab3d8872724f0b6b191f2829919ed1c77a020648e6f2543c647e35947a4ac2f8",
+        "storage_key": "d0833d628db6517c77fa42e4a1e76e97624989d5ab3c3cee8564a56a098b973700000000"
+      },
+      "consensus_checkpoint": {
+        "status": "FINALIZED",
+        "result": "AGREE",
+        "chain_timestamp": "1791373819"
+      }
+    },
+    {
+      "admitted_at": 13,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists BAE SYSTEMS PLC (company number 01470151) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 12,
+      "envelope_hash": "371b876a7916efdcdba327caf1fea9c4594f458e589b546b9d05f1e43e54e9b9",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "474ed0a3fde25ec08241adb9c1646a91ae8f25f92fb136939228d2cc7feceb45",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/01470151",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-01470151",
+      "tx": "0x4b3b518e628c2c06a49bb1340e81d05c27279365c75b593d62a07cbd53203e7a",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists BAE SYSTEMS PLC (company number 01470151) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/01470151",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:d86ec1328e2e1e697a4a504979ab2545d0e7c1468a112f7ffc2555ed0f3f16e9",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nBAE SYSTEMS PLC\n\nCompany number 01470151\n\nFollow this company File for this company\nCompany\nOverview\nfor BAE SYSTEMS PLC (01470151)\nFiling history\nfor BAE SYSTEMS PLC (01470151)\nPeople\nfor BAE SYSTEMS PLC (01470151)\nCharges\nfor BAE SYSTEMS PLC (01470151)\nMore\nfor BAE SYSTEMS PLC (01470151)\nRegistered office address\n6 Carlton Gardens, London, SW1Y 5AD\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n31 December 1979\nAccounts\n\nNext accounts made up to 31 December 2026\ndue by 30 June 2027\n\nLast accounts made up to 31 December 2025\n\nConfirmation statement\n\nNext statement date 29 September 2026\ndue by 13 October 2026\n\nLast statement dated 29 September 2025\n\nNature of business (SIC)\n25400 - Manufacture of weapons and ammunition\n29100 - Manufacture of motor vehicles\n30110 - Building of ships and floating structures\n30300 - Manufacture of air and spacecraft and related machinery\nPrevious company names\nPrevious company names\nName Period\nBRITISH AEROSPACE PUBLIC LIMITED COMPANY 31 Dec 1981 - 05 May 2000\nBRITISH AEROSPACE LIMITED 31 Dec 1979 - 31 Dec 1981\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "474ed0a3fde25ec08241adb9c1646a91ae8f25f92fb136939228d2cc7feceb45",
+        "trace_round": 0,
+        "trace_transaction_id": "0x4b3b518e628c2c06a49bb1340e81d05c27279365c75b593d62a07cbd53203e7a",
+        "storage_key": "58e01be9936a40d4f2eabbb62007d1e90fd1dd98a776c8a644bf5ca03bd7417600000000"
+      },
+      "consensus_checkpoint": {
+        "status": "FINALIZED",
+        "result": "AGREE",
+        "chain_timestamp": "1791373822"
+      }
+    },
+    {
+      "admitted_at": 14,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists MARKS AND SPENCER GROUP P.L.C. (company number 04256886) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 13,
+      "envelope_hash": "5addef5348f1b8675e4c16444eaa85f799eb8e7e55772da759c70e5109bc2000",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "fcc9d9fa52d8ff09eb7187d33ac12b287e523a5565a9cdd361777719db2687e4",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/04256886",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-04256886",
+      "tx": "0x6b1b459d5e6eb84a05f84aa4dbbbeb827d82b0084c82acb2abc6a043d220ee8b",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists MARKS AND SPENCER GROUP P.L.C. (company number 04256886) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/04256886",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:fc9f70160dadeb90402a33678734ee40fcbc7a2942671452b88590f3ead96653",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nMARKS AND SPENCER GROUP P.L.C.\n\nCompany number 04256886\n\nFollow this company File for this company\nCompany\nOverview\nfor MARKS AND SPENCER GROUP P.L.C. (04256886)\nFiling history\nfor MARKS AND SPENCER GROUP P.L.C. (04256886)\nPeople\nfor MARKS AND SPENCER GROUP P.L.C. (04256886)\nMore\nfor MARKS AND SPENCER GROUP P.L.C. (04256886)\nRegistered office address\nWaterside House, 35 North Wharf Road, London, W2 1NW\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n23 July 2001\nAccounts\n\nNext accounts made up to 31 March 2027\ndue by 30 September 2027\n\nLast accounts made up to 28 March 2026\n\nConfirmation statement\n\nNext statement date 23 July 2027\ndue by 6 August 2027\n\nLast statement dated 23 July 2026\n\nNature of business (SIC)\n47190 - Other retail sale in non-specialised stores\nPrevious company names\nPrevious company names\nName Period\nCONKER RETAIL LIMITED 07 Aug 2001 - 24 Jan 2002\nTRUSHELFCO (NO.2827) LIMITED 23 Jul 2001 - 07 Aug 2001\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "fcc9d9fa52d8ff09eb7187d33ac12b287e523a5565a9cdd361777719db2687e4",
+        "trace_round": 0,
+        "trace_transaction_id": "0x6b1b459d5e6eb84a05f84aa4dbbbeb827d82b0084c82acb2abc6a043d220ee8b",
+        "storage_key": "2d831d9669b27f60d7e90d6b04984787220c47a10984e248f286580d5b7ef77900000000"
+      },
+      "consensus_checkpoint": {
+        "status": "FINALIZED",
+        "result": "AGREE",
+        "chain_timestamp": "1791373822"
+      }
+    },
+    {
+      "admitted_at": 15,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists NATIONAL GRID PLC (company number 04031152) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 14,
+      "envelope_hash": "4d972e2d1ffb59ed424cd3a86cf75b33c1b3e7c18a0cf08904c06c7088c48b65",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "83e68dc494b3718a964cd2e3919ea764accedbb5505f635536d92b72331091d1",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/04031152",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-04031152",
+      "tx": "0xeea2656efcdc5e3f4d8ef7b131328935b8eb2ba9221619b4d39beea9de4d16da",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists NATIONAL GRID PLC (company number 04031152) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/04031152",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:08a568357e20e3961b5077afecc3214ed8eaad6cfc5b4f28b00e0952c0288871",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nNATIONAL GRID PLC\n\nCompany number 04031152\n\nFollow this company File for this company\nCompany\nOverview\nfor NATIONAL GRID PLC (04031152)\nFiling history\nfor NATIONAL GRID PLC (04031152)\nPeople\nfor NATIONAL GRID PLC (04031152)\nMore\nfor NATIONAL GRID PLC (04031152)\nRegistered office address\n1-3 Strand, London, WC2N 5EH\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n11 July 2000\nAccounts\n\nNext accounts made up to 31 March 2027\ndue by 30 September 2027\n\nLast accounts made up to 31 March 2026\n\nConfirmation statement\n\nNext statement date 6 April 2027\ndue by 20 April 2027\n\nLast statement dated 6 April 2026\n\nNature of business (SIC)\n70100 - Activities of head offices\nPrevious company names\nPrevious company names\nName Period\nNATIONAL GRID TRANSCO PLC 21 Oct 2002 - 26 Jul 2005\nNATIONAL GRID GROUP PLC 31 Jan 2002 - 21 Oct 2002\nNEW NATIONAL GRID PLC 30 Aug 2000 - 31 Jan 2002\nINTERCEDE 1610 LIMITED 11 Jul 2000 - 30 Aug 2000\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "83e68dc494b3718a964cd2e3919ea764accedbb5505f635536d92b72331091d1",
+        "trace_round": 0,
+        "trace_transaction_id": "0xeea2656efcdc5e3f4d8ef7b131328935b8eb2ba9221619b4d39beea9de4d16da",
+        "storage_key": "6b83d1fe50fcec00ed00f2b542211d39cc4439126a3682ce34d2c5b515fed14000000000"
+      },
+      "consensus_checkpoint": {
+        "status": "FINALIZED",
+        "result": "AGREE",
+        "chain_timestamp": "1791373822"
+      }
+    }
+  ],
+  "report": {
+    "classes": [
+      {
+        "admission_rate_milli": 1000,
+        "attempts": 15,
+        "class": "honest",
+        "ever_admitted": 15,
+        "inconclusive": 0,
+        "settled": false
+      }
+    ],
+    "deferred": 0,
+    "entries": 15,
+    "false_rejection_milli": 0,
+    "honest_admitted": 15,
+    "honest_attempts": 15,
+    "prevented_by_construction": [
+      "citation_laundering"
+    ],
+    "space_id": 0
+  },
+  "solvency": {
+    "balanced": true,
+    "credited": 0,
+    "escrowed": 515000,
+    "held": 515000,
+    "pools": 515000
+  },
+  "infrastructure_failures": [
+    {
+      "id": "honest-03888792",
+      "tx": "0x15526a1b43bc1b541d050d4c2c225f8d8a221321876950fa8e99b33ecf6a68cf",
+      "envelope_hash": "8ae81f5abf4687def4f9e5894e898b1d3a1f9c0856ce0a7b5f53c553a58e48b4",
+      "entry_class": "honest",
+      "status": "VALIDATORS_TIMEOUT",
+      "reason": "Leader execution returned successfully, but validator consensus timed out and no entry state was written. Appeal was rejected as CanNotAppeal; idleness finalization did not change state.",
+      "recovery_actions": [
+        {
+          "action": "appeal",
+          "bond_gen": "0",
+          "evm_tx": "0x58e2bacb2c0b716ca8eea96c5d97ea4d2ac7e238a98891376e9895e47f41aaf0",
+          "result": "REVERTED: CanNotAppeal()"
+        },
+        {
+          "action": "finalizeIdlenessTxs",
+          "evm_tx": "0x2d0c1fe5ce1a41ea1678732f1fb7bc6353b374b0c806183769adb139721817f9",
+          "result": "EVM success; original state unchanged"
+        }
+      ]
+    },
+    {
+      "id": "honest-sc095000",
+      "tx": "0x61bf34dc306626f7771cd498c5a92e70ad7a2550315580a6e5738bd6f6a2ddc3",
+      "envelope_hash": "a9aee100889d80127df370d9b153289c9a248fa469aaa79efa9a96adbe30c555",
+      "entry_class": "honest",
+      "status": "VALIDATORS_TIMEOUT",
+      "reason": "protocol validation/execution timed out; this is not a contract rejection"
+    },
+    {
+      "id": "honest-07524813",
+      "tx": "0xa11c5e17176e9412ca81c7711b014c7bf24a323b50205c39fb7f6633183a2f1c",
+      "envelope_hash": "0742ba17e02d10477239c413487b21d34b7f37af7332752d27a0132554e4f177",
+      "entry_class": "honest",
+      "status": "VALIDATORS_TIMEOUT",
+      "reason": "protocol validation/execution timed out; this is not a contract rejection"
+    },
+    {
+      "id": "honest-02468686",
+      "tx": "0x00f420c26b313644b00e1526d8fdf983393b6285a75e4fdc1cba7343084fd6d7",
+      "envelope_hash": "1eb6100627855f22b1702154db00005bd929d5b595b1a9e4710a52cd2e32b516",
+      "entry_class": "honest",
+      "status": "VALIDATORS_TIMEOUT",
+      "reason": "protocol validation/execution timed out; this is not a contract rejection"
+    },
+    {
+      "id": "honest-01417162",
+      "tx": "0xf79b2cb2059497dfc9c8336f8b1e30c072ad4fbef6521c41b181155240d960fe",
+      "envelope_hash": "a3fd7cb9ac2fd20472292285b731848e0f81814cdbfd9f41a6123b7d31c9f91d",
+      "entry_class": "honest",
+      "status": "VALIDATORS_TIMEOUT",
+      "reason": "protocol validation/execution timed out; this is not a contract rejection"
+    },
+    {
+      "id": "honest-00185647",
+      "tx": "0x657a9a5f2ad638510570afab2bacebea54e3d74451c352002a49d8ceac31cee4",
+      "envelope_hash": "e246e3b96faa3d7f68f7f099984880bd916dfbdc4834f44d97896d76efe0d752",
+      "entry_class": "honest",
+      "status": "VALIDATORS_TIMEOUT",
+      "reason": "protocol validation/execution timed out; this is not a contract rejection"
+    }
+  ],
+  "pending": {
+    "id": "honest-01397169",
+    "tx": "0xc877675db83e49a59543280648b7bd7ac3739762bf00d920ee24baaaac4366b0",
+    "status": "APPEAL_REVEALING",
+    "chain_timestamp": "1791373825",
+    "created_timestamp": "1791369971",
+    "round": "3",
+    "votes_committed": "11",
+    "votes_revealed": "10",
+    "diagnosis": {
+      "verdict": "UNRESOLVED",
+      "reason": "transaction is still settling or receipt could not be read",
+      "scan_complete": true,
+      "scan_errors": [],
+      "recovered_as": null
+    },
+    "recovery_checks": {
+      "cancelTransaction": "Simulation reverted: InvalidTransactionStatus (0xf8062102), including after valid_until",
+      "finalizeIdlenessTxs": "Simulation reverted",
+      "finalizeTransaction": "Simulation reverted",
+      "processIdleness": "Simulation reverted",
+      "advanceStuckTransaction": "Simulation reverted"
+    }
+  },
+  "unsubmitted_candidates": [
+    {
+      "id": "honest-03033654",
+      "class": "honest"
+    },
+    {
+      "id": "honest-00538154",
+      "class": "honest"
+    },
+    {
+      "id": "honest-04951416",
+      "class": "honest"
+    },
+    {
+      "id": "honest-00234106",
+      "class": "honest"
+    },
+    {
+      "id": "injection-override",
+      "class": "direct_injection"
+    },
+    {
+      "id": "injection-role",
+      "class": "direct_injection"
+    },
+    {
+      "id": "injection-fence",
+      "class": "direct_injection"
+    },
+    {
+      "id": "forgery-status",
+      "class": "source_forgery"
+    },
+    {
+      "id": "forgery-wrong-company",
+      "class": "source_forgery"
+    },
+    {
+      "id": "forgery-unsupported-event",
+      "class": "source_forgery"
+    },
+    {
+      "id": "slow-poison",
+      "class": "slow_poison"
+    },
+    {
+      "id": "stale-name",
+      "class": "stale_truth"
+    },
+    {
+      "id": "flooding",
+      "class": "flooding"
+    },
+    {
+      "id": "laundering",
+      "class": "citation_laundering"
+    }
+  ],
+  "checked_at": "2026-10-07T11:50:25+00:00"
+}

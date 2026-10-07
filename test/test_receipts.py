@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 import collect_receipts as collector
 import diagnose_missing as diagnosis
+import publish_live as publisher
 
 
 class ReceiptsTest(unittest.TestCase):
@@ -74,6 +75,30 @@ class ReceiptsTest(unittest.TestCase):
         self.assertEqual(record["status"], "ADMITTED")
         self.assertFalse(record["snapshot_verified"])
         self.assertEqual(record["votes"], self.entry["votes"])
+
+    def test_publication_refuses_rolled_back_state(self):
+        record = collector.assemble_record(self.row, self.entry, self.env, 2, self.receipt)
+        with patch.object(collector, "read_entry", return_value=None):
+            with self.assertRaisesRegex(ValueError, "disappeared"):
+                publisher.refresh_record(record, "address")
+        changed = dict(self.entry, snapshot_hash="00" * 32)
+        with patch.object(collector, "read_entry", return_value=changed):
+            with self.assertRaisesRegex(ValueError, "state changed"):
+                publisher.refresh_record(record, "address")
+
+    def test_publication_refuses_a_reopened_appeal(self):
+        record = collector.assemble_record(self.row, self.entry, self.env, 2, self.receipt)
+        with patch.object(collector, "read_entry", return_value=self.entry), patch.object(collector, "lookup_receipt", return_value={"statusName": "APPEAL_REVEALING"}):
+            with self.assertRaisesRegex(ValueError, "no longer accepted"):
+                publisher.refresh_record(record, "address")
+
+    def test_publication_refreshes_finalization(self):
+        record = collector.assemble_record(self.row, self.entry, self.env, 2, {"status": "ACCEPTED"})
+        with patch.object(collector, "read_entry", return_value=self.entry), patch.object(collector, "lookup_receipt", return_value={"statusName": "FINALIZED", "currentTimestamp": "123"}):
+            refreshed = publisher.refresh_record(record, "address")
+        self.assertEqual(refreshed["receipt_status"], "FINALIZED")
+        self.assertEqual(refreshed["consensus_checkpoint"]["chain_timestamp"], "123")
+        self.assertEqual(record["receipt_status"], "ACCEPTED")
 
     def test_wrong_slot_is_rejected(self):
         other = dict(self.entry, envelope_hash="00" * 32)

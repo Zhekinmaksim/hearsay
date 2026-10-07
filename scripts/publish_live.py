@@ -13,6 +13,27 @@ def escape(value):
     return html.escape(str(value), quote=True)
 
 
+def refresh_record(row, address):
+    """Do not publish an admission rolled back by a later consensus round."""
+    current = collector.read_entry("", address, row["entry_id"], 30)
+    if not current:
+        raise ValueError("entry disappeared before publication: " + row["id"])
+    for key in ("envelope_hash", "snapshot_hash", "space_id", "claim", "source_url",
+                "entry_class", "supports", "status", "votes", "rounds", "bond", "bond_state"):
+        if current.get(key) != row.get(key):
+            raise ValueError("chain state changed before publication: %s (%s)" % (row["id"], key))
+    receipt = collector.lookup_receipt(collector.EXPLORER, "", row["tx"], 30)
+    status = collector.status_of(receipt)
+    if status not in {"FINALIZED", "ACCEPTED", "SUCCESS"}:
+        raise ValueError("consensus no longer accepted: %s (%s)" % (row["id"], status))
+    refreshed = dict(row, receipt_status=status)
+    refreshed["consensus_checkpoint"] = {
+        "status": status, "result": receipt.get("resultName"),
+        "chain_timestamp": receipt.get("currentTimestamp"),
+    }
+    return refreshed
+
+
 def build_page(corpus):
     root = collector.ROOT
     template = (root / "web/live-template.html").read_text()
@@ -95,6 +116,7 @@ def main():
         code, result = collector.gate.run_verify(dict(row, min_rounds=policy["min_rounds"]))
         if code:
             raise ValueError("unreproducible record: " + json.dumps(result))
+    rows = [refresh_record(row, args.address) for row in rows]
     metadata = json.loads((collector.ROOT / "deployments/bradbury.json").read_text())
     if metadata["address"].lower() != args.address.lower():
         raise ValueError("deployment metadata target mismatch")
