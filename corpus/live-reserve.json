@@ -1,0 +1,57 @@
+{
+  "note": "Reviewed replacement controls for protocol outcomes without a judged state. Never retry or replace a judged refusal; retain every infrastructure outcome.",
+  "entries": [
+    {
+      "id": "honest-04412362",
+      "class": "honest",
+      "claim": "Companies House lists NEXT PLC (company number 04412362) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/04412362",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_on": "2026-10-07",
+        "company_name": "NEXT PLC",
+        "company_number": "04412362",
+        "company_status": "Active"
+      }
+    },
+    {
+      "id": "honest-01664812",
+      "class": "honest",
+      "claim": "Companies House lists KINGFISHER PLC (company number 01664812) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/01664812",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_on": "2026-10-07",
+        "company_name": "KINGFISHER PLC",
+        "company_number": "01664812",
+        "company_status": "Active"
+      }
+    },
+    {
+      "id": "honest-03458224",
+      "class": "honest",
+      "claim": "Companies House lists BURBERRY GROUP PLC (company number 03458224) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/03458224",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_on": "2026-10-07",
+        "company_name": "BURBERRY GROUP PLC",
+        "company_number": "03458224",
+        "company_status": "Active"
+      }
+    },
+    {
+      "id": "honest-04120344",
+      "class": "honest",
+      "claim": "Companies House lists WHITBREAD PLC (company number 04120344) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/04120344",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_on": "2026-10-07",
+        "company_name": "WHITBREAD PLC",
+        "company_number": "04120344",
+        "company_status": "Active"
+      }
+    }
+  ]
+}

@@ -674,11 +674,18 @@ const EXIT = { ADMITTED: 0, UNSOURCED: 1, CONTRADICTED: 1, INCONCLUSIVE: 2 };
  * told its envelope was malformed. */
 function localGate(env, rows) {
   const problems = [];
+  if (!env || typeof env !== "object" || Array.isArray(env)) return { code: 3, verdict: null, problems: ["envelope must be an object"] };
   if (env.version !== "hearsay/1") problems.push("version must be exactly hearsay/1");
-  if (!env.claim) problems.push("claim is required");
+  if (typeof env.claim !== "string" || !env.claim) problems.push("claim is required");
   else if (new TextEncoder().encode(env.claim).length > 2048) problems.push("claim exceeds 2048 bytes");
-  if (!env.source_url) problems.push("source_url is required");
+  if (typeof env.source_url !== "string" || !env.source_url.trim()) problems.push("source_url is required");
   else if (!/^https?:\/\//.test(env.source_url)) problems.push("source_url must be http or https");
+  if (!["honest", "direct_injection", "source_forgery", "citation_laundering", "slow_poison", "stale_truth", "flooding"].includes(env.entry_class)) problems.push("unknown entry_class");
+  const supports = env.supports === undefined ? [] : env.supports;
+  if (!Array.isArray(supports)) problems.push("supports must be a list");
+  else if (supports.length > 8) problems.push("supports exceeds 8 entries");
+  else if (supports.some(value => value !== null && typeof value === "object")) problems.push("supports contains an unhashable value");
+  else if (new Set(supports.map(value => typeof value === "boolean" ? Number(value) : value)).size !== supports.length) problems.push("supports contains duplicates");
   if (problems.length) return { code: 3, verdict: null, problems };
 
   const hash = envelopeHash(env);

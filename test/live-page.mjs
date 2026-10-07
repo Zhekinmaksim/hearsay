@@ -25,6 +25,31 @@ check("all snapshot bytes verified", data.entries.every(row=>row.snapshot_verifi
 check("acceptance limitation is disclosed", document.body.textContent.includes("provisional until finalization"));
 check("every judged row has a receipt", document.querySelectorAll('#records a[href*="/tx/"]').length === data.entries.length);
 check("downloadable corpus", !!document.querySelector('a[href="live-corpus.json"]'));
+const gateInput = document.getElementById("gate-input");
+const gateCheck = document.getElementById("gate-check");
+const gateResult = () => JSON.parse(document.getElementById("gate-output").textContent);
+for (const button of document.querySelectorAll("[data-gate]")) {
+  button.click();
+  const row = data.entries[Number(button.dataset.gate)];
+  const expected = { ADMITTED: 0, UNSOURCED: 1, CONTRADICTED: 1, INCONCLUSIVE: 2 }[row.status];
+  check("live gate matches recorded verdict " + row.id, gateResult().code === expected);
+}
+const envelope = data.entries[0].envelope;
+gateInput.value = JSON.stringify({ ...envelope, claim: envelope.claim + " new unjudged assertion" });
+gateCheck.click();
+check("live gate never admits an unjudged claim", gateResult().code === 2);
+gateInput.value = JSON.stringify({ ...envelope, claim: "  " + envelope.claim + "  " });
+gateCheck.click();
+check("live gate refuses a whitespace duplicate", gateResult().code === 1);
+gateInput.value = JSON.stringify({ ...envelope, version: "broken" });
+gateCheck.click();
+check("live gate rejects malformed version", gateResult().code === 3);
+gateInput.value = JSON.stringify({ ...envelope, entry_class: "unknown" });
+gateCheck.click();
+check("live gate rejects malformed class", gateResult().code === 3);
+gateInput.value = "{";
+gateCheck.click();
+check("live gate handles malformed JSON", gateResult().code === 3);
 const buttons = [...document.querySelectorAll("[data-replay]")];
 for (const button of buttons) {
   button.click();

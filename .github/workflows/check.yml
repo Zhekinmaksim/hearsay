@@ -28,7 +28,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - run: make bridge-test
       - run: make parity
+      - run: make gate-parity
       - run: npm install --no-save jsdom
       - run: make page
       - run: make live-page

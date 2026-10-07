@@ -14,6 +14,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import collect_receipts as collector
 import diagnose_missing as diagnosis
 import publish_live as publisher
+import run_live as runner
 
 
 class ReceiptsTest(unittest.TestCase):
@@ -31,9 +32,22 @@ class ReceiptsTest(unittest.TestCase):
         self.assertTrue(parsed["open"])
         self.assertEqual(parsed["note"], "true false null 12n")
 
+    def test_resume_cannot_mix_deployments(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "manifest.jsonl"
+            path.write_text(json.dumps(dict(self.row, address="0x" + "12" * 20)) + "\n")
+            runner.validate_manifest_target(path, "0x" + "12" * 20)
+            with self.assertRaisesRegex(ValueError, "different contract"):
+                runner.validate_manifest_target(path, "0x" + "34" * 20)
+
     def test_malformed_cli_is_a_read_error(self):
         with self.assertRaises(RuntimeError):
             collector.extract_json("Result:\nnot an object\n✔ done")
+
+    def test_machine_reads_preserve_money_and_literal_strings(self):
+        value = collector.decode_chain_json(json.dumps({"pool": {"$bigint": "9007199254740993123"}, "claim": "first\n{true: false}, null 12n"}))
+        self.assertEqual(value["pool"], 9007199254740993123)
+        self.assertEqual(value["claim"], "first\n{true: false}, null 12n")
 
     def test_explorer_indexing_lag_stays_pending(self):
         error = urllib.error.HTTPError("url", 404, "Not Found", {}, None)
@@ -94,11 +108,17 @@ class ReceiptsTest(unittest.TestCase):
 
     def test_publication_refreshes_finalization(self):
         record = collector.assemble_record(self.row, self.entry, self.env, 2, {"status": "ACCEPTED"})
-        with patch.object(collector, "read_entry", return_value=self.entry), patch.object(collector, "lookup_receipt", return_value={"statusName": "FINALIZED", "currentTimestamp": "123"}):
+        with patch.object(collector, "read_entry", return_value=self.entry), patch.object(collector, "lookup_receipt", return_value={"statusName": "FINALIZED", "currentTimestamp": "123", "recipient": "address"}):
             refreshed = publisher.refresh_record(record, "address")
         self.assertEqual(refreshed["receipt_status"], "FINALIZED")
         self.assertEqual(refreshed["consensus_checkpoint"]["chain_timestamp"], "123")
         self.assertEqual(record["receipt_status"], "ACCEPTED")
+
+    def test_publication_cannot_borrow_another_contracts_receipt(self):
+        record = collector.assemble_record(self.row, self.entry, self.env, 2, self.receipt)
+        with patch.object(collector, "read_entry", return_value=self.entry), patch.object(collector, "lookup_receipt", return_value={"statusName": "FINALIZED", "recipient": "other"}):
+            with self.assertRaisesRegex(ValueError, "another contract"):
+                publisher.refresh_record(record, "address")
 
     def test_wrong_slot_is_rejected(self):
         other = dict(self.entry, envelope_hash="00" * 32)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Explain missing Hearsay entries before another Bradbury write is submitted.
 
-Ported from Suborn's diagnosis v2. Uses the collector's explorer and CLI reads.
+Ported from Suborn's diagnosis v2. Uses the collector's shared SDK and explorer reads.
 Receipt status alone never proves why contract state is absent. A complete
 scan is required to establish absence; read failures remain UNRESOLVED.
 

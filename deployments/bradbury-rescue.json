@@ -1,0 +1,15 @@
+{
+  "network": "testnet-bradbury",
+  "chain_id": 4221,
+  "address": "0x2390Ca5C7E369aD63ECbB4bF36509e7f7B7219B9",
+  "deployment_tx": "0xfb95dcc3c5b8663f794d0a05522c4648b6ed746941b66c2a72c6fef6261c7fe4",
+  "source_sha256": "bd3140aab5f2c83e8067c6684f64b543cdedbdc90ec789e0997e1c1c7e9f7acb",
+  "deployment_source_sha256": "b8ed0663f5734e31dc5ea3a5a71bcb7ce96ccded8e3e502704ec7c7d524dc0e2",
+  "execution_result": "FINISHED_WITH_RETURN",
+  "verified_views": [
+    "entry_count",
+    "solvency"
+  ],
+  "supersedes": "0x774237BD6e669bF1Af1b8F807ada3A0d4889987F",
+  "reason": "First deployment has an unresolved protocol appeal; this deployment reruns the entire cohort with isolated evidence."
+}

@@ -103,18 +103,24 @@ def extract_json(text):
 
 
 def read_call(endpoint, address, method, args, timeout):
-    command = ["genlayer", "call", address, method]
-    if args:
-        command += ["--args", *[str(value) for value in args]]
+    command = ["node", str(ROOT / "scripts/read_chain.mjs"), "--call", address, method, json.dumps(args)]
     if endpoint:
-        command += ["--rpc", endpoint]
+        command.append(endpoint)
     result = subprocess.run(command, capture_output=True, text=True, timeout=timeout)
     if result.returncode:
         message = (result.stdout + result.stderr).strip()
         if method == "get_entry" and "unknown entry" in message.lower():
             return None
         raise RuntimeError(message or "genlayer call failed")
-    return extract_json(result.stdout)
+    return decode_chain_json(result.stdout)
+
+
+def decode_chain_json(source):
+    def bigint(value):
+        if set(value) == {"$bigint"}:
+            return int(value["$bigint"])
+        return value
+    return json.loads(source, object_hook=bigint)
 
 
 def read_entry(endpoint, address, entry_id, timeout):

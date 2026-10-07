@@ -1,12 +1,18 @@
-.PHONY: test receipts-test parity page live-page vectors replay dry-run assets site gate check lint all
+.PHONY: test receipts-test bridge-test gate-parity parity page live-page vectors replay dry-run assets site gate check lint all
 
-all: lint test receipts-test dry-run replay assets site parity page live-page
+all: lint test receipts-test bridge-test dry-run replay assets site parity gate-parity page live-page
 
 test:
 	python3 test/run_tests.py
 
 receipts-test:
 	python3 -m unittest discover -s test -p 'test_receipts.py'
+
+bridge-test:
+	node test/broadcast.mjs
+
+gate-parity:
+	node test/gate-parity.mjs
 
 dry-run:
 	python3 scripts/dry_run.py

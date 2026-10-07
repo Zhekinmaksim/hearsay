@@ -269,6 +269,7 @@ make replay      # every corpus row, re-derived from the votes it records
 make parity      # the page's JavaScript against the Python, same vectors
 make page        # drive every control on the built page (needs jsdom)
 make receipts-test # offline checks for collection and diagnosis
+make bridge-test # transaction journal survives a lost RPC reply, no network
 ```
 
 Solvency is asserted after every action that touches value, not only at the end.
@@ -303,6 +304,10 @@ scans the actual chain entry count and can recover a record under a different
 ID. A failed read or partial scan stays unresolved; an accepted receipt without
 state does not establish why the entry is missing.
 
+State reads use the installed SDK's machine JSON against Bradbury, independent
+of the CLI's active network. Large integers retain their exact value, and
+multiline claims are never reparsed as JavaScript display text.
+
 `get_entry` exposes the snapshot hash. `scripts/enrich_snapshots.py` recovers
 the exact pinned bytes from GenVM trace storage, matches their SHA-256 to that
 hash, and verifies both the envelope and recorded votes. It writes a separate
@@ -333,6 +338,11 @@ OS keychain account, verifies the expected public address, and fsyncs the
 transaction ID into the manifest. It never exports the signing key. Values in
 the live corpus are in wei; the small demonstration bonds are not an economic
 security calibration.
+
+The bridge also fsyncs the public EVM hash before broadcasting and records the
+RPC acknowledgement separately. If sending fails, inspect the run's
+`bradbury.jsonl.broadcasts.jsonl` and chain receipt before retrying. A missing
+HTTP response does not establish that the transaction was never broadcast.
 
 After deploying and confirming `open_space`, run:
 
@@ -378,6 +388,14 @@ defence measurement. Resume `scripts/run_live.py` with the same manifest after
 the pending consensus round resolves; it will not resend existing transactions.
 The complete publisher still requires at least twenty judged honest controls
 and coverage of every submitted candidate.
+
+Use `--run-dir runs/bradbury-rescue` for a separate deployment. Its manifest,
+entries, receipts, diagnosis and infrastructure outcomes are isolated from the
+first run. A resume rejects a manifest belonging to another contract. Re-run
+the whole cohort on the replacement contract; do not combine admissions from
+different deployments into one control denominator. Enrich its records with
+explicit `--records` and `--out` paths, then publish with those records,
+`--run-dir` and the replacement's `--deployment` metadata.
 
 `make dry-run` produces a real corpus file with real hashes, real snapshots and
 a real verdict per entry. It does not produce a defence measurement, and its own

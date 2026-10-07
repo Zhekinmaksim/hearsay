@@ -26,6 +26,8 @@ def refresh_record(row, address):
     status = collector.status_of(receipt)
     if status not in {"FINALIZED", "ACCEPTED", "SUCCESS"}:
         raise ValueError("consensus no longer accepted: %s (%s)" % (row["id"], status))
+    if (receipt.get("recipient") or "").lower() != address.lower():
+        raise ValueError("receipt belongs to another contract: " + row["id"])
     refreshed = dict(row, receipt_status=status)
     refreshed["consensus_checkpoint"] = {
         "status": status, "result": receipt.get("resultName"),
@@ -41,8 +43,8 @@ def build_page(corpus):
     rows = []
     for index, row in enumerate(corpus["entries"]):
         votes = row["votes"]
-        rows.append('<tr data-class="%s"><td>%s<details><summary>Source and envelope</summary><p><a href="%s">%s</a></p><p class="hash">Envelope %s</p><p class="hash">Snapshot %s</p><p>%s</p></details></td><td class="status">%s<br><button data-replay="%d">Replay</button></td><td class="votes">%s / %s</td><td class="votes">%s</td><td><a href="%s/tx/%s">%s</a></td></tr>' % (
-            escape(row["entry_class"]), escape(row["claim"]), escape(row["source_url"]), escape(row["source_url"]), escape(row["envelope_hash"]), escape(row["snapshot_hash"]), escape(row["note"]), escape(row["status"]), index, escape(votes["a"]), escape(votes["b"]), escape(votes["conflict"]), collector.EXPLORER, escape(row["tx"]), escape(row["receipt_status"])))
+        rows.append('<tr data-class="%s"><td>%s<details><summary>Source and envelope</summary><p><a href="%s">%s</a></p><p class="hash">Envelope %s</p><p class="hash">Snapshot %s</p><p>%s</p></details></td><td class="status">%s<br><button data-replay="%d">Replay</button><br><button data-gate="%d">Gate</button></td><td class="votes">%s / %s</td><td class="votes">%s</td><td><a href="%s/tx/%s">%s</a></td></tr>' % (
+            escape(row["entry_class"]), escape(row["claim"]), escape(row["source_url"]), escape(row["source_url"]), escape(row["envelope_hash"]), escape(row["snapshot_hash"]), escape(row["note"]), escape(row["status"]), index, index, escape(votes["a"]), escape(votes["b"]), escape(votes["conflict"]), collector.EXPLORER, escape(row["tx"]), escape(row["receipt_status"])))
     classes = []
     for item in corpus["report"]["classes"]:
         classes.append('<tr><td>%s</td><td>%d</td><td>%d</td><td>%d/1000</td><td>%d</td></tr>' % (escape(item["class"]), item["attempts"], item["ever_admitted"], item["admission_rate_milli"], item["inconclusive"]))
@@ -50,12 +52,16 @@ def build_page(corpus):
     infrastructure = ''.join('<p class="note flag"><strong>%s</strong> · %s · <a href="%s/tx/%s">Receipt</a><br>%s</p>' % (escape(row["id"]), escape(row["status"]), collector.EXPLORER, escape(row["tx"]), escape(row["reason"])) for row in corpus.get("infrastructure_failures", [])) or '<p class="empty">None.</p>'
     options = ''.join('<option value="%s">%s</option>' % (escape(item["class"]), escape(item["class"])) for item in corpus["report"]["classes"])
     report, policy = corpus["report"], corpus["policy"]
+    prior = corpus.get("previous_run")
+    previous = ('<p class="note flag">An earlier deployment stopped at an unresolved protocol appeal. '
+                '<a href="%s">Its verified checkpoint is preserved</a>; those entries are excluded from this report.</p>' % escape(prior["checkpoint"])) if prior else ""
     replacements = {
         "DATE": "7 October 2026", "LEAD": "%d of %d judged honest entries were admitted. False rejections lead the record, followed by admission rates for each attack class." % (report["honest_admitted"], report["honest_attempts"]),
         "FALSE_RATE": "%d/1000" % report["false_rejection_milli"],
         "FALSE_COUNT": "%d of %d honest entries refused." % (report["honest_attempts"] - report["honest_admitted"], report["honest_attempts"]),
         "JUDGED": str(len(corpus["entries"])), "PREVENTED": str(len(corpus["refused_at_write"])),
         "HEALTH_WARNING": escape(corpus["health_warning"]),
+        "PREVIOUS_RUN": previous,
         "RULES": escape("%s · support round floor %d · cascade depth %d · admission lifetime %d sequence units. %s" % (policy["name"], policy["min_rounds"], policy["cascade_depth"], policy["admit_ttl"], policy["policy"])),
         "CONTRACT_URL": collector.EXPLORER + "/address/" + corpus["contract_address"],
         "DEPLOY_TX_URL": collector.EXPLORER + "/tx/" + corpus["deployment_tx"],
@@ -75,12 +81,15 @@ def main():
     ap.add_argument("--space", type=int, default=0)
     ap.add_argument("--seed", default="corpus/live.json")
     ap.add_argument("--records", default="runs/verified-records.jsonl")
+    ap.add_argument("--run-dir", default="runs")
+    ap.add_argument("--deployment", default="deployments/bradbury.json")
     args = ap.parse_args()
     seed = json.loads(Path(args.seed).read_text())
     rows = [json.loads(line) for line in Path(args.records).read_text().splitlines() if line.strip()]
-    refused_path = collector.ROOT / "runs/live/refused.json"
+    run_dir = Path(args.run_dir).resolve()
+    refused_path = run_dir / "live/refused.json"
     refused = json.loads(refused_path.read_text()) if refused_path.exists() else []
-    failures_path = collector.ROOT / "runs/live/infrastructure-failures.json"
+    failures_path = run_dir / "live/infrastructure-failures.json"
     infrastructure_history = json.loads(failures_path.read_text()) if failures_path.exists() else []
     collected_hashes = {row["envelope_hash"] for row in rows}
     failures = [failure for failure in infrastructure_history if failure["envelope_hash"] not in collected_hashes]
@@ -117,7 +126,7 @@ def main():
         if code:
             raise ValueError("unreproducible record: " + json.dumps(result))
     rows = [refresh_record(row, args.address) for row in rows]
-    metadata = json.loads((collector.ROOT / "deployments/bradbury.json").read_text())
+    metadata = json.loads(Path(args.deployment).read_text())
     if metadata["address"].lower() != args.address.lower():
         raise ValueError("deployment metadata target mismatch")
     corpus = {
@@ -129,6 +138,12 @@ def main():
         "infrastructure_history": infrastructure_history,
         "report": report, "solvency": solvency,
     }
+    if metadata.get("supersedes"):
+        corpus["previous_run"] = {
+            "contract_address": metadata["supersedes"],
+            "checkpoint": "bradbury-checkpoint.json", "reason": metadata["reason"],
+            "included_in_report": False,
+        }
     collector.checkpoint(collector.ROOT / "web/live-corpus.json", corpus)
     collector.atomic_write(collector.ROOT / "web/live.html", build_page(corpus))
     print("published %d real records, %d prevented, %d honest; false rejection %d/1000" % (len(rows), len(refused), len(honest), report["false_rejection_milli"]))

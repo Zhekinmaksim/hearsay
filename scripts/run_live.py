@@ -15,29 +15,41 @@ import time
 import collect_receipts as collector
 
 
+def validate_manifest_target(path, address):
+    """A resume must never borrow transactions from another deployment."""
+    if path.exists():
+        for row in collector.load_manifest(path):
+            if row.get("address", "").lower() != address.lower():
+                raise ValueError("manifest belongs to a different contract")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--seed", default="corpus/live.json")
     ap.add_argument("--address", required=True)
     ap.add_argument("--account", required=True, help="expected public account address")
     ap.add_argument("--space", type=int, default=0)
+    ap.add_argument("--run-dir", default="runs", help="isolated manifest, entries, receipts and diagnostics for this deployment")
     ap.add_argument("--limit", type=int, default=None, help="maximum NEW writes in this invocation")
     ap.add_argument("--timeout", type=int, default=30)
     ap.add_argument("--wait", type=int, default=300)
     ap.add_argument("--accept-diagnosed-timeouts", action="store_true", help="retain diagnosed consensus timeouts separately and continue; never count them as judged")
     args = ap.parse_args()
     root = collector.ROOT
+    run_dir = Path(args.run_dir).resolve()
+    run_dir.mkdir(parents=True, exist_ok=True)
     seed = json.loads(Path(args.seed).read_text())
-    manifest = root / "runs/bradbury.jsonl"
-    records = root / "runs/records.jsonl"
-    folder = root / "runs/live/entries"
+    manifest = run_dir / "bradbury.jsonl"
+    validate_manifest_target(manifest, args.address)
+    records = run_dir / "records.jsonl"
+    folder = run_dir / "live/entries"
     folder.mkdir(parents=True, exist_ok=True)
     existing = {row["envelope_hash"]: row for row in collector.load_manifest(manifest)} if manifest.exists() else {}
     collected = {json.loads(line)["tx"] for line in records.read_text().splitlines() if line.strip()} if records.exists() else set()
-    failures_path = root / "runs/live/infrastructure-failures.json"
+    failures_path = run_dir / "live/infrastructure-failures.json"
     failures = json.loads(failures_path.read_text()) if failures_path.exists() and args.accept_diagnosed_timeouts else []
     known_failures = {failure["tx"] for failure in failures if failure["status"] in collector.TIMEOUTS}
-    refused_path = root / "runs/live/refused.json"
+    refused_path = run_dir / "live/refused.json"
     refused = json.loads(refused_path.read_text()) if refused_path.exists() else []
     prevented = {row["id"] for row in refused}
     space = collector.read_call("", args.address, "get_space", [args.space], args.timeout)
@@ -92,12 +104,12 @@ def main():
                 "args": [args.space, env["entry_class"], json.dumps(env, ensure_ascii=False)],
                 "envelope_hash": fingerprint, "file": str(path), "id": candidate["id"],
             }
-            request_path = root / "runs/live/request.json"
+            request_path = run_dir / "live/request.json"
             collector.checkpoint(request_path, request)
             result = subprocess.run(["node", str(root / "scripts/genlayer_write.mjs"), "--request", str(request_path), "--manifest", str(manifest)], capture_output=True, text=True)
             if result.returncode:
-                collector.checkpoint(root / "runs/live/send-error.json", {"id": candidate["id"], "stdout": result.stdout, "stderr": result.stderr})
-                raise RuntimeError("write failed; inspect runs/live/send-error.json before retrying")
+                collector.checkpoint(run_dir / "live/send-error.json", {"id": candidate["id"], "stdout": result.stdout, "stderr": result.stderr})
+                raise RuntimeError("write failed; inspect the run's live/send-error.json before retrying")
             row = collector.load_manifest(manifest)[-1]
             existing[fingerprint] = row
             writes += 1
@@ -108,12 +120,12 @@ def main():
             try:
                 receipt = collector.lookup_receipt(collector.EXPLORER, "", row["tx"], args.timeout)
             except Exception as exc:
-                collector.checkpoint(root / "runs/receipts" / (row["tx"] + ".json"), {"lookup_error": str(exc)})
+                collector.checkpoint(run_dir / "receipts" / (row["tx"] + ".json"), {"lookup_error": str(exc)})
                 if time.monotonic() >= deadline:
                     raise RuntimeError("receipt lookup unavailable; resume with the same manifest") from exc
                 time.sleep(4)
                 continue
-            collector.checkpoint(root / "runs/receipts" / (row["tx"] + ".json"), {"receipt": receipt})
+            collector.checkpoint(run_dir / "receipts" / (row["tx"] + ".json"), {"receipt": receipt})
             status = collector.status_of(receipt)
             if status in collector.TIMEOUTS:
                 # Explorer projection can briefly show a timeout while a
@@ -128,8 +140,8 @@ def main():
             if time.monotonic() >= deadline:
                 raise RuntimeError("receipt still settling; resume later using the same manifest")
             time.sleep(4)
-        collection = subprocess.run([sys.executable, str(root / "scripts/collect_receipts.py"), str(manifest), "--address", args.address, "--entries", str(folder), "--out", str(records)], capture_output=True, text=True)
-        diagnosis_command = [sys.executable, str(root / "scripts/diagnose_missing.py"), "--address", args.address, "--manifest", str(manifest), "--records", str(records), "--out", str(root / "runs/diagnosis.json")]
+        collection = subprocess.run([sys.executable, str(root / "scripts/collect_receipts.py"), str(manifest), "--address", args.address, "--entries", str(folder), "--out", str(records), "--raw-dir", str(run_dir / "receipts")], capture_output=True, text=True)
+        diagnosis_command = [sys.executable, str(root / "scripts/diagnose_missing.py"), "--address", args.address, "--manifest", str(manifest), "--records", str(records), "--out", str(run_dir / "diagnosis.json")]
         for tx in sorted(known_failures):
             diagnosis_command += ["--exclude-tx", tx]
         diagnosis = subprocess.run(diagnosis_command, capture_output=True, text=True)
@@ -137,7 +149,7 @@ def main():
         issues = json.loads(issues_path.read_text()) if issues_path.exists() else {"scan_errors": ["no collection report"], "transactions": []}
         unexplained = [issue for issue in issues["transactions"] if issue["tx"] not in known_failures]
         if args.accept_diagnosed_timeouts and unexplained and not issues["scan_errors"]:
-            findings = json.loads((root / "runs/diagnosis.json").read_text())["transactions"]
+            findings = json.loads((run_dir / "diagnosis.json").read_text())["transactions"]
             finding = next((item for item in findings if item["tx"] == row["tx"]), None)
             if finding and finding["verdict"] == "CONSENSUS TIMEOUT" and all(issue["tx"] == row["tx"] for issue in unexplained):
                 failures.append({"id": candidate["id"], "tx": row["tx"], "envelope_hash": fingerprint, "entry_class": env["entry_class"], "status": finding["status"], "reason": finding["reason"], "receipt": finding["receipt"]})
@@ -149,7 +161,7 @@ def main():
             print(collection.stdout + collection.stderr + diagnosis.stdout + diagnosis.stderr, flush=True)
             raise RuntimeError("collection or diagnosis unresolved; next write was not sent")
         solvency = collector.read_call("", args.address, "solvency", [], args.timeout)
-        collector.checkpoint(root / "runs/live/solvency.json", solvency)
+        collector.checkpoint(run_dir / "live/solvency.json", solvency)
         if not solvency.get("balanced"):
             raise RuntimeError("solvency failed; next write was not sent")
         got = next(json.loads(line) for line in records.read_text().splitlines() if json.loads(line)["tx"] == row["tx"])

@@ -7,16 +7,28 @@ import { pathToFileURL } from "node:url";
 import { createHash } from "node:crypto";
 
 const input = process.argv.slice(2);
+const call = input[0] === "--call";
 const tx = input[0];
-const endpoint = input[1] && !input[1].startsWith("--") ? input[1] : "";
+const endpoint = call ? (input[4] || "") : (input[1] && !input[1].startsWith("--") ? input[1] : "");
 const marker = input.indexOf("--snapshot");
 const snapshotHash = marker < 0 ? "" : input[marker + 1];
-if (!/^0x[0-9a-f]{64}$/i.test(tx || "")) throw new Error("invalid transaction ID");
+if (!call && !/^0x[0-9a-f]{64}$/i.test(tx || "")) throw new Error("invalid transaction ID");
 const entry = realpathSync(execFileSync("which", ["genlayer"], { encoding: "utf8" }).trim());
 const root = resolve(dirname(entry), "..");
 const sdk = await import(pathToFileURL(join(root, "node_modules/genlayer-js/dist/index.js")));
 const chains = await import(pathToFileURL(join(root, "node_modules/genlayer-js/dist/chains/index.js")));
 const client = sdk.createClient({ chain: chains.testnetBradbury, endpoint: endpoint || undefined });
+if (call) {
+  const address = input[1], method = input[2], args = JSON.parse(input[3] || "[]");
+  if (!/^0x[0-9a-f]{40}$/i.test(address) || !Array.isArray(args)) throw new Error("invalid read arguments");
+  if (!["get_space", "get_entry", "get_challenge", "entry_count", "report", "deferred_queue", "solvency"].includes(method)) throw new Error("unknown read-only Hearsay method");
+  const value = await client.readContract({ address, functionName: method, args: args.map(arg => typeof arg === "number" ? BigInt(arg) : arg) });
+  console.log(JSON.stringify(value, (_, item) => {
+    if (typeof item === "bigint") return { $bigint: item.toString() };
+    if (typeof item === "number" && !Number.isSafeInteger(item)) throw new Error("unsafe numeric chain result");
+    return item instanceof Map ? Object.fromEntries(item) : item;
+  }));
+} else {
 const receipt = await client.getTransaction({ hash: tx });
 if (!snapshotHash) {
   console.log(JSON.stringify(receipt, (_, value) => typeof value === "bigint" ? value.toString() : value));
@@ -25,8 +37,9 @@ if (!snapshotHash) {
   const digest = bytes => createHash("sha256").update(bytes).digest("hex");
   let found = null;
   if (snapshotHash === digest(Buffer.alloc(0))) found = { snapshot_excerpt: "", snapshot_hash: snapshotHash, trace_round: null };
-  const count = Math.max(1, Number(receipt.numOfRounds || 1));
-  for (let round = 0; round < count && !found; round++) {
+  // Bradbury numbers the initial round 0; numOfRounds is the last index.
+  const lastRound = Math.max(0, Number(receipt.numOfRounds || 0));
+  for (let round = 0; round <= lastRound && !found; round++) {
     let trace;
     try { trace = await client.request({ method: "gen_dbg_traceTransaction", params: [{ txID: tx, round }] }); }
     catch { continue; }
@@ -52,4 +65,5 @@ if (!snapshotHash) {
   }
   if (!found) throw new Error("no trace storage value matches the pinned snapshot hash");
   console.log(JSON.stringify(found));
+}
 }

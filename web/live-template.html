@@ -27,10 +27,12 @@
 <div class="metric"><span class="label">Prevented before consensus</span><span class="number">/*__PREVENTED__*/</span><p class="note">Excluded from the caught count.</p></div>
 </div>
 <p class="note flag">/*__HEALTH_WARNING__*/</p>
+/*__PREVIOUS_RUN__*/
 <section class="section" aria-labelledby="infrastructure-title"><h2 id="infrastructure-title">The calls that did not reach judgement.</h2><p class="note">Infrastructure outcomes are kept in the record and excluded from the gate's admission and false-rejection rates. They affect availability. The control denominator below includes completed judgements only.</p>/*__INFRASTRUCTURE__*/</section>
 <section class="section" aria-labelledby="rules-title"><h2 id="rules-title">The space.</h2><p class="note">/*__RULES__*/</p><p class="note"><a href="/*__CONTRACT_URL__*/">View contract on Bradbury</a> · <a href="/*__DEPLOY_TX_URL__*/">Deployment receipt</a>. Pinned source bytes are recovered from GenVM traces and checked against the snapshot hash in contract state. They are included in the downloadable record.</p></section>
 <section class="section" aria-labelledby="classes-title"><h2 id="classes-title">Admission by class.</h2><div class="scroll"><table><thead><tr><th>Class</th><th>Attempts</th><th>Admitted</th><th>Admission rate</th><th>Inconclusive</th></tr></thead><tbody>/*__CLASSES__*/</tbody></table></div></section>
 <section class="section" aria-labelledby="record-title"><div class="tools"><h2 id="record-title">Every entry. Every vote.</h2><label>Show <select id="class-filter"><option value="">All classes</option>/*__OPTIONS__*/</select></label></div><div class="scroll"><table><thead><tr><th>Claim and provenance</th><th>Verdict</th><th>Support A / B</th><th>Consistency</th><th>Receipt</th></tr></thead><tbody id="records">/*__ROWS__*/</tbody></table></div><h3>Prevented on the write path</h3>/*__REFUSED__*/</section>
+<section class="section" aria-labelledby="gate-title"><h2 id="gate-title">Gate an entry.</h2><p class="note">Check a candidate against this collected live record. Exit 0 admits, 1 refuses, 2 is unjudged or inconclusive, and 3 is malformed. An unknown claim never receives permission to enter memory. A new judgement still requires a Bradbury transaction.</p><label for="gate-input">Candidate envelope JSON</label><textarea id="gate-input" spellcheck="false"></textarea><button id="gate-check">Check recorded admission</button><pre id="gate-output" role="status" aria-live="polite"></pre></section>
 <section class="section" aria-labelledby="verify-title"><h2 id="verify-title">Replay a receipt.</h2><p class="note">Choose an entry above or edit the receipt below. The envelope hash, pinned snapshot hash and recorded votes are checked locally. Change a verdict, a source snapshot or a vote and replay it again.</p><label for="receipt-input">Receipt JSON</label><textarea id="receipt-input" spellcheck="false"></textarea><button id="verify">Replay recorded votes</button><p id="verify-output" role="status" aria-live="polite"></p></section>
 </main>
 <footer><span>Source support and memory consistency, on GenLayer.</span><span>Money balanced: /*__BALANCED__*/ · <a href="/">Explore the offline cascade example</a></span></footer>
@@ -62,8 +64,19 @@ function verify(){
 function choose(index){const row=live.entries[index];input.value=JSON.stringify({envelope:row.envelope,envelope_hash:row.envelope_hash,snapshot_hash:row.snapshot_hash,snapshot_excerpt:row.snapshot_excerpt,votes:row.votes,rounds:row.rounds,status:row.status,min_rounds:live.policy.min_rounds},null,2);verify();}
 document.querySelectorAll('[data-replay]').forEach(button=>button.addEventListener('click',()=>{choose(Number(button.dataset.replay));document.getElementById('verify-title').scrollIntoView?.({behavior:'smooth'});}));
 document.getElementById('verify').addEventListener('click',verify);
+const gateInput=document.getElementById('gate-input');
+const gateOutput=document.getElementById('gate-output');
+function gateCandidate(){
+ let result;
+ try{result=localGate(JSON.parse(gateInput.value),live.entries);}
+ catch(error){result={code:3,verdict:null,problems:[error.message]};}
+ gateOutput.textContent=JSON.stringify(result,null,2);
+}
+function chooseGate(index){gateInput.value=JSON.stringify(live.entries[index].envelope,null,2);gateCandidate();}
+document.querySelectorAll('[data-gate]').forEach(button=>button.addEventListener('click',()=>{chooseGate(Number(button.dataset.gate));document.getElementById('gate-title').scrollIntoView?.({behavior:'smooth'});}));
+document.getElementById('gate-check').addEventListener('click',gateCandidate);
 document.getElementById('class-filter').addEventListener('change',event=>{document.querySelectorAll('#records tr').forEach(row=>row.hidden=!!event.target.value&&row.dataset.class!==event.target.value);});
-if(live.entries.length)choose(0);
+if(live.entries.length){choose(0);chooseGate(0);}
 </script>
 </body>
 </html>
