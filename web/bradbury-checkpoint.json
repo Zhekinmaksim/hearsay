@@ -80,7 +80,15 @@
       "consensus_checkpoint": {
         "status": "FINALIZED",
         "result": "AGREE",
-        "chain_timestamp": "1791373805"
+        "chain_timestamp": "1791389093",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23728306",
+          "hash": "0x7bd2dd28002de9c54dc1ba1a1fce07a5aba960404c21a08369fc1297702817e2",
+          "timestamp": "1791389093"
+        },
+        "initial_validators": "5",
+        "round_array_index": "2"
       }
     },
     {
@@ -133,7 +141,15 @@
       "consensus_checkpoint": {
         "status": "FINALIZED",
         "result": "AGREE",
-        "chain_timestamp": "1791373805"
+        "chain_timestamp": "1791389093",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23728306",
+          "hash": "0x7bd2dd28002de9c54dc1ba1a1fce07a5aba960404c21a08369fc1297702817e2",
+          "timestamp": "1791389093"
+        },
+        "initial_validators": "5",
+        "round_array_index": "2"
       }
     },
     {
@@ -186,7 +202,15 @@
       "consensus_checkpoint": {
         "status": "FINALIZED",
         "result": "AGREE",
-        "chain_timestamp": "1791373805"
+        "chain_timestamp": "1791389093",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23728306",
+          "hash": "0x7bd2dd28002de9c54dc1ba1a1fce07a5aba960404c21a08369fc1297702817e2",
+          "timestamp": "1791389093"
+        },
+        "initial_validators": "5",
+        "round_array_index": "2"
       }
     },
     {
@@ -239,7 +263,15 @@
       "consensus_checkpoint": {
         "status": "FINALIZED",
         "result": "AGREE",
-        "chain_timestamp": "1791373805"
+        "chain_timestamp": "1791389093",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23728306",
+          "hash": "0x7bd2dd28002de9c54dc1ba1a1fce07a5aba960404c21a08369fc1297702817e2",
+          "timestamp": "1791389093"
+        },
+        "initial_validators": "5",
+        "round_array_index": "0"
       }
     },
     {
@@ -292,7 +324,15 @@
       "consensus_checkpoint": {
         "status": "FINALIZED",
         "result": "AGREE",
-        "chain_timestamp": "1791373809"
+        "chain_timestamp": "1791389093",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23728306",
+          "hash": "0x7bd2dd28002de9c54dc1ba1a1fce07a5aba960404c21a08369fc1297702817e2",
+          "timestamp": "1791389093"
+        },
+        "initial_validators": "5",
+        "round_array_index": "2"
       }
     },
     {
@@ -345,7 +385,15 @@
       "consensus_checkpoint": {
         "status": "FINALIZED",
         "result": "AGREE",
-        "chain_timestamp": "1791373809"
+        "chain_timestamp": "1791389093",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23728306",
+          "hash": "0x7bd2dd28002de9c54dc1ba1a1fce07a5aba960404c21a08369fc1297702817e2",
+          "timestamp": "1791389093"
+        },
+        "initial_validators": "5",
+        "round_array_index": "0"
       }
     },
     {
@@ -398,7 +446,15 @@
       "consensus_checkpoint": {
         "status": "FINALIZED",
         "result": "AGREE",
-        "chain_timestamp": "1791373809"
+        "chain_timestamp": "1791389093",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23728306",
+          "hash": "0x7bd2dd28002de9c54dc1ba1a1fce07a5aba960404c21a08369fc1297702817e2",
+          "timestamp": "1791389093"
+        },
+        "initial_validators": "5",
+        "round_array_index": "0"
       }
     },
     {
@@ -451,7 +507,15 @@
       "consensus_checkpoint": {
         "status": "FINALIZED",
         "result": "AGREE",
-        "chain_timestamp": "1791373809"
+        "chain_timestamp": "1791389093",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23728306",
+          "hash": "0x7bd2dd28002de9c54dc1ba1a1fce07a5aba960404c21a08369fc1297702817e2",
+          "timestamp": "1791389093"
+        },
+        "initial_validators": "5",
+        "round_array_index": "4"
       }
     },
     {
@@ -504,7 +568,15 @@
       "consensus_checkpoint": {
         "status": "FINALIZED",
         "result": "AGREE",
-        "chain_timestamp": "1791373819"
+        "chain_timestamp": "1791389093",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23728306",
+          "hash": "0x7bd2dd28002de9c54dc1ba1a1fce07a5aba960404c21a08369fc1297702817e2",
+          "timestamp": "1791389093"
+        },
+        "initial_validators": "5",
+        "round_array_index": "2"
       }
     },
     {
@@ -557,7 +629,15 @@
       "consensus_checkpoint": {
         "status": "FINALIZED",
         "result": "AGREE",
-        "chain_timestamp": "1791373819"
+        "chain_timestamp": "1791389108",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23728307",
+          "hash": "0x843afa9084f52485655e8750ad24900a0a9d3d772911cc472e6c8c34712249e8",
+          "timestamp": "1791389108"
+        },
+        "initial_validators": "5",
+        "round_array_index": "0"
       }
     },
     {
@@ -610,7 +690,15 @@
       "consensus_checkpoint": {
         "status": "FINALIZED",
         "result": "AGREE",
-        "chain_timestamp": "1791373819"
+        "chain_timestamp": "1791389108",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23728307",
+          "hash": "0x843afa9084f52485655e8750ad24900a0a9d3d772911cc472e6c8c34712249e8",
+          "timestamp": "1791389108"
+        },
+        "initial_validators": "5",
+        "round_array_index": "2"
       }
     },
     {
@@ -663,7 +751,15 @@
       "consensus_checkpoint": {
         "status": "FINALIZED",
         "result": "AGREE",
-        "chain_timestamp": "1791373819"
+        "chain_timestamp": "1791389108",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23728307",
+          "hash": "0x843afa9084f52485655e8750ad24900a0a9d3d772911cc472e6c8c34712249e8",
+          "timestamp": "1791389108"
+        },
+        "initial_validators": "5",
+        "round_array_index": "0"
       }
     },
     {
@@ -716,7 +812,15 @@
       "consensus_checkpoint": {
         "status": "FINALIZED",
         "result": "AGREE",
-        "chain_timestamp": "1791373822"
+        "chain_timestamp": "1791389108",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23728307",
+          "hash": "0x843afa9084f52485655e8750ad24900a0a9d3d772911cc472e6c8c34712249e8",
+          "timestamp": "1791389108"
+        },
+        "initial_validators": "5",
+        "round_array_index": "0"
       }
     },
     {
@@ -769,7 +873,15 @@
       "consensus_checkpoint": {
         "status": "FINALIZED",
         "result": "AGREE",
-        "chain_timestamp": "1791373822"
+        "chain_timestamp": "1791389108",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23728307",
+          "hash": "0x843afa9084f52485655e8750ad24900a0a9d3d772911cc472e6c8c34712249e8",
+          "timestamp": "1791389108"
+        },
+        "initial_validators": "5",
+        "round_array_index": "4"
       }
     },
     {
@@ -822,7 +934,15 @@
       "consensus_checkpoint": {
         "status": "FINALIZED",
         "result": "AGREE",
-        "chain_timestamp": "1791373822"
+        "chain_timestamp": "1791389108",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23728307",
+          "hash": "0x843afa9084f52485655e8750ad24900a0a9d3d772911cc472e6c8c34712249e8",
+          "timestamp": "1791389108"
+        },
+        "initial_validators": "5",
+        "round_array_index": "0"
       }
     }
   ],
@@ -860,8 +980,8 @@
       "tx": "0x15526a1b43bc1b541d050d4c2c225f8d8a221321876950fa8e99b33ecf6a68cf",
       "envelope_hash": "8ae81f5abf4687def4f9e5894e898b1d3a1f9c0856ce0a7b5f53c553a58e48b4",
       "entry_class": "honest",
-      "status": "VALIDATORS_TIMEOUT",
-      "reason": "Leader execution returned successfully, but validator consensus timed out and no entry state was written. Appeal was rejected as CanNotAppeal; idleness finalization did not change state.",
+      "status": "FINALIZED",
+      "reason": "Finalized protocol timeout; a complete current entry scan found no matching state. This is not a contract rejection.",
       "recovery_actions": [
         {
           "action": "appeal",
@@ -874,54 +994,210 @@
           "evm_tx": "0x2d0c1fe5ce1a41ea1678732f1fb7bc6353b374b0c806183769adb139721817f9",
           "result": "EVM success; original state unchanged"
         }
-      ]
+      ],
+      "status_basis": "getTransactionAllData",
+      "consensus_outcome": "TIMEOUT",
+      "failure_verified": true,
+      "receipt_summary": {
+        "statusName": "FINALIZED",
+        "resultName": "TIMEOUT",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "8",
+        "numOfInitialValidators": "5",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0x774237BD6e669bF1Af1b8F807ada3A0d4889987F",
+        "stored_block": {
+          "number": "23728307",
+          "hash": "0x843afa9084f52485655e8750ad24900a0a9d3d772911cc472e6c8c34712249e8",
+          "timestamp": "1791389108"
+        },
+        "last_round": {
+          "round": "0",
+          "leaderIndex": "4",
+          "votesCommitted": "5",
+          "votesRevealed": "5",
+          "rotationsLeft": "3",
+          "result": 3,
+          "committee_size": 5
+        }
+      }
     },
     {
       "id": "honest-sc095000",
       "tx": "0x61bf34dc306626f7771cd498c5a92e70ad7a2550315580a6e5738bd6f6a2ddc3",
       "envelope_hash": "a9aee100889d80127df370d9b153289c9a248fa469aaa79efa9a96adbe30c555",
       "entry_class": "honest",
-      "status": "VALIDATORS_TIMEOUT",
-      "reason": "protocol validation/execution timed out; this is not a contract rejection"
+      "status": "FINALIZED",
+      "reason": "Finalized protocol timeout; a complete current entry scan found no matching state. This is not a contract rejection.",
+      "status_basis": "getTransactionAllData",
+      "consensus_outcome": "TIMEOUT",
+      "failure_verified": true,
+      "receipt_summary": {
+        "statusName": "FINALIZED",
+        "resultName": "TIMEOUT",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "4",
+        "numOfInitialValidators": "5",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0x774237BD6e669bF1Af1b8F807ada3A0d4889987F",
+        "stored_block": {
+          "number": "23728307",
+          "hash": "0x843afa9084f52485655e8750ad24900a0a9d3d772911cc472e6c8c34712249e8",
+          "timestamp": "1791389108"
+        },
+        "last_round": {
+          "round": "0",
+          "leaderIndex": "2",
+          "votesCommitted": "5",
+          "votesRevealed": "5",
+          "rotationsLeft": "3",
+          "result": 3,
+          "committee_size": 5
+        }
+      }
     },
     {
       "id": "honest-07524813",
       "tx": "0xa11c5e17176e9412ca81c7711b014c7bf24a323b50205c39fb7f6633183a2f1c",
       "envelope_hash": "0742ba17e02d10477239c413487b21d34b7f37af7332752d27a0132554e4f177",
       "entry_class": "honest",
-      "status": "VALIDATORS_TIMEOUT",
-      "reason": "protocol validation/execution timed out; this is not a contract rejection"
+      "status": "FINALIZED",
+      "reason": "Finalized protocol timeout; a complete current entry scan found no matching state. This is not a contract rejection.",
+      "status_basis": "getTransactionAllData",
+      "consensus_outcome": "TIMEOUT",
+      "failure_verified": true,
+      "receipt_summary": {
+        "statusName": "FINALIZED",
+        "resultName": "TIMEOUT",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "3",
+        "numOfInitialValidators": "5",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0x774237BD6e669bF1Af1b8F807ada3A0d4889987F",
+        "stored_block": {
+          "number": "23728307",
+          "hash": "0x843afa9084f52485655e8750ad24900a0a9d3d772911cc472e6c8c34712249e8",
+          "timestamp": "1791389108"
+        },
+        "last_round": {
+          "round": "3",
+          "leaderIndex": "0",
+          "votesCommitted": "13",
+          "votesRevealed": "13",
+          "rotationsLeft": "3",
+          "result": 3,
+          "committee_size": 13
+        }
+      }
     },
     {
       "id": "honest-02468686",
       "tx": "0x00f420c26b313644b00e1526d8fdf983393b6285a75e4fdc1cba7343084fd6d7",
       "envelope_hash": "1eb6100627855f22b1702154db00005bd929d5b595b1a9e4710a52cd2e32b516",
       "entry_class": "honest",
-      "status": "VALIDATORS_TIMEOUT",
-      "reason": "protocol validation/execution timed out; this is not a contract rejection"
+      "status": "FINALIZED",
+      "reason": "Finalized protocol timeout; a complete current entry scan found no matching state. This is not a contract rejection.",
+      "status_basis": "getTransactionAllData",
+      "consensus_outcome": "TIMEOUT",
+      "failure_verified": true,
+      "receipt_summary": {
+        "statusName": "FINALIZED",
+        "resultName": "TIMEOUT",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "8",
+        "numOfInitialValidators": "5",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0x774237BD6e669bF1Af1b8F807ada3A0d4889987F",
+        "stored_block": {
+          "number": "23728307",
+          "hash": "0x843afa9084f52485655e8750ad24900a0a9d3d772911cc472e6c8c34712249e8",
+          "timestamp": "1791389108"
+        },
+        "last_round": {
+          "round": "2",
+          "leaderIndex": "4",
+          "votesCommitted": "11",
+          "votesRevealed": "11",
+          "rotationsLeft": "0",
+          "result": 3,
+          "committee_size": 11
+        }
+      }
     },
     {
       "id": "honest-01417162",
       "tx": "0xf79b2cb2059497dfc9c8336f8b1e30c072ad4fbef6521c41b181155240d960fe",
       "envelope_hash": "a3fd7cb9ac2fd20472292285b731848e0f81814cdbfd9f41a6123b7d31c9f91d",
       "entry_class": "honest",
-      "status": "VALIDATORS_TIMEOUT",
-      "reason": "protocol validation/execution timed out; this is not a contract rejection"
+      "status": "FINALIZED",
+      "reason": "Finalized protocol timeout; a complete current entry scan found no matching state. This is not a contract rejection.",
+      "status_basis": "getTransactionAllData",
+      "consensus_outcome": "TIMEOUT",
+      "failure_verified": true,
+      "receipt_summary": {
+        "statusName": "FINALIZED",
+        "resultName": "TIMEOUT",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "6",
+        "numOfInitialValidators": "5",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0x774237BD6e669bF1Af1b8F807ada3A0d4889987F",
+        "stored_block": {
+          "number": "23728307",
+          "hash": "0x843afa9084f52485655e8750ad24900a0a9d3d772911cc472e6c8c34712249e8",
+          "timestamp": "1791389108"
+        },
+        "last_round": {
+          "round": "4",
+          "leaderIndex": "8",
+          "votesCommitted": "17",
+          "votesRevealed": "17",
+          "rotationsLeft": "0",
+          "result": 3,
+          "committee_size": 17
+        }
+      }
     },
     {
       "id": "honest-00185647",
       "tx": "0x657a9a5f2ad638510570afab2bacebea54e3d74451c352002a49d8ceac31cee4",
       "envelope_hash": "e246e3b96faa3d7f68f7f099984880bd916dfbdc4834f44d97896d76efe0d752",
       "entry_class": "honest",
-      "status": "VALIDATORS_TIMEOUT",
-      "reason": "protocol validation/execution timed out; this is not a contract rejection"
+      "status": "FINALIZED",
+      "reason": "Finalized protocol timeout; a complete current entry scan found no matching state. This is not a contract rejection.",
+      "status_basis": "getTransactionAllData",
+      "consensus_outcome": "TIMEOUT",
+      "failure_verified": true,
+      "receipt_summary": {
+        "statusName": "FINALIZED",
+        "resultName": "TIMEOUT",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "3",
+        "numOfInitialValidators": "5",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0x774237BD6e669bF1Af1b8F807ada3A0d4889987F",
+        "stored_block": {
+          "number": "23728307",
+          "hash": "0x843afa9084f52485655e8750ad24900a0a9d3d772911cc472e6c8c34712249e8",
+          "timestamp": "1791389108"
+        },
+        "last_round": {
+          "round": "3",
+          "leaderIndex": "6",
+          "votesCommitted": "11",
+          "votesRevealed": "11",
+          "rotationsLeft": "3",
+          "result": 3,
+          "committee_size": 11
+        }
+      }
     }
   ],
   "pending": {
     "id": "honest-01397169",
     "tx": "0xc877675db83e49a59543280648b7bd7ac3739762bf00d920ee24baaaac4366b0",
     "status": "APPEAL_REVEALING",
-    "chain_timestamp": "1791373825",
+    "chain_timestamp": "1791389108",
     "created_timestamp": "1791369971",
     "round": "3",
     "votes_committed": "11",
@@ -939,7 +1215,17 @@
       "finalizeTransaction": "Simulation reverted",
       "processIdleness": "Simulation reverted",
       "advanceStuckTransaction": "Simulation reverted"
-    }
+    },
+    "status_basis": "getTransactionAllData",
+    "stored_block": {
+      "number": "23728307",
+      "hash": "0x843afa9084f52485655e8750ad24900a0a9d3d772911cc472e6c8c34712249e8",
+      "timestamp": "1791389108"
+    },
+    "round_array_index": "3",
+    "committee_size": 11,
+    "initial_validators": "5",
+    "projected_status": "APPEAL_REVEALING"
   },
   "unsubmitted_candidates": [
     {
@@ -999,5 +1285,84 @@
       "class": "citation_laundering"
     }
   ],
-  "checked_at": "2026-10-07T11:50:25+00:00"
+  "checked_at": "2026-10-07T16:05:23.832454+00:00",
+  "infrastructure_history": [
+    {
+      "id": "honest-03888792",
+      "tx": "0x15526a1b43bc1b541d050d4c2c225f8d8a221321876950fa8e99b33ecf6a68cf",
+      "envelope_hash": "8ae81f5abf4687def4f9e5894e898b1d3a1f9c0856ce0a7b5f53c553a58e48b4",
+      "entry_class": "honest",
+      "status": "VALIDATORS_TIMEOUT",
+      "reason": "Leader execution returned successfully, but validator consensus timed out and no entry state was written. Appeal was rejected as CanNotAppeal; idleness finalization did not change state.",
+      "recovery_actions": [
+        {
+          "action": "appeal",
+          "bond_gen": "0",
+          "evm_tx": "0x58e2bacb2c0b716ca8eea96c5d97ea4d2ac7e238a98891376e9895e47f41aaf0",
+          "result": "REVERTED: CanNotAppeal()"
+        },
+        {
+          "action": "finalizeIdlenessTxs",
+          "evm_tx": "0x2d0c1fe5ce1a41ea1678732f1fb7bc6353b374b0c806183769adb139721817f9",
+          "result": "EVM success; original state unchanged"
+        }
+      ],
+      "captured_in_previous_checkpoint": true
+    },
+    {
+      "id": "honest-sc095000",
+      "tx": "0x61bf34dc306626f7771cd498c5a92e70ad7a2550315580a6e5738bd6f6a2ddc3",
+      "envelope_hash": "a9aee100889d80127df370d9b153289c9a248fa469aaa79efa9a96adbe30c555",
+      "entry_class": "honest",
+      "status": "VALIDATORS_TIMEOUT",
+      "reason": "protocol validation/execution timed out; this is not a contract rejection",
+      "captured_in_previous_checkpoint": true
+    },
+    {
+      "id": "honest-07524813",
+      "tx": "0xa11c5e17176e9412ca81c7711b014c7bf24a323b50205c39fb7f6633183a2f1c",
+      "envelope_hash": "0742ba17e02d10477239c413487b21d34b7f37af7332752d27a0132554e4f177",
+      "entry_class": "honest",
+      "status": "VALIDATORS_TIMEOUT",
+      "reason": "protocol validation/execution timed out; this is not a contract rejection",
+      "captured_in_previous_checkpoint": true
+    },
+    {
+      "id": "honest-02468686",
+      "tx": "0x00f420c26b313644b00e1526d8fdf983393b6285a75e4fdc1cba7343084fd6d7",
+      "envelope_hash": "1eb6100627855f22b1702154db00005bd929d5b595b1a9e4710a52cd2e32b516",
+      "entry_class": "honest",
+      "status": "VALIDATORS_TIMEOUT",
+      "reason": "protocol validation/execution timed out; this is not a contract rejection",
+      "captured_in_previous_checkpoint": true
+    },
+    {
+      "id": "honest-01417162",
+      "tx": "0xf79b2cb2059497dfc9c8336f8b1e30c072ad4fbef6521c41b181155240d960fe",
+      "envelope_hash": "a3fd7cb9ac2fd20472292285b731848e0f81814cdbfd9f41a6123b7d31c9f91d",
+      "entry_class": "honest",
+      "status": "VALIDATORS_TIMEOUT",
+      "reason": "protocol validation/execution timed out; this is not a contract rejection",
+      "captured_in_previous_checkpoint": true
+    },
+    {
+      "id": "honest-00185647",
+      "tx": "0x657a9a5f2ad638510570afab2bacebea54e3d74451c352002a49d8ceac31cee4",
+      "envelope_hash": "e246e3b96faa3d7f68f7f099984880bd916dfbdc4834f44d97896d76efe0d752",
+      "entry_class": "honest",
+      "status": "VALIDATORS_TIMEOUT",
+      "reason": "protocol validation/execution timed out; this is not a contract rejection",
+      "captured_in_previous_checkpoint": true
+    }
+  ],
+  "stored_status_audit": {
+    "source": "getTransactionAllData",
+    "checked_at": "2026-10-07T16:05:23.832454+00:00",
+    "entry_scan_complete": true,
+    "entry_count": 15,
+    "judged_entries_verified": 15,
+    "finalized_protocol_timeouts_verified": 6,
+    "initial_validators": 5,
+    "model_verdicts_changed": false
+  }
 }

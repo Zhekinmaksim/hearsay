@@ -70,7 +70,15 @@
       "consensus_checkpoint": {
         "status": "FINALIZED",
         "result": "AGREE",
-        "chain_timestamp": "1791384637"
+        "chain_timestamp": "1791389138",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23728309",
+          "hash": "0x8b2813dfcceebe62fe060d60600ba1aadaddb110a6598ea505d0d4dd3b69fcf0",
+          "timestamp": "1791389138"
+        },
+        "initial_validators": "5",
+        "round_array_index": "0"
       }
     },
     {
@@ -123,7 +131,15 @@
       "consensus_checkpoint": {
         "status": "FINALIZED",
         "result": "AGREE",
-        "chain_timestamp": "1791384637"
+        "chain_timestamp": "1791389138",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23728309",
+          "hash": "0x8b2813dfcceebe62fe060d60600ba1aadaddb110a6598ea505d0d4dd3b69fcf0",
+          "timestamp": "1791389138"
+        },
+        "initial_validators": "5",
+        "round_array_index": "2"
       }
     },
     {
@@ -176,7 +192,15 @@
       "consensus_checkpoint": {
         "status": "FINALIZED",
         "result": "AGREE",
-        "chain_timestamp": "1791384636"
+        "chain_timestamp": "1791389138",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23728309",
+          "hash": "0x8b2813dfcceebe62fe060d60600ba1aadaddb110a6598ea505d0d4dd3b69fcf0",
+          "timestamp": "1791389138"
+        },
+        "initial_validators": "5",
+        "round_array_index": "0"
       }
     }
   ],
@@ -223,6 +247,101 @@
       "tx": "0x0c5c16af0d75620425814e3788cb38a702c1b6331ff94330cd5d915195e5270f",
       "envelope_hash": "e54fd22ffae84711fbf36ef247adad0a95d1259740ef4eddfe988eb6f589e4cc",
       "entry_class": "honest",
+      "status": "FINALIZED",
+      "reason": "Finalized protocol timeout; a complete current entry scan found no matching state. This is not a contract rejection.",
+      "receipt_summary": {
+        "statusName": "FINALIZED",
+        "resultName": "TIMEOUT",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "6",
+        "numOfInitialValidators": "5",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0x2390Ca5C7E369aD63ECbB4bF36509e7f7B7219B9",
+        "stored_block": {
+          "number": "23728309",
+          "hash": "0x8b2813dfcceebe62fe060d60600ba1aadaddb110a6598ea505d0d4dd3b69fcf0",
+          "timestamp": "1791389138"
+        },
+        "last_round": {
+          "round": "0",
+          "leaderIndex": "1",
+          "votesCommitted": "5",
+          "votesRevealed": "5",
+          "rotationsLeft": "3",
+          "result": 3,
+          "committee_size": 5
+        }
+      },
+      "status_basis": "getTransactionAllData",
+      "consensus_outcome": "TIMEOUT",
+      "failure_verified": true
+    },
+    {
+      "id": "honest-00445790",
+      "tx": "0x6084a9618892e756c6ac699b25b88e9bf59deb8ea13f69bddda72dac06d6cd59",
+      "envelope_hash": "165204949f42794b6e67ddd38d201c98edfd4cd3aec683dc9ae7d3db73867f20",
+      "entry_class": "honest",
+      "status": "FINALIZED",
+      "reason": "Finalized protocol timeout; a complete current entry scan found no matching state. This is not a contract rejection.",
+      "receipt_summary": {
+        "statusName": "FINALIZED",
+        "resultName": "TIMEOUT",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "4",
+        "numOfInitialValidators": "5",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0x2390Ca5C7E369aD63ECbB4bF36509e7f7B7219B9",
+        "stored_block": {
+          "number": "23728309",
+          "hash": "0x8b2813dfcceebe62fe060d60600ba1aadaddb110a6598ea505d0d4dd3b69fcf0",
+          "timestamp": "1791389138"
+        },
+        "last_round": {
+          "round": "0",
+          "leaderIndex": "1",
+          "votesCommitted": "5",
+          "votesRevealed": "5",
+          "rotationsLeft": "3",
+          "result": 3,
+          "committee_size": 5
+        }
+      },
+      "status_basis": "getTransactionAllData",
+      "consensus_outcome": "TIMEOUT",
+      "failure_verified": true
+    }
+  ],
+  "pending": {
+    "tx": "0x1a976d68c60c44cd4af5e93b7de0c556cb7606d047d26b5f031d6c44af82b0ad",
+    "status": "COMMITTING",
+    "chain_timestamp": "1791389138",
+    "round": "4",
+    "committed": "13",
+    "revealed": "0",
+    "committee_size": 23,
+    "scan_complete": true,
+    "diagnosis": "UNRESOLVED",
+    "recovery_error": "ValidatorSelectionFailed (0x1f90236d)",
+    "active_validators_observed": 34,
+    "status_basis": "getTransactionAllData",
+    "stored_block": {
+      "number": "23728309",
+      "hash": "0x8b2813dfcceebe62fe060d60600ba1aadaddb110a6598ea505d0d4dd3b69fcf0",
+      "timestamp": "1791389138"
+    },
+    "round_array_index": "4",
+    "votes_committed": "13",
+    "votes_revealed": "0",
+    "initial_validators": "5",
+    "projected_status": "UNDETERMINED"
+  },
+  "health_warning": "Incomplete replacement run. It stopped on a protocol validator-selection failure. No entries from this deployment are combined with another cohort.",
+  "infrastructure_history": [
+    {
+      "id": "honest-00102498",
+      "tx": "0x0c5c16af0d75620425814e3788cb38a702c1b6331ff94330cd5d915195e5270f",
+      "envelope_hash": "e54fd22ffae84711fbf36ef247adad0a95d1259740ef4eddfe988eb6f589e4cc",
+      "entry_class": "honest",
       "status": "VALIDATORS_TIMEOUT",
       "reason": "protocol validation/execution timed out; this is not a contract rejection",
       "receipt_summary": {
@@ -252,7 +371,8 @@
             "0x4f36CB2C58385575fafb443d80E3c290b12DA6aE"
           ]
         }
-      }
+      },
+      "captured_in_previous_checkpoint": true
     },
     {
       "id": "honest-00445790",
@@ -288,21 +408,19 @@
             "0xB7551beF37a05995218f9a1BB7A93e5B6705f535"
           ]
         }
-      }
+      },
+      "captured_in_previous_checkpoint": true
     }
   ],
-  "pending": {
-    "tx": "0x1a976d68c60c44cd4af5e93b7de0c556cb7606d047d26b5f031d6c44af82b0ad",
-    "status": "COMMITTING",
-    "chain_timestamp": "1791384639",
-    "round": "4",
-    "committed": "13",
-    "revealed": "0",
-    "committee_size": 23,
-    "scan_complete": true,
-    "diagnosis": "UNRESOLVED",
-    "recovery_error": "ValidatorSelectionFailed (0x1f90236d)",
-    "active_validators_observed": 34
-  },
-  "health_warning": "Incomplete replacement run. It stopped on a protocol validator-selection failure. No entries from this deployment are combined with another cohort."
+  "checked_at": "2026-10-07T16:05:45.932212+00:00",
+  "stored_status_audit": {
+    "source": "getTransactionAllData",
+    "checked_at": "2026-10-07T16:05:45.932212+00:00",
+    "entry_scan_complete": true,
+    "entry_count": 3,
+    "judged_entries_verified": 3,
+    "finalized_protocol_timeouts_verified": 2,
+    "initial_validators": 5,
+    "model_verdicts_changed": false
+  }
 }
