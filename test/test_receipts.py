@@ -6,6 +6,8 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
+import urllib.error
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -32,6 +34,15 @@ class ReceiptsTest(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             collector.extract_json("Result:\nnot an object\n✔ done")
 
+    def test_explorer_indexing_lag_stays_pending(self):
+        error = urllib.error.HTTPError("url", 404, "Not Found", {}, None)
+        with patch.object(collector, "fetch_json", side_effect=error):
+            self.assertIsNone(collector.fetch_receipt(collector.EXPLORER, self.tx, 1))
+        error = urllib.error.HTTPError("url", 503, "Unavailable", {}, None)
+        with patch.object(collector, "fetch_json", side_effect=error):
+            with self.assertRaises(urllib.error.HTTPError):
+                collector.fetch_receipt(collector.EXPLORER, self.tx, 1)
+
     def test_scan_recovers_after_empty_slot(self):
         def reader(endpoint, address, entry_id, timeout):
             return None if entry_id == 0 else {"entry_id": entry_id, "envelope_hash": "hash"}
@@ -47,6 +58,16 @@ class ReceiptsTest(unittest.TestCase):
         index, errors = collector.scan_entries("", "", 1, count=2, reader=reader)
         self.assertIn("hash", index)
         self.assertIn("RPC", errors[0]["error"])
+
+    def test_incremental_scan_recovers_new_shifted_id(self):
+        reads = []
+        def reader(endpoint, address, entry_id, timeout):
+            reads.append(entry_id)
+            return {"entry_id": entry_id, "envelope_hash": str(entry_id)}
+        index, errors = collector.scan_entries("", "", 1, count=5, reader=reader, start=3)
+        self.assertEqual(reads, [3, 4])
+        self.assertEqual(index["4"]["entry_id"], 4)
+        self.assertEqual(errors, [])
 
     def test_record_reproduces_actual_votes(self):
         record = collector.assemble_record(self.row, self.entry, self.env, 2, self.receipt)
@@ -93,6 +114,12 @@ class ReceiptsTest(unittest.TestCase):
         result = diagnosis.diagnose(self.row, {"status": "REVERTED", "error": "boom"}, {}, False)
         self.assertEqual(result["verdict"], "FAILED ON CHAIN")
         self.assertEqual(result["errors"], [("error", "boom")])
+
+    def test_protocol_timeout_is_not_a_contract_rejection(self):
+        for status in ("ValidatorsTimeout", "validators_timeout", "LeaderTimeout"):
+            result = diagnosis.diagnose(self.row, {"status": status}, {}, True)
+            self.assertEqual(result["verdict"], "CONSENSUS TIMEOUT")
+            self.assertIn("not a contract rejection", result["reason"])
 
     def test_cli_checkpoints_missing_state_and_preserves_records(self):
         with tempfile.TemporaryDirectory(prefix="hearsay-receipts-") as folder:

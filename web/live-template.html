@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hearsay — Bradbury record</title>
+<meta name="description" content="The live admission record: primary sources, recorded votes, chain receipts, and false rejections on twenty honest entries.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:Archivo;src:url(fonts/Archivo-Regular.ttf)}
+@font-face{font-family:Newsreader;src:url(fonts/Newsreader-Regular.ttf)}
+:root{color-scheme:light;--paper:#f2f3f1;--ink:#15181d;--soft:#585f6b;--rule:#c7cbc7;--flag:#7c4a2d}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 Archivo,Arial,sans-serif}a{color:inherit;text-underline-offset:4px}button,select,textarea{font:inherit}button,select{border:1px solid var(--rule);background:transparent;color:inherit;padding:10px 14px}button{cursor:pointer}button:focus-visible,select:focus-visible,a:focus-visible,textarea:focus-visible{outline:2px solid var(--flag);outline-offset:4px}header,main,footer{max-width:1320px;margin:auto;padding:24px 5vw}header{display:flex;justify-content:space-between;gap:24px;align-items:center;border-bottom:1px solid var(--rule)}.brand{display:flex;gap:14px;align-items:center;font-size:24px;text-decoration:none}.brand img{width:40px;height:40px}header nav{display:flex;gap:24px;font-size:13px}main{padding-top:68px}.eyebrow,th,.label{font-size:11px;text-transform:uppercase;letter-spacing:.12em}.eyebrow{color:var(--soft)}h1,h2{font-family:Newsreader,Georgia,serif;font-weight:400;line-height:1.03}h1{font-size:clamp(48px,7vw,94px);max-width:960px;margin:22px 0 30px}h2{font-size:38px;margin:0 0 24px}.lead{font-size:18px;max-width:750px}.note{color:var(--soft);font-size:13px;max-width:850px}.metrics{display:grid;grid-template-columns:2fr 1fr 1fr;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);margin:48px 0}.metric{padding:28px 0}.metric+.metric{padding-left:32px;border-left:1px solid var(--rule)}.number{display:block;font:56px/1.2 Newsreader,Georgia,serif;margin:8px 0}.metric .note{margin:0}.section{margin:64px 0}.tools{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:24px}.scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px}th{text-align:left;color:var(--soft);font-weight:400}td,th{padding:16px 12px 16px 0;border-bottom:1px solid var(--rule);vertical-align:top}td:first-child{min-width:300px;max-width:620px;font-size:16px}.votes{white-space:nowrap;font-family:monospace}.status{white-space:nowrap}details{margin-top:10px;font-size:12px;color:var(--soft)}summary{cursor:pointer}.hash{overflow-wrap:anywhere;font-family:monospace}textarea{display:block;width:100%;min-height:290px;border:1px solid var(--rule);background:transparent;padding:20px;margin:20px 0;font:12px/1.65 monospace;resize:vertical}#verify-output{margin-top:18px;overflow-wrap:anywhere}.flag{color:var(--flag)}footer{border-top:1px solid var(--rule);font-size:12px;color:var(--soft);display:flex;justify-content:space-between;gap:24px}.empty{padding:24px 0;color:var(--soft)}
+@media(max-width:720px){header{align-items:flex-start}header nav{flex-direction:column;gap:6px}main{padding-top:42px}.metrics{grid-template-columns:1fr}.metric+.metric{padding-left:0;border-left:0;border-top:1px solid var(--rule)}.tools{align-items:flex-start;flex-direction:column}footer{flex-direction:column}.number{font-size:48px}}
+</style>
+</head>
+<body>
+<header><a class="brand" href="/"><img src="mark.svg" alt="">Hearsay</a><nav><a href="/">Offline stand</a><a href="live-corpus.json" download>Download record</a><a href="https://github.com/Zhekinmaksim/hearsay">Source</a></nav></header>
+<main>
+<p class="eyebrow">Bradbury · live admission record · /*__DATE__*/</p>
+<h1>What crossed the gate.</h1>
+<p class="lead">/*__LEAD__*/</p>
+<p class="note">Each judged source was fetched by validator consensus. These are observed votes and verdicts, with a transaction link for every judged entry. The reviewed control cohort uses Companies House; this sample does not establish performance across arbitrary sources.</p>
+<div class="metrics">
+<div class="metric"><span class="label">Honest entries wrongly refused</span><span class="number" id="false-rate">/*__FALSE_RATE__*/</span><p class="note">/*__FALSE_COUNT__*/</p></div>
+<div class="metric"><span class="label">Entries judged</span><span class="number" id="judged-count">/*__JUDGED__*/</span></div>
+<div class="metric"><span class="label">Prevented before consensus</span><span class="number">/*__PREVENTED__*/</span><p class="note">Excluded from the caught count.</p></div>
+</div>
+<p class="note flag">/*__HEALTH_WARNING__*/</p>
+<section class="section" aria-labelledby="infrastructure-title"><h2 id="infrastructure-title">The calls that did not reach judgement.</h2><p class="note">Infrastructure outcomes are kept in the record and excluded from the gate's admission and false-rejection rates. They affect availability. The control denominator below includes completed judgements only.</p>/*__INFRASTRUCTURE__*/</section>
+<section class="section" aria-labelledby="rules-title"><h2 id="rules-title">The space.</h2><p class="note">/*__RULES__*/</p><p class="note"><a href="/*__CONTRACT_URL__*/">View contract on Bradbury</a> · <a href="/*__DEPLOY_TX_URL__*/">Deployment receipt</a>. Snapshot hashes are recorded; snapshot bytes are not exposed by this contract, so independent snapshot reproduction remains unverified.</p></section>
+<section class="section" aria-labelledby="classes-title"><h2 id="classes-title">Admission by class.</h2><div class="scroll"><table><thead><tr><th>Class</th><th>Attempts</th><th>Admitted</th><th>Admission rate</th><th>Inconclusive</th></tr></thead><tbody>/*__CLASSES__*/</tbody></table></div></section>
+<section class="section" aria-labelledby="record-title"><div class="tools"><h2 id="record-title">Every entry. Every vote.</h2><label>Show <select id="class-filter"><option value="">All classes</option>/*__OPTIONS__*/</select></label></div><div class="scroll"><table><thead><tr><th>Claim and provenance</th><th>Verdict</th><th>Support A / B</th><th>Consistency</th><th>Receipt</th></tr></thead><tbody id="records">/*__ROWS__*/</tbody></table></div><h3>Prevented on the write path</h3>/*__REFUSED__*/</section>
+<section class="section" aria-labelledby="verify-title"><h2 id="verify-title">Replay a receipt.</h2><p class="note">Choose an entry above or edit the receipt below. The envelope hash and recorded votes are checked locally. Change a verdict or a vote and replay it again.</p><label for="receipt-input">Receipt JSON</label><textarea id="receipt-input" spellcheck="false"></textarea><button id="verify">Replay recorded votes</button><p id="verify-output" role="status" aria-live="polite"></p></section>
+</main>
+<footer><span>Source support and memory consistency, on GenLayer.</span><span>Money balanced: /*__BALANCED__*/ · <a href="/">Explore the offline cascade example</a></span></footer>
+<script id="live-data" type="application/json">/*__DATA__*/</script>
+<script>
+/*__LIB__*/
+const live=JSON.parse(document.getElementById('live-data').textContent);
+const input=document.getElementById('receipt-input');
+const output=document.getElementById('verify-output');
+const answers={yes:true,no:false,unread:null,unasked:null};
+function verify(){
+ try{
+  const receipt=JSON.parse(input.value);
+  const failures=[];
+  if(envelopeHash(receipt.envelope)!==receipt.envelope_hash)failures.push('Envelope hash does not match.');
+  const votes=receipt.votes;
+  if(!votes||!(votes.a in answers)||!(votes.b in answers))throw new Error('Missing or invalid votes.');
+  const rounds=[votes.a,votes.b].filter(v=>v==='yes'||v==='no').length;
+  if(rounds!==receipt.rounds)failures.push('Recorded round count does not match.');
+  const conflict=votes.conflict==='none'?-1:(votes.conflict==='unread'||votes.conflict==='unasked'?null:Number(votes.conflict));
+  if(conflict!==null&&!Number.isInteger(conflict))throw new Error('Invalid consistency vote.');
+  const actual=decide(answers[votes.a],answers[votes.b],rounds,receipt.min_rounds,conflict,votes.a!=='unasked')[0];
+  if(actual!==receipt.status)failures.push('Recorded verdict does not follow from its votes: '+actual+'.');
+  output.textContent=failures.length?'Does not reproduce. '+failures.join(' '):'Reproduces. '+actual+'. Snapshot bytes remain unverified.';
+ }catch(error){output.textContent='Malformed receipt. '+error.message;}
+}
+function choose(index){const row=live.entries[index];input.value=JSON.stringify({envelope:row.envelope,envelope_hash:row.envelope_hash,votes:row.votes,rounds:row.rounds,status:row.status,min_rounds:live.policy.min_rounds},null,2);verify();}
+document.querySelectorAll('[data-replay]').forEach(button=>button.addEventListener('click',()=>{choose(Number(button.dataset.replay));document.getElementById('verify-title').scrollIntoView?.({behavior:'smooth'});}));
+document.getElementById('verify').addEventListener('click',verify);
+document.getElementById('class-filter').addEventListener('change',event=>{document.querySelectorAll('#records tr').forEach(row=>row.hidden=!!event.target.value&&row.dataset.class!==event.target.value);});
+if(live.entries.length)choose(0);
+</script>
+</body>
+</html>

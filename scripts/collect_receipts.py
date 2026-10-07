@@ -23,6 +23,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import urllib.error
 import urllib.request
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -32,7 +33,8 @@ import gate  # noqa: E402
 
 EXPLORER = "https://explorer-bradbury.genlayer.com"
 FAILED = {"ERROR", "CANCELED", "CANCELLED", "REVERTED", "FAILED"}
-TERMINAL = FAILED | {"FINALIZED", "ACCEPTED", "UNDETERMINED", "SUCCESS"}
+TIMEOUTS = {"VALIDATORS_TIMEOUT", "LEADER_TIMEOUT"}
+TERMINAL = FAILED | TIMEOUTS | {"FINALIZED", "ACCEPTED", "UNDETERMINED", "SUCCESS"}
 
 
 def fetch_json(url, timeout):
@@ -44,7 +46,13 @@ def fetch_json(url, timeout):
 def fetch_receipt(explorer, tx, timeout):
     if not re.fullmatch(r"0x[0-9a-fA-F]{64}", tx):
         raise ValueError("invalid transaction hash")
-    return fetch_json(explorer.rstrip("/") + "/api/v1/transactions/" + tx, timeout)
+    try:
+        return fetch_json(explorer.rstrip("/") + "/api/v1/transactions/" + tx, timeout)
+    except urllib.error.HTTPError as exc:
+        if exc.code == 404:
+            # The explorer indexes asynchronously after the SDK returns a tx.
+            return None
+        raise
 
 
 def replace_js_atoms(source):
@@ -118,7 +126,8 @@ def status_of(receipt):
         return "PENDING"
     for key in ("status", "status_name", "statusName", "consensus_status"):
         if receipt.get(key):
-            return str(receipt[key]).upper()
+            value = str(receipt[key]).upper()
+            return {"VALIDATORSTIMEOUT": "VALIDATORS_TIMEOUT", "LEADERTIMEOUT": "LEADER_TIMEOUT", "APPEALCOMMITTING": "APPEAL_COMMITTING", "APPEALREVEALING": "APPEAL_REVEALING"}.get(value.replace("_", ""), value)
     return "PENDING"
 
 
@@ -155,12 +164,12 @@ def checkpoint(path, value):
     atomic_write(path, json.dumps(value, ensure_ascii=False, indent=2) + "\n")
 
 
-def scan_entries(endpoint, address, timeout, count=None, reader=read_entry):
+def scan_entries(endpoint, address, timeout, count=None, reader=read_entry, start=0):
     """Use the chain's count, including entries missed in the manifest."""
     if count is None:
         count = int(read_call(endpoint, address, "entry_count", [], timeout))
     index, errors = {}, []
-    for entry_id in range(count):
+    for entry_id in range(start, count):
         try:
             got = reader(endpoint, address, entry_id, timeout)
             if not isinstance(got, dict) or not got.get("envelope_hash"):
@@ -247,7 +256,11 @@ def main():
     problems, index, scan_errors = [], {}, []
     if cache is None:
         try:
-            index, scan_errors = scan_entries(args.endpoint, args.address, args.timeout)
+            known_ids = {int(record["entry_id"]) for record in existing.values()}
+            start = 0
+            while start in known_ids:
+                start += 1
+            index, scan_errors = scan_entries(args.endpoint, args.address, args.timeout, start=start)
         except Exception as exc:
             scan_errors.append({"error": str(exc)})
     policy_cache = {}
@@ -283,6 +296,8 @@ def main():
                 raise ValueError("still settling: " + status_of(receipt))
             if status_of(receipt) in FAILED:
                 raise ValueError("failed transaction: " + status_of(receipt))
+            if status_of(receipt) in TIMEOUTS:
+                raise ValueError("consensus timeout: " + status_of(receipt))
             if not judged:
                 raise ValueError("terminal receipt without matching entry; run diagnose_missing.py")
             if cache is None:

@@ -1,6 +1,6 @@
-.PHONY: test receipts-test parity page vectors replay dry-run assets site gate check lint all
+.PHONY: test receipts-test parity page live-page vectors replay dry-run assets site gate check lint all
 
-all: lint test receipts-test dry-run replay assets site parity page
+all: lint test receipts-test dry-run replay assets site parity page live-page
 
 test:
 	python3 test/run_tests.py
@@ -35,6 +35,9 @@ parity: vectors
 page: site
 	node test/page.mjs
 
+live-page:
+	@if test -f web/live.html; then node test/live-page.mjs; else echo "live run not published yet — skipping live page checks"; fi
+
 # Every exit code the gate can produce, in one pass. `-` because a refusal is a
 # non-zero exit and that is the point of the tool, not a build failure.
 gate:
@@ -49,4 +52,5 @@ check:
 lint:
 	python3 -m py_compile contracts/hearsay.py cli/entry.py cli/gate.py \
 		scripts/dry_run.py scripts/build_site.py scripts/replay_corpus.py \
-		scripts/collect_receipts.py scripts/diagnose_missing.py test/run_tests.py test/model.py
+		scripts/collect_receipts.py scripts/diagnose_missing.py scripts/run_live.py \
+		scripts/build_deploy.py scripts/publish_live.py test/run_tests.py test/model.py

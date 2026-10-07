@@ -27,7 +27,7 @@ try {
   process.exit(0);
 }
 
-const html = readFileSync(join(ROOT, "web", "index.html"), "utf-8");
+const html = readFileSync(process.argv[2] || join(ROOT, "web", "index.html"), "utf-8");
 const errors = [];
 
 const dom = new JSDOM(html, { runScripts: "dangerously", pretendToBeVisual: true });

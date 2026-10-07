@@ -309,6 +309,56 @@ proof that a source snapshot was independently reproduced.
 Vercel serves the committed `web/` directory using `vercel.json`. Its build does
 not run a dry run or install application dependencies.
 
+The live candidates are in `corpus/live.json`: independently fetched
+company profiles from Companies House, followed by the seven attack classes.
+The stale-name candidate cites a verified Wayback capture of Shell's profile
+from 23 January 2021 and records its live counterpart. These are candidate
+expectations, not measured verdicts. The control group uses one registry, so
+its results do not establish performance across arbitrary websites.
+
+Bradbury deployment metadata is in `deployments/bradbury.json`. To build the
+deployment source, run `python3 scripts/build_deploy.py`. It preserves the
+executable AST and prompt strings, removes documentation and whitespace, and
+uses a reversible string dictionary to fit the network's transaction gas cap.
+Its source hash is included in the wrapper. No binary Python modules are
+required in GenVM. Keep the JSON runner directive as the only initial comment;
+additional contiguous comments are parsed as part of that JSON by validators.
+
+The installed CLI 0.39.1 sends zero native value on writes. The thin
+`scripts/genlayer_write.mjs` bridge uses its bundled SDK and the already unlocked
+OS keychain account, verifies the expected public address, and fsyncs the
+transaction ID into the manifest. It never exports the signing key. Values in
+the live corpus are in wei; the small demonstration bonds are not an economic
+security calibration.
+
+After deploying and confirming `open_space`, run:
+
+```sh
+python3 scripts/run_live.py --address "$CONTRACT" --account "$ACCOUNT"
+```
+
+The runner resumes from the same manifest, stops before the next write if
+collection or diagnosis is unresolved, and checks solvency after every write.
+Use `--limit 1` to perform the first write separately. It also refuses an
+impossible dependency locally before spending a bond or asking consensus.
+The published offline reference stays intact throughout the live run.
+
+`ValidatorsTimeout` and `LeaderTimeout` are protocol outcomes, distinct from a
+contract refusal. They are diagnosed and retained with receipts and recovery
+actions. `--accept-diagnosed-timeouts` permits continuing only past timeouts
+explicitly saved in `runs/live/infrastructure-failures.json`; ordinary missing
+state still stops the run. Additional reviewed controls keep the completed
+honest cohort at twenty without deleting infrastructure failures or counting
+them as defence successes.
+
+After the entire run is collected, `scripts/publish_live.py --address
+"$CONTRACT"` checks the chain count, solvency, honest cohort and every verdict
+before writing `web/live-corpus.json` and a separate `web/live.html`. The live
+page links each transaction, publishes every vote, filters by class, and replays
+editable receipts locally. `make live-page` checks its controls independently
+of the fifty checks for the offline stand. Accepted consensus state is labelled
+as accepted; it is not presented as finalization.
+
 `make dry-run` produces a real corpus file with real hashes, real snapshots and
 a real verdict per entry. It does not produce a defence measurement, and its own
 header says so: the judge in that run is a scripted stand-in that answers what

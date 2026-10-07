@@ -40,6 +40,9 @@ def diagnose(row, receipt, index, complete):
     if hit:
         verdict = "RECOVERABLE"
         reason = "matching envelope found on chain as entry %d" % hit["entry_id"]
+    elif status in collector.TIMEOUTS:
+        verdict = "CONSENSUS TIMEOUT"
+        reason = "protocol validation/execution timed out; this is not a contract rejection"
     elif status in collector.FAILED:
         verdict = "FAILED ON CHAIN"
         reason = "receipt records a failed transaction; inspect its errors and execution trace"
@@ -73,6 +76,7 @@ def main():
     ap.add_argument("--timeout", type=int, default=30)
     ap.add_argument("--scan", type=int, default=None)
     ap.add_argument("--tx", action="append", default=[])
+    ap.add_argument("--exclude-tx", action="append", default=[], help="already diagnosed protocol failures; kept in the report")
     ap.add_argument("--from-json", default="")
     ap.add_argument("--out", default=str(collector.ROOT / "runs" / "diagnosis.json"))
     args = ap.parse_args()
@@ -81,6 +85,12 @@ def main():
     if Path(args.records).exists():
         collected = {json.loads(line)["tx"] for line in Path(args.records).read_text().splitlines() if line.strip()}
     targets = [row for row in rows if row["tx"] in args.tx] if args.tx else [row for row in rows if row["tx"] not in collected]
+    excluded = [row["tx"] for row in targets if row["tx"] in args.exclude_tx]
+    targets = [row for row in targets if row["tx"] not in args.exclude_tx]
+    if not targets:
+        collector.checkpoint(args.out, {"scan_complete": None, "scan_skipped": "all remaining manifest transactions already collected", "excluded_txs": excluded, "scan_errors": [], "transactions": []})
+        print("0 missing transactions; %s" % args.out)
+        return 0
     cache = json.loads(Path(args.from_json).read_text()) if args.from_json else None
     if cache is None and not args.address:
         ap.error("--address is required for chain reads")
@@ -108,9 +118,9 @@ def main():
         result["lookup_error"] = lookup_error
         results.append(result)
         # Persist after every lookup, including unsuccessful ones.
-        collector.checkpoint(args.out, {"scan_complete": complete, "scan_errors": scan_errors, "transactions": results})
+        collector.checkpoint(args.out, {"scan_complete": complete, "excluded_txs": excluded, "scan_errors": scan_errors, "transactions": results})
         print("%s %s: %s" % (row["tx"][:14], result["verdict"], result["reason"]))
-    collector.checkpoint(args.out, {"scan_complete": complete, "scan_errors": scan_errors, "transactions": results})
+    collector.checkpoint(args.out, {"scan_complete": complete, "excluded_txs": excluded, "scan_errors": scan_errors, "transactions": results})
     unresolved = sum(result["verdict"] == "UNRESOLVED" for result in results)
     print("%d transactions checked, %d unresolved; %s" % (len(results), unresolved, args.out))
     return 2 if unresolved or scan_errors else 0

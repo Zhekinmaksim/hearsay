@@ -1,0 +1,13 @@
+{
+  "network": "testnet-bradbury",
+  "chain_id": 4221,
+  "address": "0x774237BD6e669bF1Af1b8F807ada3A0d4889987F",
+  "deployment_tx": "0x80bb031b645a374bb1fc8dba5f076cdf52cac0a024d005b8df9356d8229d64f3",
+  "source_sha256": "bd3140aab5f2c83e8067c6684f64b543cdedbdc90ec789e0997e1c1c7e9f7acb",
+  "deployment_source_sha256": "b8ed0663f5734e31dc5ea3a5a71bcb7ce96ccded8e3e502704ec7c7d524dc0e2",
+  "execution_result": "FINISHED_WITH_RETURN",
+  "verified_views": [
+    "entry_count",
+    "solvency"
+  ]
+}
