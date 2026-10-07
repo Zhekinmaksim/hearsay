@@ -133,7 +133,12 @@ def build_checkpoint(seed, metadata, manifest, rows, history, refused, *, space=
             if not row.get("snapshot_verified") or not isinstance(row.get("snapshot_excerpt"), str):
                 raise ValueError("snapshot bytes unverified: " + row["id"])
             provenance = row.get("snapshot_provenance") or {}
-            if row["snapshot_excerpt"] and provenance.get("trace_transaction_id") != row["tx"]:
+            provenance_tx = provenance.get("trace_transaction_id")
+            if provenance.get("source") == "getTransactionAllData.eqBlocksOutputs":
+                provenance_tx = provenance.get("transaction_id")
+                if provenance.get("eq_block_index") != 0 or not provenance.get("stored_block"):
+                    raise ValueError("invalid stored equivalence snapshot provenance")
+            if row["snapshot_excerpt"] and provenance_tx != row["tx"]:
                 raise ValueError("snapshot trace belongs to another transaction")
             verification = dict(row, min_rounds=policy["min_rounds"])
             code, result = collector.gate.run_verify(verification)

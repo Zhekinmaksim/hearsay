@@ -49,6 +49,17 @@ def refresh_record(row, address):
     return refreshed
 
 
+def refresh_failure(failure, address, entry_index):
+    receipt = collector.lookup_receipt(collector.EXPLORER, "", failure["tx"], 30)
+    if (receipt.get("recipient") or "").lower() != address.lower():
+        raise ValueError("infrastructure receipt belongs to another contract")
+    if failure["envelope_hash"] in entry_index:
+        raise ValueError("infrastructure transaction now has application state; recollect")
+    if collector.status_of(receipt) != "FINALIZED" or not collector.is_consensus_timeout(receipt):
+        raise ValueError("infrastructure outcome still settling: " + failure["id"])
+    return public_infrastructure(dict(failure, receipt=receipt, status="FINALIZED", consensus_outcome="TIMEOUT"))
+
+
 def build_page(corpus):
     root = collector.ROOT
     template = (root / "web/live-template.html").read_text()
@@ -141,6 +152,10 @@ def main():
         if code:
             raise ValueError("unreproducible record: " + json.dumps(result))
     rows = [refresh_record(row, args.address) for row in rows]
+    current_entries, scan_errors = collector.scan_entries("", args.address, 30)
+    if scan_errors:
+        raise ValueError("current entry scan incomplete; nothing published")
+    failures_public = [refresh_failure(failure, args.address, current_entries) for failure in failures]
     metadata = json.loads(Path(args.deployment).read_text())
     if metadata["address"].lower() != args.address.lower():
         raise ValueError("deployment metadata target mismatch")
@@ -152,9 +167,9 @@ def main():
         "deployment_source_sha256": metadata["deployment_source_sha256"],
         "consensus_policy": metadata.get("consensus_policy", "comparative equivalence of model responses"),
         "experiment": metadata.get("experiment", False),
-        "health_warning": "Verdicts were collected from consensus state. Accepted receipts remain provisional until finalization. Pinned source bytes were recovered from GenVM traces and hash-checked against contract state. All controls use one registry.",
+        "health_warning": "Verdicts were collected from consensus state. Accepted receipts remain provisional until finalization. Pinned source bytes were recovered from stored equivalence outputs or GenVM traces and hash-checked against contract state. All controls use one registry.",
         "policy": policy, "entries": rows, "refused_at_write": refused,
-        "infrastructure_failures": [public_infrastructure(failure) for failure in failures],
+        "infrastructure_failures": failures_public,
         "infrastructure_history": [public_infrastructure(failure) for failure in infrastructure_history],
         "report": report, "solvency": solvency,
         "protocol": metadata.get("protocol", {"initial_validators": 5, "max_rotations": 3}),

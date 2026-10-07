@@ -1,0 +1,628 @@
+{
+  "run": "bradbury-checkpoint",
+  "complete": false,
+  "defence_conclusion": null,
+  "required_honest_judgements": 20,
+  "contract_address": "0x967bBafE6Bca9dEAEEB839cFB860C57A383Db222",
+  "deployment_tx": "0xe3bef27ee216806c3764a9cf75bf2f95e171502062005924f83f21fae32e1897",
+  "space_id": 0,
+  "source_sha256": "ec1866990a75b05b5a1f9e4d406dfd342cd13779c21f559d233f5676bab08d87",
+  "deployment_source_sha256": "af67bf5014bab3909d11ea668fa67606a8e161aae069e728720e94db9ded2e41",
+  "consensus_policy": "strict equality of parsed decisions; source-fetch remains comparative",
+  "experiment": true,
+  "protocol": {
+    "initial_validators": 5,
+    "max_rotations": 3
+  },
+  "policy": {
+    "admit_ttl": 1000,
+    "admitted": 1,
+    "cascade_depth": 3,
+    "challenge_bond": 2000,
+    "entries": 1,
+    "min_rounds": 2,
+    "name": "companies-house-live",
+    "open": true,
+    "owner": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+    "policy": "Claims about company registry status, names, incorporation and filings; primary sources or explicitly dated archives only.",
+    "pool": 501000,
+    "space_id": 0,
+    "write_bond": 1000
+  },
+  "health_warning": "Incomplete checkpoint. Verified observations only; no defence conclusion. Accepted receipts remain provisional. A full report requires complete candidate coverage and at least 20 judged honest controls.",
+  "coverage": {
+    "candidates": 36,
+    "judged": 1,
+    "honest_judged": 1,
+    "infrastructure_failures": 2,
+    "unresolved": 1,
+    "prevented": 0,
+    "unsubmitted": 32
+  },
+  "entries": [
+    {
+      "admitted_at": 1,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "Companies House lists BARCLAYS PLC (company number 00048839) with company status Active.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 0,
+      "envelope_hash": "8c19c9b369173c1ed28737c342446d2d19ded17f0184278d880a368623b7feab",
+      "note": "",
+      "rounds": 2,
+      "snapshot_hash": "a41262eef58449bfd577bcf62c966d48c52ab3084be593a26686505193185360",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00048839",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      },
+      "id": "honest-00048839",
+      "tx": "0xf0b2ae77ad8701244f206ccbc4a50ef453e9880bdecb2a9621c5187f9780ed98",
+      "receipt_status": "FINALIZED",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "claim": "Companies House lists BARCLAYS PLC (company number 00048839) with company status Active.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00048839",
+        "entry_class": "honest",
+        "expects": "ADMITTED"
+      },
+      "expects": "ADMITTED",
+      "dedup_key": "0:14a77b8071aa2a5e62756677fb25b3350181b3418e92bce188e85b7c3ffc1578",
+      "min_rounds": 2,
+      "as_expected": true,
+      "snapshot_verified": true,
+      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nBARCLAYS PLC\n\nCompany number 00048839\n\nFollow this company File for this company\nCompany\nOverview\nfor BARCLAYS PLC (00048839)\nFiling history\nfor BARCLAYS PLC (00048839)\nPeople\nfor BARCLAYS PLC (00048839)\nMore\nfor BARCLAYS PLC (00048839)\nRegistered office address\n1 Churchill Place, London, E14 5HP\nCompany status\nActive\nCompany type\nPublic limited Company\nIncorporated on\n20 July 1896\nAccounts\n\nNext accounts made up to 31 December 2026\ndue by 30 June 2027\n\nLast accounts made up to 31 December 2025\n\nConfirmation statement\n\nNext statement date 1 November 2026\ndue by 15 November 2026\n\nLast statement dated 1 November 2025\n\nNature of business (SIC)\n64191 - Banks\nPrevious company names\nPrevious company names\nName Period\nBARCLAYS BANK PLC 15 Feb 1982 - 01 Jan 1985\nBARCLAYS BANK LIMITED 17 Feb 1916 - 15 Feb 1982\nBARCLAY & COMPANY LIMITED 20 Jul 1896 - 17 Feb 1916\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
+      "snapshot_provenance": {
+        "snapshot_hash": "a41262eef58449bfd577bcf62c966d48c52ab3084be593a26686505193185360",
+        "trace_round": 0,
+        "trace_transaction_id": "0xf0b2ae77ad8701244f206ccbc4a50ef453e9880bdecb2a9621c5187f9780ed98",
+        "storage_key": "055dc3cafbf50f47a37c50d00c734c121fd179068d5d76607d7f5016bd29ab2900000000"
+      },
+      "consensus_checkpoint": {
+        "statusName": "FINALIZED",
+        "resultName": "AGREE",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "0",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0x967bBafE6Bca9dEAEEB839cFB860C57A383Db222",
+        "currentTimestamp": "1791401307",
+        "last_round": {
+          "round": "0",
+          "votesCommitted": "5",
+          "votesRevealed": "5",
+          "validatorVotes": [
+            1,
+            1,
+            1,
+            3,
+            4
+          ],
+          "roundValidators": [
+            "0x183217483618c4EBd34C987DE400e01bEFfe5860",
+            "0x77a07271abB443F55be19c357AA35206BeB63E1d",
+            "0x8E7765267023F88d4155d52F4ce2319aDDf1dc33",
+            "0x0c526A6af46A038E31dA21C123756Ab2D75f06Bc",
+            "0x992E8D62263eD1Fe2E14FfB11aDf1080edBe4b5a"
+          ]
+        },
+        "status": "FINALIZED",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23744760",
+          "hash": "0x2e0c6b88d46cfd03631ae0fb7ae6d2200e422ae7c32454479678ccf42f3f0198",
+          "timestamp": "1791401307"
+        },
+        "initial_validators": "5",
+        "round_array_index": "0",
+        "projected_status": "FINALIZED"
+      }
+    }
+  ],
+  "refused_at_write": [],
+  "infrastructure_failures": [
+    {
+      "id": "honest-00617987",
+      "tx": "0x4699c4f74af0e1de181315f31132e5e9b9b358b30dc7c0e0d2009370a291da92",
+      "envelope_hash": "0e46bea864e1fdd3fdbb05287a5f4a8f01c94b8def3e0f268cd2761bcadc1b3f",
+      "entry_class": "honest",
+      "status": "FINALIZED",
+      "receipt_summary": {
+        "statusName": "FINALIZED",
+        "resultName": "TIMEOUT",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "0",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0x967bBafE6Bca9dEAEEB839cFB860C57A383Db222",
+        "currentTimestamp": "1791401320",
+        "last_round": {
+          "round": "0",
+          "votesCommitted": "5",
+          "votesRevealed": "5",
+          "validatorVotes": [
+            3,
+            3,
+            3,
+            1,
+            1
+          ],
+          "roundValidators": [
+            "0x0c526A6af46A038E31dA21C123756Ab2D75f06Bc",
+            "0x58a7b7ac6Cb01843e4e5af117C551E59449E0F49",
+            "0x3f5cAED686336ED9cF3Dede61154B0Cd67Fb9bD7",
+            "0xa856ae1b278F030082c66Fa50A5F51F485D1F940",
+            "0x470AAa7DE37ff3E1C2b38eD9096263ca0d541F21"
+          ]
+        },
+        "status": "FINALIZED",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23744781",
+          "hash": "0x7d3236d38e8efeff7a4e4c276b6334908a7faa096b6f24d455c1e429e26242a6",
+          "timestamp": "1791401320"
+        },
+        "initial_validators": "5",
+        "round_array_index": "0",
+        "projected_status": "FINALIZED"
+      },
+      "consensus_outcome": "TIMEOUT",
+      "diagnosis": "CONSENSUS TIMEOUT",
+      "reason": "Finalized protocol timeout; complete entry scan found no matching state. This is not a contract rejection."
+    },
+    {
+      "id": "honest-00102498",
+      "tx": "0x96a2aa843e6a31fd505907380e9d7497803010c2cb69e33ed6e9aeec0f1e6ae5",
+      "envelope_hash": "e54fd22ffae84711fbf36ef247adad0a95d1259740ef4eddfe988eb6f589e4cc",
+      "entry_class": "honest",
+      "status": "FINALIZED",
+      "receipt_summary": {
+        "statusName": "FINALIZED",
+        "resultName": "TIMEOUT",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "2",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0x967bBafE6Bca9dEAEEB839cFB860C57A383Db222",
+        "currentTimestamp": "1791401322",
+        "last_round": {
+          "round": "0",
+          "votesCommitted": "5",
+          "votesRevealed": "5",
+          "validatorVotes": [
+            3,
+            1,
+            3,
+            3,
+            1
+          ],
+          "roundValidators": [
+            "0x2d012a292244C7ce6423a114d19109990923Af76",
+            "0x470AAa7DE37ff3E1C2b38eD9096263ca0d541F21",
+            "0xE8fdefdfe18fD8E5B0d576b7CcfC5a29CE43fD7f",
+            "0x4f36CB2C58385575fafb443d80E3c290b12DA6aE",
+            "0x2CD9051E10cd1547a7b64eF61EbF1E608235dBda"
+          ]
+        },
+        "status": "FINALIZED",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23744783",
+          "hash": "0x2dee9cac5e0311d7f8b7ce2951a5611c49396670ec86de9dba551c527fba5655",
+          "timestamp": "1791401322"
+        },
+        "initial_validators": "5",
+        "round_array_index": "2",
+        "projected_status": "FINALIZED"
+      },
+      "consensus_outcome": "TIMEOUT",
+      "diagnosis": "CONSENSUS TIMEOUT",
+      "reason": "Finalized protocol timeout; complete entry scan found no matching state. This is not a contract rejection."
+    }
+  ],
+  "infrastructure_history": [
+    {
+      "id": "honest-00617987",
+      "tx": "0x4699c4f74af0e1de181315f31132e5e9b9b358b30dc7c0e0d2009370a291da92",
+      "envelope_hash": "0e46bea864e1fdd3fdbb05287a5f4a8f01c94b8def3e0f268cd2761bcadc1b3f",
+      "entry_class": "honest",
+      "status": "LEADER_TIMEOUT",
+      "consensus_outcome": "TIMEOUT",
+      "reason": "protocol validation/execution timed out; this is not a contract rejection",
+      "receipt_summary": {
+        "statusName": "LEADER_TIMEOUT",
+        "resultName": "TIMEOUT",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "0",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0x967bBafE6Bca9dEAEEB839cFB860C57A383Db222",
+        "currentTimestamp": "1791399402",
+        "last_round": {
+          "round": "0",
+          "votesCommitted": "5",
+          "votesRevealed": "5",
+          "validatorVotes": [
+            3,
+            3,
+            3,
+            1,
+            1
+          ],
+          "roundValidators": [
+            "0x0c526A6af46A038E31dA21C123756Ab2D75f06Bc",
+            "0x58a7b7ac6Cb01843e4e5af117C551E59449E0F49",
+            "0x3f5cAED686336ED9cF3Dede61154B0Cd67Fb9bD7",
+            "0xa856ae1b278F030082c66Fa50A5F51F485D1F940",
+            "0x470AAa7DE37ff3E1C2b38eD9096263ca0d541F21"
+          ]
+        }
+      }
+    },
+    {
+      "id": "honest-00102498",
+      "tx": "0x96a2aa843e6a31fd505907380e9d7497803010c2cb69e33ed6e9aeec0f1e6ae5",
+      "envelope_hash": "e54fd22ffae84711fbf36ef247adad0a95d1259740ef4eddfe988eb6f589e4cc",
+      "entry_class": "honest",
+      "status": "LEADER_TIMEOUT",
+      "consensus_outcome": "TIMEOUT",
+      "reason": "protocol validation/execution timed out; this is not a contract rejection",
+      "receipt_summary": {
+        "statusName": "LEADER_TIMEOUT",
+        "resultName": "TIMEOUT",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "2",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0x967bBafE6Bca9dEAEEB839cFB860C57A383Db222",
+        "currentTimestamp": "1791399514",
+        "last_round": {
+          "round": "0",
+          "votesCommitted": "5",
+          "votesRevealed": "5",
+          "validatorVotes": [
+            3,
+            1,
+            3,
+            3,
+            1
+          ],
+          "roundValidators": [
+            "0x2d012a292244C7ce6423a114d19109990923Af76",
+            "0x470AAa7DE37ff3E1C2b38eD9096263ca0d541F21",
+            "0xE8fdefdfe18fD8E5B0d576b7CcfC5a29CE43fD7f",
+            "0x4f36CB2C58385575fafb443d80E3c290b12DA6aE",
+            "0x2CD9051E10cd1547a7b64eF61EbF1E608235dBda"
+          ]
+        }
+      }
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "honest-04366849",
+      "tx": "0xdf8bd760dae1fcf554d7a9172ac685335e56195d8b2ae5821517eedb5a40c6be",
+      "envelope_hash": "23f75f0b8cd6897bda5e749c6e18b3e1208e79a89be60392c49b48d7703bf096",
+      "entry_class": "honest",
+      "status": "APPEAL_COMMITTING",
+      "receipt_summary": {
+        "statusName": "APPEAL_COMMITTING",
+        "resultName": "IDLE",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "1",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0x967bBafE6Bca9dEAEEB839cFB860C57A383Db222",
+        "currentTimestamp": "1791401326",
+        "last_round": {
+          "round": "1",
+          "votesCommitted": "6",
+          "votesRevealed": "0",
+          "validatorVotes": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "roundValidators": [
+            "0x318128e88e5CC86Cd6898f6AFe93660c8ea0be8E",
+            "0x4f36CB2C58385575fafb443d80E3c290b12DA6aE",
+            "0x77a07271abB443F55be19c357AA35206BeB63E1d",
+            "0x79485eF57aC2055dC83b9E7b2C9Cf184Fc79648E",
+            "0x4Cd1ab61867487F45988dB08eb18bd00e20c518a",
+            "0x992E8D62263eD1Fe2E14FfB11aDf1080edBe4b5a",
+            "0xa856ae1b278F030082c66Fa50A5F51F485D1F940"
+          ]
+        },
+        "status": "APPEAL_COMMITTING",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23744788",
+          "hash": "0x1ce93b2f1fb7483d948674d13e4aaefc941972f3b4e84b2484232aa862e7d635",
+          "timestamp": "1791401326"
+        },
+        "initial_validators": "5",
+        "round_array_index": "1",
+        "projected_status": "APPEAL_COMMITTING"
+      },
+      "diagnosis": "UNRESOLVED",
+      "reason": "no matching entry; stored consensus has not established a final timeout",
+      "matching_entry_id": null
+    }
+  ],
+  "pending": [
+    {
+      "id": "honest-04366849",
+      "tx": "0xdf8bd760dae1fcf554d7a9172ac685335e56195d8b2ae5821517eedb5a40c6be",
+      "envelope_hash": "23f75f0b8cd6897bda5e749c6e18b3e1208e79a89be60392c49b48d7703bf096",
+      "entry_class": "honest",
+      "status": "APPEAL_COMMITTING",
+      "receipt_summary": {
+        "statusName": "APPEAL_COMMITTING",
+        "resultName": "IDLE",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "1",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0x967bBafE6Bca9dEAEEB839cFB860C57A383Db222",
+        "currentTimestamp": "1791401326",
+        "last_round": {
+          "round": "1",
+          "votesCommitted": "6",
+          "votesRevealed": "0",
+          "validatorVotes": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "roundValidators": [
+            "0x318128e88e5CC86Cd6898f6AFe93660c8ea0be8E",
+            "0x4f36CB2C58385575fafb443d80E3c290b12DA6aE",
+            "0x77a07271abB443F55be19c357AA35206BeB63E1d",
+            "0x79485eF57aC2055dC83b9E7b2C9Cf184Fc79648E",
+            "0x4Cd1ab61867487F45988dB08eb18bd00e20c518a",
+            "0x992E8D62263eD1Fe2E14FfB11aDf1080edBe4b5a",
+            "0xa856ae1b278F030082c66Fa50A5F51F485D1F940"
+          ]
+        },
+        "status": "APPEAL_COMMITTING",
+        "status_basis": "getTransactionAllData",
+        "stored_block": {
+          "number": "23744788",
+          "hash": "0x1ce93b2f1fb7483d948674d13e4aaefc941972f3b4e84b2484232aa862e7d635",
+          "timestamp": "1791401326"
+        },
+        "initial_validators": "5",
+        "round_array_index": "1",
+        "projected_status": "APPEAL_COMMITTING"
+      },
+      "diagnosis": "UNRESOLVED",
+      "reason": "no matching entry; stored consensus has not established a final timeout",
+      "matching_entry_id": null
+    }
+  ],
+  "unsubmitted_candidates": [
+    {
+      "id": "honest-00445790",
+      "class": "honest",
+      "envelope_hash": "165204949f42794b6e67ddd38d201c98edfd4cd3aec683dc9ae7d3db73867f20"
+    },
+    {
+      "id": "honest-00041424",
+      "class": "honest",
+      "envelope_hash": "3cd1b142719c89e1ee3f40b2bcc901dfd885b495fe12f8514954ffade01762b9"
+    },
+    {
+      "id": "honest-03888792",
+      "class": "honest",
+      "envelope_hash": "8ae81f5abf4687def4f9e5894e898b1d3a1f9c0856ce0a7b5f53c553a58e48b4"
+    },
+    {
+      "id": "honest-02723534",
+      "class": "honest",
+      "envelope_hash": "b12b682b491ff9d15b9998965264bbba52678db9351d7061bbc80eeb49269841"
+    },
+    {
+      "id": "honest-01833679",
+      "class": "honest",
+      "envelope_hash": "45681af63e953dddb501b63e118ff30b6817f2689261fc7c3f3a1cb9e107402b"
+    },
+    {
+      "id": "honest-04190816",
+      "class": "honest",
+      "envelope_hash": "b66201b755681745388cf065c425d81f8ccf4e2ac82f7d79f2b502e936b5e0ac"
+    },
+    {
+      "id": "honest-sc045551",
+      "class": "honest",
+      "envelope_hash": "21294ee16b11b44724c70915c2b3c6daae94b6afe3176f316a2f78ebe675fa1d"
+    },
+    {
+      "id": "honest-sc095000",
+      "class": "honest",
+      "envelope_hash": "a9aee100889d80127df370d9b153289c9a248fa469aaa79efa9a96adbe30c555"
+    },
+    {
+      "id": "honest-00023307",
+      "class": "honest",
+      "envelope_hash": "3c68da5edd1f38de0eb5063c7c89b780c9ee2f046223ea6a9c25a67bc499389e"
+    },
+    {
+      "id": "honest-06270876",
+      "class": "honest",
+      "envelope_hash": "b4e7e455122fdb9895e262f9680785fbcaea2fd75d25fd50fd6fb8b0a1af6594"
+    },
+    {
+      "id": "honest-01470151",
+      "class": "honest",
+      "envelope_hash": "371b876a7916efdcdba327caf1fea9c4594f458e589b546b9d05f1e43e54e9b9"
+    },
+    {
+      "id": "honest-07524813",
+      "class": "honest",
+      "envelope_hash": "0742ba17e02d10477239c413487b21d34b7f37af7332752d27a0132554e4f177"
+    },
+    {
+      "id": "honest-02468686",
+      "class": "honest",
+      "envelope_hash": "1eb6100627855f22b1702154db00005bd929d5b595b1a9e4710a52cd2e32b516"
+    },
+    {
+      "id": "honest-01417162",
+      "class": "honest",
+      "envelope_hash": "a3fd7cb9ac2fd20472292285b731848e0f81814cdbfd9f41a6123b7d31c9f91d"
+    },
+    {
+      "id": "honest-04256886",
+      "class": "honest",
+      "envelope_hash": "5addef5348f1b8675e4c16444eaa85f799eb8e7e55772da759c70e5109bc2000"
+    },
+    {
+      "id": "honest-00185647",
+      "class": "honest",
+      "envelope_hash": "e246e3b96faa3d7f68f7f099984880bd916dfbdc4834f44d97896d76efe0d752"
+    },
+    {
+      "id": "honest-04031152",
+      "class": "honest",
+      "envelope_hash": "4d972e2d1ffb59ed424cd3a86cf75b33c1b3e7c18a0cf08904c06c7088c48b65"
+    },
+    {
+      "id": "honest-01397169",
+      "class": "honest",
+      "envelope_hash": "99fbf51b4d495a3ebae640ea7d0082a3be625a4ca6bff4f21b9f1dcf1d7cbe07"
+    },
+    {
+      "id": "honest-03033654",
+      "class": "honest",
+      "envelope_hash": "a2f982ee18ae5b57d8ce840295dd704e33e86a32feda4d8940a9728aacaf1e74"
+    },
+    {
+      "id": "honest-00538154",
+      "class": "honest",
+      "envelope_hash": "b9d0b4ef40753eff3405e77e9217123ffb75441b72a170ffffed669bbec78f6c"
+    },
+    {
+      "id": "honest-04951416",
+      "class": "honest",
+      "envelope_hash": "5dbf29214c05c94b6cc7bf34141ad8c546e034b638417cdf598c1720f0d17e62"
+    },
+    {
+      "id": "honest-00234106",
+      "class": "honest",
+      "envelope_hash": "84d726debf99b48598432a5aa5b7bdede9280a689c834b25f0e8ac6ea4e418de"
+    },
+    {
+      "id": "injection-override",
+      "class": "direct_injection",
+      "envelope_hash": "491e73e09bc7de04ccc0aa456335da31eaac73d54837d066ae9c6cf3dd77db41"
+    },
+    {
+      "id": "injection-role",
+      "class": "direct_injection",
+      "envelope_hash": "a9febbd6011c0bca953870a97d7419b9be9ca9141da654be75f7d065bcb83a98"
+    },
+    {
+      "id": "injection-fence",
+      "class": "direct_injection",
+      "envelope_hash": "02d91d6f621c2e65f7f0333ca5f5bce7234ec351770e2008e8f5b0a0158ea935"
+    },
+    {
+      "id": "forgery-status",
+      "class": "source_forgery",
+      "envelope_hash": "33bd7ecef7659bcfb2cbaae7ce5b54240a17dfb555b995aba2d803243e556932"
+    },
+    {
+      "id": "forgery-wrong-company",
+      "class": "source_forgery",
+      "envelope_hash": "aa651c05c33dbbc82587952e224f1aede1f0c195f6fd9c291c3962266a9a1a85"
+    },
+    {
+      "id": "forgery-unsupported-event",
+      "class": "source_forgery",
+      "envelope_hash": "250cbe1d59b3bed29716c12e907acebd57b14ff989246de662819b105d4ebbfe"
+    },
+    {
+      "id": "slow-poison",
+      "class": "slow_poison",
+      "envelope_hash": "c44ad8357091a22528878fb7613f986c0f277228b3de5c8e49d0917afbddf34b"
+    },
+    {
+      "id": "stale-name",
+      "class": "stale_truth",
+      "envelope_hash": "c54edc9181a0be2fa6265e6708a27f15e857a2e61c0a6020ab2b5c7f5bbe187a"
+    },
+    {
+      "id": "flooding",
+      "class": "flooding",
+      "envelope_hash": "9f38cc0c53a1d6f44f4ec38f1cd9776f6a47d108b700c32d18f48b5a5606c9dd"
+    },
+    {
+      "id": "laundering",
+      "class": "citation_laundering",
+      "envelope_hash": "d687ee5aa75b82e56a8e6839d941974202eec162f219c4659c44ae6e8124e6ad"
+    }
+  ],
+  "report": {
+    "classes": [
+      {
+        "admission_rate_milli": 1000,
+        "attempts": 1,
+        "class": "honest",
+        "ever_admitted": 1,
+        "inconclusive": 0,
+        "settled": false
+      }
+    ],
+    "deferred": 0,
+    "entries": 1,
+    "false_rejection_milli": 0,
+    "honest_admitted": 1,
+    "honest_attempts": 1,
+    "prevented_by_construction": [
+      "citation_laundering"
+    ],
+    "space_id": 0
+  },
+  "report_scope": "current on-chain space; may include entries awaiting snapshot verification",
+  "report_matches_verified_entries": true,
+  "solvency": {
+    "balanced": true,
+    "credited": 0,
+    "escrowed": 501000,
+    "held": 501000,
+    "pools": 501000
+  },
+  "previous_runs": [
+    {
+      "address": "0x774237BD6e669bF1Af1b8F807ada3A0d4889987F",
+      "checkpoint": "bradbury-checkpoint.json",
+      "included_in_report": false
+    },
+    {
+      "address": "0x2390Ca5C7E369aD63ECbB4bF36509e7f7B7219B9",
+      "checkpoint": "bradbury-rescue-checkpoint.json",
+      "included_in_report": false
+    },
+    {
+      "address": "0xD596971Da562647Cddd13Ec095a3431073682340",
+      "checkpoint": "bradbury-bounded-checkpoint.json",
+      "included_in_report": false
+    },
+    {
+      "address": "0xb8BAd484689a32357Caa6E0F427D31B29347fdB4",
+      "checkpoint": "bradbury-decisions-checkpoint.json",
+      "included_in_report": false
+    }
+  ],
+  "checked_at": "2026-10-07T19:28:53.161957+00:00"
+}

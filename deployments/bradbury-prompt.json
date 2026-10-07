@@ -1,0 +1,43 @@
+{
+  "network": "testnet-bradbury",
+  "chain_id": 4221,
+  "address": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
+  "deployment_tx": "0x7767c7897d9439503377111501bc020b6a159a092c3e7bd2f5a0bb5116267f3c",
+  "source_sha256": "d2670d4204d769ce14f26328d3f8a4a86c4b645f0a54c5149d5269804ce53296",
+  "deployment_source_sha256": "2125f18b442bface1d2538563ff9d4fb40bb6e3f690ff8b42a3d5916ffece97c",
+  "execution_result": "FINISHED_WITH_RETURN",
+  "verified_views": [
+    "entry_count",
+    "solvency"
+  ],
+  "protocol": {
+    "initial_validators": 5,
+    "max_rotations": 3
+  },
+  "previous_deployments": [
+    {
+      "address": "0x774237BD6e669bF1Af1b8F807ada3A0d4889987F",
+      "checkpoint": "bradbury-checkpoint.json"
+    },
+    {
+      "address": "0x2390Ca5C7E369aD63ECbB4bF36509e7f7B7219B9",
+      "checkpoint": "bradbury-rescue-checkpoint.json"
+    },
+    {
+      "address": "0xD596971Da562647Cddd13Ec095a3431073682340",
+      "checkpoint": "bradbury-bounded-checkpoint.json"
+    },
+    {
+      "address": "0xb8BAd484689a32357Caa6E0F427D31B29347fdB4",
+      "checkpoint": "bradbury-decisions-checkpoint.json"
+    },
+    {
+      "address": "0x967bBafE6Bca9dEAEEB839cFB860C57A383Db222",
+      "checkpoint": "bradbury-default-checkpoint.json"
+    }
+  ],
+  "consensus_policy": "strict equality of parsed decisions; source-fetch remains comparative",
+  "experiment": true,
+  "reason": "Build the identical pure contradiction prompt before the nondeterministic closure so it captures only ordinary data, without the contract/storage-manager object. Criteria and both support framings remain unchanged; timeout causation and liveness improvement are unproven.",
+  "open_space_tx": "0x1ac0bd96a9d1dd5bdcb6b9e6ef5a0a60dfcb6994cf6cec4c6a1a330743b307bf"
+}

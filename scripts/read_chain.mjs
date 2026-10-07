@@ -50,6 +50,20 @@ export function storedReceipt(projected, transaction, rounds, block) {
   };
 }
 
+export function snapshotFromStoredOutputs(receipt, snapshotHash, decodeRlp, decodeCalldata) {
+  if (receipt.status_basis !== "getTransactionAllData") return null;
+  try {
+    const outputs = decodeRlp(receipt.stored_receipt.eqBlocksOutputs, "hex");
+    if (!Array.isArray(outputs) || !/^0x00[0-9a-f]+$/i.test(outputs[0] || "")) return null;
+    const bytes = Buffer.from(outputs[0].slice(2), "hex");
+    const value = decodeCalldata(new Uint8Array(bytes.subarray(1)));
+    if (typeof value !== "string" || createHash("sha256").update(value, "utf8").digest("hex") !== snapshotHash) return null;
+    return { snapshot_excerpt: value, snapshot_hash: snapshotHash,
+      source: "getTransactionAllData.eqBlocksOutputs", transaction_id: receipt.txId,
+      eq_block_index: 0, stored_block: receipt.stored_block };
+  } catch { return null; }
+}
+
 async function main() {
 const input = process.argv.slice(2);
 const call = input[0] === "--call";
@@ -74,7 +88,7 @@ if (call) {
     return item instanceof Map ? Object.fromEntries(item) : item;
   }));
 } else {
-const { createPublicClient, http } = await import(pathToFileURL(join(root, "node_modules/viem/_esm/index.js")));
+const { createPublicClient, http, fromRlp } = await import(pathToFileURL(join(root, "node_modules/viem/_esm/index.js")));
 const publicClient = createPublicClient({ chain: chains.testnetBradbury, transport: http(endpoint || undefined) });
 const block = await publicClient.getBlock();
 const spec = chains.testnetBradbury.consensusDataContract;
@@ -92,6 +106,7 @@ if (!snapshotHash) {
   const digest = bytes => createHash("sha256").update(bytes).digest("hex");
   let found = null;
   if (snapshotHash === digest(Buffer.alloc(0))) found = { snapshot_excerpt: "", snapshot_hash: snapshotHash, trace_round: null };
+  if (!found) found = snapshotFromStoredOutputs(receipt, snapshotHash, fromRlp, sdk.abi.calldata.decode);
   // Bradbury numbers the initial round 0; numOfRounds is the last index.
   const lastRound = Math.max(0, Number(receipt.numOfRounds || 0));
   for (let round = 0; round <= lastRound && !found; round++) {

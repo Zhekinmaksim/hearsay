@@ -395,6 +395,11 @@ editable receipts locally. `make live-page` checks its controls independently
 of the fifty checks for the offline stand. Accepted consensus state is labelled
 as accepted; it is not presented as finalization.
 
+Source bytes are recovered first from the stored equivalence outputs and matched
+to the entry's SHA-256. Hash-matching GenVM trace storage is a fallback. Historical
+infrastructure failures are checked again before publication; only finalized
+timeouts without matching application state count as completed failure outcomes.
+
 The public `web/bradbury-checkpoint.json` is an explicitly incomplete snapshot
 of the current run, with pinned source bytes, finalized receipts, diagnosed
 infrastructure failures and the unresolved transaction. It is not the live

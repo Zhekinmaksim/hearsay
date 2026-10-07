@@ -247,6 +247,23 @@ class ReceiptsTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "no longer accepted"):
                 publisher.refresh_record(record, "address")
 
+    def test_publication_refuses_reopened_infrastructure_timeout(self):
+        failure = dict(self.row, id="timed-out", status="VALIDATORS_TIMEOUT")
+        receipt = {"statusName": "VALIDATORS_TIMEOUT", "recipient": "address", "stored_receipt": {"status": 9, "result": 0}}
+        with patch.object(collector, "lookup_receipt", return_value=receipt):
+            with self.assertRaisesRegex(ValueError, "still settling"):
+                publisher.refresh_failure(failure, "address", {})
+
+    def test_publication_verifies_final_timeout_absence(self):
+        failure = dict(self.row, id="timed-out", status="VALIDATORS_TIMEOUT")
+        receipt = {"recipient": "address", "stored_receipt": {"status": 7, "result": 3}}
+        with patch.object(collector, "lookup_receipt", return_value=receipt):
+            verified = publisher.refresh_failure(failure, "address", {})
+            self.assertEqual(verified["status"], "FINALIZED")
+            self.assertEqual(verified["consensus_outcome"], "TIMEOUT")
+            with self.assertRaisesRegex(ValueError, "now has application state"):
+                publisher.refresh_failure(failure, "address", {self.row["envelope_hash"]: self.entry})
+
     def test_cli_checkpoints_missing_state_and_preserves_records(self):
         with tempfile.TemporaryDirectory(prefix="hearsay-receipts-") as folder:
             folder = Path(folder)

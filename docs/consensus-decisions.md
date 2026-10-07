@@ -79,3 +79,23 @@ not execute the full GenVM leader/validator protocol or prove that the new
 decisions converge on Bradbury. The separate live experiment is identified in
 `deployments/bradbury-decisions.json`; its evidence remains separate from these
 local compatibility checks and earlier deployments.
+
+## Contradiction closure cleanup
+
+The subsequent version builds the same pure contradiction prompt before entering
+the nondeterministic closure. The closure captures only ordinary `admitted` and
+`prompt` data, rather than the contract object and its storage manager. The pinned
+SDK warns whenever the storage manager is pickled; that warning alone does not
+prove a storage read or explain historical timeouts.
+
+Prompt bytes matched on five reviewed fixtures, the decision parser is unchanged,
+and the original 95 tests and deterministic corpus still reproduce. A prompt
+construction error still returns unreadable `None`; that deterministic error
+path now returns before the equivalence block. Minimum rounds, support framings,
+strict decision equality, money and public ABI remain unchanged.
+
+Readable source is `d2670d4204d769ce14f26328d3f8a4a86c4b645f0a54c5149d5269804ce53296`,
+packed source `2125f18b442bface1d2538563ff9d4fb40bb6e3f690ff8b42a3d5916ffece97c`.
+Both passed pinned GenVM lint/schema checks with 16 public methods. Its isolated
+deployment is recorded in `deployments/bradbury-prompt.json`; live liveness
+improvement has not been established by these compatibility checks.

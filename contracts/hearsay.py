@@ -675,9 +675,14 @@ class Hearsay(gl.Contract):
         """Returns the conflicting entry id, -1 for no conflict, None when the
         round was unreadable."""
 
+        try:
+            prompt = self._contradiction_prompt(claim, admitted)
+        except Exception:
+            return None
+
         def run() -> typing.Any:
             try:
-                raw = gl.nondet.exec_prompt(self._contradiction_prompt(claim, admitted))
+                raw = gl.nondet.exec_prompt(prompt)
                 result = raw.replace("```json", "").replace("```", "").strip()
                 parsed = json.loads(result)
                 conflicts = parsed["conflicts"]
