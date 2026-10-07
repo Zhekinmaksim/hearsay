@@ -1,0 +1,12 @@
+{
+  "version": "hearsay/1",
+  "space_id": 0,
+  "claim": "The creditors' recovery claim rests on a transfer made by a non-existent counterparty.",
+  "source_url": "https://filings.example.org/acme-recovery",
+  "entry_class": "honest",
+  "supports": [
+    14
+  ],
+  "expects": "ADMITTED",
+  "author_note": "Depth 3, the edge of the space's cascade bound."
+}

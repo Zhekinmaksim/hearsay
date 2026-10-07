@@ -1,0 +1,9 @@
+{
+  "version": "hearsay/1",
+  "space_id": 0,
+  "claim": "ACME Corp is listed as active on the register.",
+  "source_url": "https://registry.example.org/acme-archived-2019",
+  "entry_class": "stale_truth",
+  "expects": "ADMITTED",
+  "author_note": "Admitted on its own snapshot and expected to be killed later by TTL or by challenge. The class exists to show that admission is not permanent, not to be caught at the gate."
+}

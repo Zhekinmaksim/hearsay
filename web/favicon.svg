@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>Hearsay</title>
+  <style>
+    .g { stroke: #15181d; }
+    @media (prefers-color-scheme: dark) { .g { stroke: #e8eae6; } }
+  </style>
+  <g class="g" fill="none" stroke-width="11" stroke-linecap="butt"><path d="M5 21 H59"/><path d="M5 45 H26"/><path d="M41 9 V55"/></g>
+</svg>

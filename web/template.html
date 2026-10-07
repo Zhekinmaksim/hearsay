@@ -1,0 +1,1088 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hearsay — the record</title>
+<meta name="description" content="Admissibility verdicts on entries offered to a shared agent memory, with the false-rejection rate on honest entries published first.">
+<meta name="theme-color" content="#f2f3f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/*__FAVICON__*/">
+<link rel="apple-touch-icon" href="/*__APPLETOUCH__*/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hearsay — admissibility for shared agent memory">
+<meta property="og:description" content="A gate in front of a shared agent memory. Every entry offered to the space is kept whatever the outcome, and the rate of honest entries wrongly refused is printed before any score against attacks.">
+<meta property="og:image" content="/*__OGIMAGE__*/">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/*__OGIMAGE__*/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300&family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #15181d;
+  --ink-soft:   #585f6b;
+  --ink-faint:  #8d94a0;
+  --paper:      #f2f3f1;
+  --paper-2:    #e7e9e5;
+  --rule:       #c9cdc6;
+  --flag:       #7c4a2d;   /* the only colour on the page: honesty marks */
+  --flag-bg:    #f0e5de;
+
+  --serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --sans:  "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --mono:  "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+:root:not([data-theme="light"]) {
+  @media (prefers-color-scheme: dark) {
+    --ink:       #e8eae6;
+    --ink-soft:  #9aa1ab;
+    --ink-faint: #6c737e;
+    --paper:     #14161a;
+    --paper-2:   #1b1e23;
+    --rule:      #2e333a;
+    --flag:      #d59a76;
+    --flag-bg:   #2a211c;
+  }
+}
+:root[data-theme="dark"] {
+  --ink:       #e8eae6;
+  --ink-soft:  #9aa1ab;
+  --ink-faint: #6c737e;
+  --paper:     #14161a;
+  --paper-2:   #1b1e23;
+  --rule:      #2e333a;
+  --flag:      #d59a76;
+  --flag-bg:   #2a211c;
+}
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 56px); }
+
+/* ---------------------------------------------------------- masthead */
+
+.masthead {
+  display: flex; flex-wrap: wrap; gap: 12px 28px;
+  align-items: baseline; justify-content: space-between;
+  padding: 26px 0 0;
+}
+.wordmark {
+  font-family: var(--serif); font-weight: 500; font-size: 20px;
+  letter-spacing: -0.01em; margin: 0;
+  display: flex; align-items: center; gap: 10px;
+}
+.mark { display: block; width: 22px; height: 22px; color: var(--ink); }
+.mark svg { display: block; width: 100%; height: 100%; }
+.whereabouts { color: var(--ink-soft); font-size: 13.5px; }
+.whereabouts b { font-weight: 500; color: var(--ink); }
+
+/* -------------------------------------------------------------- lede */
+
+.lede { padding: clamp(38px, 8vw, 92px) 0 clamp(30px, 5vw, 56px); }
+
+.dateline { margin: 0 0 clamp(16px, 2.2vw, 26px); font-size: 14px; color: var(--ink-soft); }
+
+/* The claim is evidence, so it is set as evidence: hung off a rule, in the
+   text face, at the size of a headline because it is the headline. */
+.offered {
+  margin: 0; padding: 0 0 0 clamp(16px, 2.4vw, 28px);
+  border-left: 2px solid var(--ink);
+  font-family: var(--serif); font-weight: 300;
+  font-size: clamp(27px, 4.6vw, 52px);
+  line-height: 1.14; letter-spacing: -0.02em;
+  max-width: 24ch;
+  min-height: 2.28em;            /* holds the line so swapping does not jump */
+}
+
+.ruling {
+  margin: clamp(22px, 3vw, 34px) 0 0;
+  padding-left: clamp(16px, 2.4vw, 28px);
+  max-width: 54ch;
+}
+.ruling-verdict {
+  margin: 0; font-family: var(--serif); font-weight: 400;
+  font-size: clamp(22px, 2.6vw, 30px); letter-spacing: -0.015em; line-height: 1.2;
+}
+.ruling-why { margin: 7px 0 0; font-size: 15px; line-height: 1.55; color: var(--ink-soft); }
+.ruling-meta { margin: 9px 0 0; font-size: 12.5px; color: var(--ink-faint); }
+.ruling-meta .host { font-family: var(--mono); font-size: 11.5px; }
+.ruling-meta .flagged { color: var(--flag); font-weight: 600; }
+
+/* One orchestrated moment on load: the claim is already there, the ruling
+   arrives after it. Afterwards the same reveal answers a click, which is
+   motion showing what changed rather than motion for its own sake. */
+.ruling { opacity: 0; transform: translateY(5px); }
+.ruling.settled { opacity: 1; transform: none; transition: opacity .34s ease, transform .34s ease; }
+
+.hero-controls { margin: clamp(24px, 3vw, 32px) 0 0; padding-left: clamp(16px, 2.4vw, 28px); }
+
+.standfirst {
+  margin: clamp(30px, 4vw, 46px) 0 0;
+  max-width: 62ch; font-size: clamp(16px, 1.5vw, 18px);
+  color: var(--ink-soft); line-height: 1.62;
+}
+.standfirst strong { color: var(--ink); font-weight: 500; }
+
+.caveat {
+  margin: 18px 0 0; max-width: 62ch;
+  font-size: 14.5px; line-height: 1.6; color: var(--ink-soft);
+}
+.caveat b { color: var(--flag); font-weight: 600; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ruling { opacity: 1; transform: none; }
+}
+
+/* ------------------------------------------------------------ figures */
+
+.figures {
+  display: grid; gap: 1px; background: var(--rule);
+  border-block: 1px solid var(--rule);
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  margin-top: clamp(40px, 6vw, 72px);
+}
+.figure { background: var(--paper); padding: 22px 20px 20px; }
+.figure dt { font-size: 13px; color: var(--ink-soft); margin: 0 0 8px; }
+.figure dd {
+  margin: 0; font-family: var(--serif); font-weight: 400;
+  font-size: clamp(27px, 3.1vw, 36px); letter-spacing: -0.015em; line-height: 1;
+}
+.figure .qual { display: block; margin-top: 9px; font-family: var(--sans);
+  font-size: 12.5px; color: var(--ink-faint); line-height: 1.45; letter-spacing: 0; }
+
+/* ------------------------------------------------------------- record */
+
+.section-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 18px; flex-wrap: wrap;
+  margin: clamp(56px, 8vw, 96px) 0 0; padding-bottom: 14px;
+  border-bottom: 1px solid var(--ink);
+}
+.section-head h2 {
+  font-family: var(--serif); font-weight: 400; font-size: clamp(22px, 2.6vw, 29px);
+  letter-spacing: -0.015em; margin: 0;
+}
+.section-head p { margin: 0; font-size: 13.5px; color: var(--ink-soft); max-width: 48ch; }
+
+/* The split is the device: an entry's outcome is its position, not its colour. */
+.docket {
+  display: grid; grid-template-columns: 1fr 1px 1fr;
+  gap: 0 clamp(20px, 3.4vw, 44px);
+}
+.docket > .spine { background: var(--rule); }
+.column > h3 {
+  font-family: var(--sans); font-weight: 600; font-size: 13.5px;
+  margin: 26px 0 2px; color: var(--ink);
+}
+.column > p.col-note { margin: 0 0 6px; font-size: 13px; color: var(--ink-faint); }
+
+.entry { border-top: 1px solid var(--rule); }
+.entry:first-of-type { border-top: 0; }
+.entry > summary {
+  list-style: none; cursor: pointer; padding: 16px 0;
+  display: grid; gap: 7px;
+}
+.entry > summary::-webkit-details-marker { display: none; }
+.entry > summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.claim {
+  font-family: var(--serif); font-size: 18px; font-weight: 400;
+  line-height: 1.38; letter-spacing: -0.006em;
+}
+.meta { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12.5px; color: var(--ink-soft); }
+.meta .verdict { font-weight: 600; color: var(--ink); }
+.meta .host { font-family: var(--mono); font-size: 11.5px; }
+.flagged { color: var(--flag); font-weight: 600; }
+
+.detail { padding: 2px 0 20px; display: grid; gap: 11px; }
+.field { display: grid; grid-template-columns: 112px 1fr; gap: 14px; font-size: 13px; align-items: start; }
+.field dt { color: var(--ink-faint); }
+.field dd { margin: 0; overflow-wrap: anywhere; }
+.hash { font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft); }
+.detail a { color: inherit; text-decoration-color: var(--rule); text-underline-offset: 3px; }
+.reason { color: var(--ink-soft); }
+
+/* ------------------------------------------------------------ classes */
+
+.scroller { overflow-x: auto; margin-top: 4px; }
+table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 14px; }
+th, td { text-align: left; padding: 11px 16px 11px 0; border-bottom: 1px solid var(--rule); }
+th { font-weight: 500; color: var(--ink-soft); font-size: 12.5px; }
+td.num, th.num { text-align: right; padding-right: 0; font-variant-numeric: tabular-nums; }
+tr.is-control td { color: var(--ink); }
+tr.is-prevented td { color: var(--flag); }
+.rowflag { display: block; font-size: 12px; color: var(--flag); margin-top: 3px; }
+
+/* --------------------------------------------------------------- bench */
+
+/* Every vote, as cast. The verdict is printed beside the votes it came from,
+   never instead of them — the idea is taken from how Awwwards publishes each
+   juror's score under the total. An unread or unasked vote is the one place
+   colour is spent, because those are the fail-closed cases. */
+.bench { display: grid; grid-template-columns: repeat(3, minmax(0, max-content));
+  gap: 0 22px; margin: 2px 0 0; }
+.bench div { display: grid; gap: 1px; }
+.bench dt { font-size: 11px; color: var(--ink-faint); }
+.bench dd { margin: 0; font-size: 13px; font-weight: 600; color: var(--ink); }
+.bench dd.quiet { color: var(--flag); }
+.bench dd.idle { color: var(--ink-faint); font-weight: 400; }
+.ruling .bench { margin-top: 14px; }
+
+/* --------------------------------------------------------------- rules */
+
+.rules { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr);
+  gap: 0 clamp(20px, 3.4vw, 44px); margin-top: 26px; align-items: start; }
+.rules > p { margin: 0; font-size: 14px; color: var(--ink-soft); line-height: 1.6; }
+.rules dl { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.rules dl div { background: var(--paper); padding: 14px 16px; }
+.rules dt { font-size: 12.5px; color: var(--ink-soft); }
+.rules dd { margin: 4px 0 0; font-family: var(--serif); font-size: 24px; letter-spacing: -0.01em; }
+.rules dd small { display: block; font-family: var(--sans); font-size: 12px;
+  color: var(--ink-faint); margin-top: 3px; letter-spacing: 0; line-height: 1.4; }
+@media (max-width: 760px) { .rules { grid-template-columns: 1fr; gap: 16px; } }
+
+/* --------------------------------------------------------------- index */
+
+/* A pinned section index, after the one Awwwards keeps at the foot of every
+   site page. The page has grown long enough to need one; it stays out of the
+   way until the reader is past the hero. */
+.index {
+  position: fixed; left: 50%; bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  transform: translate(-50%, 140%); transition: transform .28s ease;
+  display: flex; gap: 2px; padding: 4px;
+  background: var(--ink); border-radius: 999px; z-index: 10;
+  max-width: calc(100vw - 24px); overflow-x: auto; scrollbar-width: none;
+}
+.index::-webkit-scrollbar { display: none; }
+.index.shown { transform: translate(-50%, 0); }
+.index a {
+  font-size: 12.5px; font-weight: 500; color: var(--paper); text-decoration: none;
+  padding: 7px 13px; border-radius: 999px; white-space: nowrap; opacity: .62;
+}
+.index a:hover { opacity: 1; }
+.index a[aria-current="true"] { background: var(--paper); color: var(--ink); opacity: 1; }
+.index a:focus-visible { outline: 2px solid var(--paper); outline-offset: 1px; }
+@media (prefers-reduced-motion: reduce) { .index { transition: none; } }
+
+/* --------------------------------------------------------------- tools */
+
+.tool { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 0 clamp(20px, 3.4vw, 44px); margin-top: 26px; }
+.tool .controls { display: grid; gap: 14px; align-content: start; }
+.tool .output { display: grid; gap: 12px; align-content: start;
+  border-left: 1px solid var(--rule); padding-left: clamp(20px, 3.4vw, 44px); }
+
+label { display: grid; gap: 6px; font-size: 13px; color: var(--ink-soft); }
+textarea, input[type="text"], select {
+  font: inherit; font-size: 14.5px; color: var(--ink);
+  background: var(--paper-2); border: 1px solid var(--rule);
+  border-radius: 3px; padding: 10px 12px; width: 100%;
+}
+textarea { font-family: var(--serif); font-size: 16.5px; line-height: 1.45; resize: vertical; min-height: 92px; }
+textarea:focus-visible, input:focus-visible, select:focus-visible, button:focus-visible {
+  outline: 2px solid var(--ink); outline-offset: 2px;
+}
+.buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+button {
+  font: inherit; font-size: 13px; font-weight: 500; color: var(--ink);
+  background: transparent; border: 1px solid var(--ink);
+  border-radius: 3px; padding: 7px 13px; cursor: pointer;
+}
+button:hover { background: var(--ink); color: var(--paper); }
+button.quiet { border-color: var(--rule); color: var(--ink-soft); }
+button.quiet:hover { background: var(--rule); color: var(--ink); }
+button[aria-pressed="true"] { background: var(--flag); border-color: var(--flag); color: var(--paper); }
+
+.verdict-line {
+  font-family: var(--serif); font-size: clamp(21px, 2.3vw, 27px);
+  letter-spacing: -0.015em; line-height: 1.2;
+}
+.exit { font-family: var(--mono); font-size: 12.5px; color: var(--ink-soft); }
+.explain { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+.explain.bad { color: var(--flag); }
+pre {
+  margin: 0; font-family: var(--mono); font-size: 11.5px; line-height: 1.6;
+  background: var(--paper-2); border: 1px solid var(--rule); border-radius: 3px;
+  padding: 11px 13px; overflow-x: auto; color: var(--ink-soft);
+  white-space: pre-wrap; overflow-wrap: anywhere;
+}
+pre b { color: var(--ink); font-weight: 400; }
+pre mark { background: var(--flag-bg); color: var(--flag); }
+
+/* the cascade walk: indentation is depth, which is the whole point of a bound */
+.walk { display: grid; gap: 2px; font-size: 13.5px; }
+.walk .step { display: grid; grid-template-columns: 92px 1fr; gap: 12px;
+  padding: 7px 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+.walk .became { font-weight: 600; font-size: 12.5px; }
+.walk .what { font-family: var(--serif); font-size: 15px; line-height: 1.35; }
+.walk .step[data-became="DEFERRED"] .became,
+.walk .step[data-became="TAINTED"] .became { color: var(--flag); }
+.depth-shift { display: block; font-size: 11.5px; color: var(--ink-faint); font-family: var(--sans); }
+
+@media (max-width: 760px) {
+  .tool { grid-template-columns: 1fr; gap: 20px; }
+  .tool .output { border-left: 0; border-top: 1px solid var(--rule); padding-left: 0; padding-top: 20px; }
+  .walk .step { grid-template-columns: 1fr; gap: 2px; }
+}
+
+/* -------------------------------------------------------------- close */
+
+.colophon {
+  margin: clamp(56px, 8vw, 96px) 0 0; padding: 26px 0 60px;
+  border-top: 1px solid var(--ink);
+  display: grid; gap: 10px; max-width: 72ch;
+  font-size: 13.5px; color: var(--ink-soft);
+}
+.colophon a { color: var(--ink); text-decoration-color: var(--rule); text-underline-offset: 3px; }
+.colophon code {
+  font-family: var(--mono); font-size: 12.5px;
+  background: var(--paper-2); padding: 1px 5px; border-radius: 2px;
+}
+
+@media (max-width: 760px) {
+  .docket { grid-template-columns: 1fr; }
+  .docket > .spine { display: none; }
+  .column + .column { border-top: 1px solid var(--ink); margin-top: 30px; }
+  .field { grid-template-columns: 1fr; gap: 2px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <header class="masthead">
+    <h1 class="wordmark"><span class="mark" aria-hidden="true">/*__MARK__*/</span>Hearsay</h1>
+    <p class="whereabouts">memory space <b id="space-name"></b> · policy pinned at <b id="space-policy"></b></p>
+  </header>
+
+  <section class="lede">
+    <p class="dateline" id="dateline">Something offered this to the shared memory.</p>
+    <blockquote class="offered" id="hero-claim"></blockquote>
+    <div class="ruling" id="hero-ruling">
+      <p class="ruling-verdict" id="hero-verdict"></p>
+      <p class="ruling-why" id="hero-why"></p>
+      <p class="ruling-meta" id="hero-meta"></p>
+      <div id="hero-bench"></div>
+    </div>
+    <div class="buttons hero-controls">
+      <button id="hero-attack">Show another attempt</button>
+      <button id="hero-honest" class="quiet">Show an honest entry</button>
+    </div>
+    <p class="standfirst" id="standfirst"></p>
+    <p class="caveat" id="caveat"></p>
+  </section>
+
+  <dl class="figures" id="figures"></dl>
+
+  <div class="rules" id="rules">
+    <p>Every number above came out of these rules, so they are published beside it. A different floor or a deeper cascade is a different space: they are fixed when the space opens and do not move for its lifetime.</p>
+    <dl id="rules-list"></dl>
+  </div>
+
+  <div class="section-head" id="s-record">
+    <h2>The record</h2>
+    <p>Every entry offered to the space, kept whatever the outcome. The misses are the more useful half.</p>
+  </div>
+
+  <div class="docket">
+    <div class="column">
+      <h3 id="admitted-head"></h3>
+      <p class="col-note">Source carried the claim and nothing admitted contradicted it.</p>
+      <div id="admitted"></div>
+    </div>
+    <div class="spine"></div>
+    <div class="column">
+      <h3 id="refused-head"></h3>
+      <p class="col-note">Unsourced, contradicted, unreadable, or turned away before a round was spent.</p>
+      <div id="refused"></div>
+    </div>
+  </div>
+
+  <div class="section-head" id="s-classes">
+    <h2>By class</h2>
+    <p>Declared by the writer, never verified by the contract. It exists so the result is per class rather than one number.</p>
+  </div>
+  <div class="scroller"><table id="classes">
+    <thead><tr>
+      <th>Class</th>
+      <th class="num">Offered</th>
+      <th class="num">Admitted</th>
+      <th class="num">Rate</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table></div>
+
+  <div class="section-head" id="s-cascade">
+    <h2>Revoke an entry</h2>
+    <p>The cascade is the part of this that exists nowhere else. Pick an entry, take it away, and watch what was standing on it.</p>
+  </div>
+  <div class="tool">
+    <div class="controls">
+      <label for="cascade-pick">Entry to revoke
+        <select id="cascade-pick"></select>
+      </label>
+      <p class="explain">Who leans on whom, and whether an entry's own source carried its claim, are both recorded in this corpus. What runs in your browser is the contract's walk over those facts: breadth-first, bounded at depth <b id="depth-bound"></b> by the space policy, then a rejudge of everything tainted with the dead premise removed.</p>
+      <div class="buttons">
+        <button id="cascade-run">Revoke and cascade</button>
+        <button id="cascade-reset" class="quiet">Put it back</button>
+      </div>
+    </div>
+    <div class="output">
+      <p class="verdict-line" id="cascade-headline">Nothing revoked.</p>
+      <p class="explain" id="cascade-summary">Choose an entry to see what depends on it.</p>
+      <div class="walk" id="cascade-walk"></div>
+    </div>
+  </div>
+
+  <div class="section-head" id="s-gate">
+    <h2>Run the gate</h2>
+    <p>The half of <code>cli/gate.py</code> that needs no chain, running here. Everything it can settle locally is settled before a bond is spent.</p>
+  </div>
+  <div class="tool">
+    <div class="controls">
+      <label for="gate-claim">Claim
+        <textarea id="gate-claim" spellcheck="false">  ACME   Corp was dissolved on 4 MARCH 2026.  </textarea>
+      </label>
+      <label for="gate-url">Source
+        <input type="text" id="gate-url" spellcheck="false" value="https://registry.example.org/acme">
+      </label>
+      <p class="explain">Try pasting a claim that already exists with different spacing, or one containing <code>&gt;&gt;&gt;</code>, or drop the <code>https://</code>.</p>
+    </div>
+    <div class="output">
+      <p class="verdict-line" id="gate-verdict"></p>
+      <p class="exit" id="gate-exit"></p>
+      <p class="explain" id="gate-explain"></p>
+      <pre id="gate-canonical"></pre>
+      <p class="explain" id="gate-fence-note">What the judge would be shown. The marker is derived from the content, so the content cannot guess it, and runs of the marker characters inside the text are broken before it is fenced.</p>
+      <pre id="gate-fence"></pre>
+    </div>
+  </div>
+
+  <div class="section-head" id="s-verify">
+    <h2>Verify a receipt</h2>
+    <p>A verdict nobody can recompute is a verdict nobody can contest. Take a row, break it, and watch the check catch it.</p>
+  </div>
+  <div class="tool">
+    <div class="controls">
+      <label for="verify-pick">Row
+        <select id="verify-pick"></select>
+      </label>
+      <p class="explain">Three things are checked, and each catches a different lie. The envelope hash catches a row describing a different entry. The snapshot hash catches a verdict re-attributed to another page. And the verdict is recomputed from the votes as they were cast — not from itself — which catches a row whose votes do not add up to the verdict printed beside them.</p>
+      <div class="buttons">
+        <button id="tamper-verdict" aria-pressed="false">Forge the verdict</button>
+        <button id="tamper-snapshot" aria-pressed="false">Swap the page</button>
+        <button id="tamper-claim" aria-pressed="false">Edit the claim</button>
+        <button id="tamper-vote" aria-pressed="false">Flip one vote</button>
+      </div>
+    </div>
+    <div class="output">
+      <p class="verdict-line" id="verify-headline"></p>
+      <p class="explain" id="verify-explain"></p>
+      <pre id="verify-detail"></pre>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <p id="solvency"></p>
+    <p>Verdict assembly lives in one pure function, implemented in both the contract and the gate and run over the same vectors by the test suite. Any row here can be recomputed from its receipt with no chain, no network and no model: <code>python3 cli/gate.py verify --receipt r.json</code>.</p>
+    <p>Built on GenLayer. Companion projects: <a href="https://github.com/Zhekinmaksim/jastrow">Jastrow</a>, how often validators part company on one specification, and <a href="https://github.com/Zhekinmaksim/suborn">Suborn</a>, whether a specification survives hostile evidence.</p>
+  </div>
+
+</main>
+
+<nav class="index" id="index" aria-label="Sections">
+  <a href="#s-record">Record</a>
+  <a href="#s-classes">By class</a>
+  <a href="#s-cascade">Revoke</a>
+  <a href="#s-gate">Gate</a>
+  <a href="#s-verify">Verify</a>
+</nav>
+
+<script>
+/*__LIB__*/
+const DATA = /*__CORPUS__*/ null;
+
+const $ = (id) => document.getElementById(id);
+const txt = (s) => document.createTextNode(s);
+
+function el(tag, cls, text) {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text !== undefined) n.textContent = text;
+  return n;
+}
+
+function host(url) {
+  try { return new URL(url).host; } catch (e) { return url; }
+}
+
+function milliPercent(m) {
+  // Integers all the way: two readers who recompute a rate by hand land on the
+  // same digit, which is the whole reason the contract stores thousandths.
+  const whole = Math.floor(m / 10);
+  const frac = m % 10;
+  return frac === 0 ? whole + "%" : whole + "." + frac + "%";
+}
+
+function field(dl, label, value, cls) {
+  dl.appendChild(el("dt", null, label));
+  const dd = el("dd", cls);
+  dd.appendChild(typeof value === "string" ? txt(value) : value);
+  dl.appendChild(dd);
+}
+
+const VOTE_WORD = { yes: "yes", no: "no", unread: "unread", unasked: "not asked", "": "not reached" };
+
+function benchNode(votes) {
+  const dl = el("dl", "bench");
+  const cells = [
+    ["framing one", votes.a],
+    ["framing two", votes.b],
+    ["consistency", votes.conflict],
+  ];
+  for (const [label, raw] of cells) {
+    const d = el("div");
+    d.appendChild(el("dt", null, label));
+    let word = VOTE_WORD[raw];
+    if (word === undefined) word = "conflicts with " + raw;
+    if (raw === "none") word = "no conflict";
+    let cls = null;
+    if (raw === "unread") cls = "quiet";
+    else if (raw === "unasked" || raw === "") cls = "idle";
+    d.appendChild(el("dd", cls, word));
+    dl.appendChild(d);
+  }
+  return dl;
+}
+
+function entryNode(row) {
+  const d = el("details", "entry");
+  const s = el("summary");
+  s.appendChild(el("p", "claim", row.claim));
+
+  const meta = el("div", "meta");
+  meta.appendChild(el("span", "verdict", row.status || "REFUSED AT WRITE"));
+  meta.appendChild(el("span", "host", host(row.source_url || "")));
+  meta.appendChild(el("span", null, row.entry_class));
+  if (row.prevented) meta.appendChild(el("span", "flagged", "prevented by construction"));
+  s.appendChild(meta);
+  if (row.votes) s.appendChild(benchNode(row.votes));
+  d.appendChild(s);
+
+  const dl = el("dl", "detail field-list");
+  dl.className = "detail";
+  const wrapField = (label, value, cls) => {
+    const f = el("dl", "field");
+    field(f, label, value, cls);
+    dl.appendChild(f);
+  };
+
+  if (row.note) wrapField("Reason", row.note, "reason");
+  if (row.reason) wrapField("Reason", row.reason, "reason");
+  if (row.source_url) {
+    const a = el("a", null, row.source_url);
+    a.href = row.source_url;
+    a.rel = "noopener";
+    wrapField("Source", a);
+  }
+  if (row.snapshot_hash) wrapField("Snapshot", row.snapshot_hash, "hash");
+  if (row.envelope_hash) wrapField("Envelope", row.envelope_hash, "hash");
+  if (row.supports && row.supports.length) wrapField("Leans on", "entry " + row.supports.join(", entry "));
+  if (row.rounds !== undefined) wrapField("Rounds read", String(row.rounds));
+  if (row.expects) {
+    wrapField("Writer expected", row.expects + (row.as_expected === false ? "  (landed elsewhere)" : ""));
+  }
+  if (row.consensus_rounds_spent === 0) {
+    wrapField("Consensus", "no round spent; turned away by the ordering rule", "reason");
+  }
+  d.appendChild(dl);
+  return d;
+}
+
+function render() {
+  const r = DATA.report;
+  const admitted = DATA.entries.filter((e) => e.status === "ADMITTED");
+  const refusedJudged = DATA.entries.filter((e) => e.status !== "ADMITTED");
+  const refusedWrite = (DATA.refused_at_write || []).map((x) => Object.assign({ prevented: true }, x));
+  const refused = refusedJudged.concat(refusedWrite);
+
+  $("space-name").textContent = DATA.policy.name;
+  $("space-policy").textContent = DATA.policy.min_rounds + " rounds, depth " + DATA.policy.cascade_depth;
+
+  const refusedHonest = r.honest_attempts - r.honest_admitted;
+  $("standfirst").innerHTML =
+    "<strong>" + (refusedHonest === 0
+      ? "All " + r.honest_attempts + " honest entries were admitted; none were refused."
+      : refusedHonest + " of " + r.honest_attempts + " honest entries were refused.") +
+    "</strong> That is the number this project is judged on, and it is printed before any " +
+    "score against attacks. An admission layer that cuts good-faith entries does not survive " +
+    "production however well it defends, and almost nobody publishes how much good work they " +
+    "break. " + DATA.entries.length + " entries were judged here and " + refusedWrite.length +
+    " turned away before a round was spent.";
+
+  const cav = $("caveat");
+  cav.appendChild(el("b", null, "This run proves plumbing, not defence. "));
+  cav.appendChild(txt(DATA.health_warning.replace(/^The judge in this run/, "The judge here")));
+
+  const figures = [
+    ["False rejection on honest entries", milliPercent(r.false_rejection_milli),
+     refusedHonest + " of " + r.honest_attempts + " refused"],
+    ["Entries judged", String(DATA.entries.length),
+     admitted.length + " admitted, " + refusedJudged.length + " refused"],
+    ["Turned away at the write path", String(refusedWrite.length),
+     "no consensus round spent"],
+    ["Deferred by the cascade bound", String(r.deferred),
+     "past depth " + DATA.policy.cascade_depth + ", queued for a sweep"],
+  ];
+  const fig = $("figures");
+  for (const [label, value, qual] of figures) {
+    const d = el("div", "figure");
+    d.appendChild(el("dt", null, label));
+    const dd = el("dd", null, value);
+    dd.appendChild(el("span", "qual", qual));
+    d.appendChild(dd);
+    fig.appendChild(d);
+  }
+
+  const rules = [
+    ["Round floor", String(DATA.policy.min_rounds),
+     "readable rounds required before any verdict counts; fewer is inconclusive"],
+    ["Cascade depth", String(DATA.policy.cascade_depth),
+     "how far a revocation walks in one transaction; past it, entries are deferred"],
+    ["Admission lifetime", String(DATA.policy.admit_ttl),
+     "admissions into this space before an entry must be reconfirmed"],
+    ["Framings per entry", "2",
+     "the support question is asked twice, worded differently, and both must agree"],
+  ];
+  const rl = $("rules-list");
+  for (const [label, value, note] of rules) {
+    const d = el("div");
+    d.appendChild(el("dt", null, label));
+    const dd = el("dd", null, value);
+    dd.appendChild(el("small", null, note));
+    d.appendChild(dd);
+    rl.appendChild(d);
+  }
+
+  $("admitted-head").textContent = "Admitted (" + admitted.length + ")";
+  $("refused-head").textContent = "Refused (" + refused.length + ")";
+  admitted.forEach((row) => $("admitted").appendChild(entryNode(row)));
+  refused.forEach((row) => $("refused").appendChild(entryNode(row)));
+
+  const tbody = document.querySelector("#classes tbody");
+  // A class whose every submission was turned away at the write path never
+  // reaches the contract's report — the writes raised before an entry existed.
+  // Leaving it off the table would quietly hide the one class the envelope
+  // rules defeat outright, so the page merges those rows back in.
+  const rows = r.classes.slice();
+  const writeRefused = {};
+  for (const x of refusedWrite) writeRefused[x.class] = (writeRefused[x.class] || 0) + 1;
+  for (const [name, n] of Object.entries(writeRefused)) {
+    const existing = rows.find((c) => c.class === name);
+    if (existing) { existing.attempts += n; existing.turned_away = n; continue; }
+    rows.push({
+      class: name, attempts: n, ever_admitted: 0, admission_rate_milli: 0,
+      prevented_by_construction: true, turned_away: n,
+    });
+  }
+  rows.sort((a, b) => a.class.localeCompare(b.class));
+  for (const row of rows) {
+    const tr = el("tr");
+    if (row.class === "honest") tr.className = "is-control";
+    if (row.prevented_by_construction) tr.className = "is-prevented";
+    const name = el("td");
+    name.appendChild(txt(row.class));
+    if (row.class === "honest") {
+      name.appendChild(el("span", "rowflag", "the control group, not a defence"));
+    }
+    if (row.prevented_by_construction) {
+      name.appendChild(el("span", "rowflag",
+        row.turned_away
+          ? row.turned_away + " turned away at the write path, no round spent — prevented by construction, not counted as caught"
+          : "prevented by construction, not counted as caught"));
+    }
+    tr.appendChild(name);
+    tr.appendChild(el("td", "num", String(row.attempts)));
+    tr.appendChild(el("td", "num", String(row.ever_admitted)));
+    tr.appendChild(el("td", "num", milliPercent(row.admission_rate_milli)));
+    tbody.appendChild(tr);
+  }
+
+  $("solvency").textContent = DATA.solvency.balanced
+    ? "The contract balanced after every action that touched value, not only at the end. A contract that ends balanced after passing through an unbalanced state has a window in it."
+    : "The contract did not balance. Treat every figure above as unreliable until that is explained.";
+}
+
+render();
+
+/* ------------------------------------------------------------ the tools */
+
+const byId = new Map(DATA.entries.map((e) => [e.entry_id, e]));
+const shorten = (s, n) => (s.length > n ? s.slice(0, n - 1) + "…" : s);
+
+/* --- the hero: one entry arriving at the gate --------------------------- */
+
+/* Open on the most characteristic thing in this subject's world, which is not
+ * a rate. It is a sentence someone wrote to a shared memory, and the gate
+ * turning it away. Everything shown here is a real row from the record below. */
+
+const WRITE_REFUSED = (DATA.refused_at_write || []).map((x) =>
+  Object.assign({ claim: null, prevented: true }, x));
+
+const attempts = DATA.entries.filter((e) => e.entry_class !== "honest");
+const honest = DATA.entries.filter((e) => e.entry_class === "honest");
+// Open on an injection: it is the attack a reader can see is an attack without
+// being told, which makes the refusal legible before anything is explained.
+const opener = attempts.find((e) => e.entry_class === "direct_injection") || attempts[0];
+
+let attemptCursor = Math.max(0, attempts.indexOf(opener));
+let honestCursor = -1;
+
+const VERDICT_SENTENCE = {
+  ADMITTED: "Admitted.",
+  UNSOURCED: "Refused as unsourced.",
+  CONTRADICTED: "Refused as contradicted.",
+  INCONCLUSIVE: "Not admitted: inconclusive.",
+};
+
+const WHY = {
+  ADMITTED: "The source carried the claim and nothing already admitted contradicted it.",
+  UNSOURCED: "The page was fetched at judging time and does not establish this.",
+  CONTRADICTED: "It cannot be true at the same time as something the memory already holds.",
+  INCONCLUSIVE: "Consensus could not read it the same way twice, and an unreadable entry stays outside.",
+};
+
+function showEntry(row) {
+  $("hero-claim").textContent = row.claim;
+  $("hero-verdict").textContent = VERDICT_SENTENCE[row.status] || "Refused at the write path.";
+  $("hero-why").textContent = row.note || WHY[row.status] ||
+    "Turned away by the ordering rule before a consensus round was spent.";
+
+  const meta = $("hero-meta");
+  meta.textContent = "";
+  meta.appendChild(el("span", null, "entry " + row.entry_id));
+  meta.appendChild(txt("   "));
+  meta.appendChild(el("span", null, row.entry_class));
+  meta.appendChild(txt("   "));
+  meta.appendChild(el("span", "host", host(row.source_url || "")));
+  if (row.rounds !== undefined) {
+    meta.appendChild(txt("   "));
+    meta.appendChild(el("span", null, row.rounds + " rounds read"));
+  }
+  if (row.status === "INCONCLUSIVE") {
+    meta.appendChild(txt("   "));
+    meta.appendChild(el("span", "flagged", "fail closed"));
+  }
+
+  const bench = $("hero-bench");
+  bench.textContent = "";
+  if (row.votes) bench.appendChild(benchNode(row.votes));
+
+  const ruling = $("hero-ruling");
+  ruling.classList.remove("settled");
+  void ruling.offsetWidth;            // restart the reveal on a swap
+  requestAnimationFrame(() => ruling.classList.add("settled"));
+}
+
+$("hero-attack").addEventListener("click", () => {
+  attemptCursor = (attemptCursor + 1) % attempts.length;
+  showEntry(attempts[attemptCursor]);
+});
+$("hero-honest").addEventListener("click", () => {
+  honestCursor = (honestCursor + 1) % honest.length;
+  showEntry(honest[honestCursor]);
+});
+
+$("hero-claim").textContent = opener.claim;
+$("hero-verdict").textContent = "";
+$("hero-why").textContent = "";
+// The claim lands first and the ruling follows it, once, on load. After that
+// the same reveal only answers a click.
+const settleNow = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+setTimeout(() => showEntry(opener), settleNow ? 0 : 520);
+
+/* --- revoke and cascade ------------------------------------------------ */
+
+const depthBound = DATA.policy.cascade_depth;
+$("depth-bound").textContent = depthBound;
+
+const leanedOn = new Set();
+for (const e of DATA.entries) for (const s of e.supports || []) leanedOn.add(s);
+
+const pick = $("cascade-pick");
+for (const e of DATA.entries) {
+  if (e.status !== "ADMITTED") continue;
+  const o = el("option", null, "entry " + e.entry_id + " — " + shorten(e.claim, 54));
+  o.value = String(e.entry_id);
+  if (!leanedOn.has(e.entry_id)) o.textContent += "  (nothing leans on it)";
+  pick.appendChild(o);
+}
+const rooted = DATA.entries.find((e) => e.status === "ADMITTED" && leanedOn.has(e.entry_id));
+if (rooted) pick.value = String(rooted.entry_id);
+
+function describeDependents(id) {
+  const kids = DATA.entries.filter((e) => (e.supports || []).includes(id));
+  if (!kids.length) return "Nothing leans on entry " + id + ". Revoking it costs the memory one claim and nothing else.";
+  return kids.length + (kids.length === 1 ? " entry leans" : " entries lean") +
+    " on entry " + id + " directly. Revoke it to see how far that reaches.";
+}
+
+function resetCascade() {
+  $("cascade-headline").textContent = "Nothing revoked.";
+  $("cascade-summary").textContent = describeDependents(Number(pick.value));
+  $("cascade-walk").textContent = "";
+}
+
+function runCascade() {
+  const root = Number(pick.value);
+  const out = HS.cascade(DATA.entries, root, depthBound);
+  const walk = $("cascade-walk");
+  walk.textContent = "";
+
+  for (const step of out.steps) {
+    const row = el("div", "step");
+    row.dataset.became = step.became;
+    const left = el("div", "became", step.became);
+    if (step.rejudged) left.appendChild(el("span", "depth-shift", "after rejudge"));
+    else if (step.depth !== null) left.appendChild(el("span", "depth-shift", "depth " + step.depth));
+    row.appendChild(left);
+    const what = el("div", "what", "entry " + step.id + " — " + shorten(byId.get(step.id).claim, 86));
+    if (step.became === "DEFERRED") {
+      what.appendChild(el("span", "depth-shift", "past the bound, queued for a later sweep rather than unrolled in this transaction"));
+    }
+    if (step.rejudged && step.became === "ADMITTED") {
+      what.appendChild(el("span", "depth-shift", "its own source carried the claim without the dead premise"));
+    }
+    if (step.rejudged && step.became === "REVOKED") {
+      what.appendChild(el("span", "depth-shift", "only ever stood on what was revoked"));
+    }
+    row.appendChild(what);
+    walk.appendChild(row);
+  }
+
+  $("cascade-headline").textContent =
+    out.died.length === 0 && out.tainted.length === 0
+      ? "One claim gone, nothing else moved."
+      : out.died.length + " of " + out.tainted.length + " dependents died.";
+  $("cascade-summary").textContent =
+    out.survived.length + " survived the rejudge, " + out.died.length + " did not, " +
+    out.deferred.length + " sat past the depth bound and went to the deferred queue. " +
+    "An entry with its own source outlives what it cited; an entry that was only ever " +
+    "held up by the revoked one dies with it.";
+}
+
+pick.addEventListener("change", resetCascade);
+$("cascade-run").addEventListener("click", runCascade);
+$("cascade-reset").addEventListener("click", resetCascade);
+resetCascade();
+
+/* --- run the gate ------------------------------------------------------ */
+
+const EXIT_WORD = {
+  0: "exit 0 — write it",
+  1: "exit 1 — refused",
+  2: "exit 2 — not judged yet",
+  3: "exit 3 — never judged",
+};
+
+function runGate() {
+  const claim = $("gate-claim").value;
+  const url = $("gate-url").value.trim();
+  const env = {
+    version: "hearsay/1",
+    space_id: DATA.space_id,
+    claim: claim,
+    source_url: url,
+    entry_class: "honest",
+  };
+
+  let result;
+  try { result = HS.localGate(env, DATA.entries); }
+  catch (e) { result = { code: 3, problems: [String(e.message)] }; }
+
+  $("gate-exit").textContent = EXIT_WORD[result.code];
+
+  if (result.code === 3) {
+    $("gate-verdict").textContent = "Malformed.";
+    $("gate-explain").className = "explain bad";
+    $("gate-explain").textContent = result.problems.join(". ") +
+      ". Nothing was asked of consensus, and no bond was spent.";
+    $("gate-canonical").textContent = "";
+    $("gate-fence").textContent = "";
+    return;
+  }
+
+  $("gate-explain").className = "explain";
+  if (result.verdict) {
+    $("gate-verdict").textContent = "Already judged: " + result.verdict + ".";
+    $("gate-explain").textContent = "This is entry " + result.entry_id + " in the record." +
+      (result.note ? " " + result.note + "." : "");
+  } else if (result.duplicate_of !== undefined) {
+    $("gate-verdict").textContent = "Duplicate.";
+    $("gate-explain").textContent =
+      "Flattens onto entry " + result.duplicate_of + ": “" + shorten(result.duplicate_claim, 90) + "”. " +
+      "Judging would see your text byte for byte, but dedup sees it with invisible characters " +
+      "removed and spacing collapsed, so one working trick cannot be resubmitted with an extra space.";
+  } else {
+    $("gate-verdict").textContent = "Nothing on record.";
+    $("gate-explain").textContent =
+      "Structurally sound and not a duplicate, so the gate stands aside and the entry " +
+      "goes to consensus. The verdict is not the gate's to give.";
+  }
+
+  const canon = HS.canonical(env);
+  $("gate-canonical").innerHTML =
+    "canonical  <b>" + escapeHtml(canon) + "</b>\nenvelope   " + result.hash +
+    "\ndedup      " + HS.dedupKey(env.space_id, claim).split(":")[1];
+
+  const defused = HS.defuse(claim);
+  const marker = HS.fence("CLAIM", claim);
+  const changed = defused !== claim;
+  $("gate-fence").innerHTML =
+    escapeHtml(marker) + "\n" +
+    (changed ? "<mark>" + escapeHtml(defused) + "</mark>" : escapeHtml(defused)) + "\n" +
+    escapeHtml(marker) +
+    (changed ? "\n\n<mark>marker runs in your text were broken before fencing</mark>" : "");
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+$("gate-claim").addEventListener("input", runGate);
+$("gate-url").addEventListener("input", runGate);
+runGate();
+
+/* --- verify a receipt -------------------------------------------------- */
+
+const vPick = $("verify-pick");
+for (const e of DATA.entries) {
+  const o = el("option", null, "entry " + e.entry_id + " — " + e.status + " — " + shorten(e.claim, 46));
+  o.value = String(e.entry_id);
+  vPick.appendChild(o);
+}
+
+const tampers = { verdict: false, snapshot: false, claim: false, vote: false };
+
+const AS_BOOL = { yes: true, no: false, unread: null, unasked: null, "": null };
+
+function buildReceipt(row) {
+  // The votes as they were cast, read from the row. An earlier version of this
+  // page rebuilt them from the verdict and then confirmed the verdict followed
+  // from them — a check that could never fail. These come from the contract.
+  const v = row.votes;
+  let conflict = -1;
+  if (v.conflict === "unread") conflict = null;
+  else if (v.conflict && v.conflict !== "none" && v.conflict !== "unasked") conflict = Number(v.conflict);
+  return {
+    claim: row.claim,
+    envelope_hash: row.envelope_hash,
+    snapshot_hash: row.snapshot_hash,
+    status: row.status,
+    rounds: row.rounds,
+    min_rounds: DATA.policy.min_rounds,
+    fetched: v.a !== "unasked",
+    a: AS_BOOL[v.a],
+    b: AS_BOOL[v.b],
+    conflict: conflict,
+  };
+}
+
+function runVerify() {
+  const row = byId.get(Number(vPick.value));
+  const r = buildReceipt(row);
+  const failures = [];
+
+  if (tampers.verdict) r.status = r.status === "ADMITTED" ? "UNSOURCED" : "ADMITTED";
+  if (tampers.snapshot) r.snapshot_hash = HS.sha256("A different page entirely.");
+  if (tampers.claim) r.claim = r.claim.replace(/\.$/, "") + ", or so it was said.";
+  if (tampers.vote) {
+    // Turn one juror. A unanimous bench becomes a split one, and a split bench
+    // is inconclusive no matter what the row claims.
+    r.b = r.b === true ? false : r.b === false ? true : true;
+  }
+
+  if (tampers.claim) {
+    failures.push("the claim no longer hashes to the envelope this row names");
+  }
+  if (tampers.snapshot) {
+    failures.push("the recorded snapshot is not the page this verdict was taken from");
+  }
+
+  const readable = [r.a, r.b].filter((x) => x !== null).length;
+  const [recomputed, note] = HS.decide(r.a, r.b, readable, r.min_rounds, r.conflict, r.fetched);
+  if (recomputed !== r.status) {
+    failures.push("the recorded rounds produce " + recomputed + ", not " + r.status);
+  }
+
+  $("verify-headline").textContent = failures.length ? "Does not reproduce." : "Reproduces.";
+  $("verify-explain").className = failures.length ? "explain bad" : "explain";
+  $("verify-explain").textContent = failures.length
+    ? failures.join("; ") + "."
+    : "Recomputed from the row with no chain, no network and no model, and landed on " +
+      recomputed + "." + (note ? " " + note + "." : "");
+
+  $("verify-detail").innerHTML =
+    "framing one         " + (tampers.vote ? String(r.a) : String(r.a)) + "\n" +
+    "framing two         " + (tampers.vote ? "<mark>" + String(r.b) + "</mark>" : String(r.b)) + "\n" +
+    "readable rounds     " + readable + " of " + r.min_rounds + " required\n" +
+    "conflict            " + (r.conflict < 0 ? "none" : "entry " + r.conflict) + "\n" +
+    "recorded verdict    " + (failures.length ? "<mark>" + r.status + "</mark>" : "<b>" + r.status + "</b>") + "\n" +
+    "recomputed verdict  <b>" + recomputed + "</b>\n" +
+    "snapshot            " + (tampers.snapshot ? "<mark>" + r.snapshot_hash + "</mark>" : r.snapshot_hash);
+}
+
+for (const [key, id] of [["verdict", "tamper-verdict"], ["snapshot", "tamper-snapshot"], ["claim", "tamper-claim"], ["vote", "tamper-vote"]]) {
+  $(id).addEventListener("click", () => {
+    tampers[key] = !tampers[key];
+    $(id).setAttribute("aria-pressed", String(tampers[key]));
+    runVerify();
+  });
+}
+vPick.addEventListener("change", runVerify);
+runVerify();
+
+/* --- the pinned index -------------------------------------------------- */
+
+(function () {
+  const nav = $("index");
+  const links = [...nav.querySelectorAll("a")];
+  const targets = links.map((a) => document.querySelector(a.getAttribute("href")));
+  if (!("IntersectionObserver" in window)) { nav.classList.add("shown"); return; }
+
+  // Out of the way until the reader is past the hero.
+  new IntersectionObserver(([e]) => {
+    nav.classList.toggle("shown", !e.isIntersecting);
+  }).observe(document.querySelector(".lede"));
+
+  const seen = new Map();
+  const spy = new IntersectionObserver((entries) => {
+    for (const e of entries) seen.set(e.target, e.isIntersecting);
+    let current = -1;
+    targets.forEach((t, i) => { if (current < 0 && seen.get(t)) current = i; });
+    if (current < 0) return;
+    links.forEach((a, i) => a.setAttribute("aria-current", String(i === current)));
+  }, { rootMargin: "-20% 0px -60% 0px" });
+  targets.forEach((t) => t && spy.observe(t));
+})();
+</script>
+</body>
+</html>

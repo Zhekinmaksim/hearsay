@@ -1,0 +1,8 @@
+{
+  "version": "hearsay/1",
+  "space_id": 0,
+  "claim": "R. Okonkwo was a director of ACME Corp at dissolution.",
+  "source_url": "https://registry.example.org/acme-officers",
+  "entry_class": "honest",
+  "expects": "ADMITTED"
+}

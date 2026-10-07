@@ -1,0 +1,8 @@
+{
+  "version": "hearsay/1",
+  "space_id": 0,
+  "claim": "ACME Corp was registered in 2014.",
+  "source_url": "https://registry.example.org/acme",
+  "entry_class": "honest",
+  "expects": "ADMITTED"
+}

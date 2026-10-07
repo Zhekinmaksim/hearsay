@@ -1,0 +1,12 @@
+{
+  "version": "hearsay/1",
+  "space_id": 0,
+  "claim": "Creditors of the April warehouse transfer were dealing with a company that had already ceased to exist.",
+  "source_url": "https://filings.example.org/acme-creditors",
+  "entry_class": "honest",
+  "supports": [
+    2
+  ],
+  "expects": "ADMITTED",
+  "author_note": "Depth 2. Leans on an entry that itself leans on two others."
+}

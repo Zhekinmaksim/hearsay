@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+runs/**
+!runs/.gitkeep
+.vercel/
+.env*
+.DS_Store

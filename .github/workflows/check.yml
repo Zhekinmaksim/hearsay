@@ -1,0 +1,33 @@
+name: check
+
+on: [push, pull_request]
+
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # No network, no Bradbury, no model. Everything here runs against the
+      # local stub, which is the point: a red build means the state machine,
+      # the money or the verdict parity broke, not that an RPC was down.
+      - run: make lint
+      - run: make test
+      - run: make receipts-test
+      - run: make dry-run
+      - run: make replay
+      # The icons and the share card are redrawn in CI so a stale card cannot
+      # outlive the corpus it claims to show. The faces live in the repo under
+      # web/fonts so the card renders the same here as it does locally.
+      - run: pip install cairosvg
+      - run: sudo cp web/fonts/*.ttf /usr/share/fonts/truetype/ && sudo fc-cache -f
+      - run: make assets
+      - run: make site
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: make parity
+      - run: npm install --no-save jsdom
+      - run: make page

@@ -1,0 +1,9 @@
+{
+  "version": "hearsay/1",
+  "space_id": 0,
+  "claim": "ACME Corp's solvency is established by entry 99.",
+  "source_url": "https://blog.example.org/acme-rumour",
+  "entry_class": "citation_laundering",
+  "expects": "REFUSED_AT_WRITE",
+  "author_note": "Never reaches consensus. Supports may only name entries that already exist, so the write is refused outright. Reported as prevented by construction and excluded from the caught count."
+}

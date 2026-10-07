@@ -1,0 +1,12 @@
+{
+  "version": "hearsay/1",
+  "space_id": 0,
+  "claim": "The April warehouse transfer was made by a company that no longer existed.",
+  "source_url": "https://filings.example.org/acme-april",
+  "entry_class": "honest",
+  "supports": [
+    0,
+    1
+  ],
+  "expects": "ADMITTED"
+}

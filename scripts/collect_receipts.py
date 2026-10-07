@@ -1,0 +1,311 @@
+#!/usr/bin/env python3
+"""Collect Bradbury receipts and match entries by envelope hash, never by order.
+
+Ported from Suborn. Chain reads are shared with diagnose_missing.py. A manifest
+is JSONL with tx, envelope_hash and file (the exact submitted envelope); entry_id
+is optional. Run this after EACH write before sending the next one.
+
+    python3 scripts/collect_receipts.py runs/bradbury.jsonl \
+        --address 0xCONTRACT --out runs/records.jsonl
+
+--from-json accepts {tx: {receipt: {...}, entry: {...}}} for offline checks.
+Raw receipts are checkpointed even when no entry state can be recovered.
+Nothing here submits a transaction or publishes a corpus.
+"""
+
+import argparse
+import ast
+import json
+import os
+from pathlib import Path
+import re
+import subprocess
+import sys
+import tempfile
+import time
+import urllib.request
+
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "cli"))
+import entry as envtool  # noqa: E402
+import gate  # noqa: E402
+
+EXPLORER = "https://explorer-bradbury.genlayer.com"
+FAILED = {"ERROR", "CANCELED", "CANCELLED", "REVERTED", "FAILED"}
+TERMINAL = FAILED | {"FINALIZED", "ACCEPTED", "UNDETERMINED", "SUCCESS"}
+
+
+def fetch_json(url, timeout):
+    request = urllib.request.Request(url, headers={"accept": "application/json"})
+    with urllib.request.urlopen(request, timeout=timeout) as response:
+        return json.loads(response.read().decode("utf-8"))
+
+
+def fetch_receipt(explorer, tx, timeout):
+    if not re.fullmatch(r"0x[0-9a-fA-F]{64}", tx):
+        raise ValueError("invalid transaction hash")
+    return fetch_json(explorer.rstrip("/") + "/api/v1/transactions/" + tx, timeout)
+
+
+def replace_js_atoms(source):
+    """Translate CLI literals without touching words inside quoted strings."""
+    out, index, quote, escaped = [], 0, "", False
+    while index < len(source):
+        char = source[index]
+        if quote:
+            out.append(char)
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == quote:
+                quote = ""
+            index += 1
+            continue
+        if char in ("'", '"'):
+            quote = char
+            out.append(char)
+            index += 1
+            continue
+        match = re.match(r"\b(?:true|false|null)\b|\b\d+n\b", source[index:])
+        if match:
+            word = match.group()
+            out.append({"true": "True", "false": "False", "null": "None"}.get(word, word[:-1]))
+            index += len(word)
+        else:
+            out.append(char)
+            index += 1
+    return "".join(out)
+
+
+def extract_json(text):
+    markers = list(re.finditer(r"(?m)^Result:\s*$", text))
+    payload = text[markers[-1].end():] if markers else text
+    payload = re.split(r"\n\s*[✔✖]", payload, maxsplit=1)[0].strip()
+    if not payload:
+        raise RuntimeError("genlayer call returned no result")
+    try:
+        return json.loads(payload)
+    except json.JSONDecodeError:
+        quoted = re.sub(r"([,{]\s*)([A-Za-z_][A-Za-z0-9_]*)\s*:", r'\1"\2":', payload)
+        try:
+            return ast.literal_eval(replace_js_atoms(quoted))
+        except (SyntaxError, ValueError) as exc:
+            raise RuntimeError("could not parse genlayer call output") from exc
+
+
+def read_call(endpoint, address, method, args, timeout):
+    command = ["genlayer", "call", address, method]
+    if args:
+        command += ["--args", *[str(value) for value in args]]
+    if endpoint:
+        command += ["--rpc", endpoint]
+    result = subprocess.run(command, capture_output=True, text=True, timeout=timeout)
+    if result.returncode:
+        message = (result.stdout + result.stderr).strip()
+        if method == "get_entry" and "unknown entry" in message.lower():
+            return None
+        raise RuntimeError(message or "genlayer call failed")
+    return extract_json(result.stdout)
+
+
+def read_entry(endpoint, address, entry_id, timeout):
+    return read_call(endpoint, address, "get_entry", [entry_id], timeout)
+
+
+def status_of(receipt):
+    if not isinstance(receipt, dict):
+        return "PENDING"
+    for key in ("status", "status_name", "statusName", "consensus_status"):
+        if receipt.get(key):
+            return str(receipt[key]).upper()
+    return "PENDING"
+
+
+def load_manifest(path):
+    rows = []
+    with open(path, encoding="utf-8") as stream:
+        for number, line in enumerate(stream, 1):
+            if not line.strip():
+                continue
+            row = json.loads(line)
+            if not row.get("tx"):
+                raise ValueError("manifest line %d has no tx" % number)
+            if not re.fullmatch(r"0x[0-9a-fA-F]{64}", row["tx"]):
+                raise ValueError("manifest line %d has invalid tx" % number)
+            if row.get("method", "write_entry") == "write_entry":
+                if not row.get("envelope_hash"):
+                    raise ValueError("write manifest line %d has no envelope_hash" % number)
+                rows.append(row)
+    return rows
+
+
+def atomic_write(path, text):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as stream:
+        temporary = stream.name
+        stream.write(text)
+        stream.flush()
+        os.fsync(stream.fileno())
+    os.replace(temporary, path)
+
+
+def checkpoint(path, value):
+    atomic_write(path, json.dumps(value, ensure_ascii=False, indent=2) + "\n")
+
+
+def scan_entries(endpoint, address, timeout, count=None, reader=read_entry):
+    """Use the chain's count, including entries missed in the manifest."""
+    if count is None:
+        count = int(read_call(endpoint, address, "entry_count", [], timeout))
+    index, errors = {}, []
+    for entry_id in range(count):
+        try:
+            got = reader(endpoint, address, entry_id, timeout)
+            if not isinstance(got, dict) or not got.get("envelope_hash"):
+                errors.append({"entry_id": entry_id, "error": "no entry returned"})
+            else:
+                index[got["envelope_hash"]] = got
+        except Exception as exc:
+            errors.append({"entry_id": entry_id, "error": str(exc)})
+    return index, errors
+
+
+def find_envelope(row, folder):
+    candidates = [Path(row["file"])] if row.get("file") else []
+    candidates += sorted(Path(folder).glob("*.json"))
+    for path in candidates:
+        if not path.is_file():
+            continue
+        env = json.loads(path.read_text(encoding="utf-8"))
+        if envtool.envelope_hash(env) == row["envelope_hash"]:
+            return env
+    raise ValueError("no submitted envelope matches " + row["envelope_hash"])
+
+
+def assemble_record(row, judged, env, min_rounds, receipt):
+    fingerprint = envtool.envelope_hash(env)
+    if fingerprint != row["envelope_hash"] or fingerprint != judged.get("envelope_hash"):
+        raise ValueError("manifest, envelope and chain hashes disagree")
+    for key in ("space_id", "claim", "source_url", "entry_class"):
+        if judged.get(key) != env.get(key):
+            raise ValueError("chain and envelope disagree on " + key)
+    if judged.get("supports", []) != env.get("supports", []):
+        raise ValueError("chain and envelope disagree on supports")
+    # A later rejudge changes votes and state. Collect immediately after writes;
+    # preserve the original records when collecting again after a cascade.
+    code, verification = gate.run_verify({
+        "envelope": env, "envelope_hash": fingerprint,
+        "votes": judged.get("votes"), "rounds": judged.get("rounds"),
+        "status": judged.get("status"), "min_rounds": min_rounds,
+    })
+    if code:
+        raise ValueError("entry verdict does not reproduce: " + json.dumps(verification))
+    record = dict(judged)
+    record.update({
+        "id": row.get("id", Path(row.get("file", "entry")).stem),
+        "tx": row["tx"], "receipt_status": status_of(receipt),
+        "envelope": env, "expects": env.get("expects", ""),
+        "dedup_key": envtool.dedup_key(env["space_id"], env["claim"]),
+        "min_rounds": min_rounds,
+        "as_expected": env.get("expects", "") in ("", judged["status"]),
+        # get_entry exposes the snapshot hash, but not its bytes. Do not claim
+        # that a snapshot was independently reproduced when it was not.
+        "snapshot_verified": False,
+    })
+    return record
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("manifest")
+    ap.add_argument("--address", default="")
+    ap.add_argument("--endpoint", default="")
+    ap.add_argument("--explorer", default=EXPLORER)
+    ap.add_argument("--timeout", type=int, default=30)
+    ap.add_argument("--wait", type=int, default=0)
+    ap.add_argument("--from-json", default="")
+    ap.add_argument("--entries", default=str(ROOT / "examples" / "entries"))
+    ap.add_argument("--min-rounds", type=int, default=None, help="required for offline fixtures")
+    ap.add_argument("--out", required=True)
+    ap.add_argument("--raw-dir", default=str(ROOT / "runs" / "receipts"))
+    args = ap.parse_args()
+    rows = load_manifest(args.manifest)
+    cache = json.loads(Path(args.from_json).read_text()) if args.from_json else None
+    if cache is None and not args.address:
+        ap.error("--address is required for chain reads")
+    if cache is not None and args.min_rounds is None:
+        ap.error("--min-rounds is required with --from-json")
+
+    existing = {}
+    if Path(args.out).exists():
+        for line in Path(args.out).read_text().splitlines():
+            if line.strip():
+                record = json.loads(line)
+                existing[record["tx"]] = record
+    problems, index, scan_errors = [], {}, []
+    if cache is None:
+        try:
+            index, scan_errors = scan_entries(args.endpoint, args.address, args.timeout)
+        except Exception as exc:
+            scan_errors.append({"error": str(exc)})
+    policy_cache = {}
+    for row in rows:
+        tx = row["tx"]
+        if tx in existing:
+            if existing[tx]["envelope_hash"] != row["envelope_hash"]:
+                raise ValueError("manifest changed hash for already collected tx " + tx)
+            continue
+        raw = {}
+        try:
+            if cache is not None:
+                raw = cache.get(tx, {})
+                receipt, judged = raw.get("receipt"), raw.get("entry")
+            else:
+                deadline = time.monotonic() + args.wait
+                while True:
+                    receipt = fetch_receipt(args.explorer, tx, args.timeout)
+                    raw["receipt"] = receipt
+                    checkpoint(Path(args.raw_dir) / (tx + ".json"), raw)
+                    if status_of(receipt) in TERMINAL or time.monotonic() >= deadline:
+                        break
+                    time.sleep(min(4, max(0, deadline - time.monotonic())))
+                judged = index.get(row["envelope_hash"])
+                # It may have landed after the initial scan.
+                if judged is None and row.get("entry_id") is not None:
+                    candidate = read_entry(args.endpoint, args.address, int(row["entry_id"]), args.timeout)
+                    if candidate and candidate.get("envelope_hash") == row["envelope_hash"]:
+                        judged = candidate
+            raw["entry"] = judged
+            checkpoint(Path(args.raw_dir) / (tx + ".json"), raw)
+            if status_of(receipt) not in TERMINAL:
+                raise ValueError("still settling: " + status_of(receipt))
+            if status_of(receipt) in FAILED:
+                raise ValueError("failed transaction: " + status_of(receipt))
+            if not judged:
+                raise ValueError("terminal receipt without matching entry; run diagnose_missing.py")
+            if cache is None:
+                sid = judged["space_id"]
+                if sid not in policy_cache:
+                    policy_cache[sid] = read_call(args.endpoint, args.address, "get_space", [sid], args.timeout)
+                minimum = policy_cache[sid]["min_rounds"]
+            else:
+                minimum = args.min_rounds
+            existing[tx] = assemble_record(row, judged, find_envelope(row, args.entries), minimum, receipt)
+        except Exception as exc:
+            raw["error"] = str(exc)
+            checkpoint(Path(args.raw_dir) / (tx + ".json"), raw)
+            problems.append({"tx": tx, "error": str(exc)})
+
+    checkpoint(args.out + ".issues.json", {"transactions": problems, "scan_errors": scan_errors})
+    if existing:
+        atomic_write(args.out, "".join(json.dumps(record, ensure_ascii=False) + "\n" for record in existing.values()))
+    print("%d records, %d unresolved, %d scan errors" % (len(existing), len(problems), len(scan_errors)))
+    for problem in problems:
+        print("  %s %s" % (problem["tx"][:14], problem["error"]))
+    return 2 if problems or scan_errors or not existing else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

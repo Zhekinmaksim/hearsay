@@ -1,0 +1,8 @@
+{
+  "version": "hearsay/1",
+  "space_id": 0,
+  "claim": "ACME Corp holds a valid trading licence.",
+  "source_url": "https://registry.example.org/gone",
+  "entry_class": "source_forgery",
+  "expects": "UNSOURCED"
+}

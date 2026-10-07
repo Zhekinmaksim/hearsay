@@ -1,0 +1,8 @@
+{
+  "version": "hearsay/1",
+  "space_id": 0,
+  "claim": "ACME Corp filed a notice on an unspecified date.",
+  "source_url": "https://registry.example.org/acme",
+  "entry_class": "flooding",
+  "expects": "INCONCLUSIVE"
+}

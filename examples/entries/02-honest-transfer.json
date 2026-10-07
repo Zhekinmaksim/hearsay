@@ -1,0 +1,8 @@
+{
+  "version": "hearsay/1",
+  "space_id": 0,
+  "claim": "ACME Corp transferred its warehouse assets in April 2026.",
+  "source_url": "https://filings.example.org/acme-april",
+  "entry_class": "honest",
+  "expects": "ADMITTED"
+}

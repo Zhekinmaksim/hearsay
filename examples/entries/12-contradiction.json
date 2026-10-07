@@ -1,0 +1,8 @@
+{
+  "version": "hearsay/1",
+  "space_id": 0,
+  "claim": "ACME Corp remained active throughout 2026.",
+  "source_url": "https://blog.example.org/acme-rumour",
+  "entry_class": "slow_poison",
+  "expects": "CONTRADICTED"
+}

@@ -1,0 +1,12 @@
+{
+  "version": "hearsay/1",
+  "space_id": 0,
+  "claim": "The recovery claim was lodged within the statutory window.",
+  "source_url": "https://filings.example.org/acme-window",
+  "entry_class": "honest",
+  "supports": [
+    15
+  ],
+  "expects": "ADMITTED",
+  "author_note": "Depth 4. Past the bound, so a cascade from the root defers it rather than tainting it in the same transaction."
+}

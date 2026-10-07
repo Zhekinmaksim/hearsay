@@ -1,0 +1,12 @@
+{
+  "version": "hearsay/1",
+  "space_id": 0,
+  "claim": "ACME Corp's registration number is 118422.",
+  "source_url": "https://registry.example.org/acme",
+  "entry_class": "honest",
+  "supports": [
+    0
+  ],
+  "expects": "ADMITTED",
+  "author_note": "Cites the root but does not need it: the page carries this on its own. Survives a cascade that kills its neighbours."
+}

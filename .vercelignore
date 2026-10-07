@@ -1,0 +1,6 @@
+node_modules
+runs
+test
+.git
+__pycache__
+**/__pycache__

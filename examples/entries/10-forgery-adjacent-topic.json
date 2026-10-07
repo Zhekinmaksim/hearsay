@@ -1,0 +1,8 @@
+{
+  "version": "hearsay/1",
+  "space_id": 0,
+  "claim": "ACME Corp's directors were disqualified.",
+  "source_url": "https://registry.example.org/acme-officers",
+  "entry_class": "source_forgery",
+  "expects": "UNSOURCED"
+}
