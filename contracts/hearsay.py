@@ -496,19 +496,22 @@ class Hearsay(gl.Contract):
         cheap way to convert every failure into the same outcome.
         """
 
-        def run() -> str:
-            raw = gl.nondet.exec_prompt(prompt)
-            return raw.replace("```json", "").replace("```", "").strip()
+        def run() -> typing.Any:
+            try:
+                raw = gl.nondet.exec_prompt(prompt)
+                result = raw.replace("```json", "").replace("```", "").strip()
+                parsed = json.loads(result)
+                value = parsed[field]
+            except Exception:
+                return None
+            if type(value) is bool:
+                return value
+            return None
 
         try:
-            result = gl.eq_principle.prompt_comparative(run, principle)
-            parsed = json.loads(result)
-            value = parsed[field]
+            return gl.eq_principle.strict_eq(run)
         except Exception:
             return None
-        if type(value) is bool:
-            return value
-        return None
 
     def _support_prompt(self, claim: str, snapshot: str, framing: int, premises: str = "") -> str:
         """The judging question, asked twice in two framings.
@@ -672,29 +675,30 @@ class Hearsay(gl.Contract):
         """Returns the conflicting entry id, -1 for no conflict, None when the
         round was unreadable."""
 
-        def run() -> str:
-            raw = gl.nondet.exec_prompt(self._contradiction_prompt(claim, admitted))
-            return raw.replace("```json", "").replace("```", "").strip()
+        def run() -> typing.Any:
+            try:
+                raw = gl.nondet.exec_prompt(self._contradiction_prompt(claim, admitted))
+                result = raw.replace("```json", "").replace("```", "").strip()
+                parsed = json.loads(result)
+                conflicts = parsed["conflicts"]
+                if type(conflicts) is not bool:
+                    return None
+                if not conflicts:
+                    return -1
+                named = int(parsed["entry_id"])
+            except Exception:
+                return None
+            for (i, _c) in admitted:
+                if i == named:
+                    return named
+            # A conflict that cannot name which entry it conflicts with is not a
+            # usable finding. CONTRADICTED has to say what it contradicts.
+            return None
 
         try:
-            result = gl.eq_principle.prompt_comparative(
-                run, "The values of the conflicts and entry_id fields have to match"
-            )
-            parsed = json.loads(result)
-            conflicts = parsed["conflicts"]
-            if type(conflicts) is not bool:
-                return None
-            if not conflicts:
-                return -1
-            named = int(parsed["entry_id"])
+            return gl.eq_principle.strict_eq(run)
         except Exception:
             return None
-        for (i, _c) in admitted:
-            if i == named:
-                return named
-        # A conflict that cannot name which entry it conflicts with is not a
-        # usable finding. CONTRADICTED has to say what it contradicts.
-        return None
 
     def _recent_admitted(self, space_id: int, exclude: int) -> list:
         """A bounded window of admitted claims, newest first.

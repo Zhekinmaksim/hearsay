@@ -410,6 +410,14 @@ a resume rejects a different limit. It leaves both source framings and the
 contract's admission rule unchanged. This limits one source of validator-pool
 exhaustion; appeals can still expand the committee and depend on network health.
 
+The separate deployment in `deployments/bradbury-decisions.json` tests strict
+equality of parsed model decisions. Each validator still answers both support
+questions independently; the source-fetch comparison remains comparative.
+The changed equivalence criteria and local compatibility evidence are documented
+in [Consensus decision comparison](docs/consensus-decisions.md). Its run lives in
+`runs/bradbury-decisions` and must complete the same publication checks; results
+from the earlier deployments are excluded from its denominator.
+
 `make dry-run` produces a real corpus file with real hashes, real snapshots and
 a real verdict per entry. It does not produce a defence measurement, and its own
 header says so: the judge in that run is a scripted stand-in that answers what

@@ -144,6 +144,10 @@ def main():
     corpus = {
         "run": "bradbury", "contract_address": args.address,
         "deployment_tx": metadata["deployment_tx"], "space_id": args.space,
+        "source_sha256": metadata["source_sha256"],
+        "deployment_source_sha256": metadata["deployment_source_sha256"],
+        "consensus_policy": metadata.get("consensus_policy", "comparative equivalence of model responses"),
+        "experiment": metadata.get("experiment", False),
         "health_warning": "Verdicts were collected from consensus state. Accepted receipts remain provisional until finalization. Pinned source bytes were recovered from GenVM traces and hash-checked against contract state. All controls use one registry.",
         "policy": policy, "entries": rows, "refused_at_write": refused,
         "infrastructure_failures": [public_infrastructure(failure) for failure in failures],
@@ -151,6 +155,8 @@ def main():
         "report": report, "solvency": solvency,
         "protocol": metadata.get("protocol", {"initial_validators": 5, "max_rotations": 3}),
     }
+    if corpus["experiment"]:
+        corpus["health_warning"] += " This deployment tests strict equality of parsed model decisions; source-fetch equivalence remains comparative. Its results are separate from earlier contract versions."
     if metadata.get("previous_deployments"):
         corpus["previous_runs"] = [dict(prior, included_in_report=False) for prior in metadata["previous_deployments"]]
     if metadata.get("supersedes"):
