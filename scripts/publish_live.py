@@ -53,20 +53,20 @@ def main():
     ap.add_argument("--address", required=True)
     ap.add_argument("--space", type=int, default=0)
     ap.add_argument("--seed", default="corpus/live.json")
-    ap.add_argument("--records", default="runs/records.jsonl")
+    ap.add_argument("--records", default="runs/verified-records.jsonl")
     args = ap.parse_args()
     seed = json.loads(Path(args.seed).read_text())
     rows = [json.loads(line) for line in Path(args.records).read_text().splitlines() if line.strip()]
     refused_path = collector.ROOT / "runs/live/refused.json"
     refused = json.loads(refused_path.read_text()) if refused_path.exists() else []
     failures_path = collector.ROOT / "runs/live/infrastructure-failures.json"
-    failures = json.loads(failures_path.read_text()) if failures_path.exists() else []
+    infrastructure_history = json.loads(failures_path.read_text()) if failures_path.exists() else []
+    collected_hashes = {row["envelope_hash"] for row in rows}
+    failures = [failure for failure in infrastructure_history if failure["envelope_hash"] not in collected_hashes]
     if len(rows) + len(refused) + len(failures) != len(seed["entries"]):
         raise ValueError("live run is incomplete; nothing published")
     if len({row["envelope_hash"] for row in rows}) != len(rows):
         raise ValueError("duplicate envelope hashes")
-    if {row["envelope_hash"] for row in failures} & {row["envelope_hash"] for row in rows}:
-        raise ValueError("an infrastructure failure also has judged state; reconcile before publishing")
     expected = set()
     for candidate in seed["entries"]:
         envelope = {"version": "hearsay/1", "space_id": args.space, "claim": candidate["claim"], "source_url": candidate["source_url"], "entry_class": candidate["class"]}
@@ -90,6 +90,8 @@ def main():
     if counts != {item["class"]: item["attempts"] for item in report["classes"]}:
         raise ValueError("class counts disagree with chain report")
     for row in rows:
+        if not row.get("snapshot_verified") or "snapshot_excerpt" not in row:
+            raise ValueError("snapshot bytes have not been verified for " + row["id"])
         code, result = collector.gate.run_verify(dict(row, min_rounds=policy["min_rounds"]))
         if code:
             raise ValueError("unreproducible record: " + json.dumps(result))
@@ -99,9 +101,10 @@ def main():
     corpus = {
         "run": "bradbury", "contract_address": args.address,
         "deployment_tx": metadata["deployment_tx"], "space_id": args.space,
-        "health_warning": "Verdicts were collected from accepted consensus state. Acceptance is not finalization; receipts may still be appealable. Snapshot bytes remain unverified. All controls use one registry.",
+        "health_warning": "Verdicts were collected from consensus state. Accepted receipts remain provisional until finalization. Pinned source bytes were recovered from GenVM traces and hash-checked against contract state. All controls use one registry.",
         "policy": policy, "entries": rows, "refused_at_write": refused,
         "infrastructure_failures": failures,
+        "infrastructure_history": infrastructure_history,
         "report": report, "solvency": solvency,
     }
     collector.checkpoint(collector.ROOT / "web/live-corpus.json", corpus)

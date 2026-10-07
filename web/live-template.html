@@ -28,10 +28,10 @@
 </div>
 <p class="note flag">/*__HEALTH_WARNING__*/</p>
 <section class="section" aria-labelledby="infrastructure-title"><h2 id="infrastructure-title">The calls that did not reach judgement.</h2><p class="note">Infrastructure outcomes are kept in the record and excluded from the gate's admission and false-rejection rates. They affect availability. The control denominator below includes completed judgements only.</p>/*__INFRASTRUCTURE__*/</section>
-<section class="section" aria-labelledby="rules-title"><h2 id="rules-title">The space.</h2><p class="note">/*__RULES__*/</p><p class="note"><a href="/*__CONTRACT_URL__*/">View contract on Bradbury</a> · <a href="/*__DEPLOY_TX_URL__*/">Deployment receipt</a>. Snapshot hashes are recorded; snapshot bytes are not exposed by this contract, so independent snapshot reproduction remains unverified.</p></section>
+<section class="section" aria-labelledby="rules-title"><h2 id="rules-title">The space.</h2><p class="note">/*__RULES__*/</p><p class="note"><a href="/*__CONTRACT_URL__*/">View contract on Bradbury</a> · <a href="/*__DEPLOY_TX_URL__*/">Deployment receipt</a>. Pinned source bytes are recovered from GenVM traces and checked against the snapshot hash in contract state. They are included in the downloadable record.</p></section>
 <section class="section" aria-labelledby="classes-title"><h2 id="classes-title">Admission by class.</h2><div class="scroll"><table><thead><tr><th>Class</th><th>Attempts</th><th>Admitted</th><th>Admission rate</th><th>Inconclusive</th></tr></thead><tbody>/*__CLASSES__*/</tbody></table></div></section>
 <section class="section" aria-labelledby="record-title"><div class="tools"><h2 id="record-title">Every entry. Every vote.</h2><label>Show <select id="class-filter"><option value="">All classes</option>/*__OPTIONS__*/</select></label></div><div class="scroll"><table><thead><tr><th>Claim and provenance</th><th>Verdict</th><th>Support A / B</th><th>Consistency</th><th>Receipt</th></tr></thead><tbody id="records">/*__ROWS__*/</tbody></table></div><h3>Prevented on the write path</h3>/*__REFUSED__*/</section>
-<section class="section" aria-labelledby="verify-title"><h2 id="verify-title">Replay a receipt.</h2><p class="note">Choose an entry above or edit the receipt below. The envelope hash and recorded votes are checked locally. Change a verdict or a vote and replay it again.</p><label for="receipt-input">Receipt JSON</label><textarea id="receipt-input" spellcheck="false"></textarea><button id="verify">Replay recorded votes</button><p id="verify-output" role="status" aria-live="polite"></p></section>
+<section class="section" aria-labelledby="verify-title"><h2 id="verify-title">Replay a receipt.</h2><p class="note">Choose an entry above or edit the receipt below. The envelope hash, pinned snapshot hash and recorded votes are checked locally. Change a verdict, a source snapshot or a vote and replay it again.</p><label for="receipt-input">Receipt JSON</label><textarea id="receipt-input" spellcheck="false"></textarea><button id="verify">Replay recorded votes</button><p id="verify-output" role="status" aria-live="polite"></p></section>
 </main>
 <footer><span>Source support and memory consistency, on GenLayer.</span><span>Money balanced: /*__BALANCED__*/ · <a href="/">Explore the offline cascade example</a></span></footer>
 <script id="live-data" type="application/json">/*__DATA__*/</script>
@@ -46,6 +46,8 @@ function verify(){
   const receipt=JSON.parse(input.value);
   const failures=[];
   if(envelopeHash(receipt.envelope)!==receipt.envelope_hash)failures.push('Envelope hash does not match.');
+  if(typeof receipt.snapshot_excerpt!=='string')throw new Error('Missing pinned snapshot bytes.');
+  if(sha256(receipt.snapshot_excerpt)!==receipt.snapshot_hash)failures.push('Pinned snapshot hash does not match.');
   const votes=receipt.votes;
   if(!votes||!(votes.a in answers)||!(votes.b in answers))throw new Error('Missing or invalid votes.');
   const rounds=[votes.a,votes.b].filter(v=>v==='yes'||v==='no').length;
@@ -54,10 +56,10 @@ function verify(){
   if(conflict!==null&&!Number.isInteger(conflict))throw new Error('Invalid consistency vote.');
   const actual=decide(answers[votes.a],answers[votes.b],rounds,receipt.min_rounds,conflict,votes.a!=='unasked')[0];
   if(actual!==receipt.status)failures.push('Recorded verdict does not follow from its votes: '+actual+'.');
-  output.textContent=failures.length?'Does not reproduce. '+failures.join(' '):'Reproduces. '+actual+'. Snapshot bytes remain unverified.';
+  output.textContent=failures.length?'Does not reproduce. '+failures.join(' '):'Reproduces. '+actual+'. Envelope, pinned snapshot and votes verified.';
  }catch(error){output.textContent='Malformed receipt. '+error.message;}
 }
-function choose(index){const row=live.entries[index];input.value=JSON.stringify({envelope:row.envelope,envelope_hash:row.envelope_hash,votes:row.votes,rounds:row.rounds,status:row.status,min_rounds:live.policy.min_rounds},null,2);verify();}
+function choose(index){const row=live.entries[index];input.value=JSON.stringify({envelope:row.envelope,envelope_hash:row.envelope_hash,snapshot_hash:row.snapshot_hash,snapshot_excerpt:row.snapshot_excerpt,votes:row.votes,rounds:row.rounds,status:row.status,min_rounds:live.policy.min_rounds},null,2);verify();}
 document.querySelectorAll('[data-replay]').forEach(button=>button.addEventListener('click',()=>{choose(Number(button.dataset.replay));document.getElementById('verify-title').scrollIntoView?.({behavior:'smooth'});}));
 document.getElementById('verify').addEventListener('click',verify);
 document.getElementById('class-filter').addEventListener('change',event=>{document.querySelectorAll('#records tr').forEach(row=>row.hidden=!!event.target.value&&row.dataset.class!==event.target.value);});

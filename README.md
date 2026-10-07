@@ -295,22 +295,25 @@ python3 scripts/diagnose_missing.py --address "$CONTRACT" \
   --out runs/diagnosis.json
 ```
 
-The collector checkpoints raw explorer receipts under `runs/receipts/`, checks
+The collector checkpoints authoritative RPC receipts and explorer enrichment
+under `runs/receipts/`, checks
 the submitted envelope against chain state, and replays its recorded votes.
 Incomplete collection exits 2 and preserves existing records. The diagnosis
 scans the actual chain entry count and can recover a record under a different
 ID. A failed read or partial scan stays unresolved; an accepted receipt without
 state does not establish why the entry is missing.
 
-`get_entry` currently exposes the snapshot hash but not the snapshot bytes, so
-live records explicitly carry `snapshot_verified: false`. Vote replay is not
-proof that a source snapshot was independently reproduced.
+`get_entry` exposes the snapshot hash. `scripts/enrich_snapshots.py` recovers
+the exact pinned bytes from GenVM trace storage, matches their SHA-256 to that
+hash, and verifies both the envelope and recorded votes. It writes a separate
+`runs/verified-records.jsonl`; only fully verified receipts can be published.
+It never substitutes a newly fetched page for the page judged on chain.
 
 Vercel serves the committed `web/` directory using `vercel.json`. Its build does
 not run a dry run or install application dependencies.
 
 The live candidates are in `corpus/live.json`: independently fetched
-company profiles from Companies House, followed by the seven attack classes.
+company profiles from Companies House, followed by the attack candidates.
 The stale-name candidate cites a verified Wayback capture of Shell's profile
 from 23 January 2021 and records its live counterpart. These are candidate
 expectations, not measured verdicts. The control group uses one registry, so
@@ -346,13 +349,20 @@ The published offline reference stays intact throughout the live run.
 `ValidatorsTimeout` and `LeaderTimeout` are protocol outcomes, distinct from a
 contract refusal. They are diagnosed and retained with receipts and recovery
 actions. `--accept-diagnosed-timeouts` permits continuing only past timeouts
-explicitly saved in `runs/live/infrastructure-failures.json`; ordinary missing
+diagnosed and saved in `runs/live/infrastructure-failures.json`; ordinary missing
 state still stops the run. Additional reviewed controls keep the completed
 honest cohort at twenty without deleting infrastructure failures or counting
 them as defence successes.
 
-After the entire run is collected, `scripts/publish_live.py --address
-"$CONTRACT"` checks the chain count, solvency, honest cohort and every verdict
+After the entire run is collected:
+
+```sh
+python3 scripts/enrich_snapshots.py
+python3 scripts/publish_live.py --address "$CONTRACT"
+make site page live-page
+```
+
+The publisher checks the chain count, solvency, honest cohort and every verdict
 before writing `web/live-corpus.json` and a separate `web/live.html`. The live
 page links each transaction, publishes every vote, filters by class, and replays
 editable receipts locally. `make live-page` checks its controls independently

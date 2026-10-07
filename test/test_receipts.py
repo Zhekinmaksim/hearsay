@@ -121,6 +121,13 @@ class ReceiptsTest(unittest.TestCase):
             self.assertEqual(result["verdict"], "CONSENSUS TIMEOUT")
             self.assertIn("not a contract rejection", result["reason"])
 
+    def test_rpc_receipt_overrides_stale_explorer(self):
+        response = type("Result", (), {"returncode": 0, "stdout": json.dumps({"status": 12, "statusName": "VALIDATORS_TIMEOUT", "resultName": "TIMEOUT"}), "stderr": ""})()
+        with patch.object(collector.subprocess, "run", return_value=response), patch.object(collector, "fetch_receipt", return_value={"status": "accepted"}):
+            receipt = collector.lookup_receipt(collector.EXPLORER, "", self.tx, 1)
+        self.assertEqual(collector.status_of(receipt), "VALIDATORS_TIMEOUT")
+        self.assertEqual(receipt["explorer_receipt"]["status"], "accepted")
+
     def test_cli_checkpoints_missing_state_and_preserves_records(self):
         with tempfile.TemporaryDirectory(prefix="hearsay-receipts-") as folder:
             folder = Path(folder)

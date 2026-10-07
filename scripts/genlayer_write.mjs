@@ -52,6 +52,10 @@ if (!privateKey) fail("unlock the active account with genlayer account unlock");
 const account = sdk.createAccount(privateKey);
 if (account.address.toLowerCase() !== request.expected_account.toLowerCase()) fail("active account differs from expected_account");
 const client = sdk.createClient({ chain: chains.testnetBradbury, account });
+// Bradbury estimates can underfund an internal call after EIP-150 forwarding.
+// Reserve a margin; unused gas is not charged. Do not cap an oversized estimate.
+const estimate = client.estimateTransactionGas;
+client.estimateTransactionGas = async parameters => (await estimate(parameters)) * 125n / 100n;
 const hash = await client.writeContract({
   account, address: request.address, functionName: request.method,
   args: request.args.map(integers), value: BigInt(request.value),

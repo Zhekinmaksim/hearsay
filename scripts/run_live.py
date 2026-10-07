@@ -24,7 +24,7 @@ def main():
     ap.add_argument("--limit", type=int, default=None, help="maximum NEW writes in this invocation")
     ap.add_argument("--timeout", type=int, default=30)
     ap.add_argument("--wait", type=int, default=300)
-    ap.add_argument("--accept-diagnosed-timeouts", action="store_true", help="continue past explicitly saved consensus timeouts; never count them as judged")
+    ap.add_argument("--accept-diagnosed-timeouts", action="store_true", help="retain diagnosed consensus timeouts separately and continue; never count them as judged")
     args = ap.parse_args()
     root = collector.ROOT
     seed = json.loads(Path(args.seed).read_text())
@@ -103,9 +103,10 @@ def main():
             writes += 1
             print(candidate["id"], row["tx"], "submitted", flush=True)
         deadline = time.monotonic() + args.wait
+        timeout_since = None
         while True:
             try:
-                receipt = collector.fetch_receipt(collector.EXPLORER, row["tx"], args.timeout)
+                receipt = collector.lookup_receipt(collector.EXPLORER, "", row["tx"], args.timeout)
             except Exception as exc:
                 collector.checkpoint(root / "runs/receipts" / (row["tx"] + ".json"), {"lookup_error": str(exc)})
                 if time.monotonic() >= deadline:
@@ -113,8 +114,17 @@ def main():
                 time.sleep(4)
                 continue
             collector.checkpoint(root / "runs/receipts" / (row["tx"] + ".json"), {"receipt": receipt})
-            if collector.status_of(receipt) in collector.TERMINAL:
-                break
+            status = collector.status_of(receipt)
+            if status in collector.TIMEOUTS:
+                # Explorer projection can briefly show a timeout while a
+                # funded rotation is already restarting execution.
+                timeout_since = timeout_since or time.monotonic()
+                if time.monotonic() - timeout_since >= 30:
+                    break
+            else:
+                timeout_since = None
+                if status in collector.TERMINAL:
+                    break
             if time.monotonic() >= deadline:
                 raise RuntimeError("receipt still settling; resume later using the same manifest")
             time.sleep(4)
@@ -126,6 +136,15 @@ def main():
         issues_path = Path(str(records) + ".issues.json")
         issues = json.loads(issues_path.read_text()) if issues_path.exists() else {"scan_errors": ["no collection report"], "transactions": []}
         unexplained = [issue for issue in issues["transactions"] if issue["tx"] not in known_failures]
+        if args.accept_diagnosed_timeouts and unexplained and not issues["scan_errors"]:
+            findings = json.loads((root / "runs/diagnosis.json").read_text())["transactions"]
+            finding = next((item for item in findings if item["tx"] == row["tx"]), None)
+            if finding and finding["verdict"] == "CONSENSUS TIMEOUT" and all(issue["tx"] == row["tx"] for issue in unexplained):
+                failures.append({"id": candidate["id"], "tx": row["tx"], "envelope_hash": fingerprint, "entry_class": env["entry_class"], "status": finding["status"], "reason": finding["reason"], "receipt": finding["receipt"]})
+                collector.checkpoint(failures_path, failures)
+                known_failures.add(row["tx"])
+                print(candidate["id"], finding["status"], "no judged state; retained as infrastructure outcome", flush=True)
+                continue
         if (collection.returncode and (unexplained or issues["scan_errors"])) or diagnosis.returncode:
             print(collection.stdout + collection.stderr + diagnosis.stdout + diagnosis.stderr, flush=True)
             raise RuntimeError("collection or diagnosis unresolved; next write was not sent")

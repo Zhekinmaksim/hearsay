@@ -121,10 +121,26 @@ def read_entry(endpoint, address, entry_id, timeout):
     return read_call(endpoint, address, "get_entry", [entry_id], timeout)
 
 
+def lookup_receipt(explorer, endpoint, tx, timeout):
+    """RPC status is authoritative; explorer enrichment may describe an old round."""
+    command = ["node", str(ROOT / "scripts/read_chain.mjs"), tx]
+    if endpoint:
+        command.append(endpoint)
+    result = subprocess.run(command, capture_output=True, text=True, timeout=timeout)
+    if result.returncode:
+        raise RuntimeError(result.stderr.strip() or "RPC receipt lookup failed")
+    receipt = json.loads(result.stdout)
+    try:
+        receipt["explorer_receipt"] = fetch_receipt(explorer, tx, timeout)
+    except Exception as exc:
+        receipt["explorer_lookup_error"] = str(exc)
+    return receipt
+
+
 def status_of(receipt):
     if not isinstance(receipt, dict):
         return "PENDING"
-    for key in ("status", "status_name", "statusName", "consensus_status"):
+    for key in ("statusName", "status_name", "consensus_status", "status"):
         if receipt.get(key):
             value = str(receipt[key]).upper()
             return {"VALIDATORSTIMEOUT": "VALIDATORS_TIMEOUT", "LEADERTIMEOUT": "LEADER_TIMEOUT", "APPEALCOMMITTING": "APPEAL_COMMITTING", "APPEALREVEALING": "APPEAL_REVEALING"}.get(value.replace("_", ""), value)
@@ -278,7 +294,7 @@ def main():
             else:
                 deadline = time.monotonic() + args.wait
                 while True:
-                    receipt = fetch_receipt(args.explorer, tx, args.timeout)
+                    receipt = lookup_receipt(args.explorer, args.endpoint, tx, args.timeout)
                     raw["receipt"] = receipt
                     checkpoint(Path(args.raw_dir) / (tx + ".json"), raw)
                     if status_of(receipt) in TERMINAL or time.monotonic() >= deadline:

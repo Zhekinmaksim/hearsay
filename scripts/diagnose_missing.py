@@ -111,7 +111,7 @@ def main():
     for row in targets:
         lookup_error = ""
         try:
-            receipt = cache.get(row["tx"], {}).get("receipt") if cache is not None else collector.fetch_receipt(args.explorer, row["tx"], args.timeout)
+            receipt = cache.get(row["tx"], {}).get("receipt") if cache is not None else collector.lookup_receipt(args.explorer, args.endpoint, row["tx"], args.timeout)
         except Exception as exc:
             receipt, lookup_error = None, str(exc)
         result = diagnose(row, receipt, index, complete)
