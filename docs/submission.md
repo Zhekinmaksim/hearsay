@@ -202,7 +202,7 @@ from recorded votes; it does not repeat the semantic model judgement.
 | Current contract | [0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7](https://explorer-bradbury.genlayer.com/address/0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7) |
 | Deployment transaction | [0x7767c789…6267f3c](https://explorer-bradbury.genlayer.com/tx/0x7767c7897d9439503377111501bc020b6a159a092c3e7bd2f5a0bb5116267f3c) |
 | Deployment metadata | [deployments/bradbury-prompt.json](../deployments/bradbury-prompt.json) |
-| CI evidence, including the live app and submission guards | [GitHub Actions run 37822941650](https://github.com/Zhekinmaksim/hearsay/actions/runs/37822941650) |
+| CI evidence, including the live app and submission guards | [GitHub Actions run 37825911441](https://github.com/Zhekinmaksim/hearsay/actions/runs/37825911441) |
 
 Network: Bradbury testnet, chain ID **4221**. Current protocol parameters are
 five initial validators and `maxRotations=3`. The deployed ConsensusMain is
@@ -214,7 +214,7 @@ Readable contract SHA-256:
 `d2670d4204d769ce14f26328d3f8a4a86c4b645f0a54c5149d5269804ce53296`.
 Packed deployment source SHA-256:
 `2125f18b442bface1d2538563ff9d4fb40bb6e3f690ff8b42a3d5916ffece97c`.
-The linked green CI run checks commit `b0c6a6f`, including the live frontend
+The linked green CI run checks commit `f26072e`, including the live frontend
 and submission guards. Its additional fallback controls are preflight data,
 not active submissions or measured judgements.
 
