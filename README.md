@@ -454,6 +454,9 @@ and coverage of every declared candidate. It binds the full manifest to that
 cohort; use the full campaign seed, preserving unresolved attempts and
 infrastructure history. After provisional replay, collect to a new output path
 and verify its current entries, receipts, votes and pinned bytes again.
+The current declared seed is [`corpus/bradbury-prompt-campaign.json`](corpus/bradbury-prompt-campaign.json):
+50 planned honest controls and the original ten negative cases. It is an exact
+copy of the runner's campaign seed, not a collection of successful results.
 
 Use `--run-dir runs/bradbury-rescue` for a separate deployment. Its manifest,
 entries, receipts, diagnosis and infrastructure outcomes are isolated from the

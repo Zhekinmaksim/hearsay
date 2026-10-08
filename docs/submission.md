@@ -10,8 +10,8 @@ connected the wallet, matched BP's finalized transaction to entry 0, downloaded
 its verified receipt and reproduced the verdict with the CLI. **A new
 transaction through the frontend wallet has not been demonstrated live.** That
 remaining check matters to the Portal's full-transaction-lifecycle quality bar.
-Production publication is also pending. The public checkpoint still contains
-**5/20 judged honest controls**, and the live negative phase has not started.
+The app is published on Vercel, and its CI checks passed. The public checkpoint still contains
+**6/20 judged honest controls**, and the live negative phase has not started.
 
 ## Copy-ready Portal fields
 
@@ -37,7 +37,12 @@ Selected in the unsubmitted Portal draft:
 
 The inspected topic choices were Autonomous Execution, Multi-Agent
 Coordination, Model Evaluation, AI Policy Enforcement, Verifiable Inference,
-and Source Verification. No other form fields have yet been filled.
+and Source Verification. The unsubmitted draft also contains the project name,
+151-character one-liner, exact contract link and a GitHub Repository item added
+through Add Evidence. The Portal now reports **6/7 required fields complete**. The description,
+nine how-to steps, expected outcome and public app website have been entered;
+the logo has not been uploaded. The GitHub evidence/base-URL field still needs
+final validation after its duplicate URL was cleared.
 
 **One-liner — 151/180 characters**
 
@@ -56,15 +61,15 @@ Agents reuse shared memory, so one unsupported entry can become a premise for ma
 
 The contract fetches each claim's source, asks two independent support framings and checks consistency against recent admitted entries. It records ADMITTED, UNSOURCED, CONTRADICTED or INCONCLUSIVE with pinned evidence and votes. Unreadable or disagreeing rounds do not admit. Challenges revoke an entry and taint its dependents; a bounded cascade rejudges them without the revoked premise.
 
-The app reads Bradbury, connects a wallet and supports separate memory spaces, claim submission and canonical transaction tracking. Verified receipts replay locally. The public checkpoint has 5/20 judged honest controls; the attack phase has not started. New wallet sends are tested offline and remain unproven live. Offline fixtures verify the implementation, not attack resistance.
+The app reads Bradbury, connects a wallet and supports separate memory spaces, claim submission and canonical transaction tracking. Verified receipts replay locally. The public checkpoint has 6/20 judged honest controls; the attack phase has not started. New wallet sends are tested offline and remain unproven live. Offline fixtures verify the implementation, not attack resistance.
 ```
 
 **Website — required**
 
 Prepared value:
 [https://hearsay-psi.vercel.app/app.html](https://hearsay-psi.vercel.app/app.html).
-This is the live app's production target; confirm publication before entering
-it in the Portal. The root homepage remains the supplementary offline evidence
+The production app's public reads and BP replay download were verified. The
+root homepage remains the supplementary offline evidence
 stand.
 
 **GitHub — required evidence**
@@ -91,8 +96,8 @@ in this package. The required website field remains separate.
 
 These steps match the implemented controls. The BP read and replay flow was
 verified in the browser; creation and submission are implemented and tested
-offline, with a new real wallet transaction still outstanding. Production
-publication is pending.
+offline, with a new real wallet transaction still outstanding. The same BP
+flow and downloaded receipt were also verified on the public production app.
 
 | Optional heading | Instruction |
 | --- | --- |
@@ -188,13 +193,13 @@ from recorded votes; it does not repeat the semantic model judgement.
 | Item | Link |
 | --- | --- |
 | Source repository | [Zhekinmaksim/hearsay](https://github.com/Zhekinmaksim/hearsay) |
-| Live app production target; verification pending | [app.html](https://hearsay-psi.vercel.app/app.html) |
+| Live app | [app.html](https://hearsay-psi.vercel.app/app.html) |
 | Interactive offline demo | [hearsay-psi.vercel.app](https://hearsay-psi.vercel.app/) |
 | Incomplete current-cohort checkpoint | [bradbury-prompt-checkpoint.json](https://hearsay-psi.vercel.app/bradbury-prompt-checkpoint.json) |
 | Current contract | [0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7](https://explorer-bradbury.genlayer.com/address/0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7) |
 | Deployment transaction | [0x7767c789…6267f3c](https://explorer-bradbury.genlayer.com/tx/0x7767c7897d9439503377111501bc020b6a159a092c3e7bd2f5a0bb5116267f3c) |
 | Deployment metadata | [deployments/bradbury-prompt.json](../deployments/bradbury-prompt.json) |
-| Offline CI evidence | [GitHub Actions run 37771487094](https://github.com/Zhekinmaksim/hearsay/actions/runs/37771487094) |
+| CI evidence, including the live app and submission guards | [GitHub Actions run 37807330045](https://github.com/Zhekinmaksim/hearsay/actions/runs/37807330045) |
 
 Network: Bradbury testnet, chain ID **4221**. Current protocol parameters are
 five initial validators and `maxRotations=3`. The deployed ConsensusMain is
@@ -207,7 +212,7 @@ Readable contract SHA-256:
 Packed deployment source SHA-256:
 `2125f18b442bface1d2538563ff9d4fb40bb6e3f690ff8b42a3d5916ffece97c`.
 The linked CI run checks implementation commit
-`f98ab0c3e323be684ba5539c3cb3bf781740a017`; it predates the new live frontend.
+`645be2f961ff387d9171938e6fd6b7e6bc84cede`, including the live frontend.
 
 ## Reproduce the local evidence
 
@@ -267,6 +272,12 @@ the Python CLI verified with exit 0. No new wallet transaction was sent in that
 browser session. This verifies the live read and replay path, while the new
 frontend write remains a gap.
 
+The complete local `make all` run passed the reference checks and all 61 app
+checks plus 55 submission publication/signing checks. Real browser layouts were
+also checked at **360 × 800** and **1280 × 900** without horizontal overflow.
+Local PNG regeneration was skipped because the Cairo/font dependencies were
+unavailable; the existing verified logo and image assets were preserved.
+
 To rebuild the page and assets, use `make site page`. PNG generation additionally
 uses CairoSVG and the repository's Newsreader and Archivo fonts; the committed
 page can be opened directly without rebuilding. Full CI installs these asset
@@ -312,24 +323,27 @@ The expected result is a reproduced verdict and exit 0.
 
 ## Live evidence and remaining submission work
 
-The public checkpoint was checked at **2026-10-08 11:22:16 UTC**. It accounts
-for 60 initial campaign candidates: **5 verified judgements, 6 finalized
-infrastructure outcomes, 10 unresolved outcomes, and 39 unsubmitted**. The
-five verified entries are BP, AstraZeneca, BT, Lloyds, and Marks and Spencer.
-All five are admitted and their pinned snapshots and recorded votes reproduce.
-BP and AstraZeneca have finalized receipts; the other three have accepted
-receipts and remain provisional. Accepted state can be replayed after an
-adverse appeal, so publication requires fresh reconciliation.
+The current public checkpoint was checked at **2026-10-08 16:43:40 UTC**.
+It accounts for every one of the 60 declared campaign candidates: **6 verified
+judgements, 6 finalized infrastructure outcomes, 11 unresolved outcomes and
+37 unsubmitted**. The six verified entries are BP, AstraZeneca, BT, Lloyds,
+Marks and Spencer, and Centrica. Their pinned snapshots and recorded votes
+reproduce. BP and AstraZeneca are Finalized; the remaining four are Accepted
+and provisional. Accepted state can be replayed after an adverse appeal, so
+publication requires fresh reconciliation. Current solvency is balanced.
 
-At pinned block **23813319**, a later read found pending head and tail both
-**23**, releasing the earlier activation blocker. Continuation then recorded
-a Prudential write attempt; it is not an additional verified judgement in the
-cited public checkpoint. Historical protocol timeouts, no-execution results
-and unresolved appeals remain in the archive; they are not contract refusals
-or evidence that the defence succeeded. The
-[activation report](bradbury-activation-blocker.md) records an earlier blocker,
-and the [liveness report](bradbury-liveness-report.md) preserves prior
-observations and published issue links.
+The exact planned cohort is public at
+[`corpus/bradbury-prompt-campaign.json`](../corpus/bradbury-prompt-campaign.json):
+50 honest candidates and the original ten negative cases. Its SHA-256 is
+`6970d7ec5437f47f3705e9318143a4c37a33f29beecb31603c2b52d366820487`.
+The manifest currently records 23 honest write attempts. They are not 23
+application judgements. The original
+[11:22 checkpoint](../web/bradbury-prompt-checkpoint-20261008-1122.json) and
+[activation report](bradbury-activation-blocker.md) remain preserved separately.
+Later pinned reads found the pending queue empty and continuation resumed;
+unresolved appeals, protocol timeouts and no-execution outcomes are retained.
+The [liveness report](bradbury-liveness-report.md) includes the published
+upstream issues.
 
 The live control group uses Companies House company profiles. It does not
 establish performance across arbitrary websites. Demonstration bonds are not
@@ -360,8 +374,13 @@ Form preparation:
   **Multi-Agent Coordination**, selected in the unsubmitted Portal draft.
 - [ ] Set the required website to the verified public live app and confirm its
   how-to instructions match the route, controls and outputs.
-- [ ] Add the current public GitHub repository through Add Evidence after it
-  contains the tested frontend and accurate documentation.
+- [x] Add the GitHub Repository item through Add Evidence in the unsubmitted
+  draft.
+- [ ] Confirm the required GitHub/evidence field validates after duplicate URL
+  cleanup and the repository contains the published frontend and current docs.
+- [x] Enter the prepared description, nine how-to steps, expected outcome and
+  verified public website.
+- [ ] Upload the valid prepared logo; browser upload approval is pending.
 - [ ] Use the expected-outcome field if available for the submitting role.
 
 The optional YouTube/X demo field can remain blank. No direct video or post URL
@@ -389,14 +408,15 @@ Live app acceptance:
 - [ ] Demonstrate the newly submitted wallet transaction through the same
   canonical receipt and application-verdict lifecycle, retaining unresolved
   protocol outcomes honestly.
-- [ ] Publish the app and verify the production browser-to-contract flow.
+- [x] Publish the app and verify production public reads, canonical BP entry
+  matching, snapshot recovery and the downloaded receipt's Python replay.
 
 The project's own live evaluation target remains separate from the Portal's
 supplied form requirements:
 
 - [ ] Reach at least **20 genuinely judged honest controls** on this same
   contract and source version, retaining every infrastructure outcome and
-  original attempt. At the cited public checkpoint, at least 15 more judged
+  original attempt. At the cited public checkpoint, at least 14 more judged
   controls remain.
 - [ ] Complete the **original ten negative cases** in
   [`corpus/live.json`](../corpus/live.json): nine independent cases submitted

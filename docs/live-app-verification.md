@@ -40,3 +40,11 @@ Bradbury. The existing public transaction verifies the read, proof and replay
 path; it does not establish that remaining write-path milestone. The live
 benchmark still needs at least twenty current judged honest controls and the
 original negative-input phase before its complete report can be published.
+
+Production commit `645be2f961ff387d9171938e6fd6b7e6bc84cede` passed
+[CI run 37807330045](https://github.com/Zhekinmaksim/hearsay/actions/runs/37807330045).
+Vercel deployment `dpl_BGTGMjwCiiokmi5gy299Y9hgkDeM` is Ready and serves
+[the public app](https://hearsay-psi.vercel.app/app.html). Its HTML, modules,
+CSS, homepage and offline corpus match the reviewed local files byte for byte.
+The production browser recovered BP at block 23815643 and downloaded another
+replay receipt; the Python verifier again returned exit 0 and ADMITTED.
