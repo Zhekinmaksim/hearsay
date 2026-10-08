@@ -145,6 +145,8 @@ def lookup_receipt(explorer, endpoint, tx, timeout):
         raise RuntimeError("RPC receipt lacks stored consensus status")
     if receipt.get("consensus_version") != "2.0.0":
         raise RuntimeError("RPC receipt lacks verified consensus version 2.0.0")
+    if not explorer:
+        return receipt
     try:
         receipt["explorer_receipt"] = fetch_receipt(explorer, tx, timeout)
     except Exception as exc:

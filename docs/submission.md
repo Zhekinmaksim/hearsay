@@ -250,6 +250,7 @@ The existing verified results are:
 | Python/JavaScript parity | 67 checks passed |
 | Interactive offline page | 50 checks passed |
 | Receipt collection and diagnosis | 46 tests passed |
+| Optional explorer enrichment boundary | 7 tests passed |
 | Checkpoint accounting | 8 tests passed |
 | Actual SDK queue guard | 37 checks passed |
 | Broadcast journal | 13 checks passed |

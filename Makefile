@@ -1,12 +1,15 @@
-.PHONY: test receipts-test checkpoint-test submission-test chain-test bridge-test queue-test submission-signing-test app-test gate-parity parity page live-page vectors replay dry-run assets site gate check lint all
+.PHONY: test receipts-test enrichment-test checkpoint-test submission-test chain-test bridge-test queue-test submission-signing-test app-test gate-parity parity page live-page vectors replay dry-run assets site gate check lint all
 
-all: lint test receipts-test checkpoint-test submission-test chain-test bridge-test queue-test submission-signing-test app-test dry-run replay assets site parity gate-parity page live-page
+all: lint test receipts-test enrichment-test checkpoint-test submission-test chain-test bridge-test queue-test submission-signing-test app-test dry-run replay assets site parity gate-parity page live-page
 
 test:
 	python3 test/run_tests.py
 
 receipts-test:
 	python3 -m unittest discover -s test -p 'test_receipts.py'
+
+enrichment-test:
+	python3 test/test_receipt_enrichment.py
 
 checkpoint-test:
 	python3 -m unittest discover -s test -p 'test_checkpoint.py'

@@ -16,6 +16,7 @@ jobs:
       - run: make lint
       - run: make test
       - run: make receipts-test
+      - run: make enrichment-test
       - run: make checkpoint-test
       - run: make submission-test
       - run: make dry-run

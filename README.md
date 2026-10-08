@@ -403,6 +403,12 @@ never judged or finalized failures. Later accepted results remain provisional:
 an adverse appeal can replay them, so recollect all current entries and receipts
 before publishing. This option does not bypass full candidate coverage or the
 twenty-control publication requirement.
+
+Progress checks read every missing transaction's canonical receipt directly
+from Bradbury. They skip optional explorer enrichment; collection, diagnosis
+and publication keep it enabled. `make enrichment-test` checks this boundary,
+including the collector's explicit `--explorer ""` option and unchanged
+canonical version and basis requirements.
 Use `--limit 1` to perform the first write separately. It also refuses an
 impossible dependency locally before spending a bond or asking consensus.
 The published offline reference stays intact throughout the live run.

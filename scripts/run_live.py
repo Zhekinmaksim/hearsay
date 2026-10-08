@@ -68,7 +68,7 @@ def prepare_progress_guard(args, run_dir, manifest, required_tx=None):
     for row in collector.load_manifest(manifest):
         if row["envelope_hash"] in index:
             continue
-        receipt = collector.lookup_receipt(collector.EXPLORER, "", row["tx"], args.timeout)
+        receipt = collector.lookup_receipt("", "", row["tx"], args.timeout)
         if collector.finalized_infrastructure_outcome(receipt):
             continue
         status = collector.status_of(receipt)
