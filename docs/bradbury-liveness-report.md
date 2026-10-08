@@ -87,6 +87,47 @@ does not by itself establish a failed execution. Reduced comparison calls are
 inferred from the code and pinned SDK, not measured speed. The experiment has
 not completed the honest cohort or attack coverage.
 
+## Current prompt cohort: 8 October 2026
+
+The current separate deployment is
+`0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7`, readable source SHA-256
+`d2670d4204d769ce14f26328d3f8a4a86c4b645f0a54c5149d5269804ce53296`.
+It retains five initial validators, three leader rotations, two independent
+support framings and strict equality of parsed decisions. Earlier deployments
+are excluded from its denominator.
+
+The [current incomplete checkpoint](https://hearsay-psi.vercel.app/bradbury-prompt-checkpoint.json)
+contains three real `ADMITTED` controls: BP P.L.C. (00102498), ASTRAZENECA PLC
+(02723534), and BT GROUP PLC (04190816). Their exact source bytes came from
+stored equivalence outputs, match the contract's SHA-256, and reproduce the
+recorded `yes / yes / none` votes. Of the 36 original candidates, three have
+verified judgements, three have finalized infrastructure outcomes, five are
+unresolved, and 25 remain unsubmitted. The three pending transactions are a
+subset of those five unresolved outcomes. The campaign has not reached the
+required 20 judged honest controls or started the attack phase.
+
+NATWEST GROUP PLC's transaction
+`0x8930d0ab292f6b3cf9ebbb3a6e4ba3b5f0a754838b18ae5fbcdcf752a9529922`
+remained in stored `APPEAL_REVEALING`, with 11 commitments and 10 of 11 reveals,
+after a bounded 1200-second wait. At block **23791154**, hash
+`0x8cd8ec8682bb7394aa5888fe3220f1416123e9ab8e0d7f0f7ffb6fc190fb0d37`,
+fresh `processIdleness` and `leaderIdleness` simulations from the original
+sender both reverted with `execution reverted`. No recovery was signed or
+broadcast. The missing reveal prevents durable completion. The earlier stop
+before the next write was our conservative orchestration guard: a later queue
+audit found the pending queue empty, allowing activation of independent writes.
+Later accepted outputs can be replayed after an adverse appeal and remain
+provisional until fresh reconciliation and finalization. A specific latency or
+application cause is unproven.
+
+An earlier reader wrongly applied the newer Consensus v0.6 status table to
+deployed ConsensusMain 2.0.0. Stored code 13 is `LeaderTimeout`, and 14 is
+`LeaderRevealing`. The [verified version evidence](bradbury-protocol-version.md)
+and captured-node regression fixture support the correction. This display
+error is separate from the current raw status-9 appeal and genuine finalized
+protocol failures. Historical captures remain preserved. A timeout that later
+recovered, such as BP, remains in history and is excluded from current failures.
+
 ## Open investigation questions
 
 - What supported public recovery operation can release these exact transactions?

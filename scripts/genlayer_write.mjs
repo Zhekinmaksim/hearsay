@@ -10,6 +10,7 @@ import { dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { createHash } from "node:crypto";
 import { assertBroadcastReconciled, createBroadcastFetch } from "./broadcast.mjs";
+import { accountWithProgressGuard, readQueueProgress } from "./queue_progress.mjs";
 
 function option(name) {
   const position = process.argv.indexOf(name);
@@ -57,7 +58,7 @@ const cliEntry = realpathSync(execFileSync("which", ["genlayer"], { encoding: "u
 const cliRoot = resolve(dirname(cliEntry), "..");
 const sdk = await import(pathToFileURL(join(cliRoot, "node_modules/genlayer-js/dist/index.js")));
 const chains = await import(pathToFileURL(join(cliRoot, "node_modules/genlayer-js/dist/chains/index.js")));
-const { keccak256, parseTransaction } = await import(pathToFileURL(join(cliRoot, "node_modules/viem/_esm/index.js")));
+const { keccak256, parseTransaction, createPublicClient, http } = await import(pathToFileURL(join(cliRoot, "node_modules/viem/_esm/index.js")));
 const keytarModule = await import(pathToFileURL(join(cliRoot, "node_modules/keytar/lib/keytar.js")));
 const keytar = keytarModule.default || keytarModule;
 const configPath = process.env.GENLAYER_CONFIG || join(process.env.HOME, ".genlayer/genlayer-config.json");
@@ -65,7 +66,20 @@ const config = JSON.parse(readFileSync(configPath, "utf8"));
 if (!config.activeAccount) fail("no active GenLayer account");
 const privateKey = await keytar.getPassword("genlayer-cli", "account:" + config.activeAccount);
 if (!privateKey) fail("unlock the active account with genlayer account unlock");
-const account = sdk.createAccount(privateKey);
+const signingAccount = sdk.createAccount(privateKey);
+let progressProof;
+if (request.progress_guard && request.method !== "write_entry") fail("progress guard is only for independent entry writes");
+const account = request.progress_guard ? accountWithProgressGuard(signingAccount, async () => {
+  if (request.progress_guard.scan_complete !== true || request.progress_guard.solvency_balanced !== true || request.args[0] !== 0 || request.args[1] !== "honest") fail("progress guard requires complete absence scan, solvency and independent honest entry");
+  const envelope = JSON.parse(request.args[2]);
+  if ((envelope.supports || []).length) fail("unresolved progress cannot use dependent premises");
+  const solvency = await client.readContract({ address: request.address, functionName: "solvency", args: [] });
+  const currentSolvency = solvency instanceof Map ? Object.fromEntries(solvency) : solvency;
+  if (currentSolvency?.balanced !== true) fail("fresh before-sign solvency failed");
+  const publicClient = createPublicClient({ chain: chains.testnetBradbury, transport: http() });
+  progressProof = await readQueueProgress(publicClient, chains.testnetBradbury, request.address, request.expected_account, request.progress_guard.transactions);
+  progressProof.solvency = JSON.parse(JSON.stringify(currentSolvency, (_, value) => typeof value === "bigint" ? value.toString() : value));
+}) : signingAccount;
 if (account.address.toLowerCase() !== request.expected_account.toLowerCase()) fail("active account differs from expected_account");
 const client = sdk.createClient({ chain: chains.testnetBradbury, account });
 // SDK 1.1.8 closes over intermediate client copies. Its lexical fetch transport
@@ -95,6 +109,7 @@ const row = {
   ...(request.file ? { file: request.file } : {}),
   ...(request.id ? { id: request.id } : {}),
   ...(request.code_sha256 ? { code_sha256: request.code_sha256 } : {}),
+  ...(progressProof ? { progress_guard: progressProof } : {}),
 };
 const descriptor = openSync(manifest, "a");
 try {

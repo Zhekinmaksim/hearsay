@@ -5,17 +5,21 @@ import { realpathSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { createHash } from "node:crypto";
+import { assertConsensusVersion } from "./protocol_version.mjs";
+export { assertConsensusVersion } from "./protocol_version.mjs";
 
-// Stored Consensus 2.0 statuses differ from the SDK's older projected enum.
+// Verified ITransactions.sol for the deployed Bradbury ConsensusMain 2.0.0.
+// Consensus v0.6 docs describe a different enum; do not apply it to this chain.
 const STORED_STATUSES = [
   "UNINITIALIZED", "PENDING", "PROPOSING", "COMMITTING", "REVEALING",
   "ACCEPTED", "UNDETERMINED", "FINALIZED", "CANCELED", "APPEAL_REVEALING",
-  "APPEAL_COMMITTING", "VALIDATORS_TIMEOUT", "LEADER_TIMEOUT", "LEADER_REVEALING",
+  "APPEAL_COMMITTING", "READY_TO_FINALIZE", "VALIDATORS_TIMEOUT", "LEADER_TIMEOUT", "LEADER_REVEALING",
 ];
-const RESULTS = ["IDLE", "AGREE", "DISAGREE", "TIMEOUT", "DETERMINISTIC_VIOLATION", "NO_MAJORITY", "MAJORITY_AGREE", "MAJORITY_DISAGREE"];
-const EXECUTION_RESULTS = ["NOT_VOTED", "FINISHED_WITH_RETURN", "FINISHED_WITH_ERROR"];
+const RESULTS = ["IDLE", "MAJORITY_AGREE", "MAJORITY_DISAGREE", "MAJORITY_TIMEOUT", "DETERMINISTIC_VIOLATION", "NO_MAJORITY"];
+const EXECUTION_RESULTS = ["NOT_VOTED", "FINISHED_WITH_RETURN", "FINISHED_WITH_ERROR", "TIMEOUT", "NONDET_DISAGREE"];
 
-export function storedReceipt(projected, transaction, rounds, block) {
+export function storedReceipt(projected, transaction, rounds, block, consensusVersion) {
+  assertConsensusVersion(consensusVersion);
   const status = Number(transaction?.status);
   if (transaction?.status == null || !Number.isInteger(status) || !STORED_STATUSES[status] || !Array.isArray(rounds)) {
     throw new Error("invalid stored consensus receipt");
@@ -42,6 +46,7 @@ export function storedReceipt(projected, transaction, rounds, block) {
     ...projected,
     ...stored,
     currentTimestamp: String(block.timestamp),
+    consensus_version: consensusVersion,
     status_basis: "getTransactionAllData",
     stored_block: { number: String(block.number), hash: block.hash, timestamp: String(block.timestamp) },
     stored_receipt: stored,
@@ -66,17 +71,34 @@ export function snapshotFromStoredOutputs(receipt, snapshotHash, decodeRlp, deco
 
 async function main() {
 const input = process.argv.slice(2);
+if (input[0] === "--probe-progress-import") {
+  await import("./queue_progress.mjs");
+  console.log("queue progress imports ready");
+  return;
+}
 const call = input[0] === "--call";
+const progress = input[0] === "--progress-guard";
 const tx = input[0];
-const endpoint = call ? (input[4] || "") : (input[1] && !input[1].startsWith("--") ? input[1] : "");
+const endpoint = call || progress ? (input[4] || "") : (input[1] && !input[1].startsWith("--") ? input[1] : "");
 const marker = input.indexOf("--snapshot");
 const snapshotHash = marker < 0 ? "" : input[marker + 1];
-if (!call && !/^0x[0-9a-f]{64}$/i.test(tx || "")) throw new Error("invalid transaction ID");
+if (!call && !progress && !/^0x[0-9a-f]{64}$/i.test(tx || "")) throw new Error("invalid transaction ID");
 const entry = realpathSync(execFileSync("which", ["genlayer"], { encoding: "utf8" }).trim());
 const root = resolve(dirname(entry), "..");
 const sdk = await import(pathToFileURL(join(root, "node_modules/genlayer-js/dist/index.js")));
 const chains = await import(pathToFileURL(join(root, "node_modules/genlayer-js/dist/chains/index.js")));
 const client = sdk.createClient({ chain: chains.testnetBradbury, endpoint: endpoint || undefined });
+const { createPublicClient, http, fromRlp } = await import(pathToFileURL(join(root, "node_modules/viem/_esm/index.js")));
+const publicClient = createPublicClient({ chain: chains.testnetBradbury, transport: http(endpoint || undefined) });
+const block = await publicClient.getBlock();
+const mainSpec = chains.testnetBradbury.consensusMainContract;
+const consensusVersion = await publicClient.readContract({ address: mainSpec.address, abi: mainSpec.abi, functionName: "VERSION", blockNumber: block.number });
+assertConsensusVersion(consensusVersion);
+if (progress) {
+  const { readQueueProgress } = await import("./queue_progress.mjs");
+  console.log(JSON.stringify(await readQueueProgress(publicClient, chains.testnetBradbury, input[1], input[2], JSON.parse(input[3]))));
+  return;
+}
 if (call) {
   const address = input[1], method = input[2], args = JSON.parse(input[3] || "[]");
   if (!/^0x[0-9a-f]{40}$/i.test(address) || !Array.isArray(args)) throw new Error("invalid read arguments");
@@ -88,9 +110,6 @@ if (call) {
     return item instanceof Map ? Object.fromEntries(item) : item;
   }));
 } else {
-const { createPublicClient, http, fromRlp } = await import(pathToFileURL(join(root, "node_modules/viem/_esm/index.js")));
-const publicClient = createPublicClient({ chain: chains.testnetBradbury, transport: http(endpoint || undefined) });
-const block = await publicClient.getBlock();
 const spec = chains.testnetBradbury.consensusDataContract;
 const [projected, allData] = await Promise.all([
   client.getTransaction({ hash: tx }),
@@ -98,7 +117,7 @@ const [projected, allData] = await Promise.all([
 ]);
 const [transaction, rounds] = allData;
 if (transaction.id.toLowerCase() !== tx.toLowerCase()) throw new Error("stored transaction ID differs from request");
-const receipt = storedReceipt(projected, transaction, rounds, block);
+const receipt = storedReceipt(projected, transaction, rounds, block, consensusVersion);
 if (!snapshotHash) {
   console.log(JSON.stringify(receipt, (_, value) => typeof value === "bigint" ? value.toString() : value));
 } else {

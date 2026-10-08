@@ -40,6 +40,17 @@ def main():
             '</header>\n  <p class="whereabouts"><a href="live.html">Live Bradbury record — sources, votes and receipts</a> · offline stand below</p>',
             1,
         )
+    elif os.path.exists(os.path.join(ROOT, "web", "bradbury-prompt-checkpoint.json")):
+        checkpoint = json.load(open(os.path.join(ROOT, "web", "bradbury-prompt-checkpoint.json"), encoding="utf-8"))
+        if checkpoint.get("complete") is not False:
+            raise ValueError("prompt checkpoint must be explicitly incomplete")
+        honest = int(checkpoint["coverage"]["honest_judged"])
+        required = int(checkpoint["required_honest_judgements"])
+        template = template.replace(
+            "</header>",
+            '</header>\n  <p class="whereabouts">Bradbury campaign incomplete: %d/%d verified honest controls. <a href="bradbury-prompt-checkpoint.json">Current verified checkpoint</a> · offline stand below</p>' % (honest, required),
+            1,
+        )
     elif os.path.exists(os.path.join(ROOT, "web", "bradbury-decisions-checkpoint.json")):
         template = template.replace(
             "</header>",

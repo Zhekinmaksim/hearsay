@@ -19,7 +19,7 @@ def public_infrastructure(failure):
     # needed to distinguish protocol outcomes from contract judgements.
     result = {key: failure[key] for key in ("id", "tx", "envelope_hash", "entry_class", "status", "consensus_outcome", "reason") if key in failure}
     receipt = failure.get("receipt") or {}
-    result["receipt_summary"] = {key: receipt[key] for key in ("statusName", "resultName", "txExecutionResultName", "numOfRounds", "sender", "recipient", "currentTimestamp") if key in receipt}
+    result["receipt_summary"] = {key: receipt[key] for key in ("statusName", "resultName", "txExecutionResultName", "numOfRounds", "sender", "recipient", "currentTimestamp", "consensus_version") if key in receipt}
     if receipt.get("lastRound"):
         last = receipt["lastRound"]
         result["receipt_summary"]["last_round"] = {key: last[key] for key in ("round", "votesCommitted", "votesRevealed", "validatorVotes", "roundValidators") if key in last}
@@ -37,7 +37,7 @@ def refresh_record(row, address):
             raise ValueError("chain state changed before publication: %s (%s)" % (row["id"], key))
     receipt = collector.lookup_receipt(collector.EXPLORER, "", row["tx"], 30)
     status = collector.status_of(receipt)
-    if status not in {"FINALIZED", "ACCEPTED", "SUCCESS"} or collector.is_consensus_timeout(receipt):
+    if status not in {"FINALIZED", "ACCEPTED", "SUCCESS"} or collector.is_consensus_timeout(receipt) or collector.finalized_infrastructure_outcome(receipt):
         raise ValueError("consensus no longer accepted: %s (%s)" % (row["id"], status))
     if (receipt.get("recipient") or "").lower() != address.lower():
         raise ValueError("receipt belongs to another contract: " + row["id"])
@@ -45,6 +45,7 @@ def refresh_record(row, address):
     refreshed["consensus_checkpoint"] = {
         "status": status, "result": receipt.get("resultName"),
         "chain_timestamp": receipt.get("currentTimestamp"),
+        "consensus_version": receipt.get("consensus_version"), "stored_block": receipt.get("stored_block"),
     }
     return refreshed
 
@@ -55,9 +56,10 @@ def refresh_failure(failure, address, entry_index):
         raise ValueError("infrastructure receipt belongs to another contract")
     if failure["envelope_hash"] in entry_index:
         raise ValueError("infrastructure transaction now has application state; recollect")
-    if collector.status_of(receipt) != "FINALIZED" or not collector.is_consensus_timeout(receipt):
+    outcome = collector.finalized_infrastructure_outcome(receipt)
+    if not outcome:
         raise ValueError("infrastructure outcome still settling: " + failure["id"])
-    return public_infrastructure(dict(failure, receipt=receipt, status="FINALIZED", consensus_outcome="TIMEOUT"))
+    return public_infrastructure(dict(failure, receipt=receipt, status="FINALIZED", consensus_outcome=outcome))
 
 
 def build_page(corpus):

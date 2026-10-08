@@ -169,7 +169,7 @@ class ReceiptsTest(unittest.TestCase):
             self.assertIn("not a contract rejection", result["reason"])
 
     def test_rpc_receipt_overrides_stale_explorer(self):
-        response = type("Result", (), {"returncode": 0, "stdout": json.dumps({"status_basis": "getTransactionAllData", "stored_receipt": {"status": 11}, "status": 11, "statusName": "VALIDATORS_TIMEOUT", "resultName": "TIMEOUT"}), "stderr": ""})()
+        response = type("Result", (), {"returncode": 0, "stdout": json.dumps({"status_basis": "getTransactionAllData", "consensus_version": "2.0.0", "stored_receipt": {"status": 12}, "status": 12, "statusName": "VALIDATORS_TIMEOUT", "resultName": "MAJORITY_TIMEOUT"}), "stderr": ""})()
         with patch.object(collector.subprocess, "run", return_value=response), patch.object(collector, "fetch_receipt", return_value={"status": "accepted"}):
             receipt = collector.lookup_receipt(collector.EXPLORER, "", self.tx, 1)
         self.assertEqual(collector.status_of(receipt), "VALIDATORS_TIMEOUT")
@@ -183,10 +183,36 @@ class ReceiptsTest(unittest.TestCase):
             self.assertEqual(result["verdict"], "UNRESOLVED")
 
     def test_stored_leader_reveal_is_not_a_timeout(self):
-        receipt = {"statusName": "LEADER_TIMEOUT", "stored_receipt": {"status": 13}}
+        receipt = {"statusName": "LEADER_TIMEOUT", "stored_receipt": {"status": 14}}
         self.assertEqual(collector.status_of(receipt), "LEADER_REVEALING")
         self.assertNotIn(collector.status_of(receipt), collector.TERMINAL)
         self.assertFalse(collector.is_consensus_timeout(receipt))
+
+    def test_actual_captured_node_timeout_agrees_with_verified_legacy_enum(self):
+        fixture = json.loads((ROOT / "test/fixtures/bradbury-v2-node-receipt.json").read_text())
+        receipt = {"consensus_version": fixture["consensus_version"], "stored_receipt": fixture["stored_transaction"]}
+        self.assertEqual(fixture["node_status"], {"status": "LeaderTimeout", "statusCode": 13})
+        self.assertEqual(collector.status_of(receipt), "LEADER_TIMEOUT")
+        self.assertTrue(collector.is_consensus_timeout(receipt))
+        self.assertIn('"13": TransactionStatus.LEADER_TIMEOUT', fixture["pinned_sdk_status_mapping"])
+        self.assertEqual(diagnosis.diagnose(self.row, receipt, {}, True)["verdict"], "CONSENSUS TIMEOUT")
+
+    def test_ready_to_finalize_without_a_judgement_stays_unresolved(self):
+        receipt = {"consensus_version": "2.0.0", "stored_receipt": {"status": 11, "result": 0, "txExecutionResult": 0}}
+        self.assertEqual(collector.status_of(receipt), "READY_TO_FINALIZE")
+        self.assertNotIn(collector.status_of(receipt), collector.TERMINAL)
+        self.assertFalse(collector.is_consensus_timeout(receipt))
+        self.assertIsNone(collector.finalized_infrastructure_outcome(receipt))
+        self.assertEqual(diagnosis.diagnose(self.row, receipt, {}, True)["verdict"], "UNRESOLVED")
+
+    def test_live_lookup_refuses_missing_or_unverified_protocol_version(self):
+        for version in (None, "0.6.0"):
+            payload = {"status_basis": "getTransactionAllData", "stored_receipt": {"status": 7}, "consensus_version": version}
+            response = subprocess.CompletedProcess([], 0, json.dumps(payload), "")
+            with patch.object(collector.subprocess, "run", return_value=response):
+                with self.assertRaisesRegex(RuntimeError, "verified consensus version"):
+                    collector.lookup_receipt(collector.EXPLORER, "", self.tx, 1)
+        self.assertEqual(collector.status_of({"consensus_version": "0.6.0", "stored_receipt": {"status": 7}}), "PENDING")
 
     def test_finalized_stored_timeout_is_not_a_judged_refusal(self):
         receipt = {"statusName": "FINALIZED", "stored_receipt": {"status": 7, "result": 3}}
@@ -263,6 +289,219 @@ class ReceiptsTest(unittest.TestCase):
             self.assertEqual(verified["consensus_outcome"], "TIMEOUT")
             with self.assertRaisesRegex(ValueError, "now has application state"):
                 publisher.refresh_failure(failure, "address", {self.row["envelope_hash"]: self.entry})
+
+    def test_finalized_no_execution_requires_explicit_stored_fields_and_complete_scan(self):
+        receipt = {"stored_receipt": {"status": 7, "result": 0, "txExecutionResult": 0}}
+        self.assertEqual(collector.finalized_infrastructure_outcome(receipt), "NOT_EXECUTED")
+        self.assertEqual(diagnosis.diagnose(self.row, receipt, {}, True)["verdict"], "FINALIZED WITHOUT EXECUTION")
+        self.assertEqual(diagnosis.diagnose(self.row, receipt, {}, False)["verdict"], "UNRESOLVED")
+        self.assertIsNone(collector.finalized_infrastructure_outcome({"stored_receipt": {"status": 7}}))
+        self.assertIsNone(collector.finalized_infrastructure_outcome({"stored_receipt": {"status": 13, "result": 0, "txExecutionResult": 0}}))
+        self.assertIsNone(collector.finalized_infrastructure_outcome({"statusName": "FINALIZED", "result": 0, "txExecutionResult": 0}))
+
+    def test_no_execution_outcome_cannot_publish_a_judged_record(self):
+        record = collector.assemble_record(self.row, self.entry, self.env, 2, self.receipt)
+        receipt = {"recipient": "address", "stored_receipt": {"status": 7, "result": 0, "txExecutionResult": 0}}
+        with patch.object(collector, "read_entry", return_value=self.entry), patch.object(collector, "lookup_receipt", return_value=receipt):
+            with self.assertRaisesRegex(ValueError, "no longer accepted"):
+                publisher.refresh_record(record, "address")
+
+    def test_runner_retains_complete_final_no_execution_without_counting_a_record(self):
+        with tempfile.TemporaryDirectory(prefix="hearsay-no-execution-") as folder:
+            folder = Path(folder)
+            address, account = "0x" + "12" * 20, "0x" + "34" * 20
+            policy = {"min_rounds": 2, "write_bond": 1000, "challenge_bond": 2000, "cascade_depth": 3, "admit_ttl": 50}
+            candidate = {"id": "unexecuted", "class": self.env["entry_class"], "claim": self.env["claim"], "source_url": self.env["source_url"]}
+            for key in ("supports", "author_note", "expects"):
+                if self.env.get(key):
+                    candidate[key] = self.env[key]
+            seed = folder / "seed.json"
+            seed.write_text(json.dumps({"entries": [candidate], "space": policy}))
+            (folder / "bradbury.jsonl").write_text(json.dumps(dict(self.row, address=address)) + "\n")
+            receipt = {"stored_receipt": {"status": 7, "result": 0, "txExecutionResult": 0}}
+            def subprocess_result(command, **kwargs):
+                if "collect_receipts.py" in command[1]:
+                    collector.checkpoint(folder / "records.jsonl.issues.json", {"scan_errors": [], "transactions": [{"tx": self.tx}]})
+                    return subprocess.CompletedProcess(command, 2, "", "")
+                if "diagnose_missing.py" in command[1]:
+                    collector.checkpoint(folder / "diagnosis.json", {"scan_complete": True, "transactions": [{"tx": self.tx, "status": "FINALIZED", "verdict": "FINALIZED WITHOUT EXECUTION", "reason": "no execution", "receipt": receipt}]})
+                    return subprocess.CompletedProcess(command, 0, "", "")
+                self.fail("unexpected submission")
+            argv = ["run_live.py", "--run-dir", str(folder), "--seed", str(seed), "--address", address, "--account", account, "--accept-diagnosed-no-execution"]
+            with patch.object(sys, "argv", argv), patch.object(collector, "lookup_receipt", return_value=receipt), patch.object(collector, "read_call", side_effect=lambda endpoint, addr, method, args, timeout: {"balanced": True} if method == "solvency" else dict(policy, owner=account)), patch.object(runner.subprocess, "run", side_effect=subprocess_result):
+                self.assertEqual(runner.main(), 0)
+            failures = json.loads((folder / "live/infrastructure-failures.json").read_text())
+            self.assertEqual(failures[0]["consensus_outcome"], "NOT_EXECUTED")
+            self.assertFalse((folder / "records.jsonl").exists())
+
+    def test_reopened_timeout_waits_for_same_tx_and_keeps_original_deadline(self):
+        fixture = json.loads((ROOT / "test/fixtures/bradbury-v2-node-receipt.json").read_text())
+        timeout_receipt = {"consensus_version": fixture["consensus_version"], "stored_receipt": fixture["stored_transaction"]}
+        reopened = {"consensus_version": "2.0.0", "stored_receipt": {"status": 10, "result": 0, "txExecutionResult": 0}}
+        settled = {"consensus_version": "2.0.0", "stored_receipt": {"status": 7, "result": 1, "txExecutionResult": 1}}
+        for mode in ("settled", "deadline", "lookup_failure", "scan_error"):
+            with self.subTest(mode=mode), tempfile.TemporaryDirectory(prefix="hearsay-reopened-") as folder:
+                folder = Path(folder)
+                address, account = "0x" + "12" * 20, "0x" + "34" * 20
+                policy = {"min_rounds": 2, "write_bond": 1000, "challenge_bond": 2000, "cascade_depth": 3, "admit_ttl": 50}
+                candidate = {"id": "reopened", "class": self.env["entry_class"], "claim": self.env["claim"], "source_url": self.env["source_url"]}
+                for key in ("supports", "author_note", "expects"):
+                    if self.env.get(key):
+                        candidate[key] = self.env[key]
+                seed = folder / "seed.json"
+                seed.write_text(json.dumps({"entries": [candidate], "space": policy}))
+                (folder / "bradbury.jsonl").write_text(json.dumps(dict(self.row, address=address)) + "\n")
+                clock, collections, phase = [0], [], ["timeout"]
+                def lookup(*args):
+                    if phase[0] == "timeout":
+                        return timeout_receipt
+                    if mode == "lookup_failure":
+                        raise RuntimeError("fresh receipt unavailable")
+                    return settled if mode == "settled" and clock[0] >= 40 else reopened
+                def subprocess_result(command, **kwargs):
+                    if "collect_receipts.py" in command[1]:
+                        collections.append(clock[0])
+                        if len(collections) == 1:
+                            phase[0] = "reopened"
+                            collector.checkpoint(folder / "records.jsonl.issues.json", {"scan_errors": ["entry scan failed"] if mode == "scan_error" else [], "transactions": [{"tx": self.tx}]})
+                            return subprocess.CompletedProcess(command, 2, "", "")
+                        self.assertIs(lookup(), settled, "recollection must wait for settled state")
+                        record = collector.assemble_record(self.row, self.entry, self.env, 2, settled)
+                        collector.atomic_write(folder / "records.jsonl", json.dumps(record) + "\n")
+                        collector.checkpoint(folder / "records.jsonl.issues.json", {"scan_errors": [], "transactions": []})
+                        return subprocess.CompletedProcess(command, 0, "", "")
+                    if "diagnose_missing.py" in command[1]:
+                        unresolved = len(collections) == 1
+                        collector.checkpoint(folder / "diagnosis.json", {"scan_complete": mode != "scan_error", "scan_errors": ["entry scan failed"] if mode == "scan_error" else [], "transactions": [{"tx": self.tx, "verdict": "UNRESOLVED", "receipt": reopened}] if unresolved else []})
+                        return subprocess.CompletedProcess(command, 2 if unresolved else 0, "", "")
+                    self.fail("unexpected submission; manifested tx must never be resent")
+                wait = "35" if mode == "deadline" else "100"
+                argv = ["run_live.py", "--run-dir", str(folder), "--seed", str(seed), "--address", address, "--account", account, "--wait", wait]
+                with patch.object(sys, "argv", argv), patch.object(collector, "lookup_receipt", side_effect=lookup), patch.object(collector, "read_call", side_effect=lambda endpoint, addr, method, args, timeout: {"balanced": True} if method == "solvency" else dict(policy, owner=account)), patch.object(runner.subprocess, "run", side_effect=subprocess_result), patch.object(runner.time, "monotonic", side_effect=lambda: clock[0]), patch.object(runner.time, "sleep", side_effect=lambda seconds: clock.__setitem__(0, clock[0] + seconds)):
+                    if mode == "settled":
+                        self.assertEqual(runner.main(), 0)
+                        self.assertEqual(collections, [32, 40])
+                        self.assertEqual(json.loads((folder / "records.jsonl").read_text())["tx"], self.tx)
+                    else:
+                        expected_error = {"deadline": "still settling", "lookup_failure": "fresh receipt unavailable", "scan_error": "collection or diagnosis unresolved"}[mode]
+                        with self.assertRaisesRegex(RuntimeError, expected_error):
+                            runner.main()
+                        self.assertEqual(collections, [32])
+                        self.assertLess(clock[0], 40)
+                        self.assertFalse((folder / "records.jsonl").exists())
+
+    def test_opt_in_reopening_deadline_retains_unresolved_without_resending(self):
+        with tempfile.TemporaryDirectory(prefix="hearsay-opt-reopen-") as folder:
+            folder = Path(folder)
+            address, account = "0x" + "12" * 20, "0x" + "34" * 20
+            policy = {"min_rounds": 2, "write_bond": 1000, "challenge_bond": 2000, "cascade_depth": 3, "admit_ttl": 50}
+            candidate = {"id": "one", "class": self.env["entry_class"], "claim": self.env["claim"], "source_url": self.env["source_url"]}
+            for key in ("supports", "author_note", "expects"):
+                if self.env.get(key):
+                    candidate[key] = self.env[key]
+            seed = folder / "seed.json"
+            seed.write_text(json.dumps({"space": policy, "entries": [candidate]}))
+            clock, sent, phase = [0], [], ["timeout"]
+            timeout_receipt = {"stored_receipt": {"status": 13}}
+            reopened = {"stored_receipt": {"status": 10}}
+            def process(command, **kwargs):
+                if "genlayer_write.mjs" in command[1]:
+                    sent.append(command)
+                    collector.atomic_write(folder / "bradbury.jsonl", json.dumps(dict(self.row, address=address)) + "\n")
+                    return subprocess.CompletedProcess(command, 0, "", "")
+                if "collect_receipts.py" in command[1]:
+                    phase[0] = "reopened"
+                    collector.checkpoint(folder / "records.jsonl.issues.json", {"scan_errors": [], "transactions": [{"tx": self.tx}]})
+                    return subprocess.CompletedProcess(command, 2, "", "")
+                if "diagnose_missing.py" in command[1]:
+                    collector.checkpoint(folder / "diagnosis.json", {"scan_errors": [], "transactions": [{"tx": self.tx, "verdict": "UNRESOLVED"}]})
+                    return subprocess.CompletedProcess(command, 2, "", "")
+                self.fail("unexpected command")
+            def guard(args, run_dir, manifest, required_tx):
+                self.assertEqual(required_tx, self.tx)
+                self.assertEqual(clock[0], 36, "original deadline must expire without extension")
+                collector.checkpoint(run_dir / "live/unresolved.json", [{"tx": self.tx, "consensus_outcome": "UNRESOLVED"}])
+                return {"transactions": [self.tx]}
+            argv = ["run_live.py", "--run-dir", str(folder), "--seed", str(seed), "--address", address, "--account", account, "--wait", "35", "--allow-known-unsettled-progress"]
+            with patch.object(sys, "argv", argv), patch.object(collector, "read_call", side_effect=lambda endpoint, addr, method, args, timeout: 0 if method == "entry_count" else dict(policy, owner=account)), patch.object(collector, "lookup_receipt", side_effect=lambda *args: timeout_receipt if phase[0] == "timeout" else reopened), patch.object(runner.subprocess, "run", side_effect=process), patch.object(runner, "prepare_progress_guard", side_effect=guard), patch.object(runner.time, "monotonic", side_effect=lambda: clock[0]), patch.object(runner.time, "sleep", side_effect=lambda seconds: clock.__setitem__(0, clock[0] + seconds)):
+                self.assertEqual(runner.main(), 0)
+            self.assertEqual(len(sent), 1)
+            self.assertFalse((folder / "records.jsonl").exists())
+            self.assertFalse((folder / "live/infrastructure-failures.json").exists())
+            self.assertEqual(json.loads((folder / "live/unresolved.json").read_text())[0]["consensus_outcome"], "UNRESOLVED")
+
+    def test_opt_in_retains_unresolved_and_only_sends_guarded_unique_candidate(self):
+        for mode in ("allow", "scan_error", "insolvent", "unknown", "queue_rewind"):
+            with self.subTest(mode=mode), tempfile.TemporaryDirectory(prefix="hearsay-progress-") as folder:
+                folder = Path(folder)
+                address, account = "0x" + "12" * 20, "0x" + "34" * 20
+                policy = {"min_rounds": 2, "write_bond": 1000, "challenge_bond": 2000, "cascade_depth": 3, "admit_ttl": 50}
+                candidates = [{"id": "old", "class": self.env["entry_class"], "claim": self.env["claim"], "source_url": self.env["source_url"]},
+                              {"id": "next", "class": "honest", "claim": "The next independent source supports another claim.", "source_url": "https://example.org/next"}]
+                for key in ("supports", "author_note", "expects"):
+                    if self.env.get(key):
+                        candidates[0][key] = self.env[key]
+                seed = folder / "seed.json"
+                seed.write_text(json.dumps({"space": policy, "entries": candidates}))
+                old = dict(self.row, address=address, id="old", sender=account)
+                (folder / "bradbury.jsonl").write_text(json.dumps(old) + "\n")
+                new_tx, submitted, accepted = "0x" + "cd" * 32, [], [False]
+                unsettled = {"consensus_version": "2.0.0", "stored_receipt": {"status": 99 if mode == "unknown" else 9}}
+                settled = {"consensus_version": "2.0.0", "stored_receipt": {"status": 7, "result": 1, "txExecutionResult": 1}}
+                new_env = {"version": "hearsay/1", "space_id": 0, "entry_class": "honest", "claim": candidates[1]["claim"], "source_url": candidates[1]["source_url"]}
+                new_hash = collector.envtool.envelope_hash(new_env)
+                new_entry = dict(self.entry, claim=new_env["claim"], source_url=new_env["source_url"], envelope_hash=new_hash)
+                def read_call(endpoint, addr, method, args, timeout):
+                    if method == "entry_count":
+                        return int(accepted[0])
+                    if method == "solvency":
+                        return {"balanced": mode != "insolvent"}
+                    return dict(policy, owner=account)
+                def scan(*args, **kwargs):
+                    return ({new_hash: new_entry} if accepted[0] else {}, [{"error": "scan unavailable"}] if mode == "scan_error" else [])
+                def process(command, **kwargs):
+                    if "read_chain.mjs" in command[1]:
+                        self.assertIn("--progress-guard", command)
+                        self.assertEqual(json.loads(command[-1]), [self.tx])
+                        return subprocess.CompletedProcess(command, 1 if mode == "queue_rewind" else 0, json.dumps({"consensus_version": "2.0.0", "stored_block": {"number": "10"}, "provisional": True}), "pending queue rewound" if mode == "queue_rewind" else "")
+                    if "genlayer_write.mjs" in command[1]:
+                        request = json.loads((folder / "live/request.json").read_text())
+                        self.assertEqual(request["id"], "next")
+                        self.assertEqual(request["progress_guard"]["transactions"], [self.tx])
+                        self.assertNotEqual(request["envelope_hash"], old["envelope_hash"])
+                        submitted.append(request)
+                        new_row = dict(request, tx=new_tx, sender=account)
+                        with (folder / "bradbury.jsonl").open("a") as stream:
+                            stream.write(json.dumps(new_row) + "\n")
+                        accepted[0] = True
+                        return subprocess.CompletedProcess(command, 0, "", "")
+                    if "collect_receipts.py" in command[1]:
+                        new_row = collector.load_manifest(folder / "bradbury.jsonl")[-1]
+                        record = collector.assemble_record(new_row, new_entry, new_env, 2, settled)
+                        collector.atomic_write(folder / "records.jsonl", json.dumps(record) + "\n")
+                        collector.checkpoint(folder / "records.jsonl.issues.json", {"scan_errors": [], "transactions": [{"tx": self.tx, "error": "still unresolved"}]})
+                        return subprocess.CompletedProcess(command, 2, "", "")
+                    if "diagnose_missing.py" in command[1]:
+                        self.assertIn("--exclude-tx", command)
+                        self.assertIn(self.tx, command)
+                        collector.checkpoint(folder / "diagnosis.json", {"scan_errors": [], "transactions": []})
+                        return subprocess.CompletedProcess(command, 0, "", "")
+                    self.fail("unexpected command")
+                argv = ["run_live.py", "--run-dir", str(folder), "--seed", str(seed), "--address", address, "--account", account, "--allow-known-unsettled-progress", "--limit", "1"]
+                with patch.object(sys, "argv", argv), patch.object(collector, "read_call", side_effect=read_call), patch.object(collector, "scan_entries", side_effect=scan), patch.object(collector, "lookup_receipt", side_effect=lambda explorer, endpoint, tx, timeout: unsettled if tx == self.tx else settled), patch.object(runner.subprocess, "run", side_effect=process):
+                    if mode == "allow":
+                        self.assertEqual(runner.main(), 0)
+                        self.assertEqual(len(submitted), 1)
+                        retained = json.loads((folder / "live/unresolved.json").read_text())
+                        self.assertEqual(retained[0]["tx"], self.tx)
+                        self.assertEqual(retained[0]["consensus_outcome"], "UNRESOLVED")
+                        self.assertEqual(json.loads((folder / "records.jsonl").read_text())["tx"], new_tx)
+                        self.assertFalse((folder / "live/infrastructure-failures.json").exists())
+                    else:
+                        with self.assertRaises(RuntimeError):
+                            runner.main()
+                        self.assertEqual(submitted, [])
+                        self.assertEqual(len(collector.load_manifest(folder / "bradbury.jsonl")), 1)
 
     def test_cli_checkpoints_missing_state_and_preserves_records(self):
         with tempfile.TemporaryDirectory(prefix="hearsay-receipts-") as folder:

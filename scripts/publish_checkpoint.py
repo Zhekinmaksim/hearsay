@@ -32,6 +32,8 @@ def canonical_receipt(receipt, transaction, address):
     stored = receipt.get("stored_receipt") if isinstance(receipt, dict) else None
     if receipt.get("status_basis") != "getTransactionAllData" or not isinstance(stored, dict):
         raise ValueError("receipt lacks canonical stored consensus evidence")
+    if receipt.get("consensus_version") != "2.0.0":
+        raise ValueError("receipt lacks verified consensus version 2.0.0")
     status = stored.get("status")
     if isinstance(status, bool) or not isinstance(status, int) or not 0 <= status < len(collector.STORED_STATUSES):
         raise ValueError("invalid stored consensus status")
@@ -47,6 +49,7 @@ def canonical_receipt(receipt, transaction, address):
 def receipt_summary(receipt):
     result = publisher.public_infrastructure({"receipt": receipt})["receipt_summary"]
     result.update(status=collector.status_of(receipt), status_basis="getTransactionAllData",
+                  consensus_version=receipt.get("consensus_version"), stored_status_code=receipt["stored_receipt"]["status"],
                   stored_block=receipt.get("stored_block"), initial_validators=receipt.get("numOfInitialValidators"),
                   round_array_index=receipt.get("numOfRounds"),
                   projected_status=(receipt.get("projected_receipt") or {}).get("statusName"))
@@ -150,7 +153,7 @@ def build_checkpoint(seed, metadata, manifest, rows, history, refused, *, space=
                 if not isinstance(details, dict) or any(type(details.get(key, default)) != type(vote_answers.get(key, default)) or details.get(key, default) != vote_answers.get(key, default)
                         for key, default in (("support_a", None), ("support_b", None), ("conflict", -1), ("fetched", True))):
                     raise ValueError("round answers disagree with stored votes")
-            if status not in {"ACCEPTED", "FINALIZED"} or collector.is_consensus_timeout(receipt):
+            if status not in {"ACCEPTED", "FINALIZED"} or collector.is_consensus_timeout(receipt) or collector.finalized_infrastructure_outcome(receipt):
                 raise ValueError("record no longer has accepted stored consensus")
             # Reuse the live publisher's fresh current-entry/receipt guards.
             refreshed = publisher.refresh_record(row, address)
@@ -160,9 +163,10 @@ def build_checkpoint(seed, metadata, manifest, rows, history, refused, *, space=
             continue
         item = {"id": candidate["id"], "tx": transaction["tx"], "envelope_hash": fingerprint,
                 "entry_class": candidate["class"], "status": status, "receipt_summary": receipt_summary(receipt)}
-        if status == "FINALIZED" and collector.is_consensus_timeout(receipt) and current is None:
-            item.update(consensus_outcome="TIMEOUT", diagnosis="CONSENSUS TIMEOUT",
-                        reason="Finalized protocol timeout; complete entry scan found no matching state. This is not a contract rejection.")
+        outcome = collector.finalized_infrastructure_outcome(receipt)
+        if outcome and current is None:
+            item.update(consensus_outcome=outcome, diagnosis="CONSENSUS TIMEOUT" if outcome == "TIMEOUT" else "FINALIZED WITHOUT EXECUTION",
+                        reason="Finalized protocol outcome %s; complete entry scan found no matching state. This is not a contract rejection." % outcome)
             failures.append(item)
         else:
             reason = "matching entry awaits verified snapshot record" if current else "no matching entry; stored consensus has not established a final timeout"
@@ -194,6 +198,8 @@ def build_checkpoint(seed, metadata, manifest, rows, history, refused, *, space=
         "source_sha256": metadata.get("source_sha256"), "deployment_source_sha256": metadata.get("deployment_source_sha256"),
         "consensus_policy": metadata.get("consensus_policy"), "experiment": metadata.get("experiment", False),
         "protocol": metadata.get("protocol"), "policy": policy,
+        "consensus_version": "2.0.0",
+        "decoder_correction": "Earlier captures used the newer Consensus v0.6 enum and could label stored code 13 as LeaderRevealing. The deployed 2.0.0 implementation uses code 13 for LeaderTimeout. This checkpoint uses its verified Solidity enum; original captures remain preserved. Current unresolved appeals and finalized protocol failures are separate from that display error.",
         "health_warning": "Incomplete checkpoint. Verified observations only; no defence conclusion. Accepted receipts remain provisional. A full report requires complete candidate coverage and at least 20 judged honest controls.",
         "coverage": {"candidates": len(candidates), "judged": len(verified), "honest_judged": honest,
                      "infrastructure_failures": len(failures), "unresolved": len(unresolved), "prevented": len(refused), "unsubmitted": len(unsubmitted)},
@@ -232,7 +238,7 @@ def main():
     if any(path.read_bytes() != content for path, content in captured.items()):
         raise ValueError("checkpoint inputs changed during verification; regenerate")
     collector.checkpoint(args.out, checkpoint)
-    print("incomplete checkpoint: %d verified, %d unresolved, %d finalized timeouts" %
+    print("incomplete checkpoint: %d verified, %d unresolved, %d finalized infrastructure outcomes" %
           (len(checkpoint["entries"]), len(checkpoint["unresolved"]), len(checkpoint["infrastructure_failures"])))
     return 0
 

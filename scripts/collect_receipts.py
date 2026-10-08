@@ -38,7 +38,7 @@ TERMINAL = FAILED | TIMEOUTS | {"FINALIZED", "ACCEPTED", "UNDETERMINED", "SUCCES
 STORED_STATUSES = (
     "UNINITIALIZED", "PENDING", "PROPOSING", "COMMITTING", "REVEALING",
     "ACCEPTED", "UNDETERMINED", "FINALIZED", "CANCELED", "APPEAL_REVEALING",
-    "APPEAL_COMMITTING", "VALIDATORS_TIMEOUT", "LEADER_TIMEOUT", "LEADER_REVEALING",
+    "APPEAL_COMMITTING", "READY_TO_FINALIZE", "VALIDATORS_TIMEOUT", "LEADER_TIMEOUT", "LEADER_REVEALING",
 )
 
 
@@ -143,6 +143,8 @@ def lookup_receipt(explorer, endpoint, tx, timeout):
     receipt = json.loads(result.stdout)
     if receipt.get("status_basis") != "getTransactionAllData" or not isinstance(receipt.get("stored_receipt"), dict):
         raise RuntimeError("RPC receipt lacks stored consensus status")
+    if receipt.get("consensus_version") != "2.0.0":
+        raise RuntimeError("RPC receipt lacks verified consensus version 2.0.0")
     try:
         receipt["explorer_receipt"] = fetch_receipt(explorer, tx, timeout)
     except Exception as exc:
@@ -158,6 +160,8 @@ def status_of(receipt):
         # Numeric stored state wins over SDK labels and time-based projection.
         # Unknown or missing state cannot authorize another write/publication.
         if not isinstance(stored, dict):
+            return "PENDING"
+        if receipt.get("consensus_version", "2.0.0") != "2.0.0":
             return "PENDING"
         try:
             code = int(stored["status"])
@@ -178,6 +182,18 @@ def is_consensus_timeout(receipt):
         return True
     stored = receipt.get("stored_receipt") if isinstance(receipt, dict) else None
     return status == "FINALIZED" and isinstance(stored, dict) and stored.get("result") in (3, "3")
+
+
+def finalized_infrastructure_outcome(receipt):
+    """Classify explicit stored terminal outcomes, never unexplained missing state."""
+    stored = receipt.get("stored_receipt") if isinstance(receipt, dict) else None
+    if status_of(receipt) != "FINALIZED" or not isinstance(stored, dict):
+        return None
+    if is_consensus_timeout(receipt):
+        return "TIMEOUT"
+    if stored.get("result") in (0, "0") and stored.get("txExecutionResult") in (0, "0"):
+        return "NOT_EXECUTED"
+    return None
 
 
 def load_manifest(path):
@@ -243,6 +259,8 @@ def find_envelope(row, folder):
 
 
 def assemble_record(row, judged, env, min_rounds, receipt):
+    if finalized_infrastructure_outcome(receipt):
+        raise ValueError("finalized infrastructure outcome cannot authorize a judged record")
     fingerprint = envtool.envelope_hash(env)
     if fingerprint != row["envelope_hash"] or fingerprint != judged.get("envelope_hash"):
         raise ValueError("manifest, envelope and chain hashes disagree")

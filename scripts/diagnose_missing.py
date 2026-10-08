@@ -49,6 +49,9 @@ def diagnose(row, receipt, index, complete):
     elif not complete:
         verdict = "UNRESOLVED"
         reason = "entry scan incomplete; absence has not been established"
+    elif collector.finalized_infrastructure_outcome(receipt) == "NOT_EXECUTED":
+        verdict = "FINALIZED WITHOUT EXECUTION"
+        reason = "stored FINALIZED/IDLE/NOT_VOTED and complete scan found no entry; no application judgement was recorded"
     elif status in collector.TERMINAL:
         verdict = "SETTLED WITHOUT MATCHING STATE"
         reason = "complete scan found no matching entry; receipt alone does not establish the cause"

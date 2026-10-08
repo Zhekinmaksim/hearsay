@@ -1,6 +1,17 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { storedReceipt, snapshotFromStoredOutputs } from "../scripts/read_chain.mjs";
+import { readFileSync } from "node:fs";
+import { storedReceipt as normalizeStoredReceipt, assertConsensusVersion, snapshotFromStoredOutputs } from "../scripts/read_chain.mjs";
+
+// This capture predates the decoder fix. Enum text comes from the verified
+// implementation selected by its on-chain ERC1967 slot, not this test's code.
+const fixture = JSON.parse(readFileSync(new URL("./fixtures/bradbury-v2-node-receipt.json", import.meta.url), "utf8"));
+const storedReceipt = (...args) => normalizeStoredReceipt(...args, fixture.consensus_version);
+const enumNames = source => source.match(/\{([^}]+)\}/s)[1].replace(/\/\/[^\n]*/g, "").split(",").map(name => name.trim()).filter(Boolean);
+const upperName = name => name.replace(/([a-z])([A-Z])/g, "$1_$2").toUpperCase();
+assertConsensusVersion(fixture.consensus_version);
+assert.throws(() => assertConsensusVersion("0.6.0"), /unverified consensus/);
+assert.throws(() => normalizeStoredReceipt({}, {}, [], {}, undefined), /unverified consensus/);
 
 const hash = "0x" + "ab".repeat(32);
 const block = { number: 100n, timestamp: 200n, hash: "0x" + "cd".repeat(32) };
@@ -22,10 +33,21 @@ assert.equal(receipt.projected_receipt, projected, "the original SDK view remain
 assert.equal(projected.statusName, "ACCEPTED", "normalization must not rewrite historical projection evidence");
 assert.equal(receipt.stored_receipt.status, 3);
 assert.equal(receipt.stored_block.number, "100");
-for (const [status, name] of [[11, "VALIDATORS_TIMEOUT"], [12, "LEADER_TIMEOUT"], [13, "LEADER_REVEALING"]]) {
-  assert.equal(storedReceipt(projected, { ...transaction, status }, rounds, block).statusName, name);
+for (const [status, name] of enumNames(fixture.solidity_enums.TransactionStatus).entries()) {
+  assert.equal(storedReceipt(projected, { ...transaction, status }, rounds, block).statusName, upperName(name));
 }
-assert.equal(storedReceipt(projected, { ...transaction, status: 7, result: 3 }, rounds, block).resultName, "TIMEOUT");
+for (const [result, name] of enumNames(fixture.solidity_enums.ResultType).entries()) {
+  assert.equal(storedReceipt(projected, { ...transaction, result }, rounds, block).resultName, upperName(name));
+}
+for (const [txExecutionResult, name] of enumNames(fixture.solidity_enums.VoteType).entries()) {
+  assert.equal(storedReceipt(projected, { ...transaction, txExecutionResult }, rounds, block).txExecutionResultName, upperName(name));
+}
+const captured = storedReceipt(projected, fixture.stored_transaction, fixture.stored_rounds, fixture.block);
+assert.equal(captured.statusName, upperName(fixture.node_status.status), "stored status must agree with the separately captured node RPC");
+assert.equal(captured.status, fixture.node_status.statusCode);
+assert.equal(captured.consensus_version, fixture.consensus_version);
+assert.match(fixture.pinned_sdk_status_mapping, /"13": TransactionStatus.LEADER_TIMEOUT/);
+assert.match(fixture.pinned_sdk_status_mapping, /"11": TransactionStatus.READY_TO_FINALIZE/);
 assert.throws(() => storedReceipt(projected, { ...transaction, status: 99 }, rounds, block), /invalid stored/);
 assert.throws(() => storedReceipt(projected, { status: 5 }, rounds, block), /initial validator/);
 const text = "Registry lists ACME as Active.";

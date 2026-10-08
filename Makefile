@@ -1,6 +1,6 @@
-.PHONY: test receipts-test checkpoint-test chain-test bridge-test gate-parity parity page live-page vectors replay dry-run assets site gate check lint all
+.PHONY: test receipts-test checkpoint-test chain-test bridge-test queue-test gate-parity parity page live-page vectors replay dry-run assets site gate check lint all
 
-all: lint test receipts-test checkpoint-test chain-test bridge-test dry-run replay assets site parity gate-parity page live-page
+all: lint test receipts-test checkpoint-test chain-test bridge-test queue-test dry-run replay assets site parity gate-parity page live-page
 
 test:
 	python3 test/run_tests.py
@@ -16,6 +16,9 @@ chain-test:
 
 bridge-test:
 	node test/broadcast.mjs
+
+queue-test:
+	node test/queue-progress.mjs
 
 gate-parity:
 	node test/gate-parity.mjs

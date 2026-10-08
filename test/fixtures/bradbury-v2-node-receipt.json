@@ -1,0 +1,77 @@
+{
+  "provenance": {
+    "captured_at": "2026-10-08T05:27:18.662Z",
+    "consensus_main": "0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D",
+    "consensus_data": "0x85D7bf947A512Fc640C75327A780c90847267697",
+    "main_implementation": "0x0a2c393975da79505ed930efc55ae4aeb88b0d62",
+    "verified_source_url": "https://explorer-api.testnet-chain.genlayer.com/api?module=contract&action=getsourcecode&address=0x0a2c393975da79505ed930efc55ae4aeb88b0d62",
+    "verified_source_sha256": "5f855437fb49a006843aafe459435d7bfe9052bffcab5dafc7e4ccb289e689bf",
+    "verified_source_match": "match",
+    "interface_path": "contracts/transactions/interfaces/ITransactions.sol",
+    "pinned_sdk_url": "https://raw.githubusercontent.com/genlayerlabs/genlayer-js/v1.1.8/src/types/transactions.ts",
+    "pinned_sdk_sha256": "83398bdf36cd6fee1c87ea67dbd6ab48248ea566bcbba21af462a82973e20fc3"
+  },
+  "consensus_version": "2.0.0",
+  "block": {
+    "number": "23788085",
+    "hash": "0x06cc9d1d9b9b15e1cc0e530c7fb8fdcd30f81d23e2f9bac46bfaf15a6bd58869",
+    "timestamp": "1791437242"
+  },
+  "transaction_id": "0xc66d7127bc788cfe8bc5cead04502f28718816b48967753773ee25bd13fdf066",
+  "node_status": {
+    "status": "LeaderTimeout",
+    "statusCode": 13
+  },
+  "stored_transaction": {
+    "id": "0xc66d7127bc788cfe8bc5cead04502f28718816b48967753773ee25bd13fdf066",
+    "status": 13,
+    "numOfInitialValidators": "5",
+    "result": 0,
+    "txExecutionResult": 0
+  },
+  "stored_rounds": [
+    {
+      "round": "0",
+      "leaderIndex": "2",
+      "votesCommitted": "0",
+      "votesRevealed": "0",
+      "appealBond": "0",
+      "rotationsLeft": "3",
+      "result": 0,
+      "roundValidators": [
+        "0x2CD9051E10cd1547a7b64eF61EbF1E608235dBda",
+        "0x992E8D62263eD1Fe2E14FfB11aDf1080edBe4b5a",
+        "0x58a7b7ac6Cb01843e4e5af117C551E59449E0F49",
+        "0x4FC292d5D255Ec8Ad4cdcd36c5E188dfEE9D160e",
+        "0x4f36CB2C58385575fafb443d80E3c290b12DA6aE"
+      ],
+      "validatorVotes": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "validatorVotesHash": [
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "0x0000000000000000000000000000000000000000000000000000000000000000"
+      ],
+      "validatorResultHash": [
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "0x0000000000000000000000000000000000000000000000000000000000000000"
+      ]
+    }
+  ],
+  "solidity_enums": {
+    "TransactionStatus": "enum TransactionStatus {\n\t\tUninitialized, // 0\n\t\tPending, // 1\n\t\tProposing, // 2\n\t\tCommitting, // 3\n\t\tRevealing, // 4\n\t\tAccepted, // 5\n\t\tUndetermined, // 6\n\t\tFinalized, // 7\n\t\tCanceled, // 8\n\t\tAppealRevealing, // 9\n\t\tAppealCommitting, // 10\n\t\tReadyToFinalize, // 11\n\t\tValidatorsTimeout, // 12\n\t\tLeaderTimeout, // 13\n\t\tLeaderRevealing // 14\n\t}",
+    "ResultType": "enum ResultType {\n\t\tIdle, // 0\n\t\tMajorityAgree, // 1\n\t\tMajorityDisagree, // 2\n\t\tMajorityTimeout, // 3\n\t\tDeterministicViolation, // 4\n\t\tNoMajority // 5\n\t}",
+    "VoteType": "enum VoteType {\n\t\tNotVoted,\n\t\tFinishedWithReturn,\n\t\tFinishedWithError,\n\t\tTimeout,\n\t\tNondetDisagree\n\t}"
+  },
+  "pinned_sdk_status_mapping": "export const transactionsStatusNumberToName = {\n  \"0\": TransactionStatus.UNINITIALIZED,\n  \"1\": TransactionStatus.PENDING,\n  \"2\": TransactionStatus.PROPOSING,\n  \"3\": TransactionStatus.COMMITTING,\n  \"4\": TransactionStatus.REVEALING,\n  \"5\": TransactionStatus.ACCEPTED,\n  \"6\": TransactionStatus.UNDETERMINED,\n  \"7\": TransactionStatus.FINALIZED,\n  \"8\": TransactionStatus.CANCELED,\n  \"9\": TransactionStatus.APPEAL_REVEALING,\n  \"10\": TransactionStatus.APPEAL_COMMITTING,\n  \"11\": TransactionStatus.READY_TO_FINALIZE,\n  \"12\": TransactionStatus.VALIDATORS_TIMEOUT,\n  \"13\": TransactionStatus.LEADER_TIMEOUT,\n};"
+}

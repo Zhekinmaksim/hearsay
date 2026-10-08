@@ -1,0 +1,435 @@
+{
+  "note": "Additional honest controls prepared from fresh official Companies House overview pages. These are expectations, not measured verdicts. Use only after campaign coordination; retain every judged honest refusal and every infrastructure outcome. All controls use one registry, which limits generalization.",
+  "space": {
+    "name": "companies-house-live",
+    "policy": "Claims about company registry status, names, incorporation and filings; primary sources or explicitly dated archives only.",
+    "min_rounds": 2,
+    "cascade_depth": 3,
+    "admit_ttl": 1000,
+    "write_bond": 1000,
+    "challenge_bond": 2000,
+    "pool": 500000
+  },
+  "entries": [
+    {
+      "id": "honest-03407696",
+      "class": "honest",
+      "claim": "Companies House lists BRITISH AMERICAN TOBACCO P.L.C. (company number 03407696) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/03407696",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_at": "2026-10-08T05:56:01+00:00",
+        "checked_on": "2026-10-08",
+        "company_number": "03407696",
+        "company_name": "BRITISH AMERICAN TOBACCO P.L.C.",
+        "company_status": "Active",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/03407696",
+        "http_status": 200,
+        "html_sha256": "a83e065719015790b69c47e2fa1ca1c50dc998e5d8a9db00d81cc6ccd8ae1c72",
+        "snapshot_sha256": "7c52bf6a166ad52f1d8e5b03bcc83f87bdae1a2fe2cdca0455f880a8a7b8b05c",
+        "snapshot_scope": "UTF-8 proof excerpt of the exact overview name, number and status; not a GenLayer judging-time snapshot",
+        "proof_excerpt": "BRITISH AMERICAN TOBACCO P.L.C.\nCompany number 03407696\nCompany status\nActive\n",
+        "proof_file": "runs/source-reserve-audit/proof-03407696.txt"
+      }
+    },
+    {
+      "id": "honest-00077536",
+      "class": "honest",
+      "claim": "Companies House lists RELX PLC (company number 00077536) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00077536",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_at": "2026-10-08T05:56:01+00:00",
+        "checked_on": "2026-10-08",
+        "company_number": "00077536",
+        "company_name": "RELX PLC",
+        "company_status": "Active",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00077536",
+        "http_status": 200,
+        "html_sha256": "014d35d6760d42b6c92c98c74b2beb97dea7d9706edea153aaadaea7314037ab",
+        "snapshot_sha256": "b60b35dfc8251af2ec33b7bad7150107a337cee83375cbd83ad0ed30c77296d4",
+        "snapshot_scope": "UTF-8 proof excerpt of the exact overview name, number and status; not a GenLayer judging-time snapshot",
+        "proof_excerpt": "RELX PLC\nCompany number 00077536\nCompany status\nActive\n",
+        "proof_file": "runs/source-reserve-audit/proof-00077536.txt"
+      }
+    },
+    {
+      "id": "honest-00053723",
+      "class": "honest",
+      "claim": "Companies House lists PEARSON PLC (company number 00053723) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00053723",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_at": "2026-10-08T05:56:01+00:00",
+        "checked_on": "2026-10-08",
+        "company_number": "00053723",
+        "company_name": "PEARSON PLC",
+        "company_status": "Active",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00053723",
+        "http_status": 200,
+        "html_sha256": "5d487fafce19eb21bcaedff31efdfbd298144e9f56b8d162c43082570aa9b664",
+        "snapshot_sha256": "26fc5fc177910fce95abadf9925ace4bebfda19f44c0e9ee6f31f131a4f773fa",
+        "snapshot_scope": "UTF-8 proof excerpt of the exact overview name, number and status; not a GenLayer judging-time snapshot",
+        "proof_excerpt": "PEARSON PLC\nCompany number 00053723\nCompany status\nActive\n",
+        "proof_file": "runs/source-reserve-audit/proof-00053723.txt"
+      }
+    },
+    {
+      "id": "honest-02231246",
+      "class": "honest",
+      "claim": "Companies House lists THE SAGE GROUP PLC. (company number 02231246) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/02231246",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_at": "2026-10-08T05:56:02+00:00",
+        "checked_on": "2026-10-08",
+        "company_number": "02231246",
+        "company_name": "THE SAGE GROUP PLC.",
+        "company_status": "Active",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/02231246",
+        "http_status": 200,
+        "html_sha256": "bbf307e62c09f1e1968b5ded95bca1c9fa77e2cd6870886b24508fd514f28186",
+        "snapshot_sha256": "6514e7add17c699b82c0a6ab89a4def096167bbbcbe925a0d549681b44006d55",
+        "snapshot_scope": "UTF-8 proof excerpt of the exact overview name, number and status; not a GenLayer judging-time snapshot",
+        "proof_excerpt": "THE SAGE GROUP PLC.\nCompany number 02231246\nCompany status\nActive\n",
+        "proof_file": "runs/source-reserve-audit/proof-02231246.txt"
+      }
+    },
+    {
+      "id": "honest-00293262",
+      "class": "honest",
+      "claim": "Companies House lists ASSOCIATED BRITISH FOODS PLC (company number 00293262) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00293262",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_at": "2026-10-08T05:56:02+00:00",
+        "checked_on": "2026-10-08",
+        "company_number": "00293262",
+        "company_name": "ASSOCIATED BRITISH FOODS PLC",
+        "company_status": "Active",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00293262",
+        "http_status": 200,
+        "html_sha256": "4a31893b966b81315a27d8c5a82870135d3f5690377c4f2ac9ac0641e4bccb93",
+        "snapshot_sha256": "555bd81a42aa5f778358cb2204c778c93ebfc3e2402c24ef6a391fe54fac26f9",
+        "snapshot_scope": "UTF-8 proof excerpt of the exact overview name, number and status; not a GenLayer judging-time snapshot",
+        "proof_excerpt": "ASSOCIATED BRITISH FOODS PLC\nCompany number 00293262\nCompany status\nActive\n",
+        "proof_file": "runs/source-reserve-audit/proof-00293262.txt"
+      }
+    },
+    {
+      "id": "honest-04083914",
+      "class": "honest",
+      "claim": "Companies House lists COMPASS GROUP PLC (company number 04083914) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/04083914",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_at": "2026-10-08T05:56:02+00:00",
+        "checked_on": "2026-10-08",
+        "company_number": "04083914",
+        "company_name": "COMPASS GROUP PLC",
+        "company_status": "Active",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/04083914",
+        "http_status": 200,
+        "html_sha256": "a57a91193e881fcad5c67858affdbc6c5bea84e9381cb5a7fb91963936ac0cc2",
+        "snapshot_sha256": "a2257963c51f38695d5d359b5b84325a6a260aa1d85e2056d4962b1cdd34aaa8",
+        "snapshot_scope": "UTF-8 proof excerpt of the exact overview name, number and status; not a GenLayer judging-time snapshot",
+        "proof_excerpt": "COMPASS GROUP PLC\nCompany number 04083914\nCompany status\nActive\n",
+        "proof_file": "runs/source-reserve-audit/proof-04083914.txt"
+      }
+    },
+    {
+      "id": "honest-00358948",
+      "class": "honest",
+      "claim": "Companies House lists BUNZL PUBLIC LIMITED COMPANY (company number 00358948) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00358948",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_at": "2026-10-08T05:56:02+00:00",
+        "checked_on": "2026-10-08",
+        "company_number": "00358948",
+        "company_name": "BUNZL PUBLIC LIMITED COMPANY",
+        "company_status": "Active",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00358948",
+        "http_status": 200,
+        "html_sha256": "3fd37a08f5d56b03d64a986347910c55f47f1d281d81d76d85b2cdcf773ec245",
+        "snapshot_sha256": "4f4b4e5f07e171895e91816e578d97b1349b0d188008e4da307cdb95f1b9f589",
+        "snapshot_scope": "UTF-8 proof excerpt of the exact overview name, number and status; not a GenLayer judging-time snapshot",
+        "proof_excerpt": "BUNZL PUBLIC LIMITED COMPANY\nCompany number 00358948\nCompany status\nActive\n",
+        "proof_file": "runs/source-reserve-audit/proof-00358948.txt"
+      }
+    },
+    {
+      "id": "honest-00040932",
+      "class": "honest",
+      "claim": "Companies House lists HALMA PUBLIC LIMITED COMPANY (company number 00040932) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00040932",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_at": "2026-10-08T05:56:02+00:00",
+        "checked_on": "2026-10-08",
+        "company_number": "00040932",
+        "company_name": "HALMA PUBLIC LIMITED COMPANY",
+        "company_status": "Active",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00040932",
+        "http_status": 200,
+        "html_sha256": "49dd68aa4eb8d1ecdddc128f36fd7d4340c18f989574087ade9338be6079db80",
+        "snapshot_sha256": "295abd786d9d695fcbeb058590d14a859489217e8aec3f9a368a5a998af791ae",
+        "snapshot_scope": "UTF-8 proof excerpt of the exact overview name, number and status; not a GenLayer judging-time snapshot",
+        "proof_excerpt": "HALMA PUBLIC LIMITED COMPANY\nCompany number 00040932\nCompany status\nActive\n",
+        "proof_file": "runs/source-reserve-audit/proof-00040932.txt"
+      }
+    },
+    {
+      "id": "honest-00596337",
+      "class": "honest",
+      "claim": "Companies House lists SPIRAX GROUP PLC (company number 00596337) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00596337",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_at": "2026-10-08T05:56:02+00:00",
+        "checked_on": "2026-10-08",
+        "company_number": "00596337",
+        "company_name": "SPIRAX GROUP PLC",
+        "company_status": "Active",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00596337",
+        "http_status": 200,
+        "html_sha256": "07776939545733bb244f2e81d993a71f16664ba2dbfdb507d426772656735208",
+        "snapshot_sha256": "0e95dea9e95af3334fa0c3540a2a308b6c38926e362655b2fc4c1f16cf5eb185",
+        "snapshot_scope": "UTF-8 proof excerpt of the exact overview name, number and status; not a GenLayer judging-time snapshot",
+        "proof_excerpt": "SPIRAX GROUP PLC\nCompany number 00596337\nCompany status\nActive\n",
+        "proof_file": "runs/source-reserve-audit/proof-00596337.txt"
+      }
+    },
+    {
+      "id": "honest-00206132",
+      "class": "honest",
+      "claim": "Companies House lists CRODA INTERNATIONAL PUBLIC LIMITED COMPANY (company number 00206132) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00206132",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_at": "2026-10-08T05:56:03+00:00",
+        "checked_on": "2026-10-08",
+        "company_number": "00206132",
+        "company_name": "CRODA INTERNATIONAL PUBLIC LIMITED COMPANY",
+        "company_status": "Active",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00206132",
+        "http_status": 200,
+        "html_sha256": "f43c6b05a53ad81d3bfb4623e472ce4498d90d9817abec6e8d1fa3615a507f1c",
+        "snapshot_sha256": "b59e02a5363410fda63635085a0b27d34211f96e31678130c516559f481486ab",
+        "snapshot_scope": "UTF-8 proof excerpt of the exact overview name, number and status; not a GenLayer judging-time snapshot",
+        "proof_excerpt": "CRODA INTERNATIONAL PUBLIC LIMITED COMPANY\nCompany number 00206132\nCompany status\nActive\n",
+        "proof_file": "runs/source-reserve-audit/proof-00206132.txt"
+      }
+    },
+    {
+      "id": "honest-01807982",
+      "class": "honest",
+      "claim": "Companies House lists ASHTEAD GROUP LIMITED (company number 01807982) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/01807982",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_at": "2026-10-08T05:56:03+00:00",
+        "checked_on": "2026-10-08",
+        "company_number": "01807982",
+        "company_name": "ASHTEAD GROUP LIMITED",
+        "company_status": "Active",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/01807982",
+        "http_status": 200,
+        "html_sha256": "13a2ec9ca3a1e608fc3329b8c1ee510782e8d11bcfbe6061d574008b8e88bca0",
+        "snapshot_sha256": "2d57b1b1315e17d3bb55d6c4d25244b58d7a10099bb8394a7460ddeccf984a29",
+        "snapshot_scope": "UTF-8 proof excerpt of the exact overview name, number and status; not a GenLayer judging-time snapshot",
+        "proof_excerpt": "ASHTEAD GROUP LIMITED\nCompany number 01807982\nCompany status\nActive\n",
+        "proof_file": "runs/source-reserve-audit/proof-01807982.txt"
+      }
+    },
+    {
+      "id": "honest-00324357",
+      "class": "honest",
+      "claim": "Companies House lists SMITH & NEPHEW PLC (company number 00324357) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00324357",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_at": "2026-10-08T05:56:03+00:00",
+        "checked_on": "2026-10-08",
+        "company_number": "00324357",
+        "company_name": "SMITH & NEPHEW PLC",
+        "company_status": "Active",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00324357",
+        "http_status": 200,
+        "html_sha256": "390ab323f673bdf9d3523b84950aa62b88d4e5313e80293e399912f7c90095c9",
+        "snapshot_sha256": "e76511209364fdd4a56d739ec5eda5caeaaa3f6117057bb119dbd833bb485286",
+        "snapshot_scope": "UTF-8 proof excerpt of the exact overview name, number and status; not a GenLayer judging-time snapshot",
+        "proof_excerpt": "SMITH & NEPHEW PLC\nCompany number 00324357\nCompany status\nActive\n",
+        "proof_file": "runs/source-reserve-audit/proof-00324357.txt"
+      }
+    },
+    {
+      "id": "honest-00137013",
+      "class": "honest",
+      "claim": "Companies House lists SMITHS GROUP PLC (company number 00137013) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00137013",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_at": "2026-10-08T05:56:03+00:00",
+        "checked_on": "2026-10-08",
+        "company_number": "00137013",
+        "company_name": "SMITHS GROUP PLC",
+        "company_status": "Active",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00137013",
+        "http_status": 200,
+        "html_sha256": "0203722dd304a6cb6852b23e2945c5fb8cbaa2602c53168f4e958909c9cea54e",
+        "snapshot_sha256": "c789c2c09bf856406dc1ddf127b41a68e04bce3a24501f03ed38ecf75db5e27c",
+        "snapshot_scope": "UTF-8 proof excerpt of the exact overview name, number and status; not a GenLayer judging-time snapshot",
+        "proof_excerpt": "SMITHS GROUP PLC\nCompany number 00137013\nCompany status\nActive\n",
+        "proof_file": "runs/source-reserve-audit/proof-00137013.txt"
+      }
+    },
+    {
+      "id": "honest-02366619",
+      "class": "honest",
+      "claim": "Companies House lists SEVERN TRENT PLC (company number 02366619) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/02366619",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_at": "2026-10-08T05:56:03+00:00",
+        "checked_on": "2026-10-08",
+        "company_number": "02366619",
+        "company_name": "SEVERN TRENT PLC",
+        "company_status": "Active",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/02366619",
+        "http_status": 200,
+        "html_sha256": "f7e4e195509a8ac9731fb1fb7b735c4d6b5dc956010b74657381bdee9bdaf82d",
+        "snapshot_sha256": "e42f54422968a0a3594ed5fa6bb0f1ebe9b6ac25649650726369ae1d50fb4946",
+        "snapshot_scope": "UTF-8 proof excerpt of the exact overview name, number and status; not a GenLayer judging-time snapshot",
+        "proof_excerpt": "SEVERN TRENT PLC\nCompany number 02366619\nCompany status\nActive\n",
+        "proof_file": "runs/source-reserve-audit/proof-02366619.txt"
+      }
+    },
+    {
+      "id": "honest-02366616",
+      "class": "honest",
+      "claim": "Companies House lists UNITED UTILITIES PLC (company number 02366616) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/02366616",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_at": "2026-10-08T05:56:04+00:00",
+        "checked_on": "2026-10-08",
+        "company_number": "02366616",
+        "company_name": "UNITED UTILITIES PLC",
+        "company_status": "Active",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/02366616",
+        "http_status": 200,
+        "html_sha256": "f566c85e56ca4b9dea2d771b2d0edcb12d405d3b3d2e70e06e91fd31cf977c60",
+        "snapshot_sha256": "7455cde94b03403125adadb6c6486ad0e593bbd0bcd3aca30626f7670d610541",
+        "snapshot_scope": "UTF-8 proof excerpt of the exact overview name, number and status; not a GenLayer judging-time snapshot",
+        "proof_excerpt": "UNITED UTILITIES PLC\nCompany number 02366616\nCompany status\nActive\n",
+        "proof_file": "runs/source-reserve-audit/proof-02366616.txt"
+      }
+    },
+    {
+      "id": "honest-03564138",
+      "class": "honest",
+      "claim": "Companies House lists ANGLO AMERICAN PLC (company number 03564138) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/03564138",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_at": "2026-10-08T05:56:04+00:00",
+        "checked_on": "2026-10-08",
+        "company_number": "03564138",
+        "company_name": "ANGLO AMERICAN PLC",
+        "company_status": "Active",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/03564138",
+        "http_status": 200,
+        "html_sha256": "e311c971ce5193f9462094c6a4983e9030929a5bc41e5cfcce5f4127088ac27b",
+        "snapshot_sha256": "653db0e87ad8cda820e17ca82d5b7166bcdd2267920e5f2d9c7ff2c6edfa152b",
+        "snapshot_scope": "UTF-8 proof excerpt of the exact overview name, number and status; not a GenLayer judging-time snapshot",
+        "proof_excerpt": "ANGLO AMERICAN PLC\nCompany number 03564138\nCompany status\nActive\n",
+        "proof_file": "runs/source-reserve-audit/proof-03564138.txt"
+      }
+    },
+    {
+      "id": "honest-00621920",
+      "class": "honest",
+      "claim": "Companies House lists BRITISH LAND COMPANY PUBLIC LIMITED COMPANY(THE) (company number 00621920) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/00621920",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_at": "2026-10-08T05:56:04+00:00",
+        "checked_on": "2026-10-08",
+        "company_number": "00621920",
+        "company_name": "BRITISH LAND COMPANY PUBLIC LIMITED COMPANY(THE)",
+        "company_status": "Active",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00621920",
+        "http_status": 200,
+        "html_sha256": "db6725f82da287e6d06dcec0adcea512603a09cbce75ccf7b52f5be910a68a0d",
+        "snapshot_sha256": "aece1d37880d7c58a02257c74b389c28b415fd0303e1706eaa156dd1f212da01",
+        "snapshot_scope": "UTF-8 proof excerpt of the exact overview name, number and status; not a GenLayer judging-time snapshot",
+        "proof_excerpt": "BRITISH LAND COMPANY PUBLIC LIMITED COMPANY(THE)\nCompany number 00621920\nCompany status\nActive\n",
+        "proof_file": "runs/source-reserve-audit/proof-00621920.txt"
+      }
+    },
+    {
+      "id": "honest-02122142",
+      "class": "honest",
+      "claim": "Companies House lists HARGREAVES LANSDOWN LIMITED (company number 02122142) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/02122142",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_at": "2026-10-08T05:56:04+00:00",
+        "checked_on": "2026-10-08",
+        "company_number": "02122142",
+        "company_name": "HARGREAVES LANSDOWN LIMITED",
+        "company_status": "Active",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/02122142",
+        "http_status": 200,
+        "html_sha256": "577ddafbd9ca086ca13992eb7a22c583cd84f5298a7d6fbd621fe65031a962f2",
+        "snapshot_sha256": "02fe66539d37d6f1cee960645d2993009633c59dd9af64567099c3984733e557",
+        "snapshot_scope": "UTF-8 proof excerpt of the exact overview name, number and status; not a GenLayer judging-time snapshot",
+        "proof_excerpt": "HARGREAVES LANSDOWN LIMITED\nCompany number 02122142\nCompany status\nActive\n",
+        "proof_file": "runs/source-reserve-audit/proof-02122142.txt"
+      }
+    },
+    {
+      "id": "honest-03909886",
+      "class": "honest",
+      "claim": "Companies House lists SCHRODERS LIMITED (company number 03909886) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/03909886",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_at": "2026-10-08T05:56:05+00:00",
+        "checked_on": "2026-10-08",
+        "company_number": "03909886",
+        "company_name": "SCHRODERS LIMITED",
+        "company_status": "Active",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/03909886",
+        "http_status": 200,
+        "html_sha256": "665533f80a582abaef03cf8a7a4bc255149a5e20082d27a45a4eb9355a65c37f",
+        "snapshot_sha256": "959d8f5b45905873ad37aef37609a6c3fdca38350209b0fe4752e49d22fbb08e",
+        "snapshot_scope": "UTF-8 proof excerpt of the exact overview name, number and status; not a GenLayer judging-time snapshot",
+        "proof_excerpt": "SCHRODERS LIMITED\nCompany number 03909886\nCompany status\nActive\n",
+        "proof_file": "runs/source-reserve-audit/proof-03909886.txt"
+      }
+    },
+    {
+      "id": "honest-03849958",
+      "class": "honest",
+      "claim": "Companies House lists ADMIRAL GROUP PLC (company number 03849958) with company status Active.",
+      "source_url": "https://find-and-update.company-information.service.gov.uk/company/03849958",
+      "expects": "ADMITTED",
+      "review": {
+        "checked_at": "2026-10-08T05:56:05+00:00",
+        "checked_on": "2026-10-08",
+        "company_number": "03849958",
+        "company_name": "ADMIRAL GROUP PLC",
+        "company_status": "Active",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/03849958",
+        "http_status": 200,
+        "html_sha256": "1f82271e0d6838d0f056c950daad62059371ebd01466627425147d3903f8b5ee",
+        "snapshot_sha256": "a887bb17a77b95f7d52b228c7c56e5c18cb4f0f2b7bd5ac482758a19289cd227",
+        "snapshot_scope": "UTF-8 proof excerpt of the exact overview name, number and status; not a GenLayer judging-time snapshot",
+        "proof_excerpt": "ADMIRAL GROUP PLC\nCompany number 03849958\nCompany status\nActive\n",
+        "proof_file": "runs/source-reserve-audit/proof-03849958.txt"
+      }
+    }
+  ]
+}

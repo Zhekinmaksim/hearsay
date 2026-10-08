@@ -311,8 +311,14 @@ multiline claims are never reparsed as JavaScript display text.
 
 Receipts take status, result, initial validator count and the latest stored
 round from `getTransactionAllData` at a recorded EVM block. The SDK's timestamp
-projection is retained separately; its legacy enum and repeated round lookup
-must not override stored state. A finalized protocol timeout remains an
+projection is retained separately; it and repeated round lookup
+must not override stored state. Reads pin the deployed ConsensusMain version
+to `2.0.0` and use its verified Solidity enum: 11 is `ReadyToFinalize`, 12 is
+`ValidatorsTimeout`, 13 is `LeaderTimeout`, and 14 is `LeaderRevealing`.
+The newer Consensus v0.6 documentation describes a different enum. An unknown
+runtime version stops reads. [Version evidence](docs/bradbury-protocol-version.md)
+includes the deployed implementation and a captured node receipt.
+A finalized protocol timeout remains an
 infrastructure outcome and is never turned into an admitted record.
 
 `get_entry` exposes the snapshot hash. `scripts/enrich_snapshots.py` recovers
@@ -366,6 +372,19 @@ python3 scripts/run_live.py --address "$CONTRACT" --account "$ACCOUNT"
 
 The runner resumes from the same manifest, stops before the next write if
 collection or diagnosis is unresolved, and checks solvency after every write.
+If a stored timeout reopens an appeal between polling and collection, it waits
+on that same transaction within the original deadline and collects again only
+after settlement. Scan errors and unavailable fresh receipts still stop it.
+`--allow-known-unsettled-progress` is an explicit option for independent honest
+candidates when the deployed protocol's pending queue is empty. It requires a
+complete absence scan, balanced solvency, known stored outcomes and verified
+2.0.0 contract bindings and implementations. The signing account repeats the
+queue proof and reads solvency before signing; a rewind or changed binding
+blocks signing. Missing entries remain `UNRESOLVED` in a separate archive,
+never judged or finalized failures. Later accepted results remain provisional:
+an adverse appeal can replay them, so recollect all current entries and receipts
+before publishing. This option does not bypass full candidate coverage or the
+twenty-control publication requirement.
 Use `--limit 1` to perform the first write separately. It also refuses an
 impossible dependency locally before spending a bond or asking consensus.
 The published offline reference stays intact throughout the live run.
@@ -377,6 +396,12 @@ diagnosed and saved in `runs/live/infrastructure-failures.json`; ordinary missin
 state still stops the run. Additional reviewed controls keep the completed
 honest cohort at twenty without deleting infrastructure failures or counting
 them as defence successes.
+
+`--accept-diagnosed-no-execution` additionally permits continuing past a stored
+`Finalized / Idle / NotVoted` result only after a complete scan confirms that
+no matching entry exists. It is retained as `NOT_EXECUTED`, never as a judged
+control or contract refusal. `ReadyToFinalize` without a matching judgement
+continues waiting; it is not a timeout.
 
 After the entire run is collected:
 
@@ -397,8 +422,9 @@ as accepted; it is not presented as finalization.
 
 Source bytes are recovered first from the stored equivalence outputs and matched
 to the entry's SHA-256. Hash-matching GenVM trace storage is a fallback. Historical
-infrastructure failures are checked again before publication; only finalized
-timeouts without matching application state count as completed failure outcomes.
+infrastructure failures are checked again before publication; only explicit
+finalized timeouts or finalized no-execution results without matching application
+state count as completed infrastructure outcomes.
 
 The public `web/bradbury-checkpoint.json` is an explicitly incomplete snapshot
 of the current run, with pinned source bytes, finalized receipts, diagnosed

@@ -31,6 +31,7 @@ jobs:
           node-version: "22"
       - run: npm install --no-save jsdom genlayer-js@1.1.8
       - run: make bridge-test
+      - run: make queue-test
       - run: make chain-test
       - run: make parity
       - run: make gate-parity
