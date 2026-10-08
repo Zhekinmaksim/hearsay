@@ -1,11 +1,11 @@
 # Bradbury activation blocker
 
-The latest pinned observation is **2026-10-08 18:29:05 UTC**, block
-**23823415**: **BURBERRY GROUP PLC** occupies pending head 30 of tail 31.
+The latest pinned observation is **2026-10-08 19:11:46 UTC**, block
+**23825889**, after Burberry's original validity bound expired at **19:08:22 UTC**:
+**BURBERRY GROUP PLC** still occupies pending head 30 of tail 31.
 The campaign has **7 verified judgements from 29 honest attempts**, below
-the required 20, and the negative phase has not started. The appended Burberry
-section records this blocker; the National Grid report below remains dated
-history.
+the required 20, and the negative phase has not started. The appended post-expiry
+section records this blocker; earlier observations remain dated history.
 
 ## Historical National Grid blocker: 11:17 UTC
 
@@ -101,7 +101,7 @@ After the recovery, all **48 public EVM hashes were mined**, with **0 unbound
 broadcasts** and latest/pending nonce **677/677**. Held value, escrowed value
 and pools were each **507000 wei**, with balanced accounting.
 
-The [current public checkpoint](../web/bradbury-prompt-checkpoint.json), checked
+The [saved 18:35 checkpoint](../web/bradbury-prompt-checkpoint-20261008-1835.json), checked
 at **2026-10-08 18:35:05 UTC**, covers the 60 declared candidates: **7 verified
 judgements, 6 finalized infrastructure outcomes, 16 unresolved outcomes and
 31 unsubmitted**. Its report matches the verified entries and solvency is
@@ -124,3 +124,50 @@ These paths identify frozen local proofs; the
 [public checkpoint](../web/bradbury-prompt-checkpoint.json) carries its own
 `checked_at` and incomplete coverage. No defence conclusion follows from the
 recovery or from these seven controls.
+
+## Burberry after original expiry: 19:11 UTC
+
+At block **23825889**, hash
+`0xbfd1ace6ba27a025fd7b43e84b5c8514d8d73c4eb86e721f1934565479411d02`,
+chain timestamp `1791486706` (**2026-10-08 19:11:46 UTC**, **9 October
+00:11:46 Asia/Tashkent**), the original `validUntil` `1791486502`
+(**19:08:22 UTC**) had passed. The same Burberry transaction remained at
+pending head **30** of tail **31**, `PROPOSING / IDLE / NOT_VOTED`, with
+**0 commitments, 0 reveals and 13 validators**. No matching application
+judgement existed. Expiry did not release the pending queue.
+
+Fresh supported read-only simulations returned `advanced=false / status=2`
+for `advanceStuckTransaction`; `finalizeTransaction` reverted with selector
+`0x90cb8b61` at block **23825773**. The idleness operations could be simulated,
+but no further recovery was signed after the single mined `4d1ff77…` call
+recorded above. Its leader change remains the only observed effect; no
+administrative action or redeployment was used.
+
+The final frozen scan again contains **7 verified entries from 29 honest
+attempts**, **22 missing application records** and **0 scan errors**. Full
+60-candidate coverage remains **7 judged, 6 finalized infrastructure outcomes,
+16 unresolved and 31 unsubmitted**; no negative case has been submitted.
+All **48 public EVM hashes** are mined, latest/pending nonce is **677/677**,
+unbound broadcasts are **0**, and the pinned account balance is
+**158587664100632438110 wei**. Held, escrowed and pools remain **507000 wei**
+with balanced accounting. No live writer, runner or observer remains after
+bounded cleanup. Source, deployment, SDK and consensus settings are unchanged.
+
+Post-expiry local proofs under `runs/bradbury-prompt` are
+`current-queue-23825889.json` and, under `resumed-honest-audit/`,
+`expired-burberry-29-verified-records.jsonl`,
+`expired-burberry-29-records.jsonl`, its `.issues.json` companion,
+`expired-burberry-29-receipts/`, `expired-burberry-journal-reconcile.json`,
+`expired-burberry-summary.json` and `expired-burberry-report.md`.
+
+The [final checkpoint](../web/bradbury-prompt-checkpoint.json) has exact
+`checked_at` `2026-10-08T19:17:41.483065+00:00` (**19:17:41 UTC**, **9 October
+00:17:41 Asia/Tashkent**). Its full 60-candidate accounting remains **7 judged,
+6 finalized infrastructure outcomes, 16 unresolved and 31 unsubmitted**, with
+0 construction-only cases completed. Its report matches the verified entries
+and solvency is balanced. The 18:35 and earlier checkpoint archives remain
+preserved.
+
+The project remains **not ready**. Resumption requires a fresh actually empty
+pending queue and the same full signing guards. Neither expiry nor a successful
+EVM recovery receipt substitutes for that proof or for an application judgement.

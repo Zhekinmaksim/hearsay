@@ -12,9 +12,10 @@ transaction through the frontend wallet has not been demonstrated live.** That
 remaining check matters to the Portal's full-transaction-lifecycle quality bar.
 The app is published on Vercel, and its CI checks passed. The campaign remains
 at **7/20 judged honest controls from 29 honest attempts**. At pinned block
-**23823415** (**2026-10-08 18:29:05 UTC**), Burberry still occupies the pending
-queue. The live negative phase has not started. Logo upload and the Rabby
-reputational alert await explicit browser approval.
+**23825889** (**2026-10-08 19:11:46 UTC**, **9 October 00:11:46 Asia/Tashkent**),
+Burberry still occupies the pending queue after its original expiry. The live
+negative phase has not started. Logo upload, the Rabby reputational alert and
+the wallet identity for Portal authentication await explicit browser approval.
 
 ## Copy-ready Portal fields
 
@@ -214,9 +215,11 @@ Readable contract SHA-256:
 `d2670d4204d769ce14f26328d3f8a4a86c4b645f0a54c5149d5269804ce53296`.
 Packed deployment source SHA-256:
 `2125f18b442bface1d2538563ff9d4fb40bb6e3f690ff8b42a3d5916ffece97c`.
-The linked green CI run checks commit `f26072e`, including the live frontend
-and submission guards. Its additional fallback controls are preflight data,
-not active submissions or measured judgements.
+The linked green source-check CI run verifies commit `f26072e`, including the
+live frontend and submission guards. Those implementations remain unchanged;
+later documentation commits do not change this evidence. Its additional
+fallback controls are preflight data, not active submissions or measured
+judgements.
 
 ## Reproduce the local evidence
 
@@ -329,7 +332,15 @@ The expected result is a reproduced verdict and exit 0.
 
 ## Live evidence and remaining submission work
 
-The [current public checkpoint](https://hearsay-psi.vercel.app/bradbury-prompt-checkpoint.json)
+The [current checkpoint](https://hearsay-psi.vercel.app/bradbury-prompt-checkpoint.json)
+was checked at **2026-10-08 19:17:41 UTC** (**9 October 00:17:41 Asia/Tashkent**),
+exact `checked_at` `2026-10-08T19:17:41.483065+00:00`. It accounts for all
+60 candidates: **7 verified judgements, 6 finalized infrastructure outcomes,
+16 unresolved outcomes and 31 unsubmitted**, with **0 construction-only cases
+completed**. The report matches the seven verified entries and solvency is
+balanced. This is an incomplete checkpoint, with no defence conclusion.
+
+The [saved 18:35 checkpoint](../web/bradbury-prompt-checkpoint-20261008-1835.json)
 was checked at **2026-10-08 18:35:05 UTC**. It covers all 60 declared candidates:
 **7 verified judgements, 6 finalized infrastructure outcomes, 16 unresolved
 outcomes and 31 unsubmitted**. Its report matches the verified entries and
@@ -359,6 +370,16 @@ pinned observation; original transaction `validUntil` remained **19:08:22 UTC**.
 An earlier finalization simulation reverted. No liveness improvement is
 established by that recovery.
 
+The final pinned read at block **23825889**, **2026-10-08 19:11:46 UTC**
+(**9 October 00:11:46 Asia/Tashkent**), occurred after original `validUntil`
+`1791486502` (**19:08:22 UTC**). Burberry still occupied pending **30/31**,
+`PROPOSING / IDLE / NOT_VOTED`, with **0 commitments, 0 reveals and 13
+validators**, and no application judgement. Fresh supported read-only
+`advanceStuckTransaction` returned `advanced=false / status=2`;
+`finalizeTransaction` reverted with `0x90cb8b61` at block **23825773**.
+No further recovery signature followed the single leader-changing call.
+Expiry did not release the queue.
+
 The reconciliation found **48 mined public EVM hashes**, **0 unbound
 broadcasts** and latest/pending nonce **677/677**. Held, escrowed and pools
 were each **507000 wei**, with balanced accounting. Frozen local proof paths
@@ -368,7 +389,18 @@ are under `runs/bradbury-prompt`: `current-queue-23823415.json`,
 receipt captures and seven verified records use the
 `resumed-honest-audit/fresh-29-after-idleness-` prefix. The
 [activation report](bradbury-activation-blocker.md) preserves the exact timers
-and both dated blocker observations.
+and all dated blocker observations.
+
+Post-expiry proofs use `current-queue-23825889.json` and the
+`resumed-honest-audit/expired-burberry-29-` prefix for records, issues,
+receipts and the seven verified entries. The same directory contains
+`expired-burberry-journal-reconcile.json`, `expired-burberry-summary.json`
+and `expired-burberry-report.md`. They retain **7 verified, 6 finalized
+infrastructure, 16 unresolved and 31 unsubmitted** in the original full
+60-candidate cohort, with **0 negative cases submitted**. The pinned account
+balance was **158587664100632438110 wei**, with **48 mined public hashes**,
+nonce **677/677**, **0 unbound broadcasts** and balanced **507000 wei** held,
+escrowed and pooled. No active writer, runner or observer remains after cleanup.
 
 The exact planned cohort is public at
 [`corpus/bradbury-prompt-campaign.json`](../corpus/bradbury-prompt-campaign.json):
@@ -424,6 +456,8 @@ Form preparation:
 - [x] Enter the prepared description, nine how-to steps, expected outcome and
   verified public website.
 - [ ] Upload the valid prepared logo; browser upload approval is pending.
+- [ ] Confirm the wallet identity for Portal authentication before proceeding;
+  explicit browser approval remains pending.
 - [x] Enter the 439-character expected-outcome field for the submitting role.
 
 The optional YouTube/X demo field can remain blank. No direct video or post URL
