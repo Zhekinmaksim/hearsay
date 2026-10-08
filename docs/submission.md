@@ -10,8 +10,11 @@ connected the wallet, matched BP's finalized transaction to entry 0, downloaded
 its verified receipt and reproduced the verdict with the CLI. **A new
 transaction through the frontend wallet has not been demonstrated live.** That
 remaining check matters to the Portal's full-transaction-lifecycle quality bar.
-The app is published on Vercel, and its CI checks passed. The public checkpoint still contains
-**7/20 judged honest controls**, and the live negative phase has not started.
+The app is published on Vercel, and its CI checks passed. The campaign remains
+at **7/20 judged honest controls from 29 honest attempts**. At pinned block
+**23823415** (**2026-10-08 18:29:05 UTC**), Burberry still occupies the pending
+queue. The live negative phase has not started. Logo upload and the Rabby
+reputational alert await explicit browser approval.
 
 ## Copy-ready Portal fields
 
@@ -39,8 +42,8 @@ The inspected topic choices were Autonomous Execution, Multi-Agent
 Coordination, Model Evaluation, AI Policy Enforcement, Verifiable Inference,
 and Source Verification. The unsubmitted draft also contains the project name,
 151-character one-liner, exact contract link and a GitHub Repository item added
-through Add Evidence. The Portal now reports **6/7 required fields complete**. The description,
-nine how-to steps, expected outcome and public app website have been entered;
+through Add Evidence. The Portal reports **6/7 required fields complete**. The
+description, nine how-to steps, expected outcome and public app website are entered;
 the logo has not been uploaded. The GitHub evidence/base-URL field still needs
 final validation after its duplicate URL was cleared.
 
@@ -199,7 +202,7 @@ from recorded votes; it does not repeat the semantic model judgement.
 | Current contract | [0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7](https://explorer-bradbury.genlayer.com/address/0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7) |
 | Deployment transaction | [0x7767c789…6267f3c](https://explorer-bradbury.genlayer.com/tx/0x7767c7897d9439503377111501bc020b6a159a092c3e7bd2f5a0bb5116267f3c) |
 | Deployment metadata | [deployments/bradbury-prompt.json](../deployments/bradbury-prompt.json) |
-| CI evidence, including the live app and submission guards | [GitHub Actions run 37807330045](https://github.com/Zhekinmaksim/hearsay/actions/runs/37807330045) |
+| CI evidence, including the live app and submission guards | [GitHub Actions run 37822941650](https://github.com/Zhekinmaksim/hearsay/actions/runs/37822941650) |
 
 Network: Bradbury testnet, chain ID **4221**. Current protocol parameters are
 five initial validators and `maxRotations=3`. The deployed ConsensusMain is
@@ -211,8 +214,9 @@ Readable contract SHA-256:
 `d2670d4204d769ce14f26328d3f8a4a86c4b645f0a54c5149d5269804ce53296`.
 Packed deployment source SHA-256:
 `2125f18b442bface1d2538563ff9d4fb40bb6e3f690ff8b42a3d5916ffece97c`.
-The linked CI run checks implementation commit
-`645be2f961ff387d9171938e6fd6b7e6bc84cede`, including the live frontend.
+The linked green CI run checks commit `b0c6a6f`, including the live frontend
+and submission guards. Its additional fallback controls are preflight data,
+not active submissions or measured judgements.
 
 ## Reproduce the local evidence
 
@@ -265,8 +269,8 @@ state machine, accounting and replay plumbing; they do not measure resistance
 to live attacks. The ordering rule's pre-consensus prevention is reported
 separately from application judgement.
 
-Separately, the real browser verified ConsensusMain `2.0.0`, live accounting
-and five records, connected the wallet on chain 4221, and read BP's canonical
+Separately, the initial real-browser check verified ConsensusMain `2.0.0`,
+live accounting and five records, connected the wallet on chain 4221, and read BP's canonical
 `Finalized / Majority agree / Finished with return` receipt. The matching
 entry 0 was `ADMITTED`; **Download replayable receipt** produced a file that
 the Python CLI verified with exit 0. No new wallet transaction was sent in that
@@ -325,27 +329,64 @@ The expected result is a reproduced verdict and exit 0.
 
 ## Live evidence and remaining submission work
 
-The current public checkpoint was checked at **2026-10-08 17:31:54 UTC**.
-It accounts for every one of the 60 declared campaign candidates: **7 verified
-judgements, 6 finalized infrastructure outcomes, 13 unresolved outcomes and
-34 unsubmitted**. The seven verified entries are BP, AstraZeneca, BT, Lloyds,
-Marks and Spencer, Centrica and BTC Pipeline. Their pinned snapshots and recorded votes
-reproduce. BP and AstraZeneca are Finalized; the remaining five are Accepted
-and provisional. Accepted state can be replayed after an adverse appeal, so
-publication requires fresh reconciliation. Current solvency is balanced.
+The [current public checkpoint](https://hearsay-psi.vercel.app/bradbury-prompt-checkpoint.json)
+was checked at **2026-10-08 18:35:05 UTC**. It covers all 60 declared candidates:
+**7 verified judgements, 6 finalized infrastructure outcomes, 16 unresolved
+outcomes and 31 unsubmitted**. Its report matches the verified entries and
+its solvency is balanced. The [saved 17:31 checkpoint](../web/bradbury-prompt-checkpoint-20261008-1731.json)
+preserves the earlier 26-attempt state: 7 verified, 6 finalized infrastructure,
+13 unresolved and 34 unsubmitted.
+
+The newer frozen scan retains **29 honest attempts**, **7 verified entries**,
+**22 attempts without matching application state**, and **0 scan errors**.
+The exact submitted names are BP P.L.C., ASTRAZENECA PLC, BT GROUP PLC,
+LLOYDS BANKING GROUP PLC, MARKS AND SPENCER GROUP P.L.C., CENTRICA PLC, and
+BTC PIPELINE HOLDING COMPANY LIMITED. All seven pinned snapshots and recorded
+votes reproduce. BP and AstraZeneca are Finalized; the remaining five are
+Accepted and provisional. Accepted state can be replayed after an adverse
+appeal, so publication requires fresh reconciliation.
+
+At **18:29:05 UTC**, block **23823415**, BURBERRY GROUP PLC (03458224),
+transaction
+`0x093f34a6b9b100dfd92d2dfddc655d0ef7c62ee153129596d44b42c4658978b6`,
+remained `PROPOSING / IDLE / NOT_VOTED`, with no commitments or reveals,
+occupying pending head **30** of tail **31**. One supported owned
+`processIdleness` call mined at block **23822937** (**18:21:12 UTC**), EVM hash
+`0x4d1ff77a403311b3335d3f2f646eedf2accc05e556fcb89b5885cc4feac29c37`.
+It changed the leader without releasing the queue or creating a judgement.
+The reset activation deadline (**18:28:11 UTC**) passed again before the
+pinned observation; original transaction `validUntil` remained **19:08:22 UTC**.
+An earlier finalization simulation reverted. No liveness improvement is
+established by that recovery.
+
+The reconciliation found **48 mined public EVM hashes**, **0 unbound
+broadcasts** and latest/pending nonce **677/677**. Held, escrowed and pools
+were each **507000 wei**, with balanced accounting. Frozen local proof paths
+are under `runs/bradbury-prompt`: `current-queue-23823415.json`,
+`entry-idleness-results.jsonl`, and
+`resumed-honest-audit/after-burberry-idleness-reconcile.json`. The full scan,
+receipt captures and seven verified records use the
+`resumed-honest-audit/fresh-29-after-idleness-` prefix. The
+[activation report](bradbury-activation-blocker.md) preserves the exact timers
+and both dated blocker observations.
 
 The exact planned cohort is public at
 [`corpus/bradbury-prompt-campaign.json`](../corpus/bradbury-prompt-campaign.json):
 50 honest candidates and the original ten negative cases. Its SHA-256 is
 `6970d7ec5437f47f3705e9318143a4c37a33f29beecb31603c2b52d366820487`.
-The manifest at this checkpoint records 26 honest write attempts. They are not 26
-application judgements. The original
-[11:22 checkpoint](../web/bradbury-prompt-checkpoint-20261008-1122.json) and
-[activation report](bradbury-activation-blocker.md) remain preserved separately.
-Later pinned reads found the pending queue empty and continuation resumed;
-unresolved appeals, protocol timeouts and no-execution outcomes are retained.
+The original [11:22 checkpoint](../web/bradbury-prompt-checkpoint-20261008-1122.json)
+remains preserved. A later empty pending queue permitted continuation, but the
+new Burberry blocker now prevents the next write. Unresolved appeals, protocol
+timeouts and no-execution outcomes are retained as infrastructure history,
+never counted as application refusals.
 The [liveness report](bradbury-liveness-report.md) includes the published
 upstream issues.
+
+The [third fallback reserve](../corpus/live-third-reserve.json) contains 30
+additional preflight controls, SHA-256
+`8e9d091f8d819e635716a381e24b9474096ff4898770b72a9bb8ff870e76860b`.
+It is unsubmitted and inactive. It does not alter the current 60-candidate
+cohort or add any judged controls.
 
 The live control group uses Companies House company profiles. It does not
 establish performance across arbitrary websites. Demonstration bonds are not
@@ -360,8 +401,8 @@ calls the contract and handles its transaction lifecycle, and useful behaviour
 beyond boilerplate. Hearsay's source-admission and dependent-revocation rules
 address the trust problem; its pinned Companies House evidence is authoritative
 registry data. Its frontend now makes genuine public contract reads and exports
-a verified live receipt. Demonstrating a new frontend wallet transaction and
-publishing the app remain the product gaps.
+a verified live receipt. Demonstrating a new frontend wallet transaction
+remains the product gap; the app is already published.
 
 Form preparation:
 
@@ -374,7 +415,7 @@ Form preparation:
 - [x] Exact optional Bradbury contract explorer link prepared.
 - [x] Primary **AI & Agents**, topics **Source Verification** and
   **Multi-Agent Coordination**, selected in the unsubmitted Portal draft.
-- [ ] Set the required website to the verified public live app and confirm its
+- [x] Set the required website to the verified public live app and confirm its
   how-to instructions match the route, controls and outputs.
 - [x] Add the GitHub Repository item through Add Evidence in the unsubmitted
   draft.
@@ -383,13 +424,16 @@ Form preparation:
 - [x] Enter the prepared description, nine how-to steps, expected outcome and
   verified public website.
 - [ ] Upload the valid prepared logo; browser upload approval is pending.
-- [ ] Use the expected-outcome field if available for the submitting role.
+- [x] Enter the 439-character expected-outcome field for the submitting role.
 
 The optional YouTube/X demo field can remain blank. No direct video or post URL
 has been supplied. The optional contract link is ready to paste.
 
 Live app acceptance:
 
+- [ ] Obtain explicit browser approval for the Rabby reputational alert before
+  proceeding with a new wallet transaction. No new frontend financial send
+  has been made.
 - [x] Connect the wallet and verify Bradbury chain ID 4221 and the exact current
   contract in the real browser. Offline tests cover wallet rejection and
   wrong-network state.

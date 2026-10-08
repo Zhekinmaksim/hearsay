@@ -1,5 +1,14 @@
 # Bradbury activation blocker
 
+The latest pinned observation is **2026-10-08 18:29:05 UTC**, block
+**23823415**: **BURBERRY GROUP PLC** occupies pending head 30 of tail 31.
+The campaign has **7 verified judgements from 29 honest attempts**, below
+the required 20, and the negative phase has not started. The appended Burberry
+section records this blocker; the National Grid report below remains dated
+history.
+
+## Historical National Grid blocker: 11:17 UTC
+
 This report preserves the blocker observed at **2026-10-08 11:17:56 UTC**. A later pinned read at block **23813319** (chain timestamp `1791472305`) found the pending queue empty: head and tail were both 23, with a zero head transaction hash. National Grid was then UNDETERMINED without application execution. Continuation resumed with Prudential; neither transition adds a judged control. The accepted queue still had an unresolved Vodafone appeal. The observations below are historical, not the current queue state.
 
 At the report's original checkpoint, the campaign remained incomplete: **5 of the required 20 honest controls** had verified application judgements. At pinned block 23805969 (2026-10-08T11:17:56+00:00), an expired NATIONAL GRID PLC transaction still occupied pending head 22 of tail 23. The normal progress guard rejected another write. The negative phase had not started.
@@ -8,15 +17,15 @@ Contract: `0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7`. Chain: Bradbury 4221, Co
 
 Canonical blocker: `0xde4ce941e1f98c69ba2015e7ca4d420c028993c19e4b83371deed4ec2e573a9d`; stored PROPOSING (2), result IDLE (0), execution NOT_VOTED (0), no commitments or reveals. Its original validUntil `1791457126` passed before the pinned observation. The accepted queue head is `0x10c26378ce5d948caefca1343ebb0d058115552ebfbf20cde2f37018bac19e3c`. Seven supported recovery broadcasts changed the leader without releasing the pending queue or creating an application judgement. The last simulation of finalizeTransaction reverted; advanceStuckTransaction returned advanced=false. These observations establish an activation blocker; its underlying cause remains unresolved.
 
-The [fresh checkpoint](../web/bradbury-prompt-checkpoint-20261008-1122.json), checked at 2026-10-08T11:22:16.305794+00:00, accounts for all 60 initial campaign candidates: 5 verified judgements, 6 finalized infrastructure outcomes, 10 unresolved outcomes and 39 unsubmitted candidates. The unresolved group includes three UNDETERMINED receipts and three stored validator timeouts that have not finalized. None is an application refusal. The extra 20 candidates in [the second reserve](../corpus/live-second-reserve.json) remain preflight only and unsubmitted.
+The [saved 11:22 checkpoint](../web/bradbury-prompt-checkpoint-20261008-1122.json), checked at 2026-10-08T11:22:16.305794+00:00, accounts for all 60 initial campaign candidates: 5 verified judgements, 6 finalized infrastructure outcomes, 10 unresolved outcomes and 39 unsubmitted candidates. The unresolved group includes three UNDETERMINED receipts and three stored validator timeouts that have not finalized. None is an application refusal. The extra 20 candidates in [the second reserve](../corpus/live-second-reserve.json) were preflight only and unsubmitted at that checkpoint.
 
-All five snapshots match canonical stored equivalence outputs or trace bytes by SHA-256 and reproduce the recorded votes. Solvency is balanced: held, escrowed and pools are each 505000; credited is 0. All 39 public EVM hashes are mined, with no unresolved, foreign or unbound broadcast. Latest and pending nonce are both 668; the pinned account balance is `158589023187484014360` wei. No signer, runner or observer remains active.
+All five snapshots matched canonical stored equivalence outputs or trace bytes by SHA-256 and reproduced the recorded votes. At that original snapshot, solvency was balanced: held, escrowed and pools were each 505000; credited was 0. All 39 public EVM hashes were mined, with no unresolved, foreign or unbound broadcast. Latest and pending nonce were both 668; the pinned account balance was `158589023187484014360` wei. No signer, runner or observer remained active at that stop.
 
 ## Outcomes at the original checkpoint
 
 Company names come from the exact submitted envelopes. The outcome columns use the fresh canonical checkpoint; historical timeouts remain preserved separately.
 
-| Company number | Submitted company name | Protocol transaction | Stored status | Current outcome |
+| Company number | Submitted company name | Protocol transaction | Stored status | Outcome at checkpoint |
 | --- | --- | --- | --- | --- |
 | 00048839 | BARCLAYS PLC | `0x82a9fa0b5e81d5da4ba72a3188562fcc60212c4ca45ca211fa075ac52ad20e68` | FINALIZED | NOT_EXECUTED |
 | 00617987 | HSBC HOLDINGS PLC | `0xc66d7127bc788cfe8bc5cead04502f28718816b48967753773ee25bd13fdf066` | FINALIZED | TIMEOUT |
@@ -55,3 +64,63 @@ Every broadcast below mined successfully. The recorded immediate effect was a le
 | processIdleness | `0xcb48168799adba89dd97d3888c0f41b38075a958c97401d51478562e45e48087` | 23805729 |
 
 The full original manifest, historical outcomes, refusals, receipts and all recovery results remain under `runs/bradbury-prompt`. Public audit paths are `expired-guard-audit/pinned-blocker.json`, `broadcast-reconciliation.json`, `result.json` and `checkpoint-summary.json`. Signing keys and serialized signed transaction bytes are excluded. Resume the same cohort only after fresh full scan, balanced solvency and the unchanged pinned queue guard permit progress. No new deployment or defence conclusion is part of this checkpoint.
+
+## Burberry blocker: 18:29 UTC
+
+BURBERRY GROUP PLC, company number **03458224**, was submitted as an honest
+active-status claim. Its protocol transaction is
+`0x093f34a6b9b100dfd92d2dfddc655d0ef7c62ee153129596d44b42c4658978b6`.
+At block **23823415**, hash
+`0x6b9096d66236d49e55f87961efd5f83b78eb8a9333ac947b1d22c40d4cad529d`,
+stored state was `PROPOSING / IDLE / NOT_VOTED`, with **0 commitments and
+0 reveals**. It still occupied pending head **30** of tail **31**, so the
+unchanged queue guard blocked the next write. Its original `validUntil`
+`1791486502` is **19:08:22 UTC**; that lifetime had not expired at this read.
+
+One supported `processIdleness` call from the original sender mined at block
+**23822937**, **18:21:12 UTC**, EVM transaction
+`0x4d1ff77a403311b3335d3f2f646eedf2accc05e556fcb89b5885cc4feac29c37`.
+The recorded effect was a leader change from `a856…` to `2CD…`, with no
+application judgement or queue release. Activation reset to `1791483671`
+(**18:21:11 UTC**); its 420-second deadline, `1791484091` (**18:28:11 UTC**),
+had passed again by the pinned observation. An earlier `finalizeTransaction`
+simulation reverted. No repeated call that merely changed metadata, admin
+operation, or replacement deployment is part of this update. The cause of
+the stalled activation remains unresolved.
+
+The frozen full scan retains **29 honest attempts**, **7 verified entries**,
+**22 attempts without matching application state**, and **0 scan errors**.
+All seven pinned snapshots and recorded votes reproduce; BP and AstraZeneca
+are Finalized, while the other five entries are Accepted and provisional.
+Protocol failures and missing state are not application refusals. The original
+60-candidate cohort remains unchanged: 50 honest candidates and ten negative
+cases, including one construction-only citation refusal. The extra 30 controls
+in the third reserve remain preflight evidence and are not active or judged.
+
+After the recovery, all **48 public EVM hashes were mined**, with **0 unbound
+broadcasts** and latest/pending nonce **677/677**. Held value, escrowed value
+and pools were each **507000 wei**, with balanced accounting.
+
+The [current public checkpoint](../web/bradbury-prompt-checkpoint.json), checked
+at **2026-10-08 18:35:05 UTC**, covers the 60 declared candidates: **7 verified
+judgements, 6 finalized infrastructure outcomes, 16 unresolved outcomes and
+31 unsubmitted**. Its report matches the verified entries and solvency is
+balanced. The [saved 17:31 checkpoint](../web/bradbury-prompt-checkpoint-20261008-1731.json)
+preserves the earlier 26-attempt observation; the 11:22 archive remains intact.
+
+Frozen local evidence under `runs/bradbury-prompt`:
+
+- `current-queue-23823415.json` — pinned queue and canonical receipts.
+- `entry-idleness-results.jsonl` — recovery result and before/after state.
+- `resumed-honest-audit/after-burberry-idleness-reconcile.json` — public hashes
+  and nonce reconciliation.
+- `resumed-honest-audit/fresh-29-after-idleness-records.jsonl`, its
+  `.issues.json` companion and `fresh-29-after-idleness-receipts/` — full scan
+  and canonical receipt captures.
+- `resumed-honest-audit/fresh-29-after-idleness-verified-records.jsonl` — the
+  seven hash-verified, replayed records.
+
+These paths identify frozen local proofs; the
+[public checkpoint](../web/bradbury-prompt-checkpoint.json) carries its own
+`checked_at` and incomplete coverage. No defence conclusion follows from the
+recovery or from these seven controls.
