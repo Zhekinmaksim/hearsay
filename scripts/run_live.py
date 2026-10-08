@@ -106,7 +106,7 @@ def main():
     ap.add_argument("--wait", type=int, default=300)
     ap.add_argument("--accept-diagnosed-timeouts", action="store_true", help="retain diagnosed consensus timeouts separately and continue; never count them as judged")
     ap.add_argument("--accept-diagnosed-no-execution", action="store_true", help="continue only past stored FINALIZED/IDLE/NOT_VOTED with complete absence diagnosis; never count as judged")
-    ap.add_argument("--allow-known-unsettled-progress", action="store_true", help="opt in to independent honest writes only after complete absence scan, solvency and fresh empty pending queue; retain unresolved and provisional outcomes")
+    ap.add_argument("--allow-known-unsettled-progress", action="store_true", help="opt in to independent writes with no supports only after complete absence scan, solvency and fresh empty pending queue; retain unresolved and provisional outcomes")
     args = ap.parse_args()
     root = collector.ROOT
     run_dir = Path(args.run_dir).resolve()
@@ -190,8 +190,8 @@ def main():
                 "consensus_max_rotations": args.max_rotations,
             }
             if args.allow_known_unsettled_progress and retained_txs:
-                if env["entry_class"] != "honest" or env.get("supports"):
-                    raise RuntimeError("unsettled progress currently permits independent honest candidates only")
+                if env["entry_class"] not in collector.envtool.CLASSES or env.get("supports"):
+                    raise RuntimeError("unsettled progress permits known independent input classes with no supports only")
                 progress_guard = prepare_progress_guard(args, run_dir, manifest)
                 if progress_guard:
                     request["progress_guard"] = progress_guard

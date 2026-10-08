@@ -11,6 +11,7 @@ import { pathToFileURL } from "node:url";
 import { createHash } from "node:crypto";
 import { assertBroadcastReconciled, createBroadcastFetch } from "./broadcast.mjs";
 import { accountWithProgressGuard, readQueueProgress } from "./queue_progress.mjs";
+import { localGate, envelopeHash } from "../web/lib.mjs";
 
 function option(name) {
   const position = process.argv.indexOf(name);
@@ -70,9 +71,14 @@ const signingAccount = sdk.createAccount(privateKey);
 let progressProof;
 if (request.progress_guard && request.method !== "write_entry") fail("progress guard is only for independent entry writes");
 const account = request.progress_guard ? accountWithProgressGuard(signingAccount, async () => {
-  if (request.progress_guard.scan_complete !== true || request.progress_guard.solvency_balanced !== true || request.args[0] !== 0 || request.args[1] !== "honest") fail("progress guard requires complete absence scan, solvency and independent honest entry");
   const envelope = JSON.parse(request.args[2]);
-  if ((envelope.supports || []).length) fail("unresolved progress cannot use dependent premises");
+  if (localGate(envelope, []).code === 3) fail("progress guard requires a valid entry envelope");
+  if (envelopeHash(envelope) !== request.envelope_hash) fail("progress guard envelope hash differs from request metadata");
+  const independentClasses = ["honest", "direct_injection", "source_forgery", "citation_laundering", "slow_poison", "stale_truth", "flooding"];
+  if (request.progress_guard.scan_complete !== true || request.progress_guard.solvency_balanced !== true || request.args[0] !== 0 || !independentClasses.includes(request.args[1])) fail("progress guard requires complete absence scan, solvency and a known independent input class");
+  if (envelope.version !== "hearsay/1" || envelope.space_id !== request.args[0] || envelope.entry_class !== request.args[1]) fail("progress guard envelope differs from entry arguments");
+  const supports = envelope.supports === undefined ? [] : envelope.supports;
+  if (!Array.isArray(supports) || supports.length) fail("unresolved progress cannot use dependent premises");
   const solvency = await client.readContract({ address: request.address, functionName: "solvency", args: [] });
   const currentSolvency = solvency instanceof Map ? Object.fromEntries(solvency) : solvency;
   if (currentSolvency?.balanced !== true) fail("fresh before-sign solvency failed");

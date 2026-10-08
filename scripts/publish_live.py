@@ -153,14 +153,18 @@ def main():
         code, result = collector.gate.run_verify(dict(row, min_rounds=policy["min_rounds"]))
         if code:
             raise ValueError("unreproducible record: " + json.dumps(result))
-    rows = [refresh_record(row, args.address) for row in rows]
-    current_entries, scan_errors = collector.scan_entries("", args.address, 30)
-    if scan_errors:
-        raise ValueError("current entry scan incomplete; nothing published")
-    failures_public = [refresh_failure(failure, args.address, current_entries) for failure in failures]
     metadata = json.loads(Path(args.deployment).read_text())
     if metadata["address"].lower() != args.address.lower():
         raise ValueError("deployment metadata target mismatch")
+    # The full report must bind every attempt to the declared campaign, using
+    # the checkpoint verifier's current stored receipts, votes and source bytes.
+    from publish_checkpoint import build_checkpoint
+    checked = build_checkpoint(seed, metadata, collector.load_manifest(run_dir / "bradbury.jsonl"), rows, infrastructure_history, refused, space=args.space)
+    if checked["coverage"]["unresolved"] or checked["coverage"]["unsubmitted"]:
+        raise ValueError("live run has unresolved or unsubmitted candidates; nothing published")
+    rows = checked["entries"]
+    report, policy, solvency = checked["report"], checked["policy"], checked["solvency"]
+    failures_public = checked["infrastructure_failures"]
     corpus = {
         "run": "bradbury", "contract_address": args.address,
         "published_at": datetime.now(timezone.utc).isoformat(),

@@ -1,6 +1,8 @@
 # Bradbury activation blocker
 
-The current campaign remains incomplete: **5 of the required 20 honest controls** have verified application judgements. At pinned block 23805969 (2026-10-08T11:17:56+00:00), an expired NATIONAL GRID PLC transaction still occupies pending head 22 of tail 23. The normal progress guard rejects another write. The negative phase has not started.
+This report preserves the blocker observed at **2026-10-08 11:17:56 UTC**. A later pinned read at block **23813319** (chain timestamp `1791472305`) found the pending queue empty: head and tail were both 23, with a zero head transaction hash. National Grid was then UNDETERMINED without application execution. Continuation resumed with Prudential; neither transition adds a judged control. The accepted queue still had an unresolved Vodafone appeal. The observations below are historical, not the current queue state.
+
+At the report's original checkpoint, the campaign remained incomplete: **5 of the required 20 honest controls** had verified application judgements. At pinned block 23805969 (2026-10-08T11:17:56+00:00), an expired NATIONAL GRID PLC transaction still occupied pending head 22 of tail 23. The normal progress guard rejected another write. The negative phase had not started.
 
 Contract: `0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7`. Chain: Bradbury 4221, ConsensusMain VERSION 2.0.0. Contract source and SDK are unchanged; five initial validators and maxRotations 3 remain pinned. Earlier deployments are excluded.
 
@@ -10,7 +12,7 @@ The [fresh checkpoint](../web/bradbury-prompt-checkpoint.json), checked at 2026-
 
 All five snapshots match canonical stored equivalence outputs or trace bytes by SHA-256 and reproduce the recorded votes. Solvency is balanced: held, escrowed and pools are each 505000; credited is 0. All 39 public EVM hashes are mined, with no unresolved, foreign or unbound broadcast. Latest and pending nonce are both 668; the pinned account balance is `158589023187484014360` wei. No signer, runner or observer remains active.
 
-## Current outcomes
+## Outcomes at the original checkpoint
 
 Company names come from the exact submitted envelopes. The outcome columns use the fresh canonical checkpoint; historical timeouts remain preserved separately.
 

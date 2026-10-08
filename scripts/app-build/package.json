@@ -1,0 +1,7 @@
+{
+  "name": "hearsay-app-build",
+  "private": true,
+  "type": "module",
+  "description": "Build-time only dependencies for the checked-in live app SDK bundle",
+  "devDependencies": { "esbuild": "0.25.12", "genlayer-js": "1.1.8", "viem": "2.50.4" }
+}

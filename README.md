@@ -2,6 +2,23 @@
 
 An admission layer in front of shared agent memory, on GenLayer.
 
+[Live Bradbury app](https://hearsay-psi.vercel.app/app.html) ·
+[Offline harness](https://hearsay-psi.vercel.app/) ·
+[Submission and review instructions](docs/submission.md)
+
+The live app reads the deployed contract, connects an injected EVM wallet,
+creates a separate memory space and submits sourced claims. It preserves EVM
+and protocol hashes across reloads, distinguishes consensus failures from
+application verdicts, and downloads pinned source bytes and replayable receipts.
+Space 0 is read-only in the app to keep visitor writes separate from the live
+benchmark. The benchmark remains incomplete; its checkpoint is not a defence
+measurement.
+
+`make app-test` runs the checked-in SDK bundle against a dummy wallet and fake
+RPC, then drives the DOM controls. Rebuild that bundle explicitly with
+`npm ci --prefix scripts/app-build --ignore-scripts && node scripts/build_app.mjs`.
+Vercel serves the committed assets without installing build dependencies.
+
 An agent reads shared memory and acts on what it finds there. Write one
 plausible falsehood into that memory and every decision taken downstream is
 poisoned — more cheaply than any direct attack, because no contract has to be
@@ -269,6 +286,7 @@ make replay      # every corpus row, re-derived from the votes it records
 make parity      # the page's JavaScript against the Python, same vectors
 make page        # drive every control on the built page (needs jsdom)
 make receipts-test # offline checks for collection and diagnosis
+make submission-test submission-signing-test # full publication and before-sign guards
 make chain-test # stored consensus status and SDK projection stay distinct
 make bridge-test # transaction journal survives a lost RPC reply, no network
 ```
@@ -375,8 +393,8 @@ collection or diagnosis is unresolved, and checks solvency after every write.
 If a stored timeout reopens an appeal between polling and collection, it waits
 on that same transaction within the original deadline and collects again only
 after settlement. Scan errors and unavailable fresh receipts still stop it.
-`--allow-known-unsettled-progress` is an explicit option for independent honest
-candidates when the deployed protocol's pending queue is empty. It requires a
+`--allow-known-unsettled-progress` is an explicit option for known input classes
+with no support dependencies when the deployed protocol's pending queue is empty. It requires a
 complete absence scan, balanced solvency, known stored outcomes and verified
 2.0.0 contract bindings and implementations. The signing account repeats the
 queue proof and reads solvency before signing; a rewind or changed binding
@@ -432,7 +450,10 @@ infrastructure failures and the unresolved transaction. It is not the live
 defence measurement. Resume `scripts/run_live.py` with the same manifest after
 the pending consensus round resolves; it will not resend existing transactions.
 The complete publisher still requires at least twenty judged honest controls
-and coverage of every submitted candidate.
+and coverage of every declared candidate. It binds the full manifest to that
+cohort; use the full campaign seed, preserving unresolved attempts and
+infrastructure history. After provisional replay, collect to a new output path
+and verify its current entries, receipts, votes and pinned bytes again.
 
 Use `--run-dir runs/bradbury-rescue` for a separate deployment. Its manifest,
 entries, receipts, diagnosis and infrastructure outcomes are isolated from the

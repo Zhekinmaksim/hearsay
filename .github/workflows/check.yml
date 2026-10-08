@@ -17,6 +17,7 @@ jobs:
       - run: make test
       - run: make receipts-test
       - run: make checkpoint-test
+      - run: make submission-test
       - run: make dry-run
       - run: make replay
       # The icons and the share card are redrawn in CI so a stale card cannot
@@ -32,6 +33,8 @@ jobs:
       - run: npm install --no-save jsdom genlayer-js@1.1.8
       - run: make bridge-test
       - run: make queue-test
+      - run: make submission-signing-test
+      - run: make app-test
       - run: make chain-test
       - run: make parity
       - run: make gate-parity

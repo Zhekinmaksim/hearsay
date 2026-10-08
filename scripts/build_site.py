@@ -34,6 +34,12 @@ def main():
 
     corpus = json.load(open(CORPUS, encoding="utf-8"))
     template = open(TEMPLATE, encoding="utf-8").read()
+    if os.path.exists(os.path.join(ROOT, "web", "app.html")):
+        template = template.replace(
+            "</header>",
+            '<p class="whereabouts"><a href="app.html">Open the live Bradbury app</a></p></header>',
+            1,
+        )
     if os.path.exists(os.path.join(ROOT, "web", "live.html")):
         template = template.replace(
             "</header>",

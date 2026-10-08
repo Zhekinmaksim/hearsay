@@ -1,6 +1,6 @@
-.PHONY: test receipts-test checkpoint-test chain-test bridge-test queue-test gate-parity parity page live-page vectors replay dry-run assets site gate check lint all
+.PHONY: test receipts-test checkpoint-test submission-test chain-test bridge-test queue-test submission-signing-test app-test gate-parity parity page live-page vectors replay dry-run assets site gate check lint all
 
-all: lint test receipts-test checkpoint-test chain-test bridge-test queue-test dry-run replay assets site parity gate-parity page live-page
+all: lint test receipts-test checkpoint-test submission-test chain-test bridge-test queue-test submission-signing-test app-test dry-run replay assets site parity gate-parity page live-page
 
 test:
 	python3 test/run_tests.py
@@ -11,6 +11,9 @@ receipts-test:
 checkpoint-test:
 	python3 -m unittest discover -s test -p 'test_checkpoint.py'
 
+submission-test:
+	python3 -m unittest discover -s test -p 'test_submission_publication.py'
+
 chain-test:
 	node test/chain-receipt.mjs
 
@@ -19,6 +22,13 @@ bridge-test:
 
 queue-test:
 	node test/queue-progress.mjs
+
+submission-signing-test:
+	node test/submission-signing-guard.mjs
+
+app-test:
+	node test/app-wallet.mjs
+	node test/app-page.mjs
 
 gate-parity:
 	node test/gate-parity.mjs
