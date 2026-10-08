@@ -463,6 +463,10 @@ and verify its current entries, receipts, votes and pinned bytes again.
 The current declared seed is [`corpus/bradbury-prompt-campaign.json`](corpus/bradbury-prompt-campaign.json):
 50 planned honest controls and the original ten negative cases. It is an exact
 copy of the runner's campaign seed, not a collection of successful results.
+Additional primary-source controls in `corpus/live-second-reserve.json` and
+`corpus/live-third-reserve.json` are preflight-only fallbacks. They have not been
+added to the declared cohort or counted as judgements. If needed, append them
+in their recorded order and retain every existing attempt and outcome.
 
 Use `--run-dir runs/bradbury-rescue` for a separate deployment. Its manifest,
 entries, receipts, diagnosis and infrastructure outcomes are isolated from the
