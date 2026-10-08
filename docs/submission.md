@@ -11,7 +11,7 @@ its verified receipt and reproduced the verdict with the CLI. **A new
 transaction through the frontend wallet has not been demonstrated live.** That
 remaining check matters to the Portal's full-transaction-lifecycle quality bar.
 The app is published on Vercel, and its CI checks passed. The public checkpoint still contains
-**6/20 judged honest controls**, and the live negative phase has not started.
+**7/20 judged honest controls**, and the live negative phase has not started.
 
 ## Copy-ready Portal fields
 
@@ -61,7 +61,7 @@ Agents reuse shared memory, so one unsupported entry can become a premise for ma
 
 The contract fetches each claim's source, asks two independent support framings and checks consistency against recent admitted entries. It records ADMITTED, UNSOURCED, CONTRADICTED or INCONCLUSIVE with pinned evidence and votes. Unreadable or disagreeing rounds do not admit. Challenges revoke an entry and taint its dependents; a bounded cascade rejudges them without the revoked premise.
 
-The app reads Bradbury, connects a wallet and supports separate memory spaces, claim submission and canonical transaction tracking. Verified receipts replay locally. The public checkpoint has 6/20 judged honest controls; the attack phase has not started. New wallet sends are tested offline and remain unproven live. Offline fixtures verify the implementation, not attack resistance.
+The app reads Bradbury, connects a wallet and supports separate memory spaces, claim submission and canonical transaction tracking. Verified receipts replay locally. The public checkpoint has 7/20 judged honest controls; the attack phase has not started. New wallet sends are tested offline and remain unproven live. Offline fixtures verify the implementation, not attack resistance.
 ```
 
 **Website — required**
@@ -325,12 +325,12 @@ The expected result is a reproduced verdict and exit 0.
 
 ## Live evidence and remaining submission work
 
-The current public checkpoint was checked at **2026-10-08 16:43:40 UTC**.
-It accounts for every one of the 60 declared campaign candidates: **6 verified
-judgements, 6 finalized infrastructure outcomes, 11 unresolved outcomes and
-37 unsubmitted**. The six verified entries are BP, AstraZeneca, BT, Lloyds,
-Marks and Spencer, and Centrica. Their pinned snapshots and recorded votes
-reproduce. BP and AstraZeneca are Finalized; the remaining four are Accepted
+The current public checkpoint was checked at **2026-10-08 17:31:54 UTC**.
+It accounts for every one of the 60 declared campaign candidates: **7 verified
+judgements, 6 finalized infrastructure outcomes, 13 unresolved outcomes and
+34 unsubmitted**. The seven verified entries are BP, AstraZeneca, BT, Lloyds,
+Marks and Spencer, Centrica and BTC Pipeline. Their pinned snapshots and recorded votes
+reproduce. BP and AstraZeneca are Finalized; the remaining five are Accepted
 and provisional. Accepted state can be replayed after an adverse appeal, so
 publication requires fresh reconciliation. Current solvency is balanced.
 
@@ -338,7 +338,7 @@ The exact planned cohort is public at
 [`corpus/bradbury-prompt-campaign.json`](../corpus/bradbury-prompt-campaign.json):
 50 honest candidates and the original ten negative cases. Its SHA-256 is
 `6970d7ec5437f47f3705e9318143a4c37a33f29beecb31603c2b52d366820487`.
-The manifest currently records 23 honest write attempts. They are not 23
+The manifest at this checkpoint records 26 honest write attempts. They are not 26
 application judgements. The original
 [11:22 checkpoint](../web/bradbury-prompt-checkpoint-20261008-1122.json) and
 [activation report](bradbury-activation-blocker.md) remain preserved separately.
@@ -418,7 +418,7 @@ supplied form requirements:
 
 - [ ] Reach at least **20 genuinely judged honest controls** on this same
   contract and source version, retaining every infrastructure outcome and
-  original attempt. At the cited public checkpoint, at least 14 more judged
+  original attempt. At the cited public checkpoint, at least 13 more judged
   controls remain.
 - [ ] Complete the **original ten negative cases** in
   [`corpus/live.json`](../corpus/live.json): nine independent cases submitted

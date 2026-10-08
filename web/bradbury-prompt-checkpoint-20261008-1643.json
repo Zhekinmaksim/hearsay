@@ -16,16 +16,16 @@
   },
   "policy": {
     "admit_ttl": 1000,
-    "admitted": 7,
+    "admitted": 6,
     "cascade_depth": 3,
     "challenge_bond": 2000,
-    "entries": 7,
+    "entries": 6,
     "min_rounds": 2,
     "name": "companies-house-live",
     "open": true,
     "owner": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
     "policy": "Claims about company registry status, names, incorporation and filings; primary sources or explicitly dated archives only.",
-    "pool": 507000,
+    "pool": 506000,
     "space_id": 0,
     "write_bond": 1000
   },
@@ -34,12 +34,12 @@
   "health_warning": "Incomplete checkpoint. Verified observations only; no defence conclusion. Accepted receipts remain provisional. A full report requires complete candidate coverage and at least 20 judged honest controls.",
   "coverage": {
     "candidates": 60,
-    "judged": 7,
-    "honest_judged": 7,
+    "judged": 6,
+    "honest_judged": 6,
     "infrastructure_failures": 6,
-    "unresolved": 13,
+    "unresolved": 11,
     "prevented": 0,
-    "unsubmitted": 34
+    "unsubmitted": 37
   },
   "entries": [
     {
@@ -101,7 +101,7 @@
         "numOfRounds": "4",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480526",
+        "currentTimestamp": "1791477650",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -126,9 +126,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 7,
         "stored_block": {
-          "number": "23819880",
-          "hash": "0xf7ce10f144809ba56c808697d72300f001299a3bd7e2c313a447ea2175c2b0d1",
-          "timestamp": "1791480526"
+          "number": "23817113",
+          "hash": "0xc5e7e7bd3426d5ddce5fba1116c45bc6f2f03a6568a9d3aa1e14f5bcf923d6b6",
+          "timestamp": "1791477650"
         },
         "initial_validators": "5",
         "round_array_index": "4",
@@ -194,7 +194,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480569",
+        "currentTimestamp": "1791477697",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -219,9 +219,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 7,
         "stored_block": {
-          "number": "23819922",
-          "hash": "0xe221f8981ac5cebe1a2b9a00dd91119a1394e1bbd94a04d4fd8c85d01c744896",
-          "timestamp": "1791480569"
+          "number": "23817156",
+          "hash": "0x7e5eaa71bff814e5f630045c87f09885819dcfe69815f2c281961c6c5ac8f980",
+          "timestamp": "1791477697"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -287,7 +287,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480586",
+        "currentTimestamp": "1791477714",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -312,9 +312,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 5,
         "stored_block": {
-          "number": "23819941",
-          "hash": "0xeaa421c70a6a5241029e1e970e4b799d2abaa2c5b372ec151743ba4bba0f8815",
-          "timestamp": "1791480586"
+          "number": "23817176",
+          "hash": "0xdaca5d658b4d2a5650615f71acbfce15d6cbe4277142d09c97cddd5a257e4a60",
+          "timestamp": "1791477714"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -380,7 +380,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480598",
+        "currentTimestamp": "1791477738",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -405,9 +405,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 5,
         "stored_block": {
-          "number": "23819954",
-          "hash": "0x4bc59d1abb5a8ebb98831c47fa98dd5a5995ff395763409d48b42ffb5ad39b5b",
-          "timestamp": "1791480598"
+          "number": "23817202",
+          "hash": "0x209bc0bab064f212d8a5c1d74adf4eba4eb92c884693db82398d02eaf7c6f22f",
+          "timestamp": "1791477738"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -473,7 +473,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480658",
+        "currentTimestamp": "1791477780",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -498,9 +498,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 5,
         "stored_block": {
-          "number": "23820016",
-          "hash": "0x74af11503748e37b904f303aefe5d2ba36568cd3c2e12d8a954d9354c8348987",
-          "timestamp": "1791480658"
+          "number": "23817242",
+          "hash": "0x293ed998ab16d828dc591c35a3111796090df362c749155f461804909aa329c4",
+          "timestamp": "1791477780"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -566,7 +566,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480684",
+        "currentTimestamp": "1791477809",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -591,102 +591,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 5,
         "stored_block": {
-          "number": "23820044",
-          "hash": "0xb7100b18ec45e3b5ab8d2b53de32579061e2127dfc7d253a2c71643ea3db1408",
-          "timestamp": "1791480684"
-        },
-        "initial_validators": "5",
-        "round_array_index": "0",
-        "projected_status": "READY_TO_FINALIZE"
-      }
-    },
-    {
-      "admitted_at": 7,
-      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
-      "bond": 1000,
-      "bond_state": "LOCKED",
-      "claim": "Companies House lists BTC PIPELINE HOLDING COMPANY LIMITED (company number 04951416) with company status Dissolved.",
-      "conflicts_with": 0,
-      "dependents": [],
-      "depth": 0,
-      "entry_class": "honest",
-      "entry_id": 6,
-      "envelope_hash": "5dbf29214c05c94b6cc7bf34141ad8c546e034b638417cdf598c1720f0d17e62",
-      "note": "",
-      "rounds": 2,
-      "snapshot_hash": "b83b3531648aefa83e28f179caf0fb7799f1d3a9324e5c23ac01ca0c4975bd88",
-      "source_url": "https://find-and-update.company-information.service.gov.uk/company/04951416",
-      "space_id": 0,
-      "status": "ADMITTED",
-      "supports": [],
-      "votes": {
-        "a": "yes",
-        "b": "yes",
-        "conflict": "none"
-      },
-      "id": "honest-04951416",
-      "tx": "0xa8adb6f0fa0ce2961e42751ce248907ae1bfc6adee2f6f889d9ebbefe01b30ee",
-      "receipt_status": "ACCEPTED",
-      "envelope": {
-        "version": "hearsay/1",
-        "space_id": 0,
-        "claim": "Companies House lists BTC PIPELINE HOLDING COMPANY LIMITED (company number 04951416) with company status Dissolved.",
-        "source_url": "https://find-and-update.company-information.service.gov.uk/company/04951416",
-        "entry_class": "honest",
-        "expects": "ADMITTED"
-      },
-      "expects": "ADMITTED",
-      "dedup_key": "0:c57ed0f4d34913aea1af8be6bc17b03b1cc48323d166d14371080f6d9cb309eb",
-      "min_rounds": 2,
-      "as_expected": true,
-      "snapshot_verified": true,
-      "snapshot_excerpt": "Cookies on Companies House services\n\nWe use some essential cookies to make our services work.\n\nWe'd also like to use analytics cookies so we can understand how you use our services and to make improvements.\n\nAccept analytics cookies\nReject analytics cookies\nView cookies\nSkip to main content\nFind and update company information\nCompanies House does not check the accuracy of the information filed\n(link opens a new window)\nSign in / Register\n\nSearch for a company or officer\n\nSearch\nAdvanced company search\nLink opens in new window\n\nBTC PIPELINE HOLDING COMPANY LIMITED\n\nCompany number 04951416\n\nFollow this company\nCompany\nOverview\nfor BTC PIPELINE HOLDING COMPANY LIMITED (04951416)\nFiling history\nfor BTC PIPELINE HOLDING COMPANY LIMITED (04951416)\nPeople\nfor BTC PIPELINE HOLDING COMPANY LIMITED (04951416)\nCharges\nfor BTC PIPELINE HOLDING COMPANY LIMITED (04951416)\nInsolvency\nfor BTC PIPELINE HOLDING COMPANY LIMITED (04951416)\nMore\nfor BTC PIPELINE HOLDING COMPANY LIMITED (04951416)\nRegistered office address\nC/O Bdo Llp 5 Temple Square, Temple Street, Liverpool, L2 5RH\nCompany status\nDissolved\nDissolved on\n10 December 2025\nCompany type\nPrivate limited Company\nIncorporated on\n3 November 2003\nAccounts\n\nLast accounts made up to 31 December 2023\n\nConfirmation statement\n\nLast statement dated 3 November 2024\n\nNature of business (SIC)\n70100 - Activities of head offices\nTell us what you think of this service\n(link opens a new window)\nIs there anything wrong with this page?\n(link opens a new window)\nSupport links\nPolicies\nLink opens in new tab\nCookies Contact us\nLink opens in new tab\nAccessibility statement Developers\nLink opens in new tab\nBuilt by Companies House\n© Crown copyright",
-      "snapshot_provenance": {
-        "snapshot_hash": "b83b3531648aefa83e28f179caf0fb7799f1d3a9324e5c23ac01ca0c4975bd88",
-        "source": "getTransactionAllData.eqBlocksOutputs",
-        "transaction_id": "0xa8adb6f0fa0ce2961e42751ce248907ae1bfc6adee2f6f889d9ebbefe01b30ee",
-        "eq_block_index": 0,
-        "stored_block": {
-          "number": "23819360",
-          "hash": "0x1405ec3d78e3adc42f8a9a7c6c690b8d3aacad90e8095f8c8ffbad2ad31a4d08",
-          "timestamp": "1791480064"
-        }
-      },
-      "consensus_checkpoint": {
-        "statusName": "ACCEPTED",
-        "resultName": "MAJORITY_AGREE",
-        "txExecutionResultName": "FINISHED_WITH_RETURN",
-        "numOfRounds": "0",
-        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
-        "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480702",
-        "consensus_version": "2.0.0",
-        "last_round": {
-          "round": "0",
-          "votesCommitted": "5",
-          "votesRevealed": "5",
-          "validatorVotes": [
-            3,
-            1,
-            3,
-            1,
-            1
-          ],
-          "roundValidators": [
-            "0xB7551beF37a05995218f9a1BB7A93e5B6705f535",
-            "0x59dC5E6fD7428c5Ee6fc24aE2B99E5860A9c9499",
-            "0x3f5cAED686336ED9cF3Dede61154B0Cd67Fb9bD7",
-            "0x4Cd1ab61867487F45988dB08eb18bd00e20c518a",
-            "0x470AAa7DE37ff3E1C2b38eD9096263ca0d541F21"
-          ]
-        },
-        "status": "ACCEPTED",
-        "status_basis": "getTransactionAllData",
-        "stored_status_code": 5,
-        "stored_block": {
-          "number": "23820062",
-          "hash": "0x1e960d5fabf5a08d954d1afa46988dab8c0347a83ae180b58416b9c1b1b5c46b",
-          "timestamp": "1791480702"
+          "number": "23817271",
+          "hash": "0x2123c288397e92bb4d0c8fbc655af4133c3399f104038af3901bfec35ebd7e35",
+          "timestamp": "1791477809"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -709,7 +616,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480517",
+        "currentTimestamp": "1791477631",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -734,9 +641,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 7,
         "stored_block": {
-          "number": "23819870",
-          "hash": "0x0d51dc021228e7a3930f3b3d121ac73b3350a9d9263c43221c1debbcf60659a4",
-          "timestamp": "1791480517"
+          "number": "23817096",
+          "hash": "0xfe17c1e233a5c01f65927c416999fc9fff4c571b9a6264c352fc00a0894044c4",
+          "timestamp": "1791477631"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -759,7 +666,7 @@
         "numOfRounds": "6",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480523",
+        "currentTimestamp": "1791477640",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -784,9 +691,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 7,
         "stored_block": {
-          "number": "23819876",
-          "hash": "0xebdd85ed6dbffdfdde9e4088d3733536489cbbbdd916e9b630d8722dc5debbe6",
-          "timestamp": "1791480523"
+          "number": "23817106",
+          "hash": "0x64c8fb7668e336a9d271673ffba20a2b1f9c872c9dbb5b497d551ec2ee5fe2b9",
+          "timestamp": "1791477640"
         },
         "initial_validators": "5",
         "round_array_index": "6",
@@ -809,7 +716,7 @@
         "numOfRounds": "4",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480541",
+        "currentTimestamp": "1791477675",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -834,9 +741,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 7,
         "stored_block": {
-          "number": "23819895",
-          "hash": "0x2b153f877b4618f3e7653372b9d2115fb7fb2c25730b0571bfb805410bb2f8bb",
-          "timestamp": "1791480541"
+          "number": "23817132",
+          "hash": "0x80c4f8985997b5c99648fd7de9af05f75a59ece139f40b64110e5940fb7f6e93",
+          "timestamp": "1791477675"
         },
         "initial_validators": "5",
         "round_array_index": "4",
@@ -859,7 +766,7 @@
         "numOfRounds": "6",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480548",
+        "currentTimestamp": "1791477685",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "4",
@@ -908,9 +815,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 7,
         "stored_block": {
-          "number": "23819901",
-          "hash": "0x575d57c2939b2220523dd8fd0cce3512ed78ccd5daa6cc8f187f9ae6d1d176ce",
-          "timestamp": "1791480548"
+          "number": "23817141",
+          "hash": "0x4664fc5a63d184f48d8bf287e12ebedeee2302c3f44beaff4ed49ee4be2949d6",
+          "timestamp": "1791477685"
         },
         "initial_validators": "5",
         "round_array_index": "6",
@@ -933,7 +840,7 @@
         "numOfRounds": "8",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480553",
+        "currentTimestamp": "1791477692",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -958,9 +865,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 7,
         "stored_block": {
-          "number": "23819908",
-          "hash": "0x2ae96fa3ccf005e116ec2e89bc6b62f1542e8e8b3e983a352337130c2b136a45",
-          "timestamp": "1791480553"
+          "number": "23817149",
+          "hash": "0x2b546920fe32aab4fced8bbb9a32844c3a4a299ff3d3d98d69f11d95cd57e825",
+          "timestamp": "1791477692"
         },
         "initial_validators": "5",
         "round_array_index": "8",
@@ -983,7 +890,7 @@
         "numOfRounds": "3",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480563",
+        "currentTimestamp": "1791477695",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "3",
@@ -1024,9 +931,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 7,
         "stored_block": {
-          "number": "23819919",
-          "hash": "0x32d4bfd9eef5d0817d3574933ea1acb123e0ad5e7377412f46c3815d3e60ae6d",
-          "timestamp": "1791480563"
+          "number": "23817154",
+          "hash": "0x55d08d39c7e9888bcbe77b577f250b6f08e8455c56d89025db7a72cb3fedb7fd",
+          "timestamp": "1791477695"
         },
         "initial_validators": "5",
         "round_array_index": "3",
@@ -1554,44 +1461,6 @@
           ]
         }
       }
-    },
-    {
-      "id": "honest-00538154",
-      "tx": "0x0ec97e5211d4887bdcbe2d224088b344d1970e7bc44b50b403f498c92ceffc2e",
-      "envelope_hash": "b9d0b4ef40753eff3405e77e9217123ffb75441b72a170ffffed669bbec78f6c",
-      "entry_class": "honest",
-      "status": "LEADER_TIMEOUT",
-      "consensus_outcome": "TIMEOUT",
-      "reason": "protocol validation/execution timed out; this is not a contract rejection",
-      "receipt_summary": {
-        "statusName": "LEADER_TIMEOUT",
-        "resultName": "IDLE",
-        "txExecutionResultName": "NOT_VOTED",
-        "numOfRounds": "0",
-        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
-        "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791478780",
-        "consensus_version": "2.0.0",
-        "last_round": {
-          "round": "0",
-          "votesCommitted": "0",
-          "votesRevealed": "0",
-          "validatorVotes": [
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
-          "roundValidators": [
-            "0xB93a46B843fB32E8Ce392e68eDFE93Faa4a40817",
-            "0xF01877B6Ac60861CA3b134e0E483C482679b4682",
-            "0x992E8D62263eD1Fe2E14FfB11aDf1080edBe4b5a",
-            "0xb4Fb7ADc6877a6A16bd131c7c9270834bD3DEf34",
-            "0x3a130401885fD9322E2E21174A5496065f716b35"
-          ]
-        }
-      }
     }
   ],
   "unresolved": [
@@ -1608,7 +1477,7 @@
         "numOfRounds": "3",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480577",
+        "currentTimestamp": "1791477712",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "3",
@@ -1645,9 +1514,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 9,
         "stored_block": {
-          "number": "23819931",
-          "hash": "0x6454c5b78c0f88366cf4ebcff0c15b6b208929515c33d716743d9dcf90a1434a",
-          "timestamp": "1791480577"
+          "number": "23817174",
+          "hash": "0xc38f65cefdb956dd02a68d5a0a799fc599104bfe46164d41c62ecf3e0d309a3f",
+          "timestamp": "1791477712"
         },
         "initial_validators": "5",
         "round_array_index": "3",
@@ -1670,7 +1539,7 @@
         "numOfRounds": "3",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480595",
+        "currentTimestamp": "1791477734",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "3",
@@ -1707,9 +1576,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 9,
         "stored_block": {
-          "number": "23819948",
-          "hash": "0x27c6d3003581fd46ba4e87a3a1f6008644dfdb1d32090dcb45fdbf8175782d59",
-          "timestamp": "1791480595"
+          "number": "23817196",
+          "hash": "0xc1cda45e3b04aa8745d40c31b502019214ec1536cb4e2ba8f61835417484e990",
+          "timestamp": "1791477734"
         },
         "initial_validators": "5",
         "round_array_index": "3",
@@ -1732,7 +1601,7 @@
         "numOfRounds": "3",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480620",
+        "currentTimestamp": "1791477757",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "3",
@@ -1773,9 +1642,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "23819974",
-          "hash": "0xf66410083d4fe38ab7c32ac621d5aa1d12ea765a6c4c578816d6870fe518a6c8",
-          "timestamp": "1791480620"
+          "number": "23817218",
+          "hash": "0x2eb9ca4171e5f58a81942239cd0172d7520ce768bdff64d4e34fac1d3ea19a6a",
+          "timestamp": "1791477757"
         },
         "initial_validators": "5",
         "round_array_index": "3",
@@ -1798,7 +1667,7 @@
         "numOfRounds": "2",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480624",
+        "currentTimestamp": "1791477760",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "2",
@@ -1835,9 +1704,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 6,
         "stored_block": {
-          "number": "23819980",
-          "hash": "0x79477b07b36571cc719e51dbd7722e3c67f0616308a7e5c7445c6c5ab11030d2",
-          "timestamp": "1791480624"
+          "number": "23817222",
+          "hash": "0xf80acefe2a0d871bb4fcf6f32443f0a1c784f20c139e939d8ea69837fc0c75b5",
+          "timestamp": "1791477760"
         },
         "initial_validators": "5",
         "round_array_index": "2",
@@ -1860,7 +1729,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480635",
+        "currentTimestamp": "1791477761",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -1885,9 +1754,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 6,
         "stored_block": {
-          "number": "23819994",
-          "hash": "0x0eb35399ca0f823ad981d677d9df3240064e92f27cbe1cfa83081150a2450c3b",
-          "timestamp": "1791480635"
+          "number": "23817224",
+          "hash": "0x524d9562f19b0b4f3f2300bb6f2c6556b3729ea007b3d4050b137ec01db528c7",
+          "timestamp": "1791477761"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -1910,7 +1779,7 @@
         "numOfRounds": "4",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480638",
+        "currentTimestamp": "1791477766",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -1935,9 +1804,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "23819998",
-          "hash": "0x030d40e7366144fadde041b98ccb5bd551b79137c74b56ee20dec5de33a96797",
-          "timestamp": "1791480638"
+          "number": "23817228",
+          "hash": "0xf2ba5923d2af1af073bc827ccbb03d2203d7f07bc7d671e8a9b779490bf64d13",
+          "timestamp": "1791477766"
         },
         "initial_validators": "5",
         "round_array_index": "4",
@@ -1960,7 +1829,7 @@
         "numOfRounds": "4",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480643",
+        "currentTimestamp": "1791477774",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -1985,9 +1854,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "23820001",
-          "hash": "0x4af71ffc0b2d47437b58e623f0d772b8eba7ee6227b5f8d3de617f51c3446bcc",
-          "timestamp": "1791480643"
+          "number": "23817235",
+          "hash": "0xc6407a8f75c11622d57bf4f9a4e382d820edb5267d4362ef36580be1df6517d6",
+          "timestamp": "1791477774"
         },
         "initial_validators": "5",
         "round_array_index": "4",
@@ -2010,7 +1879,7 @@
         "numOfRounds": "3",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480647",
+        "currentTimestamp": "1791477778",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "3",
@@ -2051,9 +1920,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 10,
         "stored_block": {
-          "number": "23820008",
-          "hash": "0x9a35a80fbb369a379f9c2b176e1d6a4845da41929370d955accfcaba01f15429",
-          "timestamp": "1791480647"
+          "number": "23817239",
+          "hash": "0x35b46305e97536f1c7923c005852b46f4ccb040fda6e4fc5c3dd9555f0df4ccf",
+          "timestamp": "1791477778"
         },
         "initial_validators": "5",
         "round_array_index": "3",
@@ -2076,7 +1945,7 @@
         "numOfRounds": "6",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480667",
+        "currentTimestamp": "1791477796",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "2",
@@ -2113,9 +1982,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 6,
         "stored_block": {
-          "number": "23820025",
-          "hash": "0xe806f30a48854c7078183bfa372e88bb9e19f6d46fe6a214b0948e865d46f1dd",
-          "timestamp": "1791480667"
+          "number": "23817256",
+          "hash": "0xff471966518bd52f4378d3b50d45d726f9f70c20cb7233086bbe05da4203e1fd",
+          "timestamp": "1791477796"
         },
         "initial_validators": "5",
         "round_array_index": "6",
@@ -2138,7 +2007,7 @@
         "numOfRounds": "2",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480671",
+        "currentTimestamp": "1791477800",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -2163,9 +2032,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 6,
         "stored_block": {
-          "number": "23820030",
-          "hash": "0xc496f0c7ccb50b12288688dd0e13080ed09d94144bef264f5f9f2cb05bff2e68",
-          "timestamp": "1791480671"
+          "number": "23817260",
+          "hash": "0x10fe1bfff9c2c34bd09cf6d4f1518457d0d93f580e48d8724a370debcd094d4e",
+          "timestamp": "1791477800"
         },
         "initial_validators": "5",
         "round_array_index": "2",
@@ -2188,7 +2057,7 @@
         "numOfRounds": "6",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480680",
+        "currentTimestamp": "1791477805",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -2213,125 +2082,13 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "23820038",
-          "hash": "0x61cfa50adb84d61b17c8ff6577690242aef64a1f4535b8fb4e11c125d3bad37b",
-          "timestamp": "1791480680"
+          "number": "23817265",
+          "hash": "0x8f68b5801b9286e16abbaac5406e06714092e8518aced5d28f1b305d162d2eca",
+          "timestamp": "1791477805"
         },
         "initial_validators": "5",
         "round_array_index": "6",
         "projected_status": "READY_TO_FINALIZE"
-      },
-      "diagnosis": "UNRESOLVED",
-      "reason": "no matching entry; stored consensus has not established a final timeout",
-      "matching_entry_id": null
-    },
-    {
-      "id": "honest-00538154",
-      "tx": "0x0ec97e5211d4887bdcbe2d224088b344d1970e7bc44b50b403f498c92ceffc2e",
-      "envelope_hash": "b9d0b4ef40753eff3405e77e9217123ffb75441b72a170ffffed669bbec78f6c",
-      "entry_class": "honest",
-      "status": "VALIDATORS_TIMEOUT",
-      "receipt_summary": {
-        "statusName": "VALIDATORS_TIMEOUT",
-        "resultName": "MAJORITY_TIMEOUT",
-        "txExecutionResultName": "FINISHED_WITH_RETURN",
-        "numOfRounds": "6",
-        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
-        "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480692",
-        "consensus_version": "2.0.0",
-        "last_round": {
-          "round": "0",
-          "votesCommitted": "5",
-          "votesRevealed": "5",
-          "validatorVotes": [
-            3,
-            3,
-            1,
-            1,
-            3
-          ],
-          "roundValidators": [
-            "0xB93a46B843fB32E8Ce392e68eDFE93Faa4a40817",
-            "0xF01877B6Ac60861CA3b134e0E483C482679b4682",
-            "0x992E8D62263eD1Fe2E14FfB11aDf1080edBe4b5a",
-            "0xb4Fb7ADc6877a6A16bd131c7c9270834bD3DEf34",
-            "0x3a130401885fD9322E2E21174A5496065f716b35"
-          ]
-        },
-        "status": "VALIDATORS_TIMEOUT",
-        "status_basis": "getTransactionAllData",
-        "stored_status_code": 12,
-        "stored_block": {
-          "number": "23820053",
-          "hash": "0xca7ab29c682fff469dab36b1d5995f9906960b9602319a8b0d941df075252db9",
-          "timestamp": "1791480692"
-        },
-        "initial_validators": "5",
-        "round_array_index": "6",
-        "projected_status": "VALIDATORS_TIMEOUT"
-      },
-      "diagnosis": "UNRESOLVED",
-      "reason": "no matching entry; stored consensus has not established a final timeout",
-      "matching_entry_id": null
-    },
-    {
-      "id": "honest-00234106",
-      "tx": "0x24bd7b1e0cf1f6e975ffd309debdd74e4624b966597d326270582085be9280cf",
-      "envelope_hash": "84d726debf99b48598432a5aa5b7bdede9280a689c834b25f0e8ac6ea4e418de",
-      "entry_class": "honest",
-      "status": "VALIDATORS_TIMEOUT",
-      "receipt_summary": {
-        "statusName": "VALIDATORS_TIMEOUT",
-        "resultName": "MAJORITY_TIMEOUT",
-        "txExecutionResultName": "FINISHED_WITH_RETURN",
-        "numOfRounds": "2",
-        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
-        "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480712",
-        "consensus_version": "2.0.0",
-        "last_round": {
-          "round": "2",
-          "votesCommitted": "11",
-          "votesRevealed": "11",
-          "validatorVotes": [
-            3,
-            3,
-            3,
-            3,
-            1,
-            1,
-            3,
-            1,
-            1,
-            3,
-            3
-          ],
-          "roundValidators": [
-            "0xB93a46B843fB32E8Ce392e68eDFE93Faa4a40817",
-            "0x58a7b7ac6Cb01843e4e5af117C551E59449E0F49",
-            "0xF01877B6Ac60861CA3b134e0E483C482679b4682",
-            "0xE8fdefdfe18fD8E5B0d576b7CcfC5a29CE43fD7f",
-            "0x992E8D62263eD1Fe2E14FfB11aDf1080edBe4b5a",
-            "0xA58D6FcCD69eaafB5869dA58913f116045D75444",
-            "0x3f5cAED686336ED9cF3Dede61154B0Cd67Fb9bD7",
-            "0x2d012a292244C7ce6423a114d19109990923Af76",
-            "0x77a07271abB443F55be19c357AA35206BeB63E1d",
-            "0x183217483618c4EBd34C987DE400e01bEFfe5860",
-            "0xB7551beF37a05995218f9a1BB7A93e5B6705f535"
-          ]
-        },
-        "status": "VALIDATORS_TIMEOUT",
-        "status_basis": "getTransactionAllData",
-        "stored_status_code": 12,
-        "stored_block": {
-          "number": "23820078",
-          "hash": "0xcfb2612d909ee943f5946a94887c3ffccb915bf98927b205409593e61f157487",
-          "timestamp": "1791480712"
-        },
-        "initial_validators": "5",
-        "round_array_index": "2",
-        "projected_status": "VALIDATORS_TIMEOUT"
       },
       "diagnosis": "UNRESOLVED",
       "reason": "no matching entry; stored consensus has not established a final timeout",
@@ -2352,7 +2109,7 @@
         "numOfRounds": "3",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480577",
+        "currentTimestamp": "1791477712",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "3",
@@ -2389,9 +2146,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 9,
         "stored_block": {
-          "number": "23819931",
-          "hash": "0x6454c5b78c0f88366cf4ebcff0c15b6b208929515c33d716743d9dcf90a1434a",
-          "timestamp": "1791480577"
+          "number": "23817174",
+          "hash": "0xc38f65cefdb956dd02a68d5a0a799fc599104bfe46164d41c62ecf3e0d309a3f",
+          "timestamp": "1791477712"
         },
         "initial_validators": "5",
         "round_array_index": "3",
@@ -2414,7 +2171,7 @@
         "numOfRounds": "3",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480595",
+        "currentTimestamp": "1791477734",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "3",
@@ -2451,9 +2208,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 9,
         "stored_block": {
-          "number": "23819948",
-          "hash": "0x27c6d3003581fd46ba4e87a3a1f6008644dfdb1d32090dcb45fdbf8175782d59",
-          "timestamp": "1791480595"
+          "number": "23817196",
+          "hash": "0xc1cda45e3b04aa8745d40c31b502019214ec1536cb4e2ba8f61835417484e990",
+          "timestamp": "1791477734"
         },
         "initial_validators": "5",
         "round_array_index": "3",
@@ -2476,7 +2233,7 @@
         "numOfRounds": "3",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791480647",
+        "currentTimestamp": "1791477778",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "3",
@@ -2517,9 +2274,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 10,
         "stored_block": {
-          "number": "23820008",
-          "hash": "0x9a35a80fbb369a379f9c2b176e1d6a4845da41929370d955accfcaba01f15429",
-          "timestamp": "1791480647"
+          "number": "23817239",
+          "hash": "0x35b46305e97536f1c7923c005852b46f4ccb040fda6e4fc5c3dd9555f0df4ccf",
+          "timestamp": "1791477778"
         },
         "initial_validators": "5",
         "round_array_index": "3",
@@ -2531,6 +2288,21 @@
     }
   ],
   "unsubmitted_candidates": [
+    {
+      "id": "honest-00538154",
+      "class": "honest",
+      "envelope_hash": "b9d0b4ef40753eff3405e77e9217123ffb75441b72a170ffffed669bbec78f6c"
+    },
+    {
+      "id": "honest-04951416",
+      "class": "honest",
+      "envelope_hash": "5dbf29214c05c94b6cc7bf34141ad8c546e034b638417cdf598c1720f0d17e62"
+    },
+    {
+      "id": "honest-00234106",
+      "class": "honest",
+      "envelope_hash": "84d726debf99b48598432a5aa5b7bdede9280a689c834b25f0e8ac6ea4e418de"
+    },
     {
       "id": "honest-04412362",
       "class": "honest",
@@ -2706,18 +2478,18 @@
     "classes": [
       {
         "admission_rate_milli": 1000,
-        "attempts": 7,
+        "attempts": 6,
         "class": "honest",
-        "ever_admitted": 7,
+        "ever_admitted": 6,
         "inconclusive": 0,
         "settled": false
       }
     ],
     "deferred": 0,
-    "entries": 7,
+    "entries": 6,
     "false_rejection_milli": 0,
-    "honest_admitted": 7,
-    "honest_attempts": 7,
+    "honest_admitted": 6,
+    "honest_attempts": 6,
     "prevented_by_construction": [
       "citation_laundering"
     ],
@@ -2728,9 +2500,9 @@
   "solvency": {
     "balanced": true,
     "credited": 0,
-    "escrowed": 507000,
-    "held": 507000,
-    "pools": 507000
+    "escrowed": 506000,
+    "held": 506000,
+    "pools": 506000
   },
   "previous_runs": [
     {
@@ -2759,5 +2531,5 @@
       "included_in_report": false
     }
   ],
-  "checked_at": "2026-10-08T17:31:54.618926+00:00"
+  "checked_at": "2026-10-08T16:43:40.762546+00:00"
 }
