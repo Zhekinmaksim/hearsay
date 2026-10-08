@@ -38,12 +38,12 @@ const chains = await import(pathToFileURL(join(sdkRoot, "dist/chains/index.js"))
 const viemEntry = createRequire(pathToFileURL(join(sdkRoot, "package.json"))).resolve("viem");
 const viem = await import(pathToFileURL(viemEntry));
 
-function queueFixture(change = {}) {
+function queueFixture(change = {}, targetTx = unresolvedTx) {
   const state = {
     version: "2.0.0", manager: bindings.manager, queues: bindings.queues,
     head: 13n, tail: 13n, headTx: zeroHash, acceptedHead,
     queueType: 2, atPendingHead: false,
-    transaction: { id: unresolvedTx, recipient, sender: expectedAccount,
+    transaction: { id: targetTx, recipient, sender: expectedAccount,
       status: 9, numOfInitialValidators: 5n, initialRotations: 3n, ...change.transaction },
     implementations: {
       [bindings.main]: bindings.mainImplementation,
@@ -54,7 +54,7 @@ function queueFixture(change = {}) {
     ...change,
   };
   // Preserve merged transaction/implementation fields when only a field is changed.
-  state.transaction = { id: unresolvedTx, recipient, sender: expectedAccount,
+  state.transaction = { id: targetTx, recipient, sender: expectedAccount,
     status: 9, numOfInitialValidators: 5n, initialRotations: 3n, ...change.transaction };
   state.implementations = { [bindings.main]: bindings.mainImplementation,
     [bindings.data]: bindings.dataImplementation, [bindings.queues]: bindings.queueImplementation,
@@ -81,11 +81,11 @@ function queueFixture(change = {}) {
         assert.deepEqual(request.args, ["Queues"]);
       } else if (name === "getTransactionAllData") {
         assert.equal(address, bindings.data);
-        assert.deepEqual(request.args, [unresolvedTx]);
+        assert.deepEqual(request.args, [targetTx]);
       } else {
         assert.equal(address, bindings.queues);
         assert.equal(request.args[0], recipient);
-        if (["getTxQueueType", "isAtPendingQueueHead"].includes(name)) assert.equal(request.args[1], unresolvedTx);
+        if (["getTxQueueType", "isAtPendingQueueHead"].includes(name)) assert.equal(request.args[1], targetTx);
       }
       if (state.failView === name) throw new Error("fixture view unavailable");
       const results = {
@@ -136,6 +136,17 @@ assert.equal(proof.finalization_guaranteed, false);
 assert.deepEqual(proof.transactions, [{ tx: unresolvedTx, status_code: 9, queue_type: 2, at_pending_head: false }]);
 passes++;
 
+const undeterminedCapture = JSON.parse(readFileSync(new URL("fixtures/bradbury-v2-undetermined.json", import.meta.url), "utf8"));
+assert.equal(undeterminedCapture.transaction.result, 5, "the captured outcome is NoMajority");
+const undeterminedTx = undeterminedCapture.transaction.id;
+const undetermined = queueFixture({ transaction: undeterminedCapture.transaction,
+  queueType: undeterminedCapture.queue.queue_type, atPendingHead: undeterminedCapture.queue.at_pending_head }, undeterminedTx);
+const undeterminedProof = await readQueueProgress(undetermined.client, undetermined.chain, recipient, expectedAccount, [undeterminedTx]);
+assert.deepEqual(undeterminedProof.transactions, [{ tx: undeterminedTx, status_code: 6, queue_type: 3, at_pending_head: false }]);
+assert.equal(undeterminedProof.provisional, true);
+assert.equal(undeterminedProof.finalization_guaranteed, false);
+passes++;
+
 const rejectedFixtures = [
   ["protocol version", { version: "0.6.0" }, /unverified consensus/],
   ["main binding", { mainAddress: "0x" + "11".repeat(20) }, /unknown consensus binding/],
@@ -150,7 +161,7 @@ const rejectedFixtures = [
   ["changed transaction id", { transaction: { id: zeroHash } }, /transaction ID changed/],
   ["foreign recipient", { transaction: { recipient: "0x" + "11".repeat(20) } }, /foreign transaction/],
   ["foreign sender", { transaction: { sender: "0x" + "11".repeat(20) } }, /foreign transaction/],
-  ...[5, 6, 7, 11, 99].map(status => ["settled or unknown status " + status, { transaction: { status } }, /settled or has an unknown state/]),
+  ...[5, 7, 11, 99].map(status => ["settled or unknown status " + status, { transaction: { status } }, /settled or has an unknown state/]),
   ["validator count", { transaction: { numOfInitialValidators: 0n } }, /consensus settings changed/],
   ["rotation limit", { transaction: { initialRotations: 0n } }, /consensus settings changed/],
   ...[0, 1, 99].map(queueType => ["invalid queue type " + queueType, { queueType }, /still in the pending queue/]),

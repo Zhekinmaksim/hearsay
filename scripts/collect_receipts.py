@@ -196,6 +196,14 @@ def finalized_infrastructure_outcome(receipt):
     return None
 
 
+def has_application_execution(receipt):
+    """Successful stored consensus and execution, independent of old labels."""
+    stored = receipt.get("stored_receipt") if isinstance(receipt, dict) else None
+    return (isinstance(stored, dict) and receipt.get("consensus_version") == "2.0.0"
+            and status_of(receipt) in {"ACCEPTED", "FINALIZED"}
+            and stored.get("result") in (1, "1") and stored.get("txExecutionResult") in (1, "1"))
+
+
 def load_manifest(path):
     rows = []
     with open(path, encoding="utf-8") as stream:
@@ -261,6 +269,8 @@ def find_envelope(row, folder):
 def assemble_record(row, judged, env, min_rounds, receipt):
     if finalized_infrastructure_outcome(receipt):
         raise ValueError("finalized infrastructure outcome cannot authorize a judged record")
+    if "stored_receipt" in receipt and not has_application_execution(receipt):
+        raise ValueError("stored consensus has no successful application execution")
     fingerprint = envtool.envelope_hash(env)
     if fingerprint != row["envelope_hash"] or fingerprint != judged.get("envelope_hash"):
         raise ValueError("manifest, envelope and chain hashes disagree")

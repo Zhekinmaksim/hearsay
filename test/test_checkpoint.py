@@ -32,7 +32,7 @@ class CheckpointTest(unittest.TestCase):
         self.receipts = {self.tx: self.receipt(self.tx, 5, 1), self.pending_tx: self.receipt(self.pending_tx, 9, 0)}
 
     def receipt(self, tx, status, result):
-        stored = {"id": tx, "status": status, "result": result, "recipient": self.address, "sender": self.sender, "numOfInitialValidators": "5", "initialRotations": "0"}
+        stored = {"id": tx, "status": status, "result": result, "txExecutionResult": 1 if result == 1 else 0, "recipient": self.address, "sender": self.sender, "numOfInitialValidators": "5", "initialRotations": "0"}
         return {"status_basis": "getTransactionAllData", "consensus_version": "2.0.0", "stored_receipt": stored, "recipient": self.address, "sender": self.sender, "statusName": "ACCEPTED", "resultName": "MAJORITY_AGREE", "numOfInitialValidators": "5", "numOfRounds": "3", "currentTimestamp": "123", "lastRound": {"round": "3", "votesCommitted": "11", "votesRevealed": "10"}, "stored_block": {"number": "10", "timestamp": "123"}, "projected_receipt": {"statusName": "ACCEPTED"}}
 
     def test_unverified_runtime_version_cannot_publish_checkpoint(self):

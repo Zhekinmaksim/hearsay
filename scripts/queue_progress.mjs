@@ -16,7 +16,9 @@ const QUEUES_ABI = [
   view("getPendingHeadTxId", ["address"], "bytes32"), view("getAcceptedHeadTxId", ["address"], "bytes32"),
   view("getTxQueueType", ["address", "bytes32"], "uint8"), view("isAtPendingQueueHead", ["address", "bytes32"], "bool"),
 ];
-const KNOWN_UNSETTLED = new Set([2, 3, 4, 9, 10, 12, 13, 14]);
+// Undetermined is unresolved application evidence, but its separate queue
+// permits independent provisional writes under the same empty-pending proof.
+const KNOWN_UNSETTLED = new Set([2, 3, 4, 6, 9, 10, 12, 13, 14]);
 function check(condition, message) { if (!condition) throw new Error("queue progress guard: " + message); }
 
 export async function readQueueProgress(publicClient, chain, recipient, expectedAccount, transactions) {

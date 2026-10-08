@@ -1,0 +1,34 @@
+{
+  "transaction": {
+    "id": "0x94ec35b0103548c2ff63d7a62a4f8d4284072e950b26a49aa2900783de89fd5c",
+    "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+    "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
+    "status": 6,
+    "result": 5,
+    "txExecutionResult": 1,
+    "numOfInitialValidators": "5",
+    "initialRotations": "3"
+  },
+  "queue": {
+    "address": "0x56a05a9bB7B261ad720020a08B9Fd5A13177b949",
+    "queue_type": 3,
+    "at_pending_head": false
+  },
+  "stored_block": {
+    "number": "23798654",
+    "hash": "0x18973f68a18f48c7bbf01e2b06c1dbb424038ec5fd0e028bba1b16a2d9fa3480",
+    "timestamp": "1791448256"
+  },
+  "provenance": {
+    "rpc": "https://rpc-bradbury.genlayer.com",
+    "receipt_method": "getTransactionAllData",
+    "queue_methods": [
+      "getTxQueueType",
+      "isAtPendingQueueHead"
+    ],
+    "consensus_version": "2.0.0",
+    "company": "RECKITT BENCKISER GROUP PLC",
+    "company_number": "06270876",
+    "interpretation": "Unresolved NoMajority with no matching application row; not a judgement or finalized infrastructure failure."
+  }
+}

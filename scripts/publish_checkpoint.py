@@ -153,7 +153,7 @@ def build_checkpoint(seed, metadata, manifest, rows, history, refused, *, space=
                 if not isinstance(details, dict) or any(type(details.get(key, default)) != type(vote_answers.get(key, default)) or details.get(key, default) != vote_answers.get(key, default)
                         for key, default in (("support_a", None), ("support_b", None), ("conflict", -1), ("fetched", True))):
                     raise ValueError("round answers disagree with stored votes")
-            if status not in {"ACCEPTED", "FINALIZED"} or collector.is_consensus_timeout(receipt) or collector.finalized_infrastructure_outcome(receipt):
+            if not collector.has_application_execution(receipt):
                 raise ValueError("record no longer has accepted stored consensus")
             # Reuse the live publisher's fresh current-entry/receipt guards.
             refreshed = publisher.refresh_record(row, address)

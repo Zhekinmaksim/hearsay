@@ -37,7 +37,7 @@ def refresh_record(row, address):
             raise ValueError("chain state changed before publication: %s (%s)" % (row["id"], key))
     receipt = collector.lookup_receipt(collector.EXPLORER, "", row["tx"], 30)
     status = collector.status_of(receipt)
-    if status not in {"FINALIZED", "ACCEPTED", "SUCCESS"} or collector.is_consensus_timeout(receipt) or collector.finalized_infrastructure_outcome(receipt):
+    if not collector.has_application_execution(receipt):
         raise ValueError("consensus no longer accepted: %s (%s)" % (row["id"], status))
     if (receipt.get("recipient") or "").lower() != address.lower():
         raise ValueError("receipt belongs to another contract: " + row["id"])

@@ -64,7 +64,7 @@ def prepare_progress_guard(args, run_dir, manifest, required_tx=None):
     if solvency.get("balanced") is not True:
         raise RuntimeError("progress guard solvency failed; no next write")
     unresolved = []
-    allowed = {"PROPOSING", "COMMITTING", "REVEALING", "APPEAL_REVEALING", "APPEAL_COMMITTING", "LEADER_REVEALING"} | collector.TIMEOUTS
+    allowed = {"PROPOSING", "COMMITTING", "REVEALING", "UNDETERMINED", "APPEAL_REVEALING", "APPEAL_COMMITTING", "LEADER_REVEALING"} | collector.TIMEOUTS
     for row in collector.load_manifest(manifest):
         if row["envelope_hash"] in index:
             continue

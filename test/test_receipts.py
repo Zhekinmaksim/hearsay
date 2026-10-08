@@ -110,7 +110,7 @@ class ReceiptsTest(unittest.TestCase):
 
     def test_publication_refreshes_finalization(self):
         record = collector.assemble_record(self.row, self.entry, self.env, 2, {"status": "ACCEPTED"})
-        with patch.object(collector, "read_entry", return_value=self.entry), patch.object(collector, "lookup_receipt", return_value={"statusName": "FINALIZED", "currentTimestamp": "123", "recipient": "address"}):
+        with patch.object(collector, "read_entry", return_value=self.entry), patch.object(collector, "lookup_receipt", return_value={"statusName": "FINALIZED", "consensus_version": "2.0.0", "stored_receipt": {"status": 7, "result": 1, "txExecutionResult": 1}, "currentTimestamp": "123", "recipient": "address"}):
             refreshed = publisher.refresh_record(record, "address")
         self.assertEqual(refreshed["receipt_status"], "FINALIZED")
         self.assertEqual(refreshed["consensus_checkpoint"]["chain_timestamp"], "123")
@@ -118,7 +118,7 @@ class ReceiptsTest(unittest.TestCase):
 
     def test_publication_cannot_borrow_another_contracts_receipt(self):
         record = collector.assemble_record(self.row, self.entry, self.env, 2, self.receipt)
-        with patch.object(collector, "read_entry", return_value=self.entry), patch.object(collector, "lookup_receipt", return_value={"statusName": "FINALIZED", "recipient": "other"}):
+        with patch.object(collector, "read_entry", return_value=self.entry), patch.object(collector, "lookup_receipt", return_value={"statusName": "FINALIZED", "consensus_version": "2.0.0", "stored_receipt": {"status": 7, "result": 1, "txExecutionResult": 1}, "recipient": "other"}):
             with self.assertRaisesRegex(ValueError, "another contract"):
                 publisher.refresh_record(record, "address")
 
@@ -306,6 +306,28 @@ class ReceiptsTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "no longer accepted"):
                 publisher.refresh_record(record, "address")
 
+    def test_stale_majority_agree_without_execution_cannot_count_as_judgement(self):
+        record = collector.assemble_record(self.row, self.entry, self.env, 2, self.receipt)
+        for status in (5, 7):
+            receipt = {"consensus_version": "2.0.0", "recipient": "address", "stored_receipt": {"status": status, "result": 1, "txExecutionResult": 0}}
+            self.assertFalse(collector.has_application_execution(receipt))
+            with self.assertRaisesRegex(ValueError, "successful application execution"):
+                collector.assemble_record(self.row, self.entry, self.env, 2, receipt)
+            with patch.object(collector, "read_entry", return_value=self.entry), patch.object(collector, "lookup_receipt", return_value=receipt):
+                with self.assertRaisesRegex(ValueError, "no longer accepted"):
+                    publisher.refresh_record(record, "address")
+            receipt["stored_receipt"]["txExecutionResult"] = 1
+            self.assertTrue(collector.has_application_execution(receipt))
+
+    def test_captured_undetermined_no_majority_remains_unresolved(self):
+        fixture = json.loads((ROOT / "test/fixtures/bradbury-v2-undetermined.json").read_text())
+        receipt = {"consensus_version": fixture["provenance"]["consensus_version"], "stored_receipt": fixture["transaction"]}
+        self.assertEqual(collector.status_of(receipt), "UNDETERMINED")
+        self.assertFalse(collector.has_application_execution(receipt))
+        self.assertIsNone(collector.finalized_infrastructure_outcome(receipt))
+        self.assertEqual(fixture["queue"]["queue_type"], 3)
+        self.assertFalse(fixture["queue"]["at_pending_head"])
+
     def test_runner_retains_complete_final_no_execution_without_counting_a_record(self):
         with tempfile.TemporaryDirectory(prefix="hearsay-no-execution-") as folder:
             folder = Path(folder)
@@ -431,7 +453,7 @@ class ReceiptsTest(unittest.TestCase):
             self.assertEqual(json.loads((folder / "live/unresolved.json").read_text())[0]["consensus_outcome"], "UNRESOLVED")
 
     def test_opt_in_retains_unresolved_and_only_sends_guarded_unique_candidate(self):
-        for mode in ("allow", "scan_error", "insolvent", "unknown", "queue_rewind"):
+        for mode in ("allow", "allow_undetermined", "scan_error", "insolvent", "unknown", "queue_rewind"):
             with self.subTest(mode=mode), tempfile.TemporaryDirectory(prefix="hearsay-progress-") as folder:
                 folder = Path(folder)
                 address, account = "0x" + "12" * 20, "0x" + "34" * 20
@@ -446,7 +468,7 @@ class ReceiptsTest(unittest.TestCase):
                 old = dict(self.row, address=address, id="old", sender=account)
                 (folder / "bradbury.jsonl").write_text(json.dumps(old) + "\n")
                 new_tx, submitted, accepted = "0x" + "cd" * 32, [], [False]
-                unsettled = {"consensus_version": "2.0.0", "stored_receipt": {"status": 99 if mode == "unknown" else 9}}
+                unsettled = {"consensus_version": "2.0.0", "stored_receipt": {"status": 99 if mode == "unknown" else 6 if mode == "allow_undetermined" else 9}}
                 settled = {"consensus_version": "2.0.0", "stored_receipt": {"status": 7, "result": 1, "txExecutionResult": 1}}
                 new_env = {"version": "hearsay/1", "space_id": 0, "entry_class": "honest", "claim": candidates[1]["claim"], "source_url": candidates[1]["source_url"]}
                 new_hash = collector.envtool.envelope_hash(new_env)
@@ -489,7 +511,7 @@ class ReceiptsTest(unittest.TestCase):
                     self.fail("unexpected command")
                 argv = ["run_live.py", "--run-dir", str(folder), "--seed", str(seed), "--address", address, "--account", account, "--allow-known-unsettled-progress", "--limit", "1"]
                 with patch.object(sys, "argv", argv), patch.object(collector, "read_call", side_effect=read_call), patch.object(collector, "scan_entries", side_effect=scan), patch.object(collector, "lookup_receipt", side_effect=lambda explorer, endpoint, tx, timeout: unsettled if tx == self.tx else settled), patch.object(runner.subprocess, "run", side_effect=process):
-                    if mode == "allow":
+                    if mode in {"allow", "allow_undetermined"}:
                         self.assertEqual(runner.main(), 0)
                         self.assertEqual(len(submitted), 1)
                         retained = json.loads((folder / "live/unresolved.json").read_text())
