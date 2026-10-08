@@ -254,8 +254,8 @@ The existing verified results are:
 | Actual SDK queue guard | 37 checks passed |
 | Broadcast journal | 13 checks passed |
 | Live app SDK and wallet paths | 43 checks passed using the browser bundle; zero real sends |
-| Live app DOM controls | 18 checks passed; zero real sends |
-| Submission publication accounting | 15 tests passed |
+| Live app DOM controls | 22 checks passed; zero real sends |
+| Submission publication accounting | 16 tests passed |
 | Submission signing guard | 40 checks passed with actual SDK, dummy accounts and fake RPC |
 | Gate examples | Exit codes 0, 1, 2 and 2; malformed-input parity also covers exit 3 |
 
@@ -272,9 +272,10 @@ the Python CLI verified with exit 0. No new wallet transaction was sent in that
 browser session. This verifies the live read and replay path, while the new
 frontend write remains a gap.
 
-The complete local `make all` run passed the reference checks and all 61 app
-checks plus 55 submission publication/signing checks. Real browser layouts were
-also checked at **360 × 800** and **1280 × 900** without horizontal overflow.
+The complete local `make all` run passed the reference checks. Subsequent
+connection and continuation fixes pass **65 app checks** and **56 publication
+and signing checks**, alongside the existing receipt checks. Real browser
+layouts were checked at **360 × 800** and **1280 × 900** without horizontal overflow.
 Local PNG regeneration was skipped because the Cairo/font dependencies were
 unavailable; the existing verified logo and image assets were preserved.
 

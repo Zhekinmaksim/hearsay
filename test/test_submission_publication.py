@@ -203,6 +203,74 @@ class SubmissionPublicationTest(unittest.TestCase):
 
 
 class SubmissionRunnerTest(unittest.TestCase):
+    def test_fresh_progress_proof_updates_all_missing_transaction_exclusions(self):
+        policy = {"min_rounds": 2, "write_bond": 1000, "challenge_bond": 2000, "cascade_depth": 3, "admit_ttl": 1000}
+        candidate = {"id": "new-control", "class": "honest", "claim": "Fixture next company is active.", "source_url": "https://example.org/next"}
+        address, account = "0x" + "aa" * 20, "0x" + "bb" * 20
+        tx_a, tx_b, new_tx = ("0x" + value * 32 for value in ("11", "22", "33"))
+        with tempfile.TemporaryDirectory(prefix="hearsay-submission-fresh-proof-") as temporary:
+            folder = Path(temporary)
+            (folder / "live").mkdir()
+            # The continuation seed iterates only the new candidate. Both old
+            # transactions stay in the full manifest; only A was retained at startup.
+            (folder / "seed.json").write_text(json.dumps({"space": policy, "entries": [candidate]}))
+            old_rows = [{"id": name, "tx": tx, "address": address, "sender": account,
+                         "envelope_hash": fingerprint * 32, "consensus_max_rotations": 3}
+                        for name, tx, fingerprint in (("old-a", tx_a, "aa"), ("old-b", tx_b, "bb"))]
+            manifest_path = folder / "bradbury.jsonl"
+            manifest_path.write_text("".join(json.dumps(row) + "\n" for row in old_rows))
+            (folder / "live/unresolved.json").write_text(json.dumps([{"tx": tx_a}]))
+            submitted, diagnoses = [], []
+            def guard(args, run_dir, manifest):
+                self.assertEqual(collector.load_manifest(manifest), old_rows)
+                collector.checkpoint(run_dir / "live/unresolved.json", [{"tx": tx_a}, {"tx": tx_b}])
+                return {"transactions": [tx_a, tx_b], "scan_complete": True, "solvency_balanced": True, "provisional": True}
+            def process(command, **kwargs):
+                if "genlayer_write.mjs" in command[1]:
+                    request = json.loads((folder / "live/request.json").read_text())
+                    self.assertEqual(request["id"], candidate["id"])
+                    self.assertEqual(request["progress_guard"]["transactions"], [tx_a, tx_b])
+                    submitted.append(request)
+                    row = {key: request[key] for key in ("id", "address", "envelope_hash", "consensus_max_rotations", "file")}
+                    row.update(tx=new_tx, sender=account)
+                    with manifest_path.open("a") as stream:
+                        stream.write(json.dumps(row) + "\n")
+                    return runner.subprocess.CompletedProcess(command, 0, "", "")
+                if "collect_receipts.py" in command[1]:
+                    row = collector.load_manifest(manifest_path)[-1]
+                    envelope = json.loads((folder / "live/entries/new-control.json").read_text())
+                    entry = {"entry_id": 0, "space_id": 0, "claim": envelope["claim"], "source_url": envelope["source_url"],
+                             "entry_class": "honest", "supports": [], "envelope_hash": row["envelope_hash"],
+                             "snapshot_hash": hashlib.sha256(b"Engineering fixture source").hexdigest(),
+                             "status": "ADMITTED", "votes": {"a": "yes", "b": "yes", "conflict": "none"},
+                             "rounds": 2, "bond": 1000, "bond_state": "LOCKED", "admitted_at": 1}
+                    record = collector.assemble_record(row, entry, envelope, 2, receipt)
+                    collector.atomic_write(folder / "records.jsonl", json.dumps(record) + "\n")
+                    collector.checkpoint(folder / "records.jsonl.issues.json", {"scan_errors": [], "transactions": [{"tx": tx_a}, {"tx": tx_b}]})
+                    return runner.subprocess.CompletedProcess(command, 2, "", "")
+                if "diagnose_missing.py" in command[1]:
+                    excluded = {command[index + 1] for index, value in enumerate(command) if value == "--exclude-tx"}
+                    diagnoses.append(excluded)
+                    self.assertEqual(excluded, {tx_a, tx_b}, "all freshly retained missing transactions must be excluded")
+                    collector.checkpoint(folder / "diagnosis.json", {"scan_complete": True, "scan_errors": [], "transactions": []})
+                    return runner.subprocess.CompletedProcess(command, 0, "", "")
+                self.fail("unexpected subprocess: " + command[1])
+            receipt = {"consensus_version": "2.0.0", "stored_receipt": {"status": 7, "result": 1, "txExecutionResult": 1}}
+            argv = ["run_live.py", "--address", address, "--account", account, "--seed", str(folder / "seed.json"),
+                    "--run-dir", str(folder), "--allow-known-unsettled-progress", "--limit", "1"]
+            def read_call(endpoint, addr, method, args, timeout):
+                return {"entry_count": int(bool(submitted)), "solvency": {"balanced": True}, "get_space": dict(policy, owner=account)}[method]
+            with patch.object(sys, "argv", argv), patch.object(collector, "read_call", side_effect=read_call), patch.object(collector, "lookup_receipt", return_value=receipt), patch.object(runner, "prepare_progress_guard", side_effect=guard) as preparation, patch.object(runner.subprocess, "run", side_effect=process), redirect_stdout(io.StringIO()):
+                self.assertEqual(runner.main(), 0)
+                preparation.assert_called_once()
+            self.assertEqual(len(submitted), 1)
+            self.assertEqual(diagnoses, [{tx_a, tx_b}])
+            self.assertEqual(collector.load_manifest(manifest_path)[:2], old_rows)
+            self.assertEqual(len(collector.load_manifest(manifest_path)), 3)
+            self.assertEqual(json.loads((folder / "records.jsonl").read_text())["tx"], new_tx)
+            self.assertEqual({row["tx"] for row in json.loads((folder / "live/unresolved.json").read_text())}, {tx_a, tx_b})
+            self.assertFalse((folder / "live/infrastructure-failures.json").exists())
+
     def test_original_nine_independent_inputs_keep_progress_guard(self):
         seed = json.loads((ROOT / "corpus/live.json").read_text())
         cases = [candidate for candidate in seed["entries"] if candidate["class"] != "honest" and not candidate.get("supports")]

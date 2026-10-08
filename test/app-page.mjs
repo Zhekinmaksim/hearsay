@@ -16,12 +16,13 @@ const entry = { entry_id: 0n, space_id: 1n, author: sender, entry_class: 'honest
 const baseReceipt = { id: hash, sender, recipient: CONTRACT, status: 5, statusName: 'Accepted', result: 1, resultName: 'Majority agree', txExecutionResult: 1, executionName: 'Finished with return', numOfInitialValidators: 5n, initialRotations: 3n, rounds: [{ votesCommitted: 5n, votesRevealed: 5n, validatorVotes: [1, 1, 1, 1, 1] }], status_basis: 'getTransactionAllData', consensus_version: '2.0.0', stored_block: { number: '33', hash: blockHash }, txCalldata: calldata(), eqBlocksOutputs: toRlp([toHex(new Uint8Array([0, ...abi.calldata.encode(snapshot)]))]), value: 1000n };
 let passes = 0;
 function check(title, fn) { fn(); passes++; console.log('ok ' + title); }
-function fixture({ stored = null, receipt = baseReceipt, networkError = false, noProvider = false } = {}) {
+function fixture({ stored = null, receipt = baseReceipt, networkError = false, noProvider = false, walletConnection = null } = {}) {
   const dom = new JSDOM(readFileSync(new URL('../web/app.html', import.meta.url), 'utf8'), { url: 'https://hearsay.test/app.html', pretendToBeVisual: true });
   if (stored) dom.window.localStorage.setItem(STORAGE_KEY, json([stored]));
   let current = receipt, account = sender, chain = '0x107d', requests = [], callbacks = {};
   const provider = noProvider ? undefined : { on: (name, fn) => callbacks[name] = fn, removeListener: name => delete callbacks[name], async request({ method, params }) {
     requests.push({ method, params });
+    if (method === 'eth_requestAccounts' && walletConnection) return walletConnection;
     if (method === 'eth_accounts' || method === 'eth_requestAccounts') return [account];
     if (method === 'eth_chainId') return chain;
     if (method === 'wallet_switchEthereumChain') { if (chain === '0x999') throw { code: 4902 }; chain = params[0].chainId; return null; }
@@ -40,7 +41,48 @@ function fixture({ stored = null, receipt = baseReceipt, networkError = false, n
   const app = mountApp({ window: dom.window, live, provider, autoStart: false, pollInterval: 1000000 });
   return { dom, app, requests, live, setReceipt(value) { current = value; }, changeAccount(value) { account = value; callbacks.accountsChanged?.([value]); }, changeChain(value) { chain = value; callbacks.chainChanged?.(value); } };
 }
-let f = fixture({ noProvider: true });
+const deferred = () => { let resolve, reject; const promise = new Promise((yes, no) => { resolve = yes; reject = no; }); return { promise, resolve, reject }; };
+const settled = () => new Promise(resolve => setTimeout(resolve, 0));
+let connection = deferred(), f = fixture({ walletConnection: connection.promise });
+f.dom.window.document.getElementById('connect').click();
+check('pending wallet connection immediately shows instructions and disables Connect', () => {
+  const d = f.dom.window.document;
+  assert.equal(d.getElementById('wallet-message').textContent, 'Open your wallet to approve this site connection.');
+  assert.equal(d.getElementById('wallet-message').hidden, false);
+  assert.equal(d.getElementById('connect').disabled, true);
+  assert.equal(f.app.state.connectingWallet, true);
+});
+f.dom.window.document.getElementById('connect').dispatchEvent(new f.dom.window.Event('click'));
+await f.app.refreshWallet();
+check('repeat clicks and passive wallet refresh do not request another connection', () => {
+  assert.equal(f.requests.filter(request => request.method === 'eth_requestAccounts').length, 1);
+  assert(f.requests.some(request => request.method === 'eth_accounts'));
+  assert.equal(f.dom.window.document.getElementById('connect').disabled, true);
+  assert.equal(f.app.state.connectingWallet, true);
+});
+connection.resolve([sender]); await settled();
+check('wallet approval clears the pending connection state', () => {
+  assert.equal(f.app.state.connectingWallet, false);
+  assert.equal(f.app.state.account, sender);
+  assert.equal(f.dom.window.document.getElementById('connect').disabled, false);
+  assert.equal(f.dom.window.document.getElementById('wallet-message').textContent, 'Wallet connected.');
+});
+f.app.destroy();
+connection = deferred(); f = fixture({ walletConnection: connection.promise });
+f.dom.window.document.getElementById('connect').click();
+connection.reject(Object.assign(new Error('User rejected site connection.'), { code: 4001 })); await settled();
+check('wallet rejection clears pending instructions and re-enables Connect', () => {
+  const d = f.dom.window.document;
+  assert.equal(f.app.state.connectingWallet, false);
+  assert.equal(f.app.state.account, '');
+  assert.equal(d.getElementById('connect').disabled, false);
+  assert.equal(d.getElementById('connect').hidden, false);
+  assert.match(d.getElementById('wallet-message').textContent, /declined the wallet request/);
+  assert.equal(d.getElementById('wallet-message').hidden, false);
+  assert.equal(f.requests.filter(request => request.method === 'eth_requestAccounts').length, 1);
+});
+f.app.destroy();
+f = fixture({ noProvider: true });
 await f.app.refreshPublic();
 check('public reads and empty memory work with no injected wallet', () => { assert.match(f.dom.window.document.getElementById('network-status').textContent, /connected/); assert.match(f.dom.window.document.getElementById('entries').textContent, /no recorded entries/); assert(f.dom.window.document.getElementById('claim-submit').disabled); });
 f.dom.window.document.getElementById('example').click();

@@ -195,6 +195,7 @@ def main():
                 progress_guard = prepare_progress_guard(args, run_dir, manifest)
                 if progress_guard:
                     request["progress_guard"] = progress_guard
+                    retained_txs.update(progress_guard["transactions"])
             request_path = run_dir / "live/request.json"
             collector.checkpoint(request_path, request)
             result = subprocess.run(["node", str(root / "scripts/genlayer_write.mjs"), "--request", str(request_path), "--manifest", str(manifest)], capture_output=True, text=True)

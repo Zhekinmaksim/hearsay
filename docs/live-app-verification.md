@@ -29,7 +29,7 @@ widths were 345 and 1265 pixels respectively, with no horizontal overflow.
 An unrelated installed wallet extension logged an injection conflict; the
 tested app reads, connection and network switch completed successfully.
 
-`make app-test` passed 43 SDK/wallet and 18 DOM checks. They cover actual bundled
+`make app-test` passed 43 SDK/wallet and 22 DOM checks. They cover actual bundled
 SDK encoding, space creation, rejected requests, lost replies, insufficient
 funds, failed estimates, changed wallet/network, reload, replay rollback,
 canonical calldata binding and benchmark isolation. These fixtures perform
@@ -48,3 +48,8 @@ Vercel deployment `dpl_BGTGMjwCiiokmi5gy299Y9hgkDeM` is Ready and serves
 CSS, homepage and offline corpus match the reviewed local files byte for byte.
 The production browser recovered BP at block 23815643 and downloaded another
 replay receipt; the Python verifier again returned exit 0 and ADMITTED.
+
+The wallet connection UI also displays its pending approval state and blocks
+duplicate connection requests. A runner regression verifies that every
+transaction in a fresh progress proof remains in the diagnosis exclusion set;
+it is retained as unresolved, never reclassified as a judgement.

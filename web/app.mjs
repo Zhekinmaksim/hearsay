@@ -7,7 +7,7 @@ export function mountApp({ window: win = window, document: doc = win.document, l
     catch { storage = { getItem() { throw new Error('This browser blocked transaction storage. Public reads work, but wallet submission is disabled until storage is available.'); }, setItem() { throw new Error('Transaction storage is blocked.'); } }; }
   }
   const $ = id => doc.getElementById(id);
-  const state = { account: '', chainId: null, balance: null, space: null, entries: [], selected: null, busy: false, refreshing: false, polling: false, timer: null, stopped: false, walletError: '', checkedAt: null };
+  const state = { account: '', chainId: null, balance: null, space: null, entries: [], selected: null, busy: false, connectingWallet: false, refreshing: false, polling: false, timer: null, stopped: false, walletError: '', checkedAt: null };
   const text = (id, value) => { $(id).textContent = value; };
   const message = (id, value, error = false) => { const node = $(id); node.textContent = value; node.hidden = !value; node.classList.toggle('error', error); };
   const element = (tag, content, className) => { const node = doc.createElement(tag); if (content !== undefined) node.textContent = String(content); if (className) node.className = className; return node; };
@@ -34,7 +34,7 @@ export function mountApp({ window: win = window, document: doc = win.document, l
     $('claim-submit').disabled = !!journal.error || state.busy || !!active || !state.account || !chainReady || !state.space?.open || benchmark;
     $('create-submit').disabled = !!journal.error || state.busy || !!active || !state.account || !chainReady;
     text('claim-cost', state.space ? `Write bond: ${wei(state.space.write_bond)}. The wallet also pays network fees.` : 'Load a space to see its required write bond.');
-    $('connect').disabled = state.busy;
+    $('connect').disabled = state.busy || state.connectingWallet;
     $('refresh').disabled = state.refreshing;
   }
   function entryView(entry, { matched = false, receipt = null } = {}) {
@@ -147,6 +147,22 @@ export function mountApp({ window: win = window, document: doc = win.document, l
     }
     renderControls();
   }
+  async function connectWallet() {
+    if (state.connectingWallet) return;
+    state.connectingWallet = true;
+    message('wallet-message', 'Open your wallet to approve this site connection.');
+    renderControls();
+    try {
+      await refreshWallet({ request: true });
+      if (state.account) message('wallet-message', 'Wallet connected.');
+    } catch (error) {
+      message('wallet-message', errorText(error), true);
+      throw error;
+    } finally {
+      state.connectingWallet = false;
+      renderControls();
+    }
+  }
   async function switchChain() {
     if (!provider) return;
     try { await provider.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: '0x' + CHAIN.id.toString(16) }] }); }
@@ -251,7 +267,7 @@ export function mountApp({ window: win = window, document: doc = win.document, l
   const handlers = [];
   const on = (id, event, fn) => { const node = $(id); node.addEventListener(event, fn); handlers.push(() => node.removeEventListener(event, fn)); };
   const action = fn => event => { event.preventDefault(); void fn().catch(error => message('global-error', errorText(error), true)); };
-  on('connect', 'click', action(async () => { message('wallet-message', ''); await refreshWallet({ request: true }); }));
+  on('connect', 'click', action(connectWallet));
   on('switch-chain', 'click', action(switchChain));
   on('disconnect', 'click', () => { state.account = ''; state.balance = null; renderControls(); message('wallet-message', 'Disconnected from this page. Saved public transaction hashes keep tracking.'); });
   on('refresh', 'click', () => void refreshPublic());
