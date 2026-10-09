@@ -5,6 +5,7 @@ Reads chain state only. Does not submit transactions or generate a website.
 """
 import argparse
 from collections import Counter
+from contextlib import closing
 from datetime import datetime, timezone
 import json
 from pathlib import Path
@@ -114,68 +115,69 @@ def build_checkpoint(seed, metadata, manifest, rows, history, refused, *, space=
     receipts = {}
     verified, failures, unresolved = [], [], []
     reads = collector.lookup_receipts(manifest, collector.EXPLORER, endpoint, timeout, workers=workers)
-    for transaction, receipt, lookup_error in reads:
-        try:
-            if lookup_error is not None:
-                raise lookup_error
-            status = canonical_receipt(receipt, transaction, address)
-            protocol = metadata.get("protocol") or {}
-            for field, expected in (("numOfInitialValidators", protocol.get("initial_validators")), ("initialRotations", protocol.get("max_rotations"))):
-                if expected is not None and str(receipt["stored_receipt"].get(field)) != str(expected):
-                    raise ValueError("stored protocol parameters differ from deployment metadata")
-        except RuntimeError as error:
+    with closing(reads):
+        for transaction, receipt, lookup_error in reads:
+            try:
+                if lookup_error is not None:
+                    raise lookup_error
+                status = canonical_receipt(receipt, transaction, address)
+                protocol = metadata.get("protocol") or {}
+                for field, expected in (("numOfInitialValidators", protocol.get("initial_validators")), ("initialRotations", protocol.get("max_rotations"))):
+                    if expected is not None and str(receipt["stored_receipt"].get(field)) != str(expected):
+                        raise ValueError("stored protocol parameters differ from deployment metadata")
+            except RuntimeError as error:
+                if transaction["tx"] in recorded:
+                    raise
+                unresolved.append({"id": candidates[transaction["envelope_hash"]]["id"], "tx": transaction["tx"],
+                                   "envelope_hash": transaction["envelope_hash"], "status": "UNKNOWN", "diagnosis": "UNRESOLVED", "reason": str(error)})
+                continue
+            receipts[transaction["tx"]] = receipt
+            fingerprint = transaction["envelope_hash"]
+            candidate = candidates[fingerprint]
+            current = index.get(fingerprint)
             if transaction["tx"] in recorded:
-                raise
-            unresolved.append({"id": candidates[transaction["envelope_hash"]]["id"], "tx": transaction["tx"],
-                               "envelope_hash": transaction["envelope_hash"], "status": "UNKNOWN", "diagnosis": "UNRESOLVED", "reason": str(error)})
-            continue
-        receipts[transaction["tx"]] = receipt
-        fingerprint = transaction["envelope_hash"]
-        candidate = candidates[fingerprint]
-        current = index.get(fingerprint)
-        if transaction["tx"] in recorded:
-            row = recorded[transaction["tx"]]
-            if not current or any(row.get(key) != value for key, value in current.items()):
-                raise ValueError("current entry changed or disappeared: " + row["id"])
-            if not row.get("snapshot_verified") or not isinstance(row.get("snapshot_excerpt"), str):
-                raise ValueError("snapshot bytes unverified: " + row["id"])
-            provenance = row.get("snapshot_provenance") or {}
-            provenance_tx = provenance.get("trace_transaction_id")
-            if provenance.get("source") == "getTransactionAllData.eqBlocksOutputs":
-                provenance_tx = provenance.get("transaction_id")
-                if provenance.get("eq_block_index") != 0 or not provenance.get("stored_block"):
-                    raise ValueError("invalid stored equivalence snapshot provenance")
-            if row["snapshot_excerpt"] and provenance_tx != row["tx"]:
-                raise ValueError("snapshot trace belongs to another transaction")
-            verification = dict(row, min_rounds=policy["min_rounds"])
-            code, result = collector.gate.run_verify(verification)
-            if code:
-                raise ValueError("snapshot or votes do not reproduce: " + json.dumps(result))
-            if verification.get("rounds_detail") is not None:
-                vote_answers = collector.gate._from_votes(verification["votes"])
-                details = verification["rounds_detail"]
-                if not isinstance(details, dict) or any(type(details.get(key, default)) != type(vote_answers.get(key, default)) or details.get(key, default) != vote_answers.get(key, default)
-                        for key, default in (("support_a", None), ("support_b", None), ("conflict", -1), ("fetched", True))):
-                    raise ValueError("round answers disagree with stored votes")
-            if not collector.has_application_execution(receipt):
-                raise ValueError("record no longer has accepted stored consensus")
-            # Reuse the live publisher's fresh current-entry/receipt guards.
-            refreshed = publisher.refresh_record(row, address)
-            refreshed["receipt_status"] = status
-            refreshed["consensus_checkpoint"] = receipt_summary(receipt)
-            verified.append(refreshed)
-            continue
-        item = {"id": candidate["id"], "tx": transaction["tx"], "envelope_hash": fingerprint,
-                "entry_class": candidate["class"], "status": status, "receipt_summary": receipt_summary(receipt)}
-        outcome = collector.finalized_infrastructure_outcome(receipt)
-        if outcome and current is None:
-            item.update(consensus_outcome=outcome, diagnosis="CONSENSUS TIMEOUT" if outcome == "TIMEOUT" else "FINALIZED WITHOUT EXECUTION",
-                        reason="Finalized protocol outcome %s; complete entry scan found no matching state. This is not a contract rejection." % outcome)
-            failures.append(item)
-        else:
-            reason = "matching entry awaits verified snapshot record" if current else "no matching entry; stored consensus has not established a final timeout"
-            item.update(diagnosis="UNRESOLVED", reason=reason, matching_entry_id=current.get("entry_id") if current else None)
-            unresolved.append(item)
+                row = recorded[transaction["tx"]]
+                if not current or any(row.get(key) != value for key, value in current.items()):
+                    raise ValueError("current entry changed or disappeared: " + row["id"])
+                if not row.get("snapshot_verified") or not isinstance(row.get("snapshot_excerpt"), str):
+                    raise ValueError("snapshot bytes unverified: " + row["id"])
+                provenance = row.get("snapshot_provenance") or {}
+                provenance_tx = provenance.get("trace_transaction_id")
+                if provenance.get("source") == "getTransactionAllData.eqBlocksOutputs":
+                    provenance_tx = provenance.get("transaction_id")
+                    if provenance.get("eq_block_index") != 0 or not provenance.get("stored_block"):
+                        raise ValueError("invalid stored equivalence snapshot provenance")
+                if row["snapshot_excerpt"] and provenance_tx != row["tx"]:
+                    raise ValueError("snapshot trace belongs to another transaction")
+                verification = dict(row, min_rounds=policy["min_rounds"])
+                code, result = collector.gate.run_verify(verification)
+                if code:
+                    raise ValueError("snapshot or votes do not reproduce: " + json.dumps(result))
+                if verification.get("rounds_detail") is not None:
+                    vote_answers = collector.gate._from_votes(verification["votes"])
+                    details = verification["rounds_detail"]
+                    if not isinstance(details, dict) or any(type(details.get(key, default)) != type(vote_answers.get(key, default)) or details.get(key, default) != vote_answers.get(key, default)
+                            for key, default in (("support_a", None), ("support_b", None), ("conflict", -1), ("fetched", True))):
+                        raise ValueError("round answers disagree with stored votes")
+                if not collector.has_application_execution(receipt):
+                    raise ValueError("record no longer has accepted stored consensus")
+                # Reuse the live publisher's fresh current-entry/receipt guards.
+                refreshed = publisher.refresh_record(row, address)
+                refreshed["receipt_status"] = status
+                refreshed["consensus_checkpoint"] = receipt_summary(receipt)
+                verified.append(refreshed)
+                continue
+            item = {"id": candidate["id"], "tx": transaction["tx"], "envelope_hash": fingerprint,
+                    "entry_class": candidate["class"], "status": status, "receipt_summary": receipt_summary(receipt)}
+            outcome = collector.finalized_infrastructure_outcome(receipt)
+            if outcome and current is None:
+                item.update(consensus_outcome=outcome, diagnosis="CONSENSUS TIMEOUT" if outcome == "TIMEOUT" else "FINALIZED WITHOUT EXECUTION",
+                            reason="Finalized protocol outcome %s; complete entry scan found no matching state. This is not a contract rejection." % outcome)
+                failures.append(item)
+            else:
+                reason = "matching entry awaits verified snapshot record" if current else "no matching entry; stored consensus has not established a final timeout"
+                item.update(diagnosis="UNRESOLVED", reason=reason, matching_entry_id=current.get("entry_id") if current else None)
+                unresolved.append(item)
     for item in refused:
         supports = candidates[item["envelope_hash"]]["envelope"].get("supports", [])
         by_id = {entry["entry_id"]: entry for entry in index.values()}

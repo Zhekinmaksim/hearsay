@@ -17,6 +17,14 @@ class CheckpointTest(unittest.TestCase):
     workers = 1
 
     def setUp(self):
+        self.no_subprocess = patch.object(collector.subprocess, "run", side_effect=AssertionError("checkpoint unit test attempted a real subprocess"))
+        self.subprocess_calls = self.no_subprocess.start()
+        self.no_http = patch.object(collector.urllib.request, "urlopen", side_effect=AssertionError("checkpoint unit test attempted real HTTP"))
+        self.http_calls = self.no_http.start()
+        self.addCleanup(self.no_subprocess.stop)
+        self.addCleanup(self.no_http.stop)
+        self.addCleanup(self.subprocess_calls.assert_not_called)
+        self.addCleanup(self.http_calls.assert_not_called)
         self.address, self.sender = "0x" + "aa" * 20, "0x" + "bb" * 20
         self.tx, self.pending_tx = "0x" + "11" * 32, "0x" + "22" * 32
         self.policy = {"min_rounds": 2, "write_bond": 1000, "challenge_bond": 2000, "cascade_depth": 3, "admit_ttl": 1000}
@@ -131,6 +139,25 @@ class CheckpointTest(unittest.TestCase):
                     self.assertEqual(parallel["unresolved"][0]["reason"], "full pinned RPC failure")
                     self.assertEqual(parallel["coverage"]["judged"], 1)
                     self.assertEqual(parallel["coverage"]["unresolved"], 1)
+
+    def test_early_validation_error_closes_prefetch_before_returning(self):
+        original = collector.lookup_receipts
+        closed = []
+        def tracked(*args, **kwargs):
+            try:
+                yield from original(*args, **kwargs)
+            finally:
+                closed.append(True)
+        self.receipts[self.tx]["consensus_version"] = "invalid"
+        retained_error = None
+        with patch.object(collector, "lookup_receipts", side_effect=tracked):
+            try:
+                self.build(workers=4)
+            except ValueError as error:
+                retained_error = error  # Keep traceback alive while checking cleanup.
+        self.assertIsNotNone(retained_error)
+        self.assertIn("verified consensus version", str(retained_error))
+        self.assertEqual(closed, [True])
 
     def test_worker_validation_rejects_unsafe_counts_before_reads(self):
         for workers in (0, 5, True, 1.5):

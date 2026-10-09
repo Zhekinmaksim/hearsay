@@ -103,6 +103,58 @@ class ReadConcurrencyTest(unittest.TestCase):
             self.assertEqual(len(audit["attempts"]), 1)
             self.assertFalse(audit["attempts"][0]["retry_missing_pin"])
 
+    def test_guard_validation_failure_drains_started_reads_before_returning(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder); manifest = root / "bradbury.jsonl"
+            rows = [{"tx": "0x" + ("%064x" % i), "envelope_hash": str(i)} for i in (1, 2)]
+            manifest.write_text("".join(json.dumps(row) + "\n" for row in rows))
+            args = argparse.Namespace(address="app", account="account", timeout=1, read_workers=4)
+            second_started, release_second, second_done = threading.Event(), threading.Event(), threading.Event()
+            closed, retained_generators = [], []
+            original_reads, original_status = collector.lookup_receipts, collector.status_of
+            def tracked(*values, **kwargs):
+                try:
+                    yield from original_reads(*values, **kwargs)
+                finally:
+                    closed.append(True)
+            def tracked_reads(*values, **kwargs):
+                reads = tracked(*values, **kwargs)
+                retained_generators.append(reads)  # Explicit cleanup must not rely on GC.
+                return reads
+            def lookup(explorer, endpoint, tx, timeout):
+                if tx == rows[0]["tx"]:
+                    if not second_started.wait(2):
+                        raise AssertionError("second read never started")
+                    return {"consensus_version": "2.0.0", "stored_receipt": {"status": 99}}
+                second_started.set()
+                if not release_second.wait(2):
+                    raise AssertionError("validation never released second read")
+                second_done.set()
+                return {"consensus_version": "2.0.0", "stored_receipt": {"status": 9}}
+            def status(receipt):
+                if receipt.get("stored_receipt", {}).get("status") == 99:
+                    release_second.set()
+                return original_status(receipt)
+            def call(endpoint, address, method, values, timeout):
+                return {"balanced": True} if method == "solvency" else 0
+            retained_error = None
+            with patch.object(collector, "read_call", side_effect=call), patch.object(collector, "lookup_receipt", side_effect=lookup) as lookups, patch.object(collector, "lookup_receipts", side_effect=tracked_reads), patch.object(collector, "status_of", side_effect=status), patch.object(runner.subprocess, "run", side_effect=AssertionError("real subprocess forbidden")) as child, patch.object(collector.urllib.request, "urlopen", side_effect=AssertionError("real HTTP forbidden")) as http:
+                try:
+                    runner.prepare_progress_guard(args, root, manifest)
+                except RuntimeError as error:
+                    retained_error = error  # Keep traceback alive across assertions.
+                finally:
+                    release_second.set()
+                self.assertIsNotNone(retained_error)
+                self.assertIn("unknown or changed outcome", str(retained_error))
+                self.assertTrue(second_done.is_set())
+                self.assertEqual(closed, [True])
+                self.assertEqual(lookups.call_count, 2)
+                child.assert_not_called(); http.assert_not_called()
+                audit = json.loads((root / "live/progress-guard-read-attempts.json").read_text())
+                self.assertEqual(len(audit["attempts"]), 1)
+                self.assertFalse(audit["attempts"][0]["retry_missing_pin"])
+
     def test_bad_worker_counts_rejected_and_serial_stays_serial(self):
         for workers in [0, 5, -1, True, 1.5]:
             with self.subTest(workers=workers), self.assertRaises(ValueError):

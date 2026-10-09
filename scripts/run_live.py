@@ -6,6 +6,7 @@ transactions are never sent again. Stop on any unresolved state or insolvency.
 This writes only under runs/, never the published or offline corpus.
 """
 import argparse
+from contextlib import closing
 from datetime import datetime, timezone
 import json
 from pathlib import Path
@@ -124,17 +125,18 @@ def _prepare_progress_guard_once(args, run_dir, manifest, required_tx=None):
     unresolved = []
     allowed = {"PROPOSING", "COMMITTING", "REVEALING", "UNDETERMINED", "APPEAL_REVEALING", "APPEAL_COMMITTING", "LEADER_REVEALING"} | collector.TIMEOUTS
     missing = [row for row in collector.load_manifest(manifest) if row["envelope_hash"] not in index]
-    for row, receipt, error in collector.lookup_receipts(missing, "", "", args.timeout, workers=getattr(args, "read_workers", 1)):
-        if error is not None:
-            raise error
-        if collector.finalized_infrastructure_outcome(receipt):
-            continue
-        status = collector.status_of(receipt)
-        if status not in allowed or receipt.get("consensus_version") != "2.0.0":
-            raise RuntimeError("progress guard unknown or changed outcome; recollect before writing")
-        envelope = collector.find_envelope(row, run_dir / "live/entries")
-        unresolved.append(dict(row, entry_class=envelope["entry_class"], status=status, consensus_outcome="UNRESOLVED", receipt=receipt,
-                               reason="Complete scan found no matching state; retained unresolved while empty pending queue permits independent provisional progress."))
+    with closing(collector.lookup_receipts(missing, "", "", args.timeout, workers=getattr(args, "read_workers", 1))) as reads:
+        for row, receipt, error in reads:
+            if error is not None:
+                raise error
+            if collector.finalized_infrastructure_outcome(receipt):
+                continue
+            status = collector.status_of(receipt)
+            if status not in allowed or receipt.get("consensus_version") != "2.0.0":
+                raise RuntimeError("progress guard unknown or changed outcome; recollect before writing")
+            envelope = collector.find_envelope(row, run_dir / "live/entries")
+            unresolved.append(dict(row, entry_class=envelope["entry_class"], status=status, consensus_outcome="UNRESOLVED", receipt=receipt,
+                                   reason="Complete scan found no matching state; retained unresolved while empty pending queue permits independent provisional progress."))
     if required_tx and required_tx not in {row["tx"] for row in unresolved}:
         raise RuntimeError("blocked transaction changed; recollect before writing")
     if not unresolved:
