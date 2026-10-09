@@ -7,6 +7,7 @@ test:
 
 receipts-test:
 	python3 -m unittest discover -s test -p 'test_receipts.py'
+	python3 test/test_progress_read_retry.py
 
 enrichment-test:
 	python3 test/test_receipt_enrichment.py

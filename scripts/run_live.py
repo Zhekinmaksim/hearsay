@@ -6,8 +6,10 @@ transactions are never sent again. Stop on any unresolved state or insolvency.
 This writes only under runs/, never the published or offline corpus.
 """
 import argparse
+from datetime import datetime, timezone
 import json
 from pathlib import Path
+import re
 import subprocess
 import sys
 import time
@@ -54,12 +56,68 @@ def wait_for_settlement(row, args, run_dir, deadline):
         time.sleep(4)
 
 
+class ProgressScanError(RuntimeError):
+    def __init__(self, count, index_count, errors, final_count):
+        super().__init__("progress guard entry scan incomplete or changed; no next write: " + json.dumps(errors))
+        self.details = {"entry_count": count, "index_count": index_count,
+                        "scan_errors": errors, "final_entry_count": final_count}
+
+
+def _block_not_found(error):
+    return bool(re.search(r"\bblock\s+([`'\"]?)(?:0x[0-9a-f]+|\d+)\1\s+not found\b", str(error), re.I))
+
+
 def prepare_progress_guard(args, run_dir, manifest, required_tx=None):
+    """Retry the entire read proof only for a missing RPC pin; never a send."""
+    paths = [Path(manifest)]
+    seed = getattr(args, "seed", None)
+    if seed:
+        paths.append(Path(seed))
+    captured = {path: path.read_bytes() if path.exists() else None for path in paths}
+    attempts = []
+    audit = Path(run_dir) / "live/progress-guard-read-attempts.json"
+    audit_run = Path(run_dir) / "live" / ("progress-guard-read-" + datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%f") + ".json")
+    def save_audit():
+        value = {"read_only": True, "attempts": attempts}
+        collector.checkpoint(audit_run, value)
+        collector.checkpoint(audit, value)
+    def check_inputs(number):
+        if any((path.read_bytes() if path.exists() else None) != value for path, value in captured.items()):
+            attempts.append({"attempt": number, "at": datetime.now(timezone.utc).isoformat(),
+                             "error": "progress guard inputs changed during read retry; no next write", "retry_missing_pin": False})
+            save_audit()
+            raise RuntimeError("progress guard inputs changed during read retry; no next write")
+    for number in range(1, 4):
+        check_inputs(number)
+        try:
+            proof = _prepare_progress_guard_once(args, run_dir, manifest, required_tx)
+        except Exception as error:
+            transient = _block_not_found(error)
+            details = getattr(error, "details", None)
+            if details:
+                errors = details["scan_errors"]
+                transient = (bool(errors) and all(_block_not_found(item["error"]) for item in errors)
+                             and details["entry_count"] == details["final_entry_count"])
+            attempts.append({"attempt": number, "at": datetime.now(timezone.utc).isoformat(),
+                             "error": str(error), "details": details,
+                             "retry_missing_pin": transient and number < 3})
+            save_audit()
+            if not transient or number == 3:
+                raise
+            continue
+        check_inputs(number)
+        attempts.append({"attempt": number, "at": datetime.now(timezone.utc).isoformat(), "success": True})
+        save_audit()
+        return proof
+
+
+def _prepare_progress_guard_once(args, run_dir, manifest, required_tx=None):
     """Preserve known unsettled outcomes; never infer judgement from absence."""
     count = int(collector.read_call("", args.address, "entry_count", [], args.timeout))
     index, errors = collector.scan_entries("", args.address, args.timeout, count=count)
-    if errors or len(index) != count or int(collector.read_call("", args.address, "entry_count", [], args.timeout)) != count:
-        raise RuntimeError("progress guard entry scan incomplete or changed; no next write")
+    final_count = int(collector.read_call("", args.address, "entry_count", [], args.timeout))
+    if errors or len(index) != count or final_count != count:
+        raise ProgressScanError(count, len(index), errors, final_count)
     solvency = collector.read_call("", args.address, "solvency", [], args.timeout)
     if solvency.get("balanced") is not True:
         raise RuntimeError("progress guard solvency failed; no next write")
@@ -85,7 +143,7 @@ def prepare_progress_guard(args, run_dir, manifest, required_tx=None):
     command = ["node", str(collector.ROOT / "scripts/read_chain.mjs"), "--progress-guard", args.address, args.account, json.dumps([row["tx"] for row in unresolved])]
     result = subprocess.run(command, capture_output=True, text=True, timeout=args.timeout)
     if result.returncode:
-        raise RuntimeError("progress guard rejected: " + result.stderr[-1000:])
+        raise RuntimeError("progress guard rejected: " + result.stdout + result.stderr)
     proof = json.loads(result.stdout)
     collector.checkpoint(run_dir / "live/unresolved.json", unresolved)
     collector.checkpoint(run_dir / "live/progress-guard.json", dict(proof, scan_complete=True, entry_count=count, solvency=solvency))
