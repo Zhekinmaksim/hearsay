@@ -11,11 +11,12 @@ its verified receipt and reproduced the verdict with the CLI. **Space creation t
 claim transaction and verdict remain pending.** That remaining check matters to the Portal's full-transaction-lifecycle quality bar.
 The app is published on Vercel, and its CI checks passed. On 9 October the
 pending queue cleared, allowing the same cohort to resume. The current
-published checkpoint contains **18/20 verified honest controls** after eighty honest attempts.
+published checkpoint contains **20/20 verified honest controls** after eighty-three honest attempts.
 The conditional third reserve is now included in master110; original
 master60 and master80 remain preserved. All ten original negative cases were
 attempted: five UNSOURCED verdicts, four unresolved protocol timeouts, and one
-local refusal before consensus. Twenty declared honest candidates remain.
+local refusal before consensus. The minimum honest-control target is met;
+seventeen unused honest reserve candidates remain explicitly unsubmitted.
 The authorized frontend `open_space` was sent and accepted, with matching
 space 1. It remains provisional. The subsequent TESCO claim is prepared and
 authorized only after creation finalizes; no claim transaction has been sent.
@@ -79,7 +80,7 @@ Agents reuse shared memory, so one unsupported entry can become a premise for ma
 
 The contract fetches each claim's source, asks two independent support framings and checks consistency against recent admitted entries. It records ADMITTED, UNSOURCED, CONTRADICTED or INCONCLUSIVE with pinned evidence and votes. Unreadable or disagreeing rounds do not admit. Challenges revoke an entry and taint its dependents; a bounded cascade rejudges them without the revoked premise.
 
-The app reads Bradbury, connects a wallet and supports separate memory spaces, claim submission and canonical transaction tracking. Verified receipts replay locally. The dated checkpoint has 18/20 judged honest controls and five UNSOURCED negative cases; four negative timeouts remain unresolved. Space creation ran live; a new claim transaction remains pending. Offline fixtures verify the implementation, not attack resistance.
+The app reads Bradbury, connects a wallet and supports separate memory spaces, claim submission and canonical transaction tracking. Verified receipts replay locally. The dated checkpoint has 20/20 judged honest controls and five UNSOURCED negative cases; four negative timeouts remain unresolved. Space creation ran live; a new claim transaction remains pending. Offline fixtures verify the implementation, not attack resistance.
 ```
 
 **Website — required**
@@ -348,16 +349,19 @@ The expected result is a reproduced verdict and exit 0.
 ## Live evidence and remaining submission work
 
 The [current checkpoint](https://hearsay-psi.vercel.app/bradbury-prompt-checkpoint.json)
-was checked at **2026-10-09 16:02:14 UTC** (**21:02:14 Asia/Tashkent**), exact
-`2026-10-09T16:02:14.552116+00:00`. It accounts for all 110 active candidates:
-**23 verified judgements (18 honest and 5 negative), 6 finalized infrastructure
-outcomes, 60 unresolved, 20 unsubmitted and 1 locally prevented case**.
+was checked at **2026-10-09 16:28:30 UTC** (**21:28:30 Asia/Tashkent**), exact
+`2026-10-09T16:28:30.559681+00:00`. It accounts for all 110 active candidates:
+**25 verified judgements (20 honest and 5 negative), 6 finalized infrastructure
+outcomes, 61 unresolved, 17 unused reserve candidates and 1 locally prevented case**.
 The report matches the verified entries; held, escrowed and pools are each
-**1023000 wei**, balanced, including the separate frontend-created namespace.
+**1025000 wei**, balanced, including the separate frontend-created namespace.
 It remains incomplete, with no defence conclusion. All five negative verdicts
 are UNSOURCED with verified full registry pages and no/no votes. Four negative
 protocol timeouts remain unresolved and are not counted as successful refusals.
 See the [negative-phase observations and limits](live-negative-preflight.md#executed-negative-phase).
+
+The [saved 16:02 checkpoint](../web/bradbury-prompt-checkpoint-20261009-1602.json)
+preserves the eighteen-control snapshot after the negative phase.
 
 The [saved 13:24 checkpoint](../web/bradbury-prompt-checkpoint-20261009-1324.json)
 preserves the earlier sixteen-judgement snapshot before the negative phase.
@@ -613,10 +617,10 @@ Live app acceptance:
 The project's own live evaluation target remains separate from the Portal's
 supplied form requirements:
 
-- [ ] Reach at least **20 genuinely judged honest controls** on this same
+- [x] Reach at least **20 genuinely judged honest controls** on this same
   contract and source version, retaining every infrastructure outcome and
-  original attempt. At the cited public checkpoint, at least 2 more judged
-  controls remain.
+  original attempt. Twenty source-verified ADMITTED controls meet this target.
+  Seventeen unused reserve candidates stay visible as unsubmitted in master110.
 - [x] Attempt the **original ten negative cases** in
   [`corpus/live.json`](../corpus/live.json): nine independent cases submitted
   for genuine judgement, plus the citation-laundering case with `supports:
@@ -626,10 +630,12 @@ supplied form requirements:
   unresolved protocol timeouts and one local prevention. The four timeouts
   have no application verdict; attempting every case does not establish
   complete attack-resistance measurement.
-- [ ] Reconcile current application state, canonical receipts, source bytes,
-  recorded votes and solvency; account for all campaign candidates. Run the
-  full live publisher only when its cohort and coverage checks pass, then
-  verify the resulting live page and update the public evidence and field copy.
+- [x] Reconcile current application state, canonical receipts, source bytes,
+  recorded votes and solvency; account for all campaign candidates. The dated
+  checkpoint retains unresolved outcomes and unused reserve explicitly.
+- [ ] Resolve remaining protocol outcomes before publishing a complete live
+  evaluation. The full live publisher remains gated; the checkpoint and demo
+  continue to disclose that evaluation is incomplete.
 
 Final Portal action:
 

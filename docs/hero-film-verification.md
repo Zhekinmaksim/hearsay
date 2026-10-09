@@ -31,7 +31,7 @@ reported its existing injection conflict; no Hearsay page errors were observed.
 
 The sixty-second explainer labels its fictional fixtures and local cascade
 throughout those scenes. The current export's live scene shows the separate
-checkpoint checked at `2026-10-09T16:02:14.552116+00:00`: 18/20 verified honest judgements and five negative-case verdicts,
+checkpoint checked at `2026-10-09T16:28:30.559681+00:00`: 20/20 verified honest judgements and five negative-case verdicts,
 incomplete evaluation and provisional Accepted receipts. It does not claim
 live attack resistance. Gate exit 2 covers inconclusive or absent verdicts;
 exit 3 means malformed input. The owner confirmed music usage rights and the
@@ -47,9 +47,10 @@ cascade, beat timing, published checkpoint binding, video hash and seventeen
 input hashes, including composition entry points and all four font files.
 The public artifact manifest is `web/demo/evidence.json`.
 
-This completes the archive/hero/explainer checks. Submission remains pending
-at least twenty current honest judgements, the original negative phase, full
-candidate reconciliation and a new frontend wallet transaction. The Portal
+This completes the archive/hero/explainer checks. The twenty-judgement honest target and the original negative-input phase are
+complete, with every outcome accounted for. A new frontend wallet claim still
+awaits finalization of its parent space; unresolved protocol outcomes prevent
+a complete live-evaluation claim. The Portal
 was not changed after the user instructed us to finish the project first.
 
 The initial production source commit `9818be0e0ca49baed1b5a493077f7b862d13bb8e` passed

@@ -1,18 +1,18 @@
 {
-  "checked_at": "2026-10-09T16:02:14.552116+00:00",
+  "checked_at": "2026-10-09T16:28:30.559681+00:00",
   "contract_address": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
   "complete": false,
   "defence_conclusion": null,
   "required_honest_judgements": 20,
   "coverage": {
     "candidates": 110,
-    "judged": 23,
-    "honest_judged": 18,
+    "judged": 25,
+    "honest_judged": 20,
     "infrastructure_failures": 6,
-    "unresolved": 60,
+    "unresolved": 61,
     "prevented": 1,
-    "unsubmitted": 20
+    "unsubmitted": 17
   },
   "source_sha256": "d2670d4204d769ce14f26328d3f8a4a86c4b645f0a54c5149d5269804ce53296",
-  "published_checkpoint_sha256": "5959a53e04c9b88ca9f83145a114253dd7ca8772ea6814bb519ac971538e15c0"
+  "published_checkpoint_sha256": "5f3c6e22b0f88a785967f0652323bf6bc5bb4dbc6074253968e460653abe5033"
 }

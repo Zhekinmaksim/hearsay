@@ -23,7 +23,7 @@ The offline corpus has zero refusals among nine honest controls. All eighteen
 recorded verdicts reproduce from their votes. Fictional sources and scripted
 votes do not establish live attack resistance.
 
-The dated Bradbury checkpoint, 9 October 2026 at 16:02:14 UTC, has eighteen verified
+The dated Bradbury checkpoint, 9 October 2026 at 16:28:30 UTC, has twenty verified
 honest judgements toward the target of twenty, plus five negative-case verdicts.
 Evaluation is incomplete. Accepted protocol receipts remain provisional.
 

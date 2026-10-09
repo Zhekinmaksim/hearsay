@@ -102,3 +102,20 @@ Frozen proof: `runs/bradbury-prompt/oct9-resume-audit/fresh-89-verified-records.
 The corresponding broadcast audit found 109 mined public EVM transactions,
 nonce 738/738 and no unbound broadcasts; that audit includes earlier setup and
 recovery transactions outside the 89-candidate campaign manifest.
+
+## Honest-control target reached
+
+The run stopped before the eighty-fourth honest send after twenty current
+ADMITTED controls had exact source and vote proofs. The final fresh capture
+reconciled all 92 campaign transactions with zero lookup or scan errors, and
+all 25 application entries reproduced locally. Master110 is unchanged: its
+seventeen unused honest reserve candidates remain explicitly unsubmitted.
+This preserves the declared cohort without spending on reserve calls after the
+user's minimum target was met. No candidate or failed attempt was removed.
+
+The final broadcast audit found nonce 741/741, 112 mined public EVM transactions
+and no unbound broadcasts. The sender process exited before the next write.
+Final source/vote proof: `runs/bradbury-prompt/oct9-resume-audit/fresh-92-verified-records.jsonl`.
+Protocol outcomes without application state remain unresolved; completing the
+planned attempts and meeting the honest-control target do not establish full
+attack resistance or network finality.

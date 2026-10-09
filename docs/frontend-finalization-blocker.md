@@ -58,3 +58,11 @@ The next check, block **24026853**, **9 October 15:49:38 UTC**
 votes and recovery error. The pending queue was empty at 91/91. No signature
 or broadcast was made. The complete pinned read and both decoded simulations
 are saved in `runs/frontend-live-oct9/fresh-finality/check-24026853.json`.
+
+After the twentieth honest benchmark judgement, the final check at block
+**24031960**, **9 October 16:17:12 UTC** (21:17:12 Asia/Tashkent), still found
+the same blocker and `InsufficientActiveValidators(34,33)` from both public
+recovery simulations. The pending queue was empty at 95/95. The frontend
+creation remained Accepted in slot 37, behind Vodafone at finalization head
+10. No frontend claim or recovery transaction was sent. Full evidence:
+`runs/frontend-live-oct9/fresh-finality/check-24031960.json`.
