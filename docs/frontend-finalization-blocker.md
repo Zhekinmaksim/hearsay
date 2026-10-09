@@ -41,3 +41,14 @@ It describes this newer case separately from the older HSBC report. Local
 proofs are in `runs/frontend-live-oct9/finalization-head-audit`, including the
 known ABI, exact block, ownership, source binding, raw simulation results and
 verified error decoding.
+
+A fresh read at block **24013797**, **9 October 14:38:32 UTC**
+(19:38:32 Asia/Tashkent), confirmed the same blocker. Space creation remains
+Accepted / Majority agree / Finished with return at slot 37, with five of
+five votes. Vodafone remains APPEAL_REVEALING at the Accepted and finalization
+head, slot 10, with eleven commitments and ten reveals. The pending queue is
+empty at 79/79. Both supported public Main calls still revert in nonpersistent
+simulation with `InsufficientActiveValidators(34,33)`. Consensus version and
+Main, Data and Queues implementation bindings are unchanged. No recovery or
+frontend claim transaction was sent. Fresh evidence is saved in
+`runs/frontend-live-oct9/fresh-finality/check-24013797.json`.

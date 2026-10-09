@@ -293,7 +293,7 @@ browser session. This verifies the live read and replay path, while the new
 frontend write remains a gap.
 
 The complete local `make all` run passed the reference checks. Subsequent
-connection and continuation fixes pass **65 app checks** and **56 publication
+connection and continuation fixes pass **73 app checks** and **56 publication
 and signing checks**, alongside the existing receipt checks. Real browser
 layouts were checked at **360 × 800** and **1280 × 900** without horizontal overflow.
 Local PNG regeneration was skipped because the Cairo/font dependencies were
@@ -606,7 +606,7 @@ supplied form requirements:
 
 - [ ] Reach at least **20 genuinely judged honest controls** on this same
   contract and source version, retaining every infrastructure outcome and
-  original attempt. At the cited public checkpoint, at least 13 more judged
+  original attempt. At the cited public checkpoint, at least 4 more judged
   controls remain.
 - [ ] Complete the **original ten negative cases** in
   [`corpus/live.json`](../corpus/live.json): nine independent cases submitted

@@ -15,6 +15,8 @@ Nothing here submits a transaction or publishes a corpus.
 
 import argparse
 import ast
+from collections import deque
+from concurrent.futures import ThreadPoolExecutor
 import json
 import os
 from pathlib import Path
@@ -154,6 +156,49 @@ def lookup_receipt(explorer, endpoint, tx, timeout):
     return receipt
 
 
+def ordered_reads(items, reader, workers=4):
+    """At most four read-only tasks; consume every result in input order.
+
+    Exceptions are values so callers retain their existing per-row failure
+    policy. Workers never checkpoint shared state or retry a read.
+    """
+    if isinstance(workers, bool) or not isinstance(workers, int) or not 1 <= workers <= 4:
+        raise ValueError("read workers must be between 1 and 4")
+
+    def capture(item):
+        try:
+            return reader(item), None
+        except Exception as error:
+            return None, error
+
+    source = iter(items)
+    if workers == 1:
+        for item in source:
+            yield item, *capture(item)
+        return
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        pending = deque()
+        for _ in range(workers):
+            try:
+                item = next(source)
+            except StopIteration:
+                break
+            pending.append((item, executor.submit(capture, item)))
+        while pending:
+            item, future = pending.popleft()
+            yield item, *future.result()
+            try:
+                following = next(source)
+            except StopIteration:
+                continue
+            pending.append((following, executor.submit(capture, following)))
+
+
+def lookup_receipts(rows, explorer, endpoint, timeout, workers=4):
+    """Fresh canonical receipt reads; no cache, signing or shared worker state."""
+    return ordered_reads(rows, lambda row: lookup_receipt(explorer, endpoint, row["tx"], timeout), workers)
+
+
 def status_of(receipt):
     if not isinstance(receipt, dict):
         return "PENDING"
@@ -239,14 +284,16 @@ def checkpoint(path, value):
     atomic_write(path, json.dumps(value, ensure_ascii=False, indent=2) + "\n")
 
 
-def scan_entries(endpoint, address, timeout, count=None, reader=read_entry, start=0):
+def scan_entries(endpoint, address, timeout, count=None, reader=read_entry, start=0, workers=1):
     """Use the chain's count, including entries missed in the manifest."""
     if count is None:
         count = int(read_call(endpoint, address, "entry_count", [], timeout))
     index, errors = {}, []
-    for entry_id in range(start, count):
+    reads = ordered_reads(range(start, count), lambda entry_id: reader(endpoint, address, entry_id, timeout), workers)
+    for entry_id, got, error in reads:
         try:
-            got = reader(endpoint, address, entry_id, timeout)
+            if error is not None:
+                raise error
             if not isinstance(got, dict) or not got.get("envelope_hash"):
                 errors.append({"entry_id": entry_id, "error": "no entry returned"})
             else:
@@ -313,12 +360,15 @@ def main():
     ap.add_argument("--explorer", default=EXPLORER)
     ap.add_argument("--timeout", type=int, default=30)
     ap.add_argument("--wait", type=int, default=0)
+    ap.add_argument("--workers", type=int, choices=range(1, 5), default=1, help="bounded read-only concurrency for non-waiting collection")
     ap.add_argument("--from-json", default="")
     ap.add_argument("--entries", default=str(ROOT / "examples" / "entries"))
     ap.add_argument("--min-rounds", type=int, default=None, help="required for offline fixtures")
     ap.add_argument("--out", required=True)
     ap.add_argument("--raw-dir", default=str(ROOT / "runs" / "receipts"))
     args = ap.parse_args()
+    if args.workers > 1 and (args.wait or args.from_json):
+        ap.error("--workers above 1 requires live collection with --wait 0")
     rows = load_manifest(args.manifest)
     cache = json.loads(Path(args.from_json).read_text()) if args.from_json else None
     if cache is None and not args.address:
@@ -339,11 +389,20 @@ def main():
             start = 0
             while start in known_ids:
                 start += 1
-            index, scan_errors = scan_entries(args.endpoint, args.address, args.timeout, start=start)
+            index, scan_errors = scan_entries(args.endpoint, args.address, args.timeout, start=start, workers=args.workers)
         except Exception as exc:
             scan_errors.append({"error": str(exc)})
     policy_cache = {}
+    # Validate every retained row before launching fresh reads. Preserve the
+    # existing resume rule: collected transactions are not fetched again.
     for row in rows:
+        if row["tx"] in existing and existing[row["tx"]]["envelope_hash"] != row["envelope_hash"]:
+            raise ValueError("manifest changed hash for already collected tx " + row["tx"])
+    pending_rows = [row for row in rows if row["tx"] not in existing]
+    prefetched = cache is None and args.wait == 0
+    results = (lookup_receipts(pending_rows, args.explorer, args.endpoint, args.timeout, args.workers)
+               if prefetched else ((row, None, None) for row in pending_rows))
+    for row, fetched_receipt, fetch_error in results:
         tx = row["tx"]
         if tx in existing:
             if existing[tx]["envelope_hash"] != row["envelope_hash"]:
@@ -355,14 +414,21 @@ def main():
                 raw = cache.get(tx, {})
                 receipt, judged = raw.get("receipt"), raw.get("entry")
             else:
-                deadline = time.monotonic() + args.wait
-                while True:
-                    receipt = lookup_receipt(args.explorer, args.endpoint, tx, args.timeout)
+                if prefetched:
+                    if fetch_error is not None:
+                        raise fetch_error
+                    receipt = fetched_receipt
                     raw["receipt"] = receipt
                     checkpoint(Path(args.raw_dir) / (tx + ".json"), raw)
-                    if status_of(receipt) in TERMINAL or time.monotonic() >= deadline:
-                        break
-                    time.sleep(min(4, max(0, deadline - time.monotonic())))
+                else:
+                    deadline = time.monotonic() + args.wait
+                    while True:
+                        receipt = lookup_receipt(args.explorer, args.endpoint, tx, args.timeout)
+                        raw["receipt"] = receipt
+                        checkpoint(Path(args.raw_dir) / (tx + ".json"), raw)
+                        if status_of(receipt) in TERMINAL or time.monotonic() >= deadline:
+                            break
+                        time.sleep(min(4, max(0, deadline - time.monotonic())))
                 judged = index.get(row["envelope_hash"])
                 # It may have landed after the initial scan.
                 if judged is None and row.get("entry_id") is not None:

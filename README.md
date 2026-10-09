@@ -24,23 +24,22 @@ RPC, then drives the DOM controls. Rebuild that bundle explicitly with
 `npm ci --prefix scripts/app-build --ignore-scripts && node scripts/build_app.mjs`.
 Vercel serves the committed assets without installing build dependencies.
 
-An agent reads shared memory and acts on what it finds there. Write one
-plausible falsehood into that memory and every decision taken downstream is
-poisoned — more cheaply than any direct attack, because no contract has to be
-broken, only a sentence written.
+An agent reads shared memory and acts on what it finds there. An unsupported
+entry can become a premise for later decisions. Hearsay records the source
+support and dependencies needed to review that admission later.
 
 Hearsay judges a candidate entry on exactly two questions, and refuses to judge
 a third:
 
 - **support** — does the cited source, fetched by consensus at judging time, actually support the claim
-- **consistency** — does the claim contradict something already admitted
+- **consistency** — does the claim contradict one of the sixteen most recent admitted entries in its space
 - *not* whether the claim is true in general. That is an undecidable specification, and [Jastrow](https://github.com/Zhekinmaksim/jastrow) exists to demonstrate it.
 
 ## Verdicts
 
 | verdict | meaning |
 | --- | --- |
-| `ADMITTED` | source supports the claim, nothing admitted contradicts it |
+| `ADMITTED` | both support framings agree, with no conflict found in the recent admitted-entry window |
 | `UNSOURCED` | source missing, unfetchable, or does not support the claim |
 | `CONTRADICTED` | conflicts with an admitted entry, which is named |
 | `INCONCLUSIVE` | unreadable rounds, disagreeing framings, or too few rounds |
@@ -76,9 +75,9 @@ right there, because the object under test is a document the attacker wrote.
 Here the object under test is provenance, and an entry carrying its own
 "source" proves nothing — the writer would attach a page saying what the claim
 says. So the contract fetches, and pins what it fetched. Every downstream step
-refers to that pin: a challenge is admissible only if the finding is visible in
-it, and a rejudge compares against it. An unreproducible verdict cannot be
-challenged.
+refers to the recorded evidence: a challenge is admissible only if the finding
+is visible in that snapshot. Rejudging fetches the source again and replaces
+the snapshot and hash, so the new verdict can reflect changed evidence.
 
 ## The gate
 
@@ -416,6 +415,16 @@ from Bradbury. They skip optional explorer enrichment; collection, diagnosis
 and publication keep it enabled. `make enrichment-test` checks this boundary,
 including the collector's explicit `--explorer ""` option and unchanged
 canonical version and basis requirements.
+
+For larger manifests, `run_live.py --read-workers 4` overlaps up to four
+independent entry or receipt reads during guard preparation and collection.
+Standalone collection accepts `collect_receipts.py --workers 4` with `--wait 0`.
+Both default to one worker. Results and errors are processed in manifest order;
+each receipt retains its own canonical block pin. These options do not retry
+failed reads, skip old transactions or parallelize signatures and sends. The
+fresh queue proof immediately before signing remains unchanged. Waiting and
+offline collection retain the serial path.
+
 Use `--limit 1` to perform the first write separately. It also refuses an
 impossible dependency locally before spending a bond or asking consensus.
 The published offline reference stays intact throughout the live run.

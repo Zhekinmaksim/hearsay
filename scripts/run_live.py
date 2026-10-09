@@ -114,7 +114,7 @@ def prepare_progress_guard(args, run_dir, manifest, required_tx=None):
 def _prepare_progress_guard_once(args, run_dir, manifest, required_tx=None):
     """Preserve known unsettled outcomes; never infer judgement from absence."""
     count = int(collector.read_call("", args.address, "entry_count", [], args.timeout))
-    index, errors = collector.scan_entries("", args.address, args.timeout, count=count)
+    index, errors = collector.scan_entries("", args.address, args.timeout, count=count, workers=getattr(args, "read_workers", 1))
     final_count = int(collector.read_call("", args.address, "entry_count", [], args.timeout))
     if errors or len(index) != count or final_count != count:
         raise ProgressScanError(count, len(index), errors, final_count)
@@ -123,10 +123,10 @@ def _prepare_progress_guard_once(args, run_dir, manifest, required_tx=None):
         raise RuntimeError("progress guard solvency failed; no next write")
     unresolved = []
     allowed = {"PROPOSING", "COMMITTING", "REVEALING", "UNDETERMINED", "APPEAL_REVEALING", "APPEAL_COMMITTING", "LEADER_REVEALING"} | collector.TIMEOUTS
-    for row in collector.load_manifest(manifest):
-        if row["envelope_hash"] in index:
-            continue
-        receipt = collector.lookup_receipt("", "", row["tx"], args.timeout)
+    missing = [row for row in collector.load_manifest(manifest) if row["envelope_hash"] not in index]
+    for row, receipt, error in collector.lookup_receipts(missing, "", "", args.timeout, workers=getattr(args, "read_workers", 1)):
+        if error is not None:
+            raise error
         if collector.finalized_infrastructure_outcome(receipt):
             continue
         status = collector.status_of(receipt)
@@ -161,6 +161,7 @@ def main():
     ap.add_argument("--max-rotations", type=int, default=3, help="leader replacements; initial validator count remains the network default")
     ap.add_argument("--limit", type=int, default=None, help="maximum NEW writes in this invocation")
     ap.add_argument("--timeout", type=int, default=30)
+    ap.add_argument("--read-workers", type=int, choices=range(1, 5), default=1, help="bounded read-only concurrency for guard proofs and collection")
     ap.add_argument("--wait", type=int, default=300)
     ap.add_argument("--accept-diagnosed-timeouts", action="store_true", help="retain diagnosed consensus timeouts separately and continue; never count them as judged")
     ap.add_argument("--accept-diagnosed-no-execution", action="store_true", help="continue only past stored FINALIZED/IDLE/NOT_VOTED with complete absence diagnosis; never count as judged")
@@ -275,7 +276,7 @@ def main():
             print(candidate["id"], "retained UNRESOLVED; guarded independent progress only", flush=True)
             continue
         while True:
-            collection = subprocess.run([sys.executable, str(root / "scripts/collect_receipts.py"), str(manifest), "--address", args.address, "--entries", str(folder), "--out", str(records), "--raw-dir", str(run_dir / "receipts")], capture_output=True, text=True)
+            collection = subprocess.run([sys.executable, str(root / "scripts/collect_receipts.py"), str(manifest), "--address", args.address, "--entries", str(folder), "--out", str(records), "--raw-dir", str(run_dir / "receipts"), "--workers", str(args.read_workers)], capture_output=True, text=True)
             diagnosis_command = [sys.executable, str(root / "scripts/diagnose_missing.py"), "--address", args.address, "--manifest", str(manifest), "--records", str(records), "--out", str(run_dir / "diagnosis.json")]
             for tx in sorted(known_failures | retained_txs):
                 diagnosis_command += ["--exclude-tx", tx]

@@ -30,8 +30,8 @@ Space started playback, and the player reached 16 seconds with readyState 4,
 reported its existing injection conflict; no Hearsay page errors were observed.
 
 The sixty-second explainer labels its fictional fixtures and local cascade
-throughout those scenes. The later live scene shows the separate checkpoint
-checked at `2026-10-09T05:19:03.085954+00:00`: 9/20 verified honest judgements,
+throughout those scenes. The current export's live scene shows the separate
+checkpoint checked at `2026-10-09T13:24:28.361826+00:00`: 16/20 verified honest judgements,
 incomplete evaluation and provisional Accepted receipts. It does not claim
 live attack resistance. Gate exit 2 covers inconclusive or absent verdicts;
 exit 3 means malformed input. The owner confirmed music usage rights and the
@@ -52,10 +52,30 @@ at least twenty current honest judgements, the original negative phase, full
 candidate reconciliation and a new frontend wallet transaction. The Portal
 was not changed after the user instructed us to finish the project first.
 
-Production source commit `9818be0e0ca49baed1b5a493077f7b862d13bb8e` passed
+The initial production source commit `9818be0e0ca49baed1b5a493077f7b862d13bb8e` passed
 [CI 37890921250](https://github.com/Zhekinmaksim/hearsay/actions/runs/37890921250).
 Vercel deployment `dpl_5U7y74ZeEmhyC2cnZ6RWXFQ1KCB1` is READY. The public
 homepage, library, corpus, checkpoint, video, manifest, poster, app HTML and
 four fonts all matched local bytes. The MP4 answered a 1024-byte HTTP range
 with 206 and the exact local bytes. The production browser reproduced a
 source pin and played the full 60.011-second media without an error.
+
+The later frontend polling fix passed 43 wallet checks and 30 DOM checks;
+the latter include eight new cases for space refresh and transaction status.
+The bounded read-guard retry fix passed six additional tests alongside the
+46 existing receipt tests. Neither change modifies contract judgement.
+
+The optional four-worker read mode subsequently passed nine new concurrency
+tests, the existing receipt and retry tests, eight checkpoint and sixteen
+publication tests, 37 queue checks and 40 signing checks on Python 3.12 and
+the pinned Node/SDK runtime. It changes only read scheduling; signatures and
+broadcasts remain sequential.
+
+The current sixteen-control export is from source commit
+`bde3662988058d2896e2eca31b1fc4cc7c2ce4bf`, which passed
+[CI 37937198307](https://github.com/Zhekinmaksim/hearsay/actions/runs/37937198307).
+Vercel deployment `dpl_G3drdWasT3Lcxgnna6rD8YNNfiZN` is READY. The homepage,
+current and original-eighty checkpoints, video, video manifest and golden
+offline corpus matched local bytes. The snapshot remains dated; later local
+observations do not change its numbers until the evidence and film are
+published together.
