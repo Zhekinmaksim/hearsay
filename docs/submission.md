@@ -604,3 +604,11 @@ agree / Finished with return establishes provisional creation, not finality
 or a claim judgement. The user has separately authorized the prepared TESCO
 claim after creation finalizes. The sole campaign signer reconciled this
 UI transaction separately and resumed the original space 0 cohort.
+
+The [frontend finalization audit](frontend-finalization-blocker.md) explains
+why the prepared next claim still waits after the creation's acceptance
+window. Public owned-head recovery simulations reverted with
+`InsufficientActiveValidators(34,33)`; no paid recovery was attempted.
+The user-approved [issue addendum](https://github.com/genlayerlabs/genlayer-cli/issues/426#issuecomment-6075779424)
+is published. This is an external protocol-state dependency, not a completed
+claim or a submission-ready result.
