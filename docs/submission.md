@@ -11,8 +11,8 @@ its verified receipt and reproduced the verdict with the CLI. **Space creation t
 claim transaction and verdict remain pending.** That remaining check matters to the Portal's full-transaction-lifecycle quality bar.
 The app is published on Vercel, and its CI checks passed. On 9 October the
 pending queue cleared, allowing the same cohort to resume. The current
-published checkpoint contains **10/20 verified honest controls** after 39
-attempts, including the newly admitted SPIRAX record. The negative phase has not started.
+published checkpoint contains **11/20 verified honest controls** after 45
+attempts, including SPIRAX and SEVERN TRENT. The negative phase has not started.
 The authorized frontend `open_space` was sent and accepted, with matching
 space 1. It remains provisional. The subsequent TESCO claim is prepared and
 authorized only after creation finalizes; no claim transaction has been sent.
@@ -76,7 +76,7 @@ Agents reuse shared memory, so one unsupported entry can become a premise for ma
 
 The contract fetches each claim's source, asks two independent support framings and checks consistency against recent admitted entries. It records ADMITTED, UNSOURCED, CONTRADICTED or INCONCLUSIVE with pinned evidence and votes. Unreadable or disagreeing rounds do not admit. Challenges revoke an entry and taint its dependents; a bounded cascade rejudges them without the revoked premise.
 
-The app reads Bradbury, connects a wallet and supports separate memory spaces, claim submission and canonical transaction tracking. Verified receipts replay locally. The public checkpoint has 10/20 judged honest controls; the attack phase has not started. Space creation ran live; a new claim transaction remains pending. Offline fixtures verify the implementation, not attack resistance.
+The app reads Bradbury, connects a wallet and supports separate memory spaces, claim submission and canonical transaction tracking. Verified receipts replay locally. The public checkpoint has 11/20 judged honest controls; the attack phase has not started. Space creation ran live; a new claim transaction remains pending. Offline fixtures verify the implementation, not attack resistance.
 ```
 
 **Website — required**
@@ -344,13 +344,17 @@ The expected result is a reproduced verdict and exit 0.
 ## Live evidence and remaining submission work
 
 The [current checkpoint](https://hearsay-psi.vercel.app/bradbury-prompt-checkpoint.json)
-was checked at **2026-10-09 07:05:16 UTC** (**12:05:16 Asia/Tashkent**), exact
-`2026-10-09T07:05:16.613866+00:00`. It accounts for all 60 candidates:
-**10 verified honest judgements, 6 finalized infrastructure outcomes,
-23 unresolved, 21 unsubmitted and 0 construction-only cases completed**.
+was checked at **2026-10-09 07:53:37 UTC** (**12:53:37 Asia/Tashkent**), exact
+`2026-10-09T07:53:37.751049+00:00`. It accounts for all 60 candidates:
+**11 verified honest judgements, 6 finalized infrastructure outcomes,
+28 unresolved, 15 unsubmitted and 0 construction-only cases completed**.
 The report matches the verified entries; held, escrowed and pools are each
-**1010000 wei**, balanced, including the separate frontend-created namespace.
+**1011000 wei**, balanced, including the separate frontend-created namespace.
 It remains incomplete, with no defence conclusion.
+
+The [saved 07:05 checkpoint](../web/bradbury-prompt-checkpoint-20261009-0705.json)
+preserves the earlier 39-attempt state with ten verified entries, six finalized
+infrastructure outcomes, twenty-three unresolved and twenty-one unsubmitted.
 
 The [saved 05:19 checkpoint](../web/bradbury-prompt-checkpoint-20261009-0519.json)
 preserves the earlier 31-attempt state with nine verified entries, six finalized
@@ -628,3 +632,12 @@ The exact stored source hashes to
 The full fresh 39-attempt scan has ten verified records, twenty-nine missing
 application records and zero scan errors. All ten source/vote replays pass.
 Local proof is `runs/bradbury-prompt/oct9-resume-audit/fresh-39-verified-records.jsonl`.
+
+## Eleventh verified control: SEVERN TRENT
+
+SEVERN TRENT PLC (02366619) produced a current ADMITTED record. Its protocol
+ID is `0x42d6e44be50d2717b54dc857273279d1d10cdaa1b5d50d2655dafdb5177dde07`.
+The frozen full 45-attempt source/vote proof contains eleven current records;
+all reproduce and the complete scan has zero errors. Proof is
+`runs/bradbury-prompt/oct9-resume-audit/fresh-45-verified-records.jsonl`.
+The later UNITED UTILITIES timeout is retained separately.

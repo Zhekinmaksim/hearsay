@@ -3,7 +3,7 @@
 The pending queue cleared on **9 October**. At block **23904318**,
 **04:45:30 UTC**, it was empty **31/31**, and Burberry had no application
 judgement. Continuation then produced a verified Whitbread admission: the
-frozen 39-attempt scan has **10 honest judgements**, below the required 20,
+frozen 45-attempt scan has **11 honest judgements**, below the required 20,
 and no negative case has been submitted. The appended resumption section
 preserves these observations alongside the earlier blocker history.
 
@@ -226,3 +226,14 @@ twenty-one unsubmitted. Its report matches and global accounting is balanced
 at 1010000 wei, including the separate frontend namespace. Older snapshots
 remain preserved. Neither the negative phase nor the twenty-control target is
 complete.
+
+## SEVERN TRENT continuation and 07:53 checkpoint
+
+The current full-60 snapshot at `2026-10-09T07:53:37.751049+00:00` contains
+eleven current verified honest records after SEVERN TRENT, six finalized
+infrastructure outcomes, twenty-eight unresolved and fifteen unsubmitted.
+All eleven source/vote proofs reproduce; the full scan has zero errors and
+global accounting is balanced at 1011000 wei. UNITED UTILITIES repeatedly
+changed leaders and reached a leader timeout, without a judgement; pending
+then emptied naturally at block23938529. No retry or paid recovery caused
+that release. Earlier snapshots remain preserved.
