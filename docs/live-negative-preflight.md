@@ -48,3 +48,8 @@ After the initial fifty honest attempts, the active master appended twenty
 preflight honest controls without modifying these negative cases. Its new
 SHA is `dcd2e3be3029cd05b2f3c2a1ade735f938c4243c23b32f78c9ed2651e51995f9`;
 the original-sixty archive and SHA above remain preserved.
+
+After the complete seventy-attempt audit still had sixteen judged controls,
+thirty more honest controls were appended. The active master110 SHA is
+`f23c6f5b0c4f33aa364b3bb2acc92dec4b3e81e61e303f4e02ff5b0f81720da9`;
+the ten original negative cases remain byte-identical.

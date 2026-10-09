@@ -33,13 +33,13 @@
   "decoder_correction": "Earlier captures used the newer Consensus v0.6 enum and could label stored code 13 as LeaderRevealing. The deployed 2.0.0 implementation uses code 13 for LeaderTimeout. This checkpoint uses its verified Solidity enum; original captures remain preserved. Current unresolved appeals and finalized protocol failures are separate from that display error.",
   "health_warning": "Incomplete checkpoint. Verified observations only; no defence conclusion. Accepted receipts remain provisional. A full report requires complete candidate coverage and at least 20 judged honest controls.",
   "coverage": {
-    "candidates": 110,
+    "candidates": 80,
     "judged": 16,
     "honest_judged": 16,
     "infrastructure_failures": 6,
     "unresolved": 48,
     "prevented": 0,
-    "unsubmitted": 40
+    "unsubmitted": 10
   },
   "entries": [
     {
@@ -101,7 +101,7 @@
         "numOfRounds": "4",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551874",
+        "currentTimestamp": "1791551247",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -126,9 +126,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 7,
         "stored_block": {
-          "number": "23998959",
-          "hash": "0x717ae4de197e089d91e54491955dfdde4fd47563b6ab327f721b30f2709e9e46",
-          "timestamp": "1791551874"
+          "number": "23997042",
+          "hash": "0x7a6911d6f28a555077eb8049e54561a11582fc394ff1cd988a7153ca63ac072d",
+          "timestamp": "1791551247"
         },
         "initial_validators": "5",
         "round_array_index": "4",
@@ -194,7 +194,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551900",
+        "currentTimestamp": "1791551271",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -219,9 +219,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 7,
         "stored_block": {
-          "number": "23999040",
-          "hash": "0xe9dc216f51629d4c5b8d75ffd44074b6f977b0805db0a8c0eef0bb92c24a0ae5",
-          "timestamp": "1791551900"
+          "number": "23997114",
+          "hash": "0x41894dffa969019ae5227732641e23dfbfe83647ae3e6057234fd34c7dfd238d",
+          "timestamp": "1791551271"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -287,7 +287,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551918",
+        "currentTimestamp": "1791551292",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -312,9 +312,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 5,
         "stored_block": {
-          "number": "23999092",
-          "hash": "0x344a4fb6cf79352998ea88a1dd834d23f9602ce3fd43976368b040a672cee936",
-          "timestamp": "1791551918"
+          "number": "23997179",
+          "hash": "0x0dea15c6f15bdc75748a166c7ea6c8156b98921fc5f0f047949d3aad3d894114",
+          "timestamp": "1791551292"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -380,7 +380,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551928",
+        "currentTimestamp": "1791551316",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -405,9 +405,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 5,
         "stored_block": {
-          "number": "23999124",
-          "hash": "0xca273024aea5501122e2bdfcf0d90177f6e0be2cfdea7c6ae526523d35d2321d",
-          "timestamp": "1791551928"
+          "number": "23997250",
+          "hash": "0x5d3d7d7cf87855596c7ca2848ed652aa7de0589db990a3cb588b357a9cc68f06",
+          "timestamp": "1791551316"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -473,7 +473,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551964",
+        "currentTimestamp": "1791551375",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -498,9 +498,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 5,
         "stored_block": {
-          "number": "23999235",
-          "hash": "0x6e5b67800c9389f6130955c9c5cfc59528c6991605951e8cb52ec939be3901ff",
-          "timestamp": "1791551964"
+          "number": "23997428",
+          "hash": "0x231856d0a7f61fce7c265a5c10d2037ccd8dda18350455c7b8b01465b2ab2f29",
+          "timestamp": "1791551375"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -566,7 +566,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551987",
+        "currentTimestamp": "1791551398",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -591,9 +591,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 5,
         "stored_block": {
-          "number": "23999306",
-          "hash": "0xd1bd8e03a4cb8a98766c4a43f8225e90db14b09b40d0cf164b1392f9979051f0",
-          "timestamp": "1791551987"
+          "number": "23997498",
+          "hash": "0xc1d2389a69942ed7e2a5ec6a62c6e5c9bbbbc01b839d2ecb377362153810049f",
+          "timestamp": "1791551398"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -659,7 +659,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552004",
+        "currentTimestamp": "1791551408",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -684,9 +684,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 5,
         "stored_block": {
-          "number": "23999358",
-          "hash": "0x2e48420a1a5b2c5a52a6532ab1330a91b42dd472612039da23dac01cb0363fc4",
-          "timestamp": "1791552004"
+          "number": "23997531",
+          "hash": "0x33397c9429fffe55e160fb654a0f8d8a2fa188af3aa8c0d7afdd84fcbcf73b7b",
+          "timestamp": "1791551408"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -752,7 +752,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552031",
+        "currentTimestamp": "1791551432",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -777,9 +777,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 5,
         "stored_block": {
-          "number": "23999436",
-          "hash": "0xbb0e05cfc09b4882368bbb98c3530ac30596fc307b67bfd2957a03c4b5a2f22e",
-          "timestamp": "1791552031"
+          "number": "23997606",
+          "hash": "0x1e2f326fc2e7f4e7b7c9c22650311c105a2f48f70eb6aa6eeae91958b860527e",
+          "timestamp": "1791551432"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -845,7 +845,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552047",
+        "currentTimestamp": "1791551448",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -870,9 +870,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 5,
         "stored_block": {
-          "number": "23999487",
-          "hash": "0xfc4d01cfee60bb5e74442473a79cfba03b2783684d6df65af7dc764d31fc3eae",
-          "timestamp": "1791552047"
+          "number": "23997659",
+          "hash": "0x2568c553153ee8eaefb1b11c997d704fedd9caea8cf0e169909b1c6d8e5d8961",
+          "timestamp": "1791551448"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -938,7 +938,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552091",
+        "currentTimestamp": "1791551489",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -963,9 +963,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 5,
         "stored_block": {
-          "number": "23999619",
-          "hash": "0x4d8b8f72a690a22ab32ee4c36d55670e19875c399c0f9dfe0b5588068739180b",
-          "timestamp": "1791552091"
+          "number": "23997784",
+          "hash": "0xa4d4ad8fcb4d35ed4f33fc1b95502bfcfe12cc88685dd231bb56efe41d77d42e",
+          "timestamp": "1791551489"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -1031,7 +1031,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552116",
+        "currentTimestamp": "1791551515",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -1056,9 +1056,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 5,
         "stored_block": {
-          "number": "23999698",
-          "hash": "0x94ee8c5029f5eb40cd50860aafbb8b71f7f99edd7ce3c84c3d0257a909b22ce4",
-          "timestamp": "1791552116"
+          "number": "23997863",
+          "hash": "0xa0df20536dbc8e047143d3280e17997494edc6aa1353a0137b86578f4a8273f3",
+          "timestamp": "1791551515"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -1124,7 +1124,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552139",
+        "currentTimestamp": "1791551534",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -1149,9 +1149,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 5,
         "stored_block": {
-          "number": "23999767",
-          "hash": "0x264f5c53d784c7efaf10abc9c23026be3d3cb0bd650adae96d86e726715d3f8a",
-          "timestamp": "1791552139"
+          "number": "23997923",
+          "hash": "0xb61429c934933b9abe3f491f05b6dc5027f1122364f5ec3f3327617af34c7a17",
+          "timestamp": "1791551534"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -1217,7 +1217,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552165",
+        "currentTimestamp": "1791551557",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -1242,9 +1242,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 5,
         "stored_block": {
-          "number": "23999846",
-          "hash": "0xf94792eb5fe2ab7291f749c3d6b4d18c445d1c6d6312037c49eb46f131d7d419",
-          "timestamp": "1791552165"
+          "number": "23997994",
+          "hash": "0x4ea3bf5e017dcf24cde91c9e9fe9d7b686baf03a0ded36b62cb92230e274bc7b",
+          "timestamp": "1791551557"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -1310,7 +1310,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552181",
+        "currentTimestamp": "1791551576",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -1335,9 +1335,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 5,
         "stored_block": {
-          "number": "23999899",
-          "hash": "0x7d2d58d88ddb701272d8c506630d19c5dbe05189319c82c2a0269f79a9069057",
-          "timestamp": "1791552181"
+          "number": "23998055",
+          "hash": "0x2f764f8902a29ea6c7113ea6830c827b024d46f977d85dfbd6d7badbac69e913",
+          "timestamp": "1791551576"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -1403,7 +1403,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552206",
+        "currentTimestamp": "1791551601",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -1428,9 +1428,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 5,
         "stored_block": {
-          "number": "23999977",
-          "hash": "0x139f9debbdf3ead67d3939422523aecd7faa78c5af78861bc02e640878b0997e",
-          "timestamp": "1791552206"
+          "number": "23998130",
+          "hash": "0x18efe0347e28c7f9f52467efd126d841768804d01b6291831f48e24c53b2d096",
+          "timestamp": "1791551601"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -1496,7 +1496,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552237",
+        "currentTimestamp": "1791551631",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -1521,9 +1521,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 5,
         "stored_block": {
-          "number": "24000075",
-          "hash": "0x8a2913c4b70a01dab04f57085d934a791291e28ac514c151ccd825c587f45265",
-          "timestamp": "1791552237"
+          "number": "23998223",
+          "hash": "0x60297b64a2ffae2b8a65f9a7736b606f301dcdb1074a54210e4e0d1778d0ae30",
+          "timestamp": "1791551631"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -1546,7 +1546,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551864",
+        "currentTimestamp": "1791551240",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -1571,9 +1571,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 7,
         "stored_block": {
-          "number": "23998928",
-          "hash": "0x654b593bc6c225e6abd0f2dfaf051737ae925fa6643e45097875c6740423b268",
-          "timestamp": "1791551864"
+          "number": "23997020",
+          "hash": "0x18264f6cd5deaaaab096a086768923f2b53bdbe56b8e6095b4ec094260ca6a20",
+          "timestamp": "1791551240"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -1596,7 +1596,7 @@
         "numOfRounds": "6",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551871",
+        "currentTimestamp": "1791551245",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -1621,9 +1621,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 7,
         "stored_block": {
-          "number": "23998951",
-          "hash": "0x3d161bbaeb363e59fb1e4282ae2e241779ed33ba5aa2e9e42420d80d94dd9b63",
-          "timestamp": "1791551871"
+          "number": "23997035",
+          "hash": "0xb9c6b91ec67943b2596d16b9b7f421efb0a0b021b0095454231739b1a683878b",
+          "timestamp": "1791551245"
         },
         "initial_validators": "5",
         "round_array_index": "6",
@@ -1646,7 +1646,7 @@
         "numOfRounds": "4",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551881",
+        "currentTimestamp": "1791551261",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -1671,9 +1671,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 7,
         "stored_block": {
-          "number": "23998982",
-          "hash": "0xd0610d1c82dfacc9df9f04d653b55a00c9cc83b311bf052b02ffbaac258f2ac9",
-          "timestamp": "1791551881"
+          "number": "23997082",
+          "hash": "0xf2b19048f6f41baaf42ff396eb95cbd5b8762bf183c7e2941afa2e0a94188931",
+          "timestamp": "1791551261"
         },
         "initial_validators": "5",
         "round_array_index": "4",
@@ -1696,7 +1696,7 @@
         "numOfRounds": "6",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551892",
+        "currentTimestamp": "1791551264",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "4",
@@ -1745,9 +1745,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 7,
         "stored_block": {
-          "number": "23999012",
-          "hash": "0xf450b62b152396c976ef3a584f040d118765b6ef6c2699c8ceabb55c2418fd75",
-          "timestamp": "1791551892"
+          "number": "23997091",
+          "hash": "0x2d624060abdf3be94d023e97fbd2d12e1906f721aac3281c1bc0fe7e58902d75",
+          "timestamp": "1791551264"
         },
         "initial_validators": "5",
         "round_array_index": "6",
@@ -1770,7 +1770,7 @@
         "numOfRounds": "8",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551895",
+        "currentTimestamp": "1791551266",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -1795,9 +1795,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 7,
         "stored_block": {
-          "number": "23999021",
-          "hash": "0x2334fd9a1d57cff9e0805c7aa1b87139084c62963a29e68c88752526b70fdbe9",
-          "timestamp": "1791551895"
+          "number": "23997099",
+          "hash": "0xf3042d19e7b5645180dfdf3f85fe1cb62e33f8a036fbe627709143c2777c3025",
+          "timestamp": "1791551266"
         },
         "initial_validators": "5",
         "round_array_index": "8",
@@ -1820,7 +1820,7 @@
         "numOfRounds": "3",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551897",
+        "currentTimestamp": "1791551269",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "3",
@@ -1861,9 +1861,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 7,
         "stored_block": {
-          "number": "23999031",
-          "hash": "0xa644d6bb16db9509daead806b74835b416039cf8ae855d9c6cb85c89ac57972a",
-          "timestamp": "1791551897"
+          "number": "23997107",
+          "hash": "0x0e8e8eb4691f076403a5e35f84ddc254b3fa961b2ee1210a624b559deddf7251",
+          "timestamp": "1791551269"
         },
         "initial_validators": "5",
         "round_array_index": "3",
@@ -3753,7 +3753,7 @@
         "numOfRounds": "3",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551915",
+        "currentTimestamp": "1791551287",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "3",
@@ -3790,9 +3790,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 9,
         "stored_block": {
-          "number": "23999084",
-          "hash": "0x37f8836b5a7d20ae6cf37340ca4fc67418896eddd95f08307db926f349e79efd",
-          "timestamp": "1791551915"
+          "number": "23997164",
+          "hash": "0x259e147502b70daa0534278f62a867b6de9f715666b6b70b5e914a9323a9ab02",
+          "timestamp": "1791551287"
         },
         "initial_validators": "5",
         "round_array_index": "3",
@@ -3815,7 +3815,7 @@
         "numOfRounds": "3",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551925",
+        "currentTimestamp": "1791551312",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "3",
@@ -3852,9 +3852,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 9,
         "stored_block": {
-          "number": "23999116",
-          "hash": "0x4376e62824bf031da981c02ee2fd8ca85851639f60b0c5b83daef8340766953f",
-          "timestamp": "1791551925"
+          "number": "23997238",
+          "hash": "0x178ec347475bb26e0a43cd41cfd63b1869a8c9a5abade31bdcc6b759b919cc10",
+          "timestamp": "1791551312"
         },
         "initial_validators": "5",
         "round_array_index": "3",
@@ -3877,7 +3877,7 @@
         "numOfRounds": "3",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551942",
+        "currentTimestamp": "1791551334",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "3",
@@ -3918,9 +3918,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "23999169",
-          "hash": "0x523f530606d0b385fc3cbda744865189377a73d4963bf5cfca3468cde83090bf",
-          "timestamp": "1791551942"
+          "number": "23997304",
+          "hash": "0x83c8b139f37e148001294ca908294c8fbf0e7c6735daebad5b7ef12b2b92f3b4",
+          "timestamp": "1791551334"
         },
         "initial_validators": "5",
         "round_array_index": "3",
@@ -3943,7 +3943,7 @@
         "numOfRounds": "2",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551945",
+        "currentTimestamp": "1791551337",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "2",
@@ -3980,9 +3980,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 6,
         "stored_block": {
-          "number": "23999180",
-          "hash": "0x1cee1a3f644561844207260b0aaa33343e3a0f6db3a2789132fdd59e0a499452",
-          "timestamp": "1791551945"
+          "number": "23997315",
+          "hash": "0x2b79b6e7c1398c16dd3a28d57d20fc540b19e6e84cf495c44e3a54b4519bc198",
+          "timestamp": "1791551337"
         },
         "initial_validators": "5",
         "round_array_index": "2",
@@ -4005,7 +4005,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551948",
+        "currentTimestamp": "1791551350",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -4030,9 +4030,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 6,
         "stored_block": {
-          "number": "23999187",
-          "hash": "0x81ae7c142ac70ae54da21ce2aef22a9491135ef5171fd9f72b1d666f88a5ebcd",
-          "timestamp": "1791551948"
+          "number": "23997356",
+          "hash": "0xfd072d3c0a9c104a681e1345524786202a6d3053c0af6e65446d600eb633e169",
+          "timestamp": "1791551350"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -4055,7 +4055,7 @@
         "numOfRounds": "4",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551951",
+        "currentTimestamp": "1791551354",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -4080,9 +4080,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "23999196",
-          "hash": "0x70114df6ec8c82f2eb587e6e23cb2f436a383922ce4af8caa2e879d0e0889ed3",
-          "timestamp": "1791551951"
+          "number": "23997367",
+          "hash": "0xebd354141777145aada257370612a56fe7190663cc65aad72284ea18ddcd5948",
+          "timestamp": "1791551354"
         },
         "initial_validators": "5",
         "round_array_index": "4",
@@ -4096,9 +4096,51 @@
       "id": "honest-02468686",
       "tx": "0xdb36c145ff3d845c837cc69e0dea56a6b822b685e457e5db51a688e1c72d5e9d",
       "envelope_hash": "1eb6100627855f22b1702154db00005bd929d5b595b1a9e4710a52cd2e32b516",
-      "status": "UNKNOWN",
+      "entry_class": "honest",
+      "status": "VALIDATORS_TIMEOUT",
+      "receipt_summary": {
+        "statusName": "VALIDATORS_TIMEOUT",
+        "resultName": "MAJORITY_TIMEOUT",
+        "txExecutionResultName": "FINISHED_WITH_RETURN",
+        "numOfRounds": "4",
+        "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+        "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
+        "currentTimestamp": "1791551359",
+        "consensus_version": "2.0.0",
+        "last_round": {
+          "round": "0",
+          "votesCommitted": "5",
+          "votesRevealed": "5",
+          "validatorVotes": [
+            3,
+            3,
+            1,
+            3,
+            3
+          ],
+          "roundValidators": [
+            "0x3a130401885fD9322E2E21174A5496065f716b35",
+            "0x4f36CB2C58385575fafb443d80E3c290b12DA6aE",
+            "0xb4Fb7ADc6877a6A16bd131c7c9270834bD3DEf34",
+            "0xE8fdefdfe18fD8E5B0d576b7CcfC5a29CE43fD7f",
+            "0x96298d411a2D622945BEACa6112374583b501d52"
+          ]
+        },
+        "status": "VALIDATORS_TIMEOUT",
+        "status_basis": "getTransactionAllData",
+        "stored_status_code": 12,
+        "stored_block": {
+          "number": "23997382",
+          "hash": "0x61d081280a5fe4ae319a135150962f580692773abd1a7e472ac2c6ae98296c6b",
+          "timestamp": "1791551359"
+        },
+        "initial_validators": "5",
+        "round_array_index": "4",
+        "projected_status": "READY_TO_FINALIZE"
+      },
       "diagnosis": "UNRESOLVED",
-      "reason": "file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/utils/errors/getContractError.js:34\n    return new ContractFunctionExecutionError(cause, {\n           ^\n\nContractFunctionExecutionError: Invalid parameters were provided to the RPC method.\nDouble check you have provided the correct parameters.\n\nURL: https://rpc-bradbury.genlayer.com\nRequest body: {\"method\":\"eth_call\",\"params\":[{\"data\":\"0xffa1ad74\",\"to\":\"0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\"},\"0x16e32f8\"]}\n \nRaw Call Arguments:\n  to:    0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\n  data:  0xffa1ad74\n \nContract Call:\n  address:   0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\n  function:  VERSION()\n\nDocs: https://viem.sh/docs/contract/readContract\nDetails: block `0x16e32f8` not found\nVersion: viem@2.50.4\n    at getContractError (file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/utils/errors/getContractError.js:34:12)\n    at readContract (file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/actions/public/readContract.js:58:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async main (file:///Users/zmaxx/Projects/hearsay/scripts/read_chain.mjs:95:26)\n    at async file:///Users/zmaxx/Projects/hearsay/scripts/read_chain.mjs:161:90 {\n  cause: CallExecutionError: Invalid parameters were provided to the RPC method.\n  Double check you have provided the correct parameters.\n  \n  URL: https://rpc-bradbury.genlayer.com\n  Request body: {\"method\":\"eth_call\",\"params\":[{\"data\":\"0xffa1ad74\",\"to\":\"0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\"},\"0x16e32f8\"]}\n   \n  Raw Call Arguments:\n    to:    0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\n    data:  0xffa1ad74\n  \n  Details: block `0x16e32f8` not found\n  Version: viem@2.50.4\n      at getCallError (file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/utils/errors/getCallError.js:11:12)\n      at call (file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/actions/public/call.js:175:15)\n      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n      at async readContract (file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/actions/public/readContract.js:45:26)\n      at async main (file:///Users/zmaxx/Projects/hearsay/scripts/read_chain.mjs:95:26)\n      at async file:///Users/zmaxx/Projects/hearsay/scripts/read_chain.mjs:161:90 {\n    cause: InvalidParamsRpcError: Invalid parameters were provided to the RPC method.\n    Double check you have provided the correct parameters.\n    \n    URL: https://rpc-bradbury.genlayer.com\n    Request body: {\"method\":\"eth_call\",\"params\":[{\"data\":\"0xffa1ad74\",\"to\":\"0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\"},\"0x16e32f8\"]}\n    \n    Details: block `0x16e32f8` not found\n    Version: viem@2.50.4\n        at withRetry.delay.count.count (file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/utils/buildRequest.js:50:31)\n        at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n        at async attemptRetry (file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/utils/promise/withRetry.js:24:30) {\n      details: 'block `0x16e32f8` not found',\n      docsPath: undefined,\n      metaMessages: [\n        'URL: https://rpc-bradbury.genlayer.com',\n        'Request body: {\"method\":\"eth_call\",\"params\":[{\"data\":\"0xffa1ad74\",\"to\":\"0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\"},\"0x16e32f8\"]}'\n      ],\n      shortMessage: 'Invalid parameters were provided to the RPC method.\\n' +\n        'Double check you have provided the correct parameters.',\n      version: '2.50.4',\n      code: -32602,\n      [cause]: RpcRequestError: RPC Request failed.\n      \n      URL: https://rpc-bradbury.genlayer.com\n      Request body: {\"method\":\"eth_call\",\"params\":[{\"data\":\"0xffa1ad74\",\"to\":\"0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\"},\"0x16e32f8\"]}\n      \n      Details: block `0x16e32f8` not found\n      Version: viem@2.50.4\n          at request (file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/clients/transports/http.js:72:27)\n          at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n          at async withRetry.delay.count.count (file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/utils/buildRequest.js:30:24)\n          at async attemptRetry (file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/utils/promise/withRetry.js:24:30) {\n        details: 'block `0x16e32f8` not found',\n        docsPath: undefined,\n        metaMessages: [\n          'URL: https://rpc-bradbury.genlayer.com',\n          'Request body: {\"method\":\"eth_call\",\"params\":[{\"data\":\"0xffa1ad74\",\"to\":\"0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\"},\"0x16e32f8\"]}'\n        ],\n        shortMessage: 'RPC Request failed.',\n        version: '2.50.4',\n        code: -32602,\n        data: undefined,\n        url: 'https://rpc-bradbury.genlayer.com',\n        [cause]: { code: -32602, message: 'block `0x16e32f8` not found' }\n      }\n    },\n    details: 'block `0x16e32f8` not found',\n    docsPath: undefined,\n    metaMessages: [\n      'URL: https://rpc-bradbury.genlayer.com',\n      'Request body: {\"method\":\"eth_call\",\"params\":[{\"data\":\"0xffa1ad74\",\"to\":\"0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\"},\"0x16e32f8\"]}',\n      ' ',\n      'Raw Call Arguments:',\n      '  to:    0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\\n' +\n        '  data:  0xffa1ad74'\n    ],\n    shortMessage: 'Invalid parameters were provided to the RPC method.\\n' +\n      'Double check you have provided the correct parameters.',\n    version: '2.50.4'\n  },\n  details: 'block `0x16e32f8` not found',\n  docsPath: '/docs/contract/readContract',\n  metaMessages: [\n    'URL: https://rpc-bradbury.genlayer.com',\n    'Request body: {\"method\":\"eth_call\",\"params\":[{\"data\":\"0xffa1ad74\",\"to\":\"0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\"},\"0x16e32f8\"]}',\n    ' ',\n    'Raw Call Arguments:',\n    '  to:    0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\\n  data:  0xffa1ad74',\n    ' ',\n    'Contract Call:',\n    '  address:   0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\\n' +\n      '  function:  VERSION()'\n  ],\n  shortMessage: 'Invalid parameters were provided to the RPC method.\\n' +\n    'Double check you have provided the correct parameters.',\n  version: '2.50.4',\n  abi: [\n    { inputs: [], stateMutability: 'nonpayable', type: 'constructor' },\n    { inputs: [], name: 'CallerNotMessages', type: 'error' },\n    { inputs: [], name: 'InvalidDeploymentWithSalt', type: 'error' },\n    { inputs: [], name: 'InvalidInitialization', type: 'error' },\n    { inputs: [], name: 'InvalidRevealLeaderData', type: 'error' },\n    { inputs: [], name: 'InvalidVote', type: 'error' },\n    { inputs: [], name: 'NotInitializing', type: 'error' },\n    {\n      inputs: [ { internalType: 'address', name: 'owner', type: 'address' } ],\n      name: 'OwnableInvalidOwner',\n      type: 'error'\n    },\n    {\n      inputs: [ { internalType: 'address', name: 'account', type: 'address' } ],\n      name: 'OwnableUnauthorizedAccount',\n      type: 'error'\n    },\n    { inputs: [], name: 'ReentrancyGuardReentrantCall', type: 'error' },\n    { inputs: [], name: 'TransactionNotFinalized', type: 'error' },\n    { inputs: [], name: 'Unauthorized', type: 'error' },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'oldActivator',\n          type: 'address'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'newActivator',\n          type: 'address'\n        }\n      ],\n      name: 'ActivatorReplaced',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'addressManager',\n          type: 'address'\n        }\n      ],\n      name: 'AddressManagerSet',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: false,\n          internalType: 'enum ITransactions.TransactionStatus',\n          name: 'newStatus',\n          type: 'uint8'\n        }\n      ],\n      name: 'AllVotesCommitted',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'appellant',\n          type: 'address'\n        },\n        {\n          indexed: false,\n          internalType: 'uint256',\n          name: 'bond',\n          type: 'uint256'\n        },\n        {\n          indexed: false,\n          internalType: 'address[]',\n          name: 'validators',\n          type: 'address[]'\n        }\n      ],\n      name: 'AppealStarted',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: false,\n          internalType: 'uint256',\n          name: 'attempted',\n          type: 'uint256'\n        },\n        {\n          indexed: false,\n          internalType: 'uint256',\n          name: 'succeeded',\n          type: 'uint256'\n        },\n        {\n          indexed: false,\n          internalType: 'uint256',\n          name: 'failed',\n          type: 'uint256'\n        }\n      ],\n      name: 'BatchFinalizationCompleted',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: false,\n          internalType: 'uint256',\n          name: 'txSlot',\n          type: 'uint256'\n        }\n      ],\n      name: 'CreatedTransaction',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: false,\n          internalType: 'uint64',\n          name: 'version',\n          type: 'uint64'\n        }\n      ],\n      name: 'Initialized',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'recipient',\n          type: 'address'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'activator',\n          type: 'address'\n        }\n      ],\n      name: 'InternalMessageProcessed',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'oldLeader',\n          type: 'address'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'newLeader',\n          type: 'address'\n        }\n      ],\n      name: 'LeaderIdlenessProcessed',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'recipient',\n          type: 'address'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'activator',\n          type: 'address'\n        }\n      ],\n      name: 'NewTransaction',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'previousOwner',\n          type: 'address'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'newOwner',\n          type: 'address'\n        }\n      ],\n      name: 'OwnershipTransferStarted',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'previousOwner',\n          type: 'address'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'newOwner',\n          type: 'address'\n        }\n      ],\n      name: 'OwnershipTransferred',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        }\n      ],\n      name: 'ProcessIdlenessAccepted',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        }\n      ],\n      name: 'TransactionAccepted',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'leader',\n          type: 'address'\n        }\n      ],\n      name: 'TransactionActivated',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'cancelledBy',\n          type: 'address'\n        }\n      ],\n      name: 'TransactionCancelled',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        }\n      ],\n      name: 'TransactionFinalizationFailed',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        }\n      ],\n      name: 'TransactionFinalized',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        }\n      ],\n      name: 'TransactionLeaderRevealed',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'newLeader',\n          type: 'address'\n        }\n      ],\n      name: 'TransactionLeaderRotated',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        }\n      ],\n      name: 'TransactionLeaderTimeout',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: false,\n          internalType: 'bytes32[]',\n          name: 'txIds',\n          type: 'bytes32[]'\n        }\n      ],\n      name: 'TransactionNeedsRecomputation',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: false,\n          internalType: 'address[]',\n          name: 'validators',\n          type: 'address[]'\n        }\n      ],\n      name: 'TransactionReceiptProposed',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        }\n      ],\n      name: 'TransactionUndetermined',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: false,\n          internalType: 'uint256',\n          name: 'totalUnissuedValue',\n          type: 'uint256'\n        },\n        {\n          indexed: false,\n          internalType: 'uint256',\n          name: 'unissuedCount',\n          type: 'uint256'\n        }\n      ],\n      name: 'UnissuedMessagesAtFinalization',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'oldValidator',\n          type: 'address'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'newValidator',\n          type: 'address'\n        },\n        {\n          indexed: false,\n          internalType: 'uint256',\n          name: 'validatorIndex',\n          type: 'uint256'\n        }\n      ],\n      name: 'ValidatorReplaced',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'recipient',\n          type: 'address'\n        },\n        {\n          indexed: false,\n          internalType: 'uint256',\n          name: 'value',\n          type: 'uint256'\n        }\n      ],\n      name: 'ValueWithdrawalFailed',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'validator',\n          type: 'address'\n        },\n        {\n          indexed: false,\n          internalType: 'bool',\n          name: 'isLastVote',\n          type: 'bool'\n        }\n      ],\n      name: 'VoteCommitted',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'validator',\n          type: 'address'\n        },\n        {\n          indexed: false,\n          internalType: 'enum ITransactions.VoteType',\n          name: 'voteType',\n          type: 'uint8'\n        },\n        {\n          indexed: false,\n          internalType: 'bool',\n          name: 'isLastVote',\n          type: 'bool'\n        },\n        {\n          indexed: false,\n          internalType: 'enum ITransactions.ResultType',\n          name: 'result',\n          type: 'uint8'\n        }\n      ],\n      name: 'VoteRevealed',\n      type: 'event'\n    },\n    {\n      inputs: [],\n      name: 'EVENTS_BATCH_SIZE',\n      outputs: [ { internalType: 'uint256', name: '', type: 'uint256' } ],\n      stateMutability: 'view',\n      type: 'function'\n    },\n    {\n      inputs: [],\n      name: 'VERSION',\n      outputs: [ { internalType: 'string', name: '', type: 'string' } ],\n      stateMutability: 'view',\n      type: 'function'\n    },\n    {\n      inputs: [],\n      name: 'acceptOwnership',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        { internalType: 'bytes32', name: '_txId', type: 'bytes32' },\n        { internalType: 'address', name: '_operator', type: 'address' },\n        { internalType: 'bytes', name: '_vrfProof', type: 'bytes' }\n      ],\n      name: 'activateTransaction',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        { internalType: 'address', name: '_sender', type: 'address' },\n        {\n          internalType: 'address',\n          name: '_recipient',\n          type: 'address'\n        },\n        {\n          internalType: 'uint256',\n          name: '_numOfInitialValidators',\n          type: 'uint256'\n        },\n        {\n          internalType: 'uint256',\n          name: '_maxRotations',\n          type: 'uint256'\n        },\n        { internalType: 'bytes', name: '_calldata', type: 'bytes' },\n        {\n          internalType: 'uint256',\n          name: '_validUntil',\n          type: 'uint256'\n        }\n      ],\n      name: 'addTransaction',\n      outputs: [],\n      stateMutability: 'payable',\n      type: 'function'\n    },\n    {\n      inputs: [],\n      name: 'addressManager',\n      outputs: [\n        {\n          internalType: 'contract IAddressManager',\n          name: '',\n          type: 'address'\n        }\n      ],\n      stateMutability: 'view',\n      type: 'function'\n    },\n    {\n      inputs: [ { internalType: 'bytes32', name: '_txId', type: 'bytes32' } ],\n      name: 'cancelTransaction',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        { internalType: 'bytes32', name: '_txId', type: 'bytes32' },\n        {\n          internalType: 'bytes32',\n          name: '_commitHash',\n          type: 'bytes32'\n        },\n        {\n          internalType: 'uint256',\n          name: '_validatorIndex',\n          type: 'uint256'\n        }\n      ],\n      name: 'commitVote',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        { internalType: 'address', name: '_sender', type: 'address' },\n        {\n          internalType: 'uint256',\n          name: '_numOfInitialValidators',\n          type: 'uint256'\n        },\n        {\n          internalType: 'uint256',\n          name: '_maxRotations',\n          type: 'uint256'\n        },\n        { internalType: 'bytes', name: '_calldata', type: 'bytes' },\n        {\n          internalType: 'uint256',\n          name: '_saltNonce',\n          type: 'uint256'\n        },\n        {\n          internalType: 'uint256',\n          name: '_validUntil',\n          type: 'uint256'\n        }\n      ],\n      name: 'deploySalted',\n      outputs: [],\n      stateMutability: 'payable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        {\n          internalType: 'address',\n          name: '_recipient',\n          type: 'address'\n        },\n        { internalType: 'uint256', name: '_value', type: 'uint256' },\n        { internalType: 'bytes', name: '_data', type: 'bytes' }\n      ],\n      name: 'executeMessage',\n      outputs: [ { internalType: 'bool', name: 'success', type: 'bool' } ],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        {\n          internalType: 'bytes32[]',\n          name: '_txIds',\n          type: 'bytes32[]'\n        }\n      ],\n      name: 'finalizeIdlenessTxs',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [ { internalType: 'bytes32', name: '_txId', type: 'bytes32' } ],\n      name: 'finalizeTransaction',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [ { internalType: 'bytes32', name: '_txId', type: 'bytes32' } ],\n      name: 'flushExternalMessages',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [],\n      name: 'getAddressManager',\n      outputs: [\n        {\n          internalType: 'contract IAddressManager',\n          name: '',\n          type: 'address'\n        }\n      ],\n      stateMutability: 'view',\n      type: 'function'\n    },\n    {\n      inputs: [ { internalType: 'bytes32', name: 'txId', type: 'bytes32' } ],\n      name: 'getPendingTransactionValue',\n      outputs: [ { internalType: 'uint256', name: '', type: 'uint256' } ],\n      stateMutability: 'view',\n      type: 'function'\n    },\n    {\n      inputs: [\n        {\n          internalType: 'address',\n          name: '_addressManager',\n          type: 'address'\n        }\n      ],\n      name: 'initialize',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [ { internalType: 'address', name: 'addr', type: 'address' } ],\n      name: 'isGhostContract',\n      outputs: [ { internalType: 'bool', name: '', type: 'bool' } ],\n      stateMutability: 'view',\n      type: 'function'\n    },\n    {\n      inputs: [ { internalType: 'bytes32', name: '_txId', type: 'bytes32' } ],\n      name: 'leaderIdleness',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        {\n          components: [\n            [Object], [Object],\n            [Object], [Object],\n            [Object], [Object],\n            [Object]\n          ],\n          internalType: 'struct IConsensusMain.LeaderRevealVoteParams',\n          name: 'leaderRevealVoteParams',\n          type: 'tuple'\n        }\n      ],\n      name: 'leaderRevealVote',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [],\n      name: 'owner',\n      outputs: [ { internalType: 'address', name: '', type: 'address' } ],\n      stateMutability: 'view',\n      type: 'function'\n    },\n    {\n      inputs: [],\n      name: 'pendingOwner',\n      outputs: [ { internalType: 'address', name: '', type: 'address' } ],\n      stateMutability: 'view',\n      type: 'function'\n    },\n    {\n      inputs: [ { internalType: 'bytes32', name: '_txId', type: 'bytes32' } ],\n      name: 'processIdleness',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        {\n          internalType: 'address[]',\n          name: 'affectedRecipients',\n          type: 'address[]'\n        }\n      ],\n      name: 'promoteNextPendingTransactions',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        { internalType: 'bytes32', name: '_txId', type: 'bytes32' },\n        {\n          internalType: 'bytes32',\n          name: '_txExecutionHash',\n          type: 'bytes32'\n        },\n        {\n          internalType: 'uint256',\n          name: '_processingBlock',\n          type: 'uint256'\n        },\n        { internalType: 'address', name: '_operator', type: 'address' },\n        {\n          internalType: 'bytes',\n          name: '_eqBlocksOutputs',\n          type: 'bytes'\n        },\n        { internalType: 'bytes', name: '_vrfProof', type: 'bytes' }\n      ],\n      name: 'proposeReceipt',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        {\n          internalType: 'bytes32[]',\n          name: '_txIds',\n          type: 'bytes32[]'\n        }\n      ],\n      name: 'redButtonFinalize',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [ { internalType: 'address', name: 'ghost', type: 'address' } ],\n      name: 'registerGhostContract',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [],\n      name: 'renounceOwnership',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        { internalType: 'bytes32', name: '_txId', type: 'bytes32' },\n        { internalType: 'bytes32', name: '_voteHash', type: 'bytes32' },\n        {\n          internalType: 'enum ITransactions.VoteType',\n          name: '_voteType',\n          type: 'uint8'\n        },\n        {\n          internalType: 'bytes32',\n          name: '_otherExecutionFieldsHash',\n          type: 'bytes32'\n        },\n        { internalType: 'uint256', name: '_nonce', type: 'uint256' },\n        {\n          internalType: 'uint256',\n          name: '_validatorIndex',\n          type: 'uint256'\n        }\n      ],\n      name: 'revealVote',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        {\n          internalType: 'address',\n          name: '_addressManager',\n          type: 'address'\n        }\n      ],\n      name: 'setAddressManager',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [ { internalType: 'bytes32', name: '_txId', type: 'bytes32' } ],\n      name: 'submitAppeal',\n      outputs: [],\n      stateMutability: 'payable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        { internalType: 'address', name: 'newOwner', type: 'address' }\n      ],\n      name: 'transferOwnership',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    { stateMutability: 'payable', type: 'receive' }\n  ],\n  args: undefined,\n  contractAddress: '0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D',\n  formattedArgs: undefined,\n  functionName: 'VERSION',\n  sender: undefined\n}\n\nNode.js v20.20.2"
+      "reason": "no matching entry; stored consensus has not established a final timeout",
+      "matching_entry_id": null
     },
     {
       "id": "honest-01417162",
@@ -4113,7 +4155,7 @@
         "numOfRounds": "3",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551961",
+        "currentTimestamp": "1791551364",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "3",
@@ -4154,9 +4196,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 10,
         "stored_block": {
-          "number": "23999226",
-          "hash": "0x9c3a64a16e2510d09a9b112e309fd97e41ff2047e90c27794ca9cce82a0f7536",
-          "timestamp": "1791551961"
+          "number": "23997398",
+          "hash": "0x457929fa4493a35724022635812e49b9c28c091008c9a227c1b9303074ef6b43",
+          "timestamp": "1791551364"
         },
         "initial_validators": "5",
         "round_array_index": "3",
@@ -4179,7 +4221,7 @@
         "numOfRounds": "6",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551972",
+        "currentTimestamp": "1791551382",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "2",
@@ -4216,9 +4258,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 6,
         "stored_block": {
-          "number": "23999260",
-          "hash": "0x6f967ba0e0c3555dd2913bff1f0955102acf3a11f5bfb1be1c6d37b94a54a998",
-          "timestamp": "1791551972"
+          "number": "23997451",
+          "hash": "0x21ff459a9a3952bea2a6bc0bff316714061a52a635c110540df7cdb17bf565e0",
+          "timestamp": "1791551382"
         },
         "initial_validators": "5",
         "round_array_index": "6",
@@ -4241,7 +4283,7 @@
         "numOfRounds": "2",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551981",
+        "currentTimestamp": "1791551385",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -4266,9 +4308,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 6,
         "stored_block": {
-          "number": "23999291",
-          "hash": "0xcfac1ee417887be63778c7ea40fc4922ad4813cca2baecc3892ae15b8b35107a",
-          "timestamp": "1791551981"
+          "number": "23997460",
+          "hash": "0x0bb8fcb4b1e6f446bc6b22e2c99b33fd7af1dd616625051dc7c1b920d4d88723",
+          "timestamp": "1791551385"
         },
         "initial_validators": "5",
         "round_array_index": "2",
@@ -4291,7 +4333,7 @@
         "numOfRounds": "6",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551984",
+        "currentTimestamp": "1791551388",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -4316,9 +4358,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "23999299",
-          "hash": "0x1e688a8669acda7b06d45d269b2356d17185a98a260589083e0602f766ffd028",
-          "timestamp": "1791551984"
+          "number": "23997468",
+          "hash": "0x8a89a6747cdf8268540f162b8ec896d00971c2b808e5d3da4dd96cd72b002cef",
+          "timestamp": "1791551388"
         },
         "initial_validators": "5",
         "round_array_index": "6",
@@ -4341,7 +4383,7 @@
         "numOfRounds": "6",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551995",
+        "currentTimestamp": "1791551405",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -4366,9 +4408,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "23999330",
-          "hash": "0xe758319846e403d092b2172c36195970ef14023bffe1abae3bc650e938c38c27",
-          "timestamp": "1791551995"
+          "number": "23997521",
+          "hash": "0xcba518f75cab5813b426f266098bafe976af8c0ed32541ff2669067e55db7660",
+          "timestamp": "1791551405"
         },
         "initial_validators": "5",
         "round_array_index": "6",
@@ -4391,7 +4433,7 @@
         "numOfRounds": "3",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552011",
+        "currentTimestamp": "1791551420",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "3",
@@ -4432,9 +4474,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "23999381",
-          "hash": "0x1be63f351bd6b428dae8023f75633253118dd3e68364178c379b0f181cc8e6e0",
-          "timestamp": "1791552011"
+          "number": "23997570",
+          "hash": "0x3156346af9171ac2967d59e8107eca59b6dd43efff05cdd33bde1ba983389e32",
+          "timestamp": "1791551420"
         },
         "initial_validators": "5",
         "round_array_index": "3",
@@ -4457,7 +4499,7 @@
         "numOfRounds": "6",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552014",
+        "currentTimestamp": "1791551423",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "4",
@@ -4506,9 +4548,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "23999389",
-          "hash": "0x4a1f29ad68e8de22ff51d917a39db6d92c57fcfe40567ee8264abc8e63011c83",
-          "timestamp": "1791552014"
+          "number": "23997578",
+          "hash": "0x024affddbcc1d4dcac7c93e1238559564d0cd79919f7ec04b14e57427a88a2a8",
+          "timestamp": "1791551423"
         },
         "initial_validators": "5",
         "round_array_index": "6",
@@ -4531,7 +4573,7 @@
         "numOfRounds": "10",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552025",
+        "currentTimestamp": "1791551425",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "4",
@@ -4580,9 +4622,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 6,
         "stored_block": {
-          "number": "23999419",
-          "hash": "0xa337b09d31f75f86cc8b7cd643b61cbb421584461da1045e9e1db027e803a5fb",
-          "timestamp": "1791552025"
+          "number": "23997587",
+          "hash": "0xdd840287d4ac4c8f271e2522d041750ac51c1d90d344fec73c685f394187ab0d",
+          "timestamp": "1791551425"
         },
         "initial_validators": "5",
         "round_array_index": "10",
@@ -4605,7 +4647,7 @@
         "numOfRounds": "3",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552028",
+        "currentTimestamp": "1791551429",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "3",
@@ -4646,9 +4688,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 6,
         "stored_block": {
-          "number": "23999428",
-          "hash": "0xea520d5bfb371c4ba60d12e67355a67ff3ad5a3f77154e4ed7d355fe1a7a3396",
-          "timestamp": "1791552028"
+          "number": "23997597",
+          "hash": "0x85ed59e410c87cb0b546650a882222030da058bdc80c7e50653e79e5c4a20823",
+          "timestamp": "1791551429"
         },
         "initial_validators": "5",
         "round_array_index": "3",
@@ -4671,7 +4713,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552056",
+        "currentTimestamp": "1791551464",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -4696,9 +4738,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "23999512",
-          "hash": "0x3a3a341331b98580b3060765c026552d337ef9273e1807d593623f7cd8c8e380",
-          "timestamp": "1791552056"
+          "number": "23997707",
+          "hash": "0xcef342beb3fe1aa908cab36c1e8a54a2ea0f8085ab139080f9a5937e3f920342",
+          "timestamp": "1791551464"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -4721,7 +4763,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552058",
+        "currentTimestamp": "1791551467",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -4746,9 +4788,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 13,
         "stored_block": {
-          "number": "23999520",
-          "hash": "0x052c0f5b655b0dcf42e39b3858b5e53c2bea9639ad8ceac04c1056871013af58",
-          "timestamp": "1791552058"
+          "number": "23997715",
+          "hash": "0x7125cace19a7a843af913cebd9c4a155fa90b6c68440b94f75ce2bead1907d45",
+          "timestamp": "1791551467"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -4771,7 +4813,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552069",
+        "currentTimestamp": "1791551469",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -4796,9 +4838,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "23999552",
-          "hash": "0xc7c6d697265d5ea7da73dbb70089c77f7474a65fa121c55d876d5a00138fe338",
-          "timestamp": "1791552069"
+          "number": "23997722",
+          "hash": "0x37f671e1c1a832e83488b8985ac9dda5fea7b1b4d0ecd8015cd58b19a36a5d35",
+          "timestamp": "1791551469"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -4821,7 +4863,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552072",
+        "currentTimestamp": "1791551472",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -4846,9 +4888,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 13,
         "stored_block": {
-          "number": "23999563",
-          "hash": "0xdc936f46154a92bc9349e15397c8852a3a85addb03ac6619d16ade0a99d4b726",
-          "timestamp": "1791552072"
+          "number": "23997731",
+          "hash": "0x99f32a45955deb57abbb044b4e923b1e4c092ae50d855c1bd07f1cb2dffab508",
+          "timestamp": "1791551472"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -4871,7 +4913,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552075",
+        "currentTimestamp": "1791551475",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -4896,9 +4938,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "23999571",
-          "hash": "0x71b14ba345282e4d0e681e11aa5f5e8579ce7455b6be60893a839315d66be08f",
-          "timestamp": "1791552075"
+          "number": "23997740",
+          "hash": "0x86f80563886c7d200359b635ccea319eced97d6f96178aab98943367255ab69d",
+          "timestamp": "1791551475"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -4921,7 +4963,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552078",
+        "currentTimestamp": "1791551477",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -4946,9 +4988,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 13,
         "stored_block": {
-          "number": "23999579",
-          "hash": "0x6fc365816b0a1f5298220f901098277d901b19c11929ab3d8c75dbfc71bf9dc3",
-          "timestamp": "1791552078"
+          "number": "23997748",
+          "hash": "0xbc64aaf4cc482d3222b8b9da12d0b521ecc2903ac2a2a3a2cb43e9236e5a2468",
+          "timestamp": "1791551477"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -4971,7 +5013,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552080",
+        "currentTimestamp": "1791551487",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -4996,9 +5038,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 13,
         "stored_block": {
-          "number": "23999586",
-          "hash": "0xdfae379684657051194b24536cc20b82b7bc16a7b3071dc0525283f369332482",
-          "timestamp": "1791552080"
+          "number": "23997776",
+          "hash": "0x742f3c5ef466f5dcaf612f769c311926163846218af190526dac9c055850849f",
+          "timestamp": "1791551487"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -5021,7 +5063,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552098",
+        "currentTimestamp": "1791551497",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -5046,9 +5088,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 13,
         "stored_block": {
-          "number": "23999642",
-          "hash": "0x4716b64e64781c6733a7ed4641a9ee5a9c35dc94e03c7f6d706a63501e5307f1",
-          "timestamp": "1791552098"
+          "number": "23997809",
+          "hash": "0x759d491a878b8e89af4d28ab31e221d4d00262d24dfc94aa23369347590f254c",
+          "timestamp": "1791551497"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -5071,7 +5113,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552101",
+        "currentTimestamp": "1791551499",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -5096,9 +5138,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "23999652",
-          "hash": "0x751b3069a4876e09e643a8c7d2e316652d091076b8342c0cf17e1426a05596f7",
-          "timestamp": "1791552101"
+          "number": "23997817",
+          "hash": "0x7f11a5906a3b1429947389bf1875c38167cee39139c46bf5bb0d9d7ec71420cf",
+          "timestamp": "1791551499"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -5121,7 +5163,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552104",
+        "currentTimestamp": "1791551509",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -5146,9 +5188,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "23999660",
-          "hash": "0x79b3d77c403089284b98afede08b0ef6748f1f232a46ca23706342ee5d4af133",
-          "timestamp": "1791552104"
+          "number": "23997845",
+          "hash": "0x23f5ce1789a94c25566ebd0e13ef3aa622a690ffabdd228a3c9053d8c43b15da",
+          "timestamp": "1791551509"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -5171,7 +5213,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552114",
+        "currentTimestamp": "1791551512",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -5196,9 +5238,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 13,
         "stored_block": {
-          "number": "23999690",
-          "hash": "0xf6954b824fc49d8f7d7109e79df377b8c332d71f63afd330dd7cf68abe494d1f",
-          "timestamp": "1791552114"
+          "number": "23997854",
+          "hash": "0x98b80f7ca8dd36d3156b2d22dbb1a17d3b62bd078b9562f1b7ba4bfe255bb2dd",
+          "timestamp": "1791551512"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -5221,7 +5263,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552125",
+        "currentTimestamp": "1791551522",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -5246,9 +5288,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 13,
         "stored_block": {
-          "number": "23999725",
-          "hash": "0x404363e9376961bd43aba5c5510d4e4b183f4c9c71465b0c40692eb21289e268",
-          "timestamp": "1791552125"
+          "number": "23997885",
+          "hash": "0x37ad5ab899b905d1bb6622cabd8d618e1aeade6a6175ef65e9a555c76d567788",
+          "timestamp": "1791551522"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -5271,7 +5313,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552136",
+        "currentTimestamp": "1791551531",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -5296,9 +5338,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 13,
         "stored_block": {
-          "number": "23999757",
-          "hash": "0x5af61aacf32140e95e4fbb49c80cc5b97a97c12e9d909c318dc3a2af95427ccd",
-          "timestamp": "1791552136"
+          "number": "23997914",
+          "hash": "0x3aed55e7d09deaac116f04c4c58383c51fefe5019eae9c3728c51845ab3ce058",
+          "timestamp": "1791551531"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -5321,7 +5363,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552147",
+        "currentTimestamp": "1791551541",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -5346,9 +5388,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "23999791",
-          "hash": "0x431275ba6fa72d6de34d03d5d0a5084d496dd5528d419567200a4da388cdbfd0",
-          "timestamp": "1791552147"
+          "number": "23997947",
+          "hash": "0xedb0f046f4cd704c0d444cb17a28756c0604d915eab8fd90ea64af8f93fba427",
+          "timestamp": "1791551541"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -5371,7 +5413,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552159",
+        "currentTimestamp": "1791551544",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -5396,9 +5438,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "23999827",
-          "hash": "0xe8bebf695858b4a760fbc4b6db60df2422f7e45bf0a62c8534d1ecfbd3afcbf5",
-          "timestamp": "1791552159"
+          "number": "23997955",
+          "hash": "0xff4cc1955362e0a28913dfe6ec2c0ef9d8ece4df7b200f4337a7696a7a2326f9",
+          "timestamp": "1791551544"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -5421,7 +5463,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552162",
+        "currentTimestamp": "1791551554",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -5446,9 +5488,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 13,
         "stored_block": {
-          "number": "23999836",
-          "hash": "0xfebb8942fdec34ce187d748103604db334ab394154dfe0907a5b89e7316946ec",
-          "timestamp": "1791552162"
+          "number": "23997986",
+          "hash": "0x3bb9b34f9d932c847d525eedd79e21a8840bdaaaa34cb1a392af8a0f29acb8f8",
+          "timestamp": "1791551554"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -5471,7 +5513,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552172",
+        "currentTimestamp": "1791551566",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -5496,9 +5538,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 13,
         "stored_block": {
-          "number": "23999868",
-          "hash": "0x7a290770806a617b4fb25723f34f7d0c42d6dc477af2d3875bb3fc61554d6321",
-          "timestamp": "1791552172"
+          "number": "23998022",
+          "hash": "0x5b17e7557cf406d83755a9f86ccdbcc64e6ff85f68b38ae8eef75a412013de5d",
+          "timestamp": "1791551566"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -5521,7 +5563,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552189",
+        "currentTimestamp": "1791551583",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -5546,9 +5588,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 13,
         "stored_block": {
-          "number": "23999924",
-          "hash": "0x07a2e950d109b49af616d07290b55515ccbc0f961d6e8cfc3739972deef18ef8",
-          "timestamp": "1791552189"
+          "number": "23998076",
+          "hash": "0x537c6a931b0abde7d1c759ac7445f238f0396b29b03ad2c6573e7e6c2471bcce",
+          "timestamp": "1791551583"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -5571,7 +5613,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552192",
+        "currentTimestamp": "1791551586",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -5596,9 +5638,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "23999932",
-          "hash": "0x142450d4a4548aec0a5c81daf3fe7d2fb7e7ef6548d33a92b97393e450174680",
-          "timestamp": "1791552192"
+          "number": "23998084",
+          "hash": "0x2042d7b6ca672f6ba1d3bd9a9d6d68b6dc1f6e787ac5f405920ff6804e9b357b",
+          "timestamp": "1791551586"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -5621,7 +5663,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552194",
+        "currentTimestamp": "1791551589",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -5646,9 +5688,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "23999940",
-          "hash": "0x47d9b51887bbc46dbfa6425bfe01a90854c66841d8d72fe939f24f8169861453",
-          "timestamp": "1791552194"
+          "number": "23998092",
+          "hash": "0x41af5447d0bb0ed7b052c24dfee262920d3f29c64dde1886064c793c940b1d3a",
+          "timestamp": "1791551589"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -5671,7 +5713,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552203",
+        "currentTimestamp": "1791551599",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -5696,9 +5738,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 6,
         "stored_block": {
-          "number": "23999967",
-          "hash": "0x9c540b5235ed0e74bf61b046a85bc9ede570572a7ca4059fe0a1ed7d9abee56e",
-          "timestamp": "1791552203"
+          "number": "23998123",
+          "hash": "0xa3f11daacda1a390cb01266def927392bf58d2f35fbf9290c31e9ed3d54bbd2c",
+          "timestamp": "1791551599"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -5721,7 +5763,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552213",
+        "currentTimestamp": "1791551609",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -5746,9 +5788,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 13,
         "stored_block": {
-          "number": "24000001",
-          "hash": "0xfdedb6c192541c5f7ba913401545f9a57dbb7d04a9e821891b5c9f0befa5897d",
-          "timestamp": "1791552213"
+          "number": "23998155",
+          "hash": "0xb53c58b06bb4fb251f9b1a6e58117a175194613668c4803682494787a6989c2a",
+          "timestamp": "1791551609"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -5771,7 +5813,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552224",
+        "currentTimestamp": "1791551612",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -5796,9 +5838,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 13,
         "stored_block": {
-          "number": "24000033",
-          "hash": "0xdbe23bcdf3a43c3fef73ef60e2be8e1924de8869f19d5c7bcba8320e506c485c",
-          "timestamp": "1791552224"
+          "number": "23998163",
+          "hash": "0x64a5eada2ecc14d66b7c812a7c2016119880df53199f028b16c373a75e4e80a0",
+          "timestamp": "1791551612"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -5821,7 +5863,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552227",
+        "currentTimestamp": "1791551620",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -5846,9 +5888,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "24000042",
-          "hash": "0xb576dcacd9c3c7f1d7bd6c66fb0c4db52d867b3553359c4993891ae3755648de",
-          "timestamp": "1791552227"
+          "number": "23998188",
+          "hash": "0x65accd3dffb6f50d6f42f44b0f406d55c9f7f8c71e9541511d8c3660dc508955",
+          "timestamp": "1791551620"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -5871,7 +5913,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552229",
+        "currentTimestamp": "1791551624",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -5896,9 +5938,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 13,
         "stored_block": {
-          "number": "24000051",
-          "hash": "0x3fa05f072ffb3d62a77301922dc65c28755ddedb2c1ed2ac9764859a6714cf2c",
-          "timestamp": "1791552229"
+          "number": "23998199",
+          "hash": "0xc44171e72d4be224692f52730dc5b72e353985e38f2b35f45e53c2750d7f5b14",
+          "timestamp": "1791551624"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -5921,7 +5963,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552232",
+        "currentTimestamp": "1791551626",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -5946,9 +5988,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 13,
         "stored_block": {
-          "number": "24000060",
-          "hash": "0x06753b9f0d7f9d067b53f7baea2ecb2ae17ca192739d678b8f53d55b15aa607b",
-          "timestamp": "1791552232"
+          "number": "23998206",
+          "hash": "0xcb9d4103b2a4a54dbecb5cecb6420951bafe251392be1fc1d33e5abdce77fcee",
+          "timestamp": "1791551626"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -5971,7 +6013,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552235",
+        "currentTimestamp": "1791551629",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -5996,9 +6038,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "24000067",
-          "hash": "0xb1e250cff52ef69ee319f8bec56bae3b94bcf8672cada57f85239c44f7fdb74d",
-          "timestamp": "1791552235"
+          "number": "23998214",
+          "hash": "0x66729cc66733ef6bfed477d5d82ff23ee223d6deba8d1cf857a89647ed883880",
+          "timestamp": "1791551629"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -6021,7 +6063,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552251",
+        "currentTimestamp": "1791551647",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -6046,9 +6088,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "24000115",
-          "hash": "0x9c1352f065321ac3ad195cd0a7cc5f085b5902dd9473decbfcaacea3ebbaf103",
-          "timestamp": "1791552251"
+          "number": "23998270",
+          "hash": "0xc9c0443b725dfd44a6abf3d0ea73090aff0ebf3f04efec0fbbae9ef6f13b6374",
+          "timestamp": "1791551647"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -6071,7 +6113,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552254",
+        "currentTimestamp": "1791551650",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -6096,9 +6138,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 13,
         "stored_block": {
-          "number": "24000124",
-          "hash": "0xf6cb4ba98f1c925799446a3440226e17a0319301fb28b87d022d5381324efa5b",
-          "timestamp": "1791552254"
+          "number": "23998279",
+          "hash": "0x5f1e274803593845cd2170cd163b440d2be074d992a46762d72ae2050456ac0b",
+          "timestamp": "1791551650"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -6121,7 +6163,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552257",
+        "currentTimestamp": "1791551653",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -6146,9 +6188,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 12,
         "stored_block": {
-          "number": "24000133",
-          "hash": "0x87a162e3a0755a88b83865296b07bf2cf5c7f953a5b7dfbfd4896a8109d2f42b",
-          "timestamp": "1791552257"
+          "number": "23998286",
+          "hash": "0x84fba764f5a824c5652dfd4d28aca41be3952ed9afbe20b8c6f2f057fc065c08",
+          "timestamp": "1791551653"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -6171,7 +6213,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552259",
+        "currentTimestamp": "1791551656",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -6196,13 +6238,13 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 13,
         "stored_block": {
-          "number": "24000141",
-          "hash": "0x6707bddfe423b98972a7e57a3a0ab6762f46be80e010942edabe325286381bcd",
-          "timestamp": "1791552259"
+          "number": "23998296",
+          "hash": "0xb9d79701ead17fc50d9fe873752ca42fc85252a55a7f45e87b5fdad5ebb96ce7",
+          "timestamp": "1791551656"
         },
         "initial_validators": "5",
         "round_array_index": "0",
-        "projected_status": "READY_TO_FINALIZE"
+        "projected_status": "LEADER_TIMEOUT"
       },
       "diagnosis": "UNRESOLVED",
       "reason": "no matching entry; stored consensus has not established a final timeout",
@@ -6221,7 +6263,7 @@
         "numOfRounds": "0",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791552268",
+        "currentTimestamp": "1791551664",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "0",
@@ -6246,9 +6288,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 13,
         "stored_block": {
-          "number": "24000169",
-          "hash": "0xfb6c733a03ad3b1e3f9a55ca5d13b69410f77d221711cda3ba2cb4f68c25281b",
-          "timestamp": "1791552268"
+          "number": "23998323",
+          "hash": "0x470374c005ca6db013a2643a3618636159da75fa95bbcf25824ac7c3e61ae6af",
+          "timestamp": "1791551664"
         },
         "initial_validators": "5",
         "round_array_index": "0",
@@ -6273,7 +6315,7 @@
         "numOfRounds": "3",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551915",
+        "currentTimestamp": "1791551287",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "3",
@@ -6310,9 +6352,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 9,
         "stored_block": {
-          "number": "23999084",
-          "hash": "0x37f8836b5a7d20ae6cf37340ca4fc67418896eddd95f08307db926f349e79efd",
-          "timestamp": "1791551915"
+          "number": "23997164",
+          "hash": "0x259e147502b70daa0534278f62a867b6de9f715666b6b70b5e914a9323a9ab02",
+          "timestamp": "1791551287"
         },
         "initial_validators": "5",
         "round_array_index": "3",
@@ -6335,7 +6377,7 @@
         "numOfRounds": "3",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551925",
+        "currentTimestamp": "1791551312",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "3",
@@ -6372,9 +6414,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 9,
         "stored_block": {
-          "number": "23999116",
-          "hash": "0x4376e62824bf031da981c02ee2fd8ca85851639f60b0c5b83daef8340766953f",
-          "timestamp": "1791551925"
+          "number": "23997238",
+          "hash": "0x178ec347475bb26e0a43cd41cfd63b1869a8c9a5abade31bdcc6b759b919cc10",
+          "timestamp": "1791551312"
         },
         "initial_validators": "5",
         "round_array_index": "3",
@@ -6383,14 +6425,6 @@
       "diagnosis": "UNRESOLVED",
       "reason": "no matching entry; stored consensus has not established a final timeout",
       "matching_entry_id": null
-    },
-    {
-      "id": "honest-02468686",
-      "tx": "0xdb36c145ff3d845c837cc69e0dea56a6b822b685e457e5db51a688e1c72d5e9d",
-      "envelope_hash": "1eb6100627855f22b1702154db00005bd929d5b595b1a9e4710a52cd2e32b516",
-      "status": "UNKNOWN",
-      "diagnosis": "UNRESOLVED",
-      "reason": "file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/utils/errors/getContractError.js:34\n    return new ContractFunctionExecutionError(cause, {\n           ^\n\nContractFunctionExecutionError: Invalid parameters were provided to the RPC method.\nDouble check you have provided the correct parameters.\n\nURL: https://rpc-bradbury.genlayer.com\nRequest body: {\"method\":\"eth_call\",\"params\":[{\"data\":\"0xffa1ad74\",\"to\":\"0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\"},\"0x16e32f8\"]}\n \nRaw Call Arguments:\n  to:    0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\n  data:  0xffa1ad74\n \nContract Call:\n  address:   0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\n  function:  VERSION()\n\nDocs: https://viem.sh/docs/contract/readContract\nDetails: block `0x16e32f8` not found\nVersion: viem@2.50.4\n    at getContractError (file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/utils/errors/getContractError.js:34:12)\n    at readContract (file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/actions/public/readContract.js:58:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async main (file:///Users/zmaxx/Projects/hearsay/scripts/read_chain.mjs:95:26)\n    at async file:///Users/zmaxx/Projects/hearsay/scripts/read_chain.mjs:161:90 {\n  cause: CallExecutionError: Invalid parameters were provided to the RPC method.\n  Double check you have provided the correct parameters.\n  \n  URL: https://rpc-bradbury.genlayer.com\n  Request body: {\"method\":\"eth_call\",\"params\":[{\"data\":\"0xffa1ad74\",\"to\":\"0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\"},\"0x16e32f8\"]}\n   \n  Raw Call Arguments:\n    to:    0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\n    data:  0xffa1ad74\n  \n  Details: block `0x16e32f8` not found\n  Version: viem@2.50.4\n      at getCallError (file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/utils/errors/getCallError.js:11:12)\n      at call (file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/actions/public/call.js:175:15)\n      at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n      at async readContract (file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/actions/public/readContract.js:45:26)\n      at async main (file:///Users/zmaxx/Projects/hearsay/scripts/read_chain.mjs:95:26)\n      at async file:///Users/zmaxx/Projects/hearsay/scripts/read_chain.mjs:161:90 {\n    cause: InvalidParamsRpcError: Invalid parameters were provided to the RPC method.\n    Double check you have provided the correct parameters.\n    \n    URL: https://rpc-bradbury.genlayer.com\n    Request body: {\"method\":\"eth_call\",\"params\":[{\"data\":\"0xffa1ad74\",\"to\":\"0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\"},\"0x16e32f8\"]}\n    \n    Details: block `0x16e32f8` not found\n    Version: viem@2.50.4\n        at withRetry.delay.count.count (file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/utils/buildRequest.js:50:31)\n        at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n        at async attemptRetry (file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/utils/promise/withRetry.js:24:30) {\n      details: 'block `0x16e32f8` not found',\n      docsPath: undefined,\n      metaMessages: [\n        'URL: https://rpc-bradbury.genlayer.com',\n        'Request body: {\"method\":\"eth_call\",\"params\":[{\"data\":\"0xffa1ad74\",\"to\":\"0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\"},\"0x16e32f8\"]}'\n      ],\n      shortMessage: 'Invalid parameters were provided to the RPC method.\\n' +\n        'Double check you have provided the correct parameters.',\n      version: '2.50.4',\n      code: -32602,\n      [cause]: RpcRequestError: RPC Request failed.\n      \n      URL: https://rpc-bradbury.genlayer.com\n      Request body: {\"method\":\"eth_call\",\"params\":[{\"data\":\"0xffa1ad74\",\"to\":\"0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\"},\"0x16e32f8\"]}\n      \n      Details: block `0x16e32f8` not found\n      Version: viem@2.50.4\n          at request (file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/clients/transports/http.js:72:27)\n          at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n          at async withRetry.delay.count.count (file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/utils/buildRequest.js:30:24)\n          at async attemptRetry (file:///Users/zmaxx/.nvm/versions/node/v20.20.2/lib/node_modules/genlayer/node_modules/viem/_esm/utils/promise/withRetry.js:24:30) {\n        details: 'block `0x16e32f8` not found',\n        docsPath: undefined,\n        metaMessages: [\n          'URL: https://rpc-bradbury.genlayer.com',\n          'Request body: {\"method\":\"eth_call\",\"params\":[{\"data\":\"0xffa1ad74\",\"to\":\"0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\"},\"0x16e32f8\"]}'\n        ],\n        shortMessage: 'RPC Request failed.',\n        version: '2.50.4',\n        code: -32602,\n        data: undefined,\n        url: 'https://rpc-bradbury.genlayer.com',\n        [cause]: { code: -32602, message: 'block `0x16e32f8` not found' }\n      }\n    },\n    details: 'block `0x16e32f8` not found',\n    docsPath: undefined,\n    metaMessages: [\n      'URL: https://rpc-bradbury.genlayer.com',\n      'Request body: {\"method\":\"eth_call\",\"params\":[{\"data\":\"0xffa1ad74\",\"to\":\"0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\"},\"0x16e32f8\"]}',\n      ' ',\n      'Raw Call Arguments:',\n      '  to:    0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\\n' +\n        '  data:  0xffa1ad74'\n    ],\n    shortMessage: 'Invalid parameters were provided to the RPC method.\\n' +\n      'Double check you have provided the correct parameters.',\n    version: '2.50.4'\n  },\n  details: 'block `0x16e32f8` not found',\n  docsPath: '/docs/contract/readContract',\n  metaMessages: [\n    'URL: https://rpc-bradbury.genlayer.com',\n    'Request body: {\"method\":\"eth_call\",\"params\":[{\"data\":\"0xffa1ad74\",\"to\":\"0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\"},\"0x16e32f8\"]}',\n    ' ',\n    'Raw Call Arguments:',\n    '  to:    0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\\n  data:  0xffa1ad74',\n    ' ',\n    'Contract Call:',\n    '  address:   0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D\\n' +\n      '  function:  VERSION()'\n  ],\n  shortMessage: 'Invalid parameters were provided to the RPC method.\\n' +\n    'Double check you have provided the correct parameters.',\n  version: '2.50.4',\n  abi: [\n    { inputs: [], stateMutability: 'nonpayable', type: 'constructor' },\n    { inputs: [], name: 'CallerNotMessages', type: 'error' },\n    { inputs: [], name: 'InvalidDeploymentWithSalt', type: 'error' },\n    { inputs: [], name: 'InvalidInitialization', type: 'error' },\n    { inputs: [], name: 'InvalidRevealLeaderData', type: 'error' },\n    { inputs: [], name: 'InvalidVote', type: 'error' },\n    { inputs: [], name: 'NotInitializing', type: 'error' },\n    {\n      inputs: [ { internalType: 'address', name: 'owner', type: 'address' } ],\n      name: 'OwnableInvalidOwner',\n      type: 'error'\n    },\n    {\n      inputs: [ { internalType: 'address', name: 'account', type: 'address' } ],\n      name: 'OwnableUnauthorizedAccount',\n      type: 'error'\n    },\n    { inputs: [], name: 'ReentrancyGuardReentrantCall', type: 'error' },\n    { inputs: [], name: 'TransactionNotFinalized', type: 'error' },\n    { inputs: [], name: 'Unauthorized', type: 'error' },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'oldActivator',\n          type: 'address'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'newActivator',\n          type: 'address'\n        }\n      ],\n      name: 'ActivatorReplaced',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'addressManager',\n          type: 'address'\n        }\n      ],\n      name: 'AddressManagerSet',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: false,\n          internalType: 'enum ITransactions.TransactionStatus',\n          name: 'newStatus',\n          type: 'uint8'\n        }\n      ],\n      name: 'AllVotesCommitted',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'appellant',\n          type: 'address'\n        },\n        {\n          indexed: false,\n          internalType: 'uint256',\n          name: 'bond',\n          type: 'uint256'\n        },\n        {\n          indexed: false,\n          internalType: 'address[]',\n          name: 'validators',\n          type: 'address[]'\n        }\n      ],\n      name: 'AppealStarted',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: false,\n          internalType: 'uint256',\n          name: 'attempted',\n          type: 'uint256'\n        },\n        {\n          indexed: false,\n          internalType: 'uint256',\n          name: 'succeeded',\n          type: 'uint256'\n        },\n        {\n          indexed: false,\n          internalType: 'uint256',\n          name: 'failed',\n          type: 'uint256'\n        }\n      ],\n      name: 'BatchFinalizationCompleted',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: false,\n          internalType: 'uint256',\n          name: 'txSlot',\n          type: 'uint256'\n        }\n      ],\n      name: 'CreatedTransaction',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: false,\n          internalType: 'uint64',\n          name: 'version',\n          type: 'uint64'\n        }\n      ],\n      name: 'Initialized',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'recipient',\n          type: 'address'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'activator',\n          type: 'address'\n        }\n      ],\n      name: 'InternalMessageProcessed',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'oldLeader',\n          type: 'address'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'newLeader',\n          type: 'address'\n        }\n      ],\n      name: 'LeaderIdlenessProcessed',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'recipient',\n          type: 'address'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'activator',\n          type: 'address'\n        }\n      ],\n      name: 'NewTransaction',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'previousOwner',\n          type: 'address'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'newOwner',\n          type: 'address'\n        }\n      ],\n      name: 'OwnershipTransferStarted',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'previousOwner',\n          type: 'address'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'newOwner',\n          type: 'address'\n        }\n      ],\n      name: 'OwnershipTransferred',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        }\n      ],\n      name: 'ProcessIdlenessAccepted',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        }\n      ],\n      name: 'TransactionAccepted',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'leader',\n          type: 'address'\n        }\n      ],\n      name: 'TransactionActivated',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'cancelledBy',\n          type: 'address'\n        }\n      ],\n      name: 'TransactionCancelled',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        }\n      ],\n      name: 'TransactionFinalizationFailed',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        }\n      ],\n      name: 'TransactionFinalized',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        }\n      ],\n      name: 'TransactionLeaderRevealed',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'newLeader',\n          type: 'address'\n        }\n      ],\n      name: 'TransactionLeaderRotated',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        }\n      ],\n      name: 'TransactionLeaderTimeout',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: false,\n          internalType: 'bytes32[]',\n          name: 'txIds',\n          type: 'bytes32[]'\n        }\n      ],\n      name: 'TransactionNeedsRecomputation',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: false,\n          internalType: 'address[]',\n          name: 'validators',\n          type: 'address[]'\n        }\n      ],\n      name: 'TransactionReceiptProposed',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        }\n      ],\n      name: 'TransactionUndetermined',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: false,\n          internalType: 'uint256',\n          name: 'totalUnissuedValue',\n          type: 'uint256'\n        },\n        {\n          indexed: false,\n          internalType: 'uint256',\n          name: 'unissuedCount',\n          type: 'uint256'\n        }\n      ],\n      name: 'UnissuedMessagesAtFinalization',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'oldValidator',\n          type: 'address'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'newValidator',\n          type: 'address'\n        },\n        {\n          indexed: false,\n          internalType: 'uint256',\n          name: 'validatorIndex',\n          type: 'uint256'\n        }\n      ],\n      name: 'ValidatorReplaced',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'recipient',\n          type: 'address'\n        },\n        {\n          indexed: false,\n          internalType: 'uint256',\n          name: 'value',\n          type: 'uint256'\n        }\n      ],\n      name: 'ValueWithdrawalFailed',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'validator',\n          type: 'address'\n        },\n        {\n          indexed: false,\n          internalType: 'bool',\n          name: 'isLastVote',\n          type: 'bool'\n        }\n      ],\n      name: 'VoteCommitted',\n      type: 'event'\n    },\n    {\n      anonymous: false,\n      inputs: [\n        {\n          indexed: true,\n          internalType: 'bytes32',\n          name: 'txId',\n          type: 'bytes32'\n        },\n        {\n          indexed: true,\n          internalType: 'address',\n          name: 'validator',\n          type: 'address'\n        },\n        {\n          indexed: false,\n          internalType: 'enum ITransactions.VoteType',\n          name: 'voteType',\n          type: 'uint8'\n        },\n        {\n          indexed: false,\n          internalType: 'bool',\n          name: 'isLastVote',\n          type: 'bool'\n        },\n        {\n          indexed: false,\n          internalType: 'enum ITransactions.ResultType',\n          name: 'result',\n          type: 'uint8'\n        }\n      ],\n      name: 'VoteRevealed',\n      type: 'event'\n    },\n    {\n      inputs: [],\n      name: 'EVENTS_BATCH_SIZE',\n      outputs: [ { internalType: 'uint256', name: '', type: 'uint256' } ],\n      stateMutability: 'view',\n      type: 'function'\n    },\n    {\n      inputs: [],\n      name: 'VERSION',\n      outputs: [ { internalType: 'string', name: '', type: 'string' } ],\n      stateMutability: 'view',\n      type: 'function'\n    },\n    {\n      inputs: [],\n      name: 'acceptOwnership',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        { internalType: 'bytes32', name: '_txId', type: 'bytes32' },\n        { internalType: 'address', name: '_operator', type: 'address' },\n        { internalType: 'bytes', name: '_vrfProof', type: 'bytes' }\n      ],\n      name: 'activateTransaction',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        { internalType: 'address', name: '_sender', type: 'address' },\n        {\n          internalType: 'address',\n          name: '_recipient',\n          type: 'address'\n        },\n        {\n          internalType: 'uint256',\n          name: '_numOfInitialValidators',\n          type: 'uint256'\n        },\n        {\n          internalType: 'uint256',\n          name: '_maxRotations',\n          type: 'uint256'\n        },\n        { internalType: 'bytes', name: '_calldata', type: 'bytes' },\n        {\n          internalType: 'uint256',\n          name: '_validUntil',\n          type: 'uint256'\n        }\n      ],\n      name: 'addTransaction',\n      outputs: [],\n      stateMutability: 'payable',\n      type: 'function'\n    },\n    {\n      inputs: [],\n      name: 'addressManager',\n      outputs: [\n        {\n          internalType: 'contract IAddressManager',\n          name: '',\n          type: 'address'\n        }\n      ],\n      stateMutability: 'view',\n      type: 'function'\n    },\n    {\n      inputs: [ { internalType: 'bytes32', name: '_txId', type: 'bytes32' } ],\n      name: 'cancelTransaction',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        { internalType: 'bytes32', name: '_txId', type: 'bytes32' },\n        {\n          internalType: 'bytes32',\n          name: '_commitHash',\n          type: 'bytes32'\n        },\n        {\n          internalType: 'uint256',\n          name: '_validatorIndex',\n          type: 'uint256'\n        }\n      ],\n      name: 'commitVote',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        { internalType: 'address', name: '_sender', type: 'address' },\n        {\n          internalType: 'uint256',\n          name: '_numOfInitialValidators',\n          type: 'uint256'\n        },\n        {\n          internalType: 'uint256',\n          name: '_maxRotations',\n          type: 'uint256'\n        },\n        { internalType: 'bytes', name: '_calldata', type: 'bytes' },\n        {\n          internalType: 'uint256',\n          name: '_saltNonce',\n          type: 'uint256'\n        },\n        {\n          internalType: 'uint256',\n          name: '_validUntil',\n          type: 'uint256'\n        }\n      ],\n      name: 'deploySalted',\n      outputs: [],\n      stateMutability: 'payable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        {\n          internalType: 'address',\n          name: '_recipient',\n          type: 'address'\n        },\n        { internalType: 'uint256', name: '_value', type: 'uint256' },\n        { internalType: 'bytes', name: '_data', type: 'bytes' }\n      ],\n      name: 'executeMessage',\n      outputs: [ { internalType: 'bool', name: 'success', type: 'bool' } ],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        {\n          internalType: 'bytes32[]',\n          name: '_txIds',\n          type: 'bytes32[]'\n        }\n      ],\n      name: 'finalizeIdlenessTxs',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [ { internalType: 'bytes32', name: '_txId', type: 'bytes32' } ],\n      name: 'finalizeTransaction',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [ { internalType: 'bytes32', name: '_txId', type: 'bytes32' } ],\n      name: 'flushExternalMessages',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [],\n      name: 'getAddressManager',\n      outputs: [\n        {\n          internalType: 'contract IAddressManager',\n          name: '',\n          type: 'address'\n        }\n      ],\n      stateMutability: 'view',\n      type: 'function'\n    },\n    {\n      inputs: [ { internalType: 'bytes32', name: 'txId', type: 'bytes32' } ],\n      name: 'getPendingTransactionValue',\n      outputs: [ { internalType: 'uint256', name: '', type: 'uint256' } ],\n      stateMutability: 'view',\n      type: 'function'\n    },\n    {\n      inputs: [\n        {\n          internalType: 'address',\n          name: '_addressManager',\n          type: 'address'\n        }\n      ],\n      name: 'initialize',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [ { internalType: 'address', name: 'addr', type: 'address' } ],\n      name: 'isGhostContract',\n      outputs: [ { internalType: 'bool', name: '', type: 'bool' } ],\n      stateMutability: 'view',\n      type: 'function'\n    },\n    {\n      inputs: [ { internalType: 'bytes32', name: '_txId', type: 'bytes32' } ],\n      name: 'leaderIdleness',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        {\n          components: [\n            [Object], [Object],\n            [Object], [Object],\n            [Object], [Object],\n            [Object]\n          ],\n          internalType: 'struct IConsensusMain.LeaderRevealVoteParams',\n          name: 'leaderRevealVoteParams',\n          type: 'tuple'\n        }\n      ],\n      name: 'leaderRevealVote',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [],\n      name: 'owner',\n      outputs: [ { internalType: 'address', name: '', type: 'address' } ],\n      stateMutability: 'view',\n      type: 'function'\n    },\n    {\n      inputs: [],\n      name: 'pendingOwner',\n      outputs: [ { internalType: 'address', name: '', type: 'address' } ],\n      stateMutability: 'view',\n      type: 'function'\n    },\n    {\n      inputs: [ { internalType: 'bytes32', name: '_txId', type: 'bytes32' } ],\n      name: 'processIdleness',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        {\n          internalType: 'address[]',\n          name: 'affectedRecipients',\n          type: 'address[]'\n        }\n      ],\n      name: 'promoteNextPendingTransactions',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        { internalType: 'bytes32', name: '_txId', type: 'bytes32' },\n        {\n          internalType: 'bytes32',\n          name: '_txExecutionHash',\n          type: 'bytes32'\n        },\n        {\n          internalType: 'uint256',\n          name: '_processingBlock',\n          type: 'uint256'\n        },\n        { internalType: 'address', name: '_operator', type: 'address' },\n        {\n          internalType: 'bytes',\n          name: '_eqBlocksOutputs',\n          type: 'bytes'\n        },\n        { internalType: 'bytes', name: '_vrfProof', type: 'bytes' }\n      ],\n      name: 'proposeReceipt',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        {\n          internalType: 'bytes32[]',\n          name: '_txIds',\n          type: 'bytes32[]'\n        }\n      ],\n      name: 'redButtonFinalize',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [ { internalType: 'address', name: 'ghost', type: 'address' } ],\n      name: 'registerGhostContract',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [],\n      name: 'renounceOwnership',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        { internalType: 'bytes32', name: '_txId', type: 'bytes32' },\n        { internalType: 'bytes32', name: '_voteHash', type: 'bytes32' },\n        {\n          internalType: 'enum ITransactions.VoteType',\n          name: '_voteType',\n          type: 'uint8'\n        },\n        {\n          internalType: 'bytes32',\n          name: '_otherExecutionFieldsHash',\n          type: 'bytes32'\n        },\n        { internalType: 'uint256', name: '_nonce', type: 'uint256' },\n        {\n          internalType: 'uint256',\n          name: '_validatorIndex',\n          type: 'uint256'\n        }\n      ],\n      name: 'revealVote',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        {\n          internalType: 'address',\n          name: '_addressManager',\n          type: 'address'\n        }\n      ],\n      name: 'setAddressManager',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    {\n      inputs: [ { internalType: 'bytes32', name: '_txId', type: 'bytes32' } ],\n      name: 'submitAppeal',\n      outputs: [],\n      stateMutability: 'payable',\n      type: 'function'\n    },\n    {\n      inputs: [\n        { internalType: 'address', name: 'newOwner', type: 'address' }\n      ],\n      name: 'transferOwnership',\n      outputs: [],\n      stateMutability: 'nonpayable',\n      type: 'function'\n    },\n    { stateMutability: 'payable', type: 'receive' }\n  ],\n  args: undefined,\n  contractAddress: '0x0112Bf6e83497965A5fdD6Dad1E447a6E004271D',\n  formattedArgs: undefined,\n  functionName: 'VERSION',\n  sender: undefined\n}\n\nNode.js v20.20.2"
     },
     {
       "id": "honest-01417162",
@@ -6405,7 +6439,7 @@
         "numOfRounds": "3",
         "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
         "recipient": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
-        "currentTimestamp": "1791551961",
+        "currentTimestamp": "1791551364",
         "consensus_version": "2.0.0",
         "last_round": {
           "round": "3",
@@ -6446,9 +6480,9 @@
         "status_basis": "getTransactionAllData",
         "stored_status_code": 10,
         "stored_block": {
-          "number": "23999226",
-          "hash": "0x9c3a64a16e2510d09a9b112e309fd97e41ff2047e90c27794ca9cce82a0f7536",
-          "timestamp": "1791551961"
+          "number": "23997398",
+          "hash": "0x457929fa4493a35724022635812e49b9c28c091008c9a227c1b9303074ef6b43",
+          "timestamp": "1791551364"
         },
         "initial_validators": "5",
         "round_array_index": "3",
@@ -6509,156 +6543,6 @@
       "id": "laundering",
       "class": "citation_laundering",
       "envelope_hash": "d687ee5aa75b82e56a8e6839d941974202eec162f219c4659c44ae6e8124e6ad"
-    },
-    {
-      "id": "honest-03234745",
-      "class": "honest",
-      "envelope_hash": "8be78ff023c5a6052c22fe00bd7654f5ec4bc2aa791aec02aa980bd74a382c45"
-    },
-    {
-      "id": "honest-04815511",
-      "class": "honest",
-      "envelope_hash": "1e45b71ea7011214837dba078278dbf53900e4eab88aaa29ee6ec1f1cbfffe88"
-    },
-    {
-      "id": "honest-04710850",
-      "class": "honest",
-      "envelope_hash": "297799fcac65704b1f98fd191b6af0108b7cca6ee688de603d8656c7774b7abb"
-    },
-    {
-      "id": "honest-02592745",
-      "class": "honest",
-      "envelope_hash": "ff1ecf04ed87f139b9cc7f9de3f9fc07e227014fbf8426a3d9a049ab7725d774"
-    },
-    {
-      "id": "honest-03275445",
-      "class": "honest",
-      "envelope_hash": "8cc27e4456edec830af8cdd0fa45f48ba7e35f5a9e48316f6b52023caaf5e620"
-    },
-    {
-      "id": "honest-01874716",
-      "class": "honest",
-      "envelope_hash": "7b22b0d5dbdaa696d24526bcbc2f8db28a26bfb011c589f797c967eab44de272"
-    },
-    {
-      "id": "honest-08355344",
-      "class": "honest",
-      "envelope_hash": "054603021db16f91445b073f8b411794b144e70a1b576fc7683fa2f3d6786325"
-    },
-    {
-      "id": "honest-04541886",
-      "class": "honest",
-      "envelope_hash": "671bbf24593862738a408a8e0d4839e9d81b2e6ff54dbff01d6dcdd95903f608"
-    },
-    {
-      "id": "honest-03844287",
-      "class": "honest",
-      "envelope_hash": "12032273bf6f1e5fb7c75cd6f5774ae935eea8d7de96ec948eb12f7a3730e9f6"
-    },
-    {
-      "id": "honest-04713745",
-      "class": "honest",
-      "envelope_hash": "12261b377d3ac831cd45def8ab48498bb54ae9a9134c936700571006df5ec331"
-    },
-    {
-      "id": "honest-02877398",
-      "class": "honest",
-      "envelope_hash": "0e74a202938f8d5a09edceae8426f5d2f2286065486bcc49d2818c90c6e9bd40"
-    },
-    {
-      "id": "honest-05006144",
-      "class": "honest",
-      "envelope_hash": "3e09767a4509e84776f58ae52574913fa36c179132ccc807df623348dfb5a317"
-    },
-    {
-      "id": "honest-06795997",
-      "class": "honest",
-      "envelope_hash": "075540aa2bb66898e176cf6054d7ca45aee70848b1e870dc38bd12f93de0dbec"
-    },
-    {
-      "id": "honest-08807923",
-      "class": "honest",
-      "envelope_hash": "d1a677da412c2c3ffd32fb7ba7819c3af10e31de2ab503aac80ec5a0a8b9fdb6"
-    },
-    {
-      "id": "honest-03294124",
-      "class": "honest",
-      "envelope_hash": "abc378289e17a961b71c318a660f6e6e87d2fb9354de92845e8aa0bf91910b92"
-    },
-    {
-      "id": "honest-03479986",
-      "class": "honest",
-      "envelope_hash": "66388b5a6d1757d09287b417d92afef8dcb6f86bc498d0462ca9af503218968a"
-    },
-    {
-      "id": "honest-00727817",
-      "class": "honest",
-      "envelope_hash": "36c40f93657f91e9b4af9c0484282f830fd1542ae18e6bb78122e68834bb78e5"
-    },
-    {
-      "id": "honest-15016414",
-      "class": "honest",
-      "envelope_hash": "bea2bf475574d969493995cbf62f43462ee923675de894c327e7cc0efd14c0e2"
-    },
-    {
-      "id": "honest-02543236",
-      "class": "honest",
-      "envelope_hash": "efc706a4e0b510315a82615b93a0f35702bdb3f3d4a75d98192e3804b1949159"
-    },
-    {
-      "id": "honest-01694833",
-      "class": "honest",
-      "envelope_hash": "87ab0e6a0ffbaad12f1a0fbac8ad3e63db227e79d167d9c778f0a459eebd16d1"
-    },
-    {
-      "id": "honest-13257700",
-      "class": "honest",
-      "envelope_hash": "a398ae76b625c0cdc0c1a9e08f33ed3d34175c5067e896cb10cab3c98fc2fd88"
-    },
-    {
-      "id": "honest-00631825",
-      "class": "honest",
-      "envelope_hash": "84bd08b3e48b9595fc035373e9842749a1ee31145bbdbadb8bc233404d2723d9"
-    },
-    {
-      "id": "honest-04729734",
-      "class": "honest",
-      "envelope_hash": "083978a8fb87ff78e8747494dc5a76fc562a4113744155ddae6d97b6e005d34b"
-    },
-    {
-      "id": "honest-00646166",
-      "class": "honest",
-      "envelope_hash": "ae1f45e549ae35d35b86ee86092b30e9d57415094f06367c7a234a7c3b07195e"
-    },
-    {
-      "id": "honest-10253129",
-      "class": "honest",
-      "envelope_hash": "ad437bda165c4b71fb1bbaeb9f146f38b669c005c2bdf3bfedd98b0e08547e3e"
-    },
-    {
-      "id": "honest-09567186",
-      "class": "honest",
-      "envelope_hash": "56567cb3f5708c39813c7168e9710caf72e3048f050cc861b97de64c43c65438"
-    },
-    {
-      "id": "honest-03050664",
-      "class": "honest",
-      "envelope_hash": "dc29492f56c1dc4c133d70f58be5a0c53aa0fd7b10feae796c8effad497dba85"
-    },
-    {
-      "id": "honest-01915763",
-      "class": "honest",
-      "envelope_hash": "64a1670e30d5282b3efa8d3c5787a9991853fa79cf76fabae5e2fee1bb864219"
-    },
-    {
-      "id": "honest-08811254",
-      "class": "honest",
-      "envelope_hash": "5ea3fbda17172365fd7a64ec563d64ce8032cb33bc1bca7d12bc296b36124253"
-    },
-    {
-      "id": "honest-05266924",
-      "class": "honest",
-      "envelope_hash": "e03054a922ec0d90e3a42d9efa5f615c70ce6bebf75d24b2b57a7f742f5641d2"
     }
   ],
   "report": {
@@ -6718,5 +6602,5 @@
       "included_in_report": false
     }
   ],
-  "checked_at": "2026-10-09T13:24:28.361826+00:00"
+  "checked_at": "2026-10-09T13:14:24.244308+00:00"
 }

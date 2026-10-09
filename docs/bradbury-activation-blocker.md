@@ -3,7 +3,7 @@
 The pending queue cleared on **9 October**. At block **23904318**,
 **04:45:30 UTC**, it was empty **31/31**, and Burberry had no application
 judgement. Continuation then produced a verified Whitbread admission: the
-frozen 50-attempt scan has **12 honest judgements**, below the required 20,
+frozen 70-attempt scan has **16 honest judgements**, below the required 20,
 and no negative case has been submitted. The appended resumption section
 preserves these observations alongside the earlier blocker history.
 
@@ -250,3 +250,16 @@ both identical masters, preserving original fields/order, for active coverage
 The strict expanded snapshot at `2026-10-09T09:06:14.416021+00:00` has twelve
 judged, six finalized infrastructure, thirty-two unresolved and thirty
 unsubmitted, balanced at 1012000 wei. The third reserve remains inactive.
+
+## Full seventy and conditional third reserve
+
+The master80 milestone at `2026-10-09T13:14:24.244308+00:00` preserves all
+seventy attempts: sixteen judged, six finalized infrastructure and forty-eight
+unresolved, plus ten original negative cases unsubmitted. The distinct third
+reserve was appended after that audit, preserving both original60/original80
+archives. Master110 SHA is
+`f23c6f5b0c4f33aa364b3bb2acc92dec4b3e81e61e303f4e02ff5b0f81720da9`.
+The strict snapshot at `2026-10-09T13:24:28.361826+00:00` has sixteen judged,
+six finalized infrastructure, forty-eight unresolved and forty unsubmitted,
+balanced at 1016000 wei. No negative application verdict or complete defence
+conclusion is inferred.

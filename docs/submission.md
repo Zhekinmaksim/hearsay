@@ -11,9 +11,9 @@ its verified receipt and reproduced the verdict with the CLI. **Space creation t
 claim transaction and verdict remain pending.** That remaining check matters to the Portal's full-transaction-lifecycle quality bar.
 The app is published on Vercel, and its CI checks passed. On 9 October the
 pending queue cleared, allowing the same cohort to resume. The current
-published checkpoint contains **12/20 verified honest controls** after the full initial 50
-attempts. The conditional twenty-control reserve is now included in the
-80-candidate master; original sixty remain preserved. The negative phase has not started.
+published checkpoint contains **16/20 verified honest controls** after seventy honest attempts.
+The conditional third reserve is now included in master110; original
+master60 and master80 remain preserved. The negative phase has not started.
 The authorized frontend `open_space` was sent and accepted, with matching
 space 1. It remains provisional. The subsequent TESCO claim is prepared and
 authorized only after creation finalizes; no claim transaction has been sent.
@@ -77,7 +77,7 @@ Agents reuse shared memory, so one unsupported entry can become a premise for ma
 
 The contract fetches each claim's source, asks two independent support framings and checks consistency against recent admitted entries. It records ADMITTED, UNSOURCED, CONTRADICTED or INCONCLUSIVE with pinned evidence and votes. Unreadable or disagreeing rounds do not admit. Challenges revoke an entry and taint its dependents; a bounded cascade rejudges them without the revoked premise.
 
-The app reads Bradbury, connects a wallet and supports separate memory spaces, claim submission and canonical transaction tracking. Verified receipts replay locally. The public checkpoint has 12/20 judged honest controls; the attack phase has not started. Space creation ran live; a new claim transaction remains pending. Offline fixtures verify the implementation, not attack resistance.
+The app reads Bradbury, connects a wallet and supports separate memory spaces, claim submission and canonical transaction tracking. Verified receipts replay locally. The public checkpoint has 16/20 judged honest controls; the attack phase has not started. Space creation ran live; a new claim transaction remains pending. Offline fixtures verify the implementation, not attack resistance.
 ```
 
 **Website — required**
@@ -345,13 +345,23 @@ The expected result is a reproduced verdict and exit 0.
 ## Live evidence and remaining submission work
 
 The [current checkpoint](https://hearsay-psi.vercel.app/bradbury-prompt-checkpoint.json)
-was checked at **2026-10-09 09:06:14 UTC** (**14:06:14 Asia/Tashkent**), exact
-`2026-10-09T09:06:14.416021+00:00`. It accounts for all 80 active candidates:
-**12 verified honest judgements, 6 finalized infrastructure outcomes,
-32 unresolved, 30 unsubmitted and 0 construction-only cases completed**.
+was checked at **2026-10-09 13:24:28 UTC** (**18:24:28 Asia/Tashkent**), exact
+`2026-10-09T13:24:28.361826+00:00`. It accounts for all 110 active candidates:
+**16 verified honest judgements, 6 finalized infrastructure outcomes,
+48 unresolved, 40 unsubmitted and 0 construction-only cases completed**.
 The report matches the verified entries; held, escrowed and pools are each
-**1012000 wei**, balanced, including the separate frontend-created namespace.
+**1016000 wei**, balanced, including the separate frontend-created namespace.
 It remains incomplete, with no defence conclusion.
+
+The [original-eighty milestone](../web/bradbury-prompt-checkpoint-original80.json)
+at `2026-10-09T13:14:24.244308+00:00` preserves the complete seventy honest
+attempts: sixteen judged, six finalized infrastructure, forty-eight unresolved
+and the ten original negative cases unsubmitted. The original80 master is
+[`bradbury-prompt-campaign-original80.json`](../corpus/bradbury-prompt-campaign-original80.json),
+SHA `dcd2e3be3029cd05b2f3c2a1ade735f938c4243c23b32f78c9ed2651e51995f9`.
+
+The [saved 09:06 checkpoint](../web/bradbury-prompt-checkpoint-20261009-0906.json)
+preserves the earlier twelve-judgement expanded master80 before reserve sends.
 
 The [original-sixty milestone](../web/bradbury-prompt-checkpoint-original60.json)
 at `2026-10-09T08:54:38.385827+00:00` preserves the complete first fifty honest
@@ -457,8 +467,8 @@ upstream issues.
 The [third fallback reserve](../corpus/live-third-reserve.json) contains 30
 additional preflight controls, SHA-256
 `8e9d091f8d819e635716a381e24b9474096ff4898770b72a9bb8ff870e76860b`.
-It is unsubmitted and inactive. It does not alter the current 80-candidate
-cohort or add any judged controls.
+It was activated only after the full seventy-attempt audit still had fewer
+than twenty judged controls; its preflight rows alone add no judgements.
 
 The [negative-input preflight](live-negative-preflight.md) verifies the real
 URLs and authentic archive, and defines the limits of each declared class.
@@ -662,5 +672,15 @@ twenty distinct primary-source controls was then appended without changing
 any original candidate field or order. Both active master copies now have
 70 honest controls and the same ten negative cases, SHA-256
 `dcd2e3be3029cd05b2f3c2a1ade735f938c4243c23b32f78c9ed2651e51995f9`.
-The third reserve remains unsubmitted and inactive. New reserve rows are
+At that master80 expansion the third reserve was inactive. New reserve rows are
 not judged until canonical state and exact source/vote proofs establish it.
+
+## Conditional third reserve after seventy attempts
+
+The complete seventy-attempt master80 milestone produced sixteen current
+source/vote-verified honest records. Thirty distinct preflight honest controls
+were then appended without altering any original field or order. Both active
+masters are byte-identical, 100 honest plus the original ten negative cases,
+SHA `f23c6f5b0c4f33aa364b3bb2acc92dec4b3e81e61e303f4e02ff5b0f81720da9`.
+Their original60 and original80 archives remain public. The strict expanded
+snapshot includes forty unsubmitted candidates, not forty extra judgements.
