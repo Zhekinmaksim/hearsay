@@ -53,3 +53,11 @@ After the complete seventy-attempt audit still had sixteen judged controls,
 thirty more honest controls were appended. The active master110 SHA is
 `f23c6f5b0c4f33aa364b3bb2acc92dec4b3e81e61e303f4e02ff5b0f81720da9`;
 the ten original negative cases remain byte-identical.
+
+The live negative phase began after **eighty honest attempts**, with eighteen
+current judged controls. A fresh eighty-receipt capture had no lookup or scan
+errors, and all eighteen source/vote proofs replayed. The remaining twenty
+declared honest candidates are still part of master110 and are scheduled after
+the original negative cases. This order lets both required parts advance;
+it does not lower the twenty-judgement target, remove candidates or establish
+a defence conclusion. The manifest records the actual transaction order.

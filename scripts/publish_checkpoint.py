@@ -56,7 +56,9 @@ def receipt_summary(receipt):
     return result
 
 
-def build_checkpoint(seed, metadata, manifest, rows, history, refused, *, space=0, endpoint="", timeout=30):
+def build_checkpoint(seed, metadata, manifest, rows, history, refused, *, space=0, endpoint="", timeout=30, workers=1):
+    if isinstance(workers, bool) or not isinstance(workers, int) or not 1 <= workers <= 4:
+        raise ValueError("read workers must be between 1 and 4")
     address = metadata.get("address", "")
     if not re.fullmatch(r"0x[0-9a-fA-F]{40}", address) or metadata.get("chain_id") != 4221:
         raise ValueError("invalid Bradbury deployment metadata")
@@ -106,14 +108,16 @@ def build_checkpoint(seed, metadata, manifest, rows, history, refused, *, space=
         if policy[key] != seed["space"][key]:
             raise ValueError("space policy differs from seed: " + key)
     count = int(collector.read_call(endpoint, address, "entry_count", [], timeout))
-    index, errors = collector.scan_entries(endpoint, address, timeout, count=count)
+    index, errors = collector.scan_entries(endpoint, address, timeout, count=count, workers=workers)
     if errors or len(index) != count:
         raise ValueError("entry scan incomplete; absence cannot be established")
     receipts = {}
     verified, failures, unresolved = [], [], []
-    for transaction in manifest:
+    reads = collector.lookup_receipts(manifest, collector.EXPLORER, endpoint, timeout, workers=workers)
+    for transaction, receipt, lookup_error in reads:
         try:
-            receipt = collector.lookup_receipt(collector.EXPLORER, endpoint, transaction["tx"], timeout)
+            if lookup_error is not None:
+                raise lookup_error
             status = canonical_receipt(receipt, transaction, address)
             protocol = metadata.get("protocol") or {}
             for field, expected in (("numOfInitialValidators", protocol.get("initial_validators")), ("initialRotations", protocol.get("max_rotations"))):
@@ -221,6 +225,7 @@ def main():
     parser.add_argument("--space", type=int, default=0)
     parser.add_argument("--endpoint", default="")
     parser.add_argument("--timeout", type=int, default=30)
+    parser.add_argument("--workers", type=int, choices=range(1, 5), default=1, help="bounded read-only concurrency for fresh scans and receipts")
     args = parser.parse_args()
     run_dir = Path(args.run_dir)
     inputs = [run_dir / "bradbury.jsonl", Path(args.records), Path(args.seed), Path(args.deployment)]
@@ -234,7 +239,7 @@ def main():
         return json.loads(path.read_text()) if path.exists() else []
     checkpoint = build_checkpoint(json.loads(Path(args.seed).read_text()), json.loads(Path(args.deployment).read_text()),
                                   manifest, rows, optional("infrastructure-failures.json"), optional("refused.json"),
-                                  space=args.space, endpoint=args.endpoint, timeout=args.timeout)
+                                  space=args.space, endpoint=args.endpoint, timeout=args.timeout, workers=args.workers)
     if any(path.read_bytes() != content for path, content in captured.items()):
         raise ValueError("checkpoint inputs changed during verification; regenerate")
     collector.checkpoint(args.out, checkpoint)

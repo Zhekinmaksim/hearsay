@@ -419,7 +419,8 @@ canonical version and basis requirements.
 For larger manifests, `run_live.py --read-workers 4` overlaps up to four
 independent entry or receipt reads during guard preparation and collection.
 Standalone collection accepts `collect_receipts.py --workers 4` with `--wait 0`.
-Both default to one worker. Results and errors are processed in manifest order;
+Checkpoint publication also accepts `publish_checkpoint.py --workers 4`.
+All three default to one worker. Results and errors are processed in manifest order;
 each receipt retains its own canonical block pin. These options do not retry
 failed reads, skip old transactions or parallelize signatures and sends. The
 fresh queue proof immediately before signing remains unchanged. Waiting and

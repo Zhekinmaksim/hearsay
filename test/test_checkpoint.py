@@ -14,6 +14,8 @@ import publish_checkpoint as checkpoint
 
 
 class CheckpointTest(unittest.TestCase):
+    workers = 1
+
     def setUp(self):
         self.address, self.sender = "0x" + "aa" * 20, "0x" + "bb" * 20
         self.tx, self.pending_tx = "0x" + "11" * 32, "0x" + "22" * 32
@@ -41,15 +43,22 @@ class CheckpointTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "verified consensus version"):
                 self.build()
 
-    def build(self, rows=None, history=None):
+    def build(self, rows=None, history=None, workers=None, lookup_errors=None):
         def read_call(endpoint, address, method, args, timeout):
             return {"get_space": self.policy, "entry_count": 1, "solvency": {"balanced": True}, "report": {"entries": 1, "honest_attempts": 1, "classes": [{"class": "honest", "attempts": 1}]}}[method]
+        def lookup(explorer, endpoint, tx, timeout):
+            if lookup_errors and tx in lookup_errors:
+                raise lookup_errors[tx]
+            return self.receipts[tx]
         with ExitStack() as stack:
             stack.enter_context(patch.object(collector, "read_call", side_effect=read_call))
-            stack.enter_context(patch.object(collector, "scan_entries", return_value=({self.hashes[0]: self.entry}, [])))
+            scan = stack.enter_context(patch.object(collector, "scan_entries", return_value=({self.hashes[0]: self.entry}, [])))
             stack.enter_context(patch.object(collector, "read_entry", return_value=self.entry))
-            stack.enter_context(patch.object(collector, "lookup_receipt", side_effect=lambda explorer, endpoint, tx, timeout: self.receipts[tx]))
-            return checkpoint.build_checkpoint(self.seed, self.metadata, self.manifest, [self.row] if rows is None else rows, history or [], [])
+            stack.enter_context(patch.object(collector, "lookup_receipt", side_effect=lookup))
+            count = self.workers if workers is None else workers
+            result = checkpoint.build_checkpoint(self.seed, self.metadata, self.manifest, [self.row] if rows is None else rows, history or [], [], workers=count)
+            self.assertEqual(scan.call_args.kwargs["workers"], count)
+            return result
 
     def test_appeal_remains_unresolved_without_defence_conclusion(self):
         result = self.build()
@@ -103,6 +112,37 @@ class CheckpointTest(unittest.TestCase):
         self.assertEqual(result["coverage"]["judged"], 1)
         self.assertEqual(result["infrastructure_failures"], [])
         self.assertEqual(result["infrastructure_history"][0]["status"], "VALIDATORS_TIMEOUT")
+
+    def test_worker_modes_preserve_complete_checkpoint_and_unknown_read_errors(self):
+        for errors in (None, {self.pending_tx: RuntimeError("full pinned RPC failure")},
+                       {self.tx: RuntimeError("recorded pinned RPC failure")}):
+            with self.subTest(errors=errors):
+                if errors and self.tx in errors:
+                    for workers in (1, 4):
+                        with self.assertRaisesRegex(RuntimeError, "recorded pinned RPC failure"):
+                            self.build(workers=workers, lookup_errors=errors)
+                    continue
+                serial = self.build(workers=1, lookup_errors=errors)
+                parallel = self.build(workers=4, lookup_errors=errors)
+                serial.pop("checked_at"); parallel.pop("checked_at")
+                self.assertEqual(serial, parallel)
+                if errors:
+                    self.assertEqual(parallel["unresolved"][0]["status"], "UNKNOWN")
+                    self.assertEqual(parallel["unresolved"][0]["reason"], "full pinned RPC failure")
+                    self.assertEqual(parallel["coverage"]["judged"], 1)
+                    self.assertEqual(parallel["coverage"]["unresolved"], 1)
+
+    def test_worker_validation_rejects_unsafe_counts_before_reads(self):
+        for workers in (0, 5, True, 1.5):
+            with self.subTest(workers=workers), patch.object(collector, "read_call") as read:
+                with self.assertRaisesRegex(ValueError, "read workers"):
+                    checkpoint.build_checkpoint(self.seed, self.metadata, self.manifest, [self.row], [], [], workers=workers)
+                read.assert_not_called()
+
+
+class ParallelCheckpointTest(CheckpointTest):
+    """Run every provenance/safety regression through the concurrent reader."""
+    workers = 4
 
 
 if __name__ == "__main__":
