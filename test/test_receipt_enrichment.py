@@ -101,7 +101,7 @@ class OptionalEnrichmentTests(unittest.TestCase):
             with patch.object(collector, "read_call", side_effect=call), patch.object(collector, "scan_entries", return_value=(index, [])) as scan, patch.object(collector, "lookup_receipt", side_effect=receipt) as lookup, patch.object(runner.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, json.dumps(proof), "")) as queue:
                 result = runner.prepare_progress_guard(Namespace(address=ADDRESS, account=ACCOUNT, timeout=30), folder, manifest)
             self.assertEqual(reads, ["entry_count", "entry_count", "solvency"])
-            scan.assert_called_once_with("", ADDRESS, 30, count=1)
+            scan.assert_called_once_with("", ADDRESS, 30, count=1, workers=1)
             self.assertEqual(lookup.call_args_list, [unittest.mock.call("", "", row["tx"], 30) for row in rows[1:]])
             command = queue.call_args.args[0]
             self.assertEqual(command[:5], ["node", str(ROOT / "scripts/read_chain.mjs"), "--progress-guard", ADDRESS, ACCOUNT])
