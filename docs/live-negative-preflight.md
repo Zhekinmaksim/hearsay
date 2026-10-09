@@ -1,6 +1,7 @@
 # Live negative-input preflight: 9 October 2026
 
-The original ten cases remain unchanged in the public campaign seed, SHA-256
+The original ten cases remain unchanged in the archived original campaign
+seed, SHA-256
 `6970d7ec5437f47f3705e9318143a4c37a33f29beecb31603c2b52d366820487`.
 All envelopes validate. Nine are independent submissions; the citation case
 with support `[999999]` is local prevention and spends no consensus round.
@@ -42,3 +43,8 @@ cumulative-poisoning guarantee is inferred from this cohort.
 Frozen local evidence is in `runs/negative-preflight-oct9`: four HTML captures,
 matching URL/time/status/hash metadata, `summary.json` and `findings.md`.
 No seed, contract, wallet, Portal or third-party issue was changed by this audit.
+
+After the initial fifty honest attempts, the active master appended twenty
+preflight honest controls without modifying these negative cases. Its new
+SHA is `dcd2e3be3029cd05b2f3c2a1ade735f938c4243c23b32f78c9ed2651e51995f9`;
+the original-sixty archive and SHA above remain preserved.

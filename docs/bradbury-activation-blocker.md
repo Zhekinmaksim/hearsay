@@ -3,7 +3,7 @@
 The pending queue cleared on **9 October**. At block **23904318**,
 **04:45:30 UTC**, it was empty **31/31**, and Burberry had no application
 judgement. Continuation then produced a verified Whitbread admission: the
-frozen 45-attempt scan has **11 honest judgements**, below the required 20,
+frozen 50-attempt scan has **12 honest judgements**, below the required 20,
 and no negative case has been submitted. The appended resumption section
 preserves these observations alongside the earlier blocker history.
 
@@ -237,3 +237,16 @@ global accounting is balanced at 1011000 wei. UNITED UTILITIES repeatedly
 changed leaders and reached a leader timeout, without a judgement; pending
 then emptied naturally at block23938529. No retry or paid recovery caused
 that release. Earlier snapshots remain preserved.
+
+## Full initial fifty and conditional reserve
+
+The complete initial fifty milestone was verified at
+`2026-10-09T08:54:38.385827+00:00`: twelve current judgements, six finalized
+infrastructure outcomes, thirty-two unresolved and the ten original negative
+cases unsubmitted. Its complete original-sixty snapshot and master remain
+publicly archived. The conditional second twenty controls were appended to
+both identical masters, preserving original fields/order, for active coverage
+80 and SHA `dcd2e3be3029cd05b2f3c2a1ade735f938c4243c23b32f78c9ed2651e51995f9`.
+The strict expanded snapshot at `2026-10-09T09:06:14.416021+00:00` has twelve
+judged, six finalized infrastructure, thirty-two unresolved and thirty
+unsubmitted, balanced at 1012000 wei. The third reserve remains inactive.

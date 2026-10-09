@@ -5,29 +5,29 @@
   "width": 1920,
   "height": 1080,
   "checkpoint": {
-    "checked_at": "2026-10-09T07:53:37.751049+00:00",
+    "checked_at": "2026-10-09T09:06:14.416021+00:00",
     "contract_address": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
     "complete": false,
     "defence_conclusion": null,
     "required_honest_judgements": 20,
     "coverage": {
-      "candidates": 60,
-      "judged": 11,
-      "honest_judged": 11,
+      "candidates": 80,
+      "judged": 12,
+      "honest_judged": 12,
       "infrastructure_failures": 6,
-      "unresolved": 28,
+      "unresolved": 32,
       "prevented": 0,
-      "unsubmitted": 15
+      "unsubmitted": 30
     },
     "source_sha256": "d2670d4204d769ce14f26328d3f8a4a86c4b645f0a54c5149d5269804ce53296",
-    "published_checkpoint_sha256": "5bfb5cdea82e203de2b5cf9e344ef5d78d626ddf41d48af5e03685f039326caf"
+    "published_checkpoint_sha256": "512fb05f7b562e2b7b72c2617a7780e42aeb8a9fc2805ded1c0565d72b252d0e"
   },
   "input_sha256": {
     "src/Film.tsx": "674387f340fa70b39ba770111da5f8b388089303947a49c2294897a1ac3dd3e5",
     "src/Root.tsx": "52ca0e0bda41bfeb8069ff0e1683848b646d67c093283ca1ac4788822e345ae2",
     "src/index.ts": "b9900e8f2d9dd0508919db76ded7f60ef532157750339d786c3c395643fc6675",
     "src/corpus.json": "5b4994ec23eb7a20bd83f4b03e165ae6ed0146c63d6d1d2832a6fc02ab2cabdd",
-    "src/checkpoint.json": "beabb405ac80bb44e076f523c0a521d30c11cf71c4d0fa41b88240dda6908b5c",
+    "src/checkpoint.json": "91b4fdaf4173dd5def619d4051c282e3dc1666411fc95f33104b378e2c6d28e1",
     "src/lib.mjs": "c815bbc60583053ada03d94086eefbf291e7a30568b170b6619cdf5c509c4aa5",
     "src/beats.json": "10f9cb60db299329f0dd0f8aba40b3c68e93f54e0a301e808a6897173777eb3a",
     "src/time.ts": "11cd780e39cd8693d0f6cf5b31a43ea2f2bca6aa78842a293c09d4a97225eb6e",
@@ -41,5 +41,5 @@
     "package-lock.json": "527385cf1110ba412a8d9aa25ceb4d7e00f96fadbbff2c2c0f345ae2ea5a2944",
     "render.mjs": "3721da8ad3d1ce3f683bb6199db2ad62e7362258d7040a552afc9baa8336addc"
   },
-  "video_sha256": "6f68c4ed1012248be03561c2f7a2a104bfed42216d527b1f37cb62f7e999750f"
+  "video_sha256": "6b04f70b647aba745295b5f2070a6a050dff5a8d886a571b3e4cb98ec89e58ca"
 }
