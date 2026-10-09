@@ -11,8 +11,8 @@ its verified receipt and reproduced the verdict with the CLI. **Space creation t
 claim transaction and verdict remain pending.** That remaining check matters to the Portal's full-transaction-lifecycle quality bar.
 The app is published on Vercel, and its CI checks passed. On 9 October the
 pending queue cleared, allowing the same cohort to resume. The current
-published checkpoint contains **9/20 verified honest controls** after 31
-attempts, including Whitbread and BAT. The negative phase has not started.
+published checkpoint contains **10/20 verified honest controls** after 39
+attempts, including the newly admitted SPIRAX record. The negative phase has not started.
 The authorized frontend `open_space` was sent and accepted, with matching
 space 1. It remains provisional. The subsequent TESCO claim is prepared and
 authorized only after creation finalizes; no claim transaction has been sent.
@@ -76,7 +76,7 @@ Agents reuse shared memory, so one unsupported entry can become a premise for ma
 
 The contract fetches each claim's source, asks two independent support framings and checks consistency against recent admitted entries. It records ADMITTED, UNSOURCED, CONTRADICTED or INCONCLUSIVE with pinned evidence and votes. Unreadable or disagreeing rounds do not admit. Challenges revoke an entry and taint its dependents; a bounded cascade rejudges them without the revoked premise.
 
-The app reads Bradbury, connects a wallet and supports separate memory spaces, claim submission and canonical transaction tracking. Verified receipts replay locally. The public checkpoint has 9/20 judged honest controls; the attack phase has not started. Space creation ran live; a new claim transaction remains pending. Offline fixtures verify the implementation, not attack resistance.
+The app reads Bradbury, connects a wallet and supports separate memory spaces, claim submission and canonical transaction tracking. Verified receipts replay locally. The public checkpoint has 10/20 judged honest controls; the attack phase has not started. Space creation ran live; a new claim transaction remains pending. Offline fixtures verify the implementation, not attack resistance.
 ```
 
 **Website — required**
@@ -344,12 +344,17 @@ The expected result is a reproduced verdict and exit 0.
 ## Live evidence and remaining submission work
 
 The [current checkpoint](https://hearsay-psi.vercel.app/bradbury-prompt-checkpoint.json)
-was checked at **2026-10-09 05:19:03 UTC** (**10:19:03 Asia/Tashkent**), exact
-`2026-10-09T05:19:03.085954+00:00`. It accounts for all 60 candidates:
-**9 verified honest judgements, 6 finalized infrastructure outcomes,
-16 unresolved, 29 unsubmitted and 0 construction-only cases completed**.
+was checked at **2026-10-09 07:05:16 UTC** (**12:05:16 Asia/Tashkent**), exact
+`2026-10-09T07:05:16.613866+00:00`. It accounts for all 60 candidates:
+**10 verified honest judgements, 6 finalized infrastructure outcomes,
+23 unresolved, 21 unsubmitted and 0 construction-only cases completed**.
 The report matches the verified entries; held, escrowed and pools are each
-**509000 wei**, balanced. It remains incomplete, with no defence conclusion.
+**1010000 wei**, balanced, including the separate frontend-created namespace.
+It remains incomplete, with no defence conclusion.
+
+The [saved 05:19 checkpoint](../web/bradbury-prompt-checkpoint-20261009-0519.json)
+preserves the earlier 31-attempt state with nine verified entries, six finalized
+infrastructure outcomes, sixteen unresolved and twenty-nine unsubmitted.
 
 The [saved 19:17 checkpoint](../web/bradbury-prompt-checkpoint-20261008-1917.json)
 was checked at **2026-10-08 19:17:41 UTC** (**9 October 00:17:41 Asia/Tashkent**),
@@ -612,3 +617,14 @@ window. Public owned-head recovery simulations reverted with
 The user-approved [issue addendum](https://github.com/genlayerlabs/genlayer-cli/issues/426#issuecomment-6075779424)
 is published. This is an external protocol-state dependency, not a completed
 claim or a submission-ready result.
+
+## Tenth verified control: SPIRAX
+
+SPIRAX GROUP PLC, company 00596337, produced matching ADMITTED entry 9 with
+`yes / yes / none` votes. Its protocol ID is
+`0x6851760318ede68c82621b9773a27aff73bd2ac679f3e56fee99bd2497a4acb7`.
+The exact stored source hashes to
+`3ae1851174adc4a2b6b6afe6c35abd205f16910ca845376f2b1f9a849c4e46e3`.
+The full fresh 39-attempt scan has ten verified records, twenty-nine missing
+application records and zero scan errors. All ten source/vote replays pass.
+Local proof is `runs/bradbury-prompt/oct9-resume-audit/fresh-39-verified-records.jsonl`.

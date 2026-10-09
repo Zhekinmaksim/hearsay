@@ -3,7 +3,7 @@
 The pending queue cleared on **9 October**. At block **23904318**,
 **04:45:30 UTC**, it was empty **31/31**, and Burberry had no application
 judgement. Continuation then produced a verified Whitbread admission: the
-frozen 31-attempt scan has **9 honest judgements**, below the required 20,
+frozen 39-attempt scan has **10 honest judgements**, below the required 20,
 and no negative case has been submitted. The appended resumption section
 preserves these observations alongside the earlier blocker history.
 
@@ -214,3 +214,15 @@ at `2026-10-09T05:19:03.085954+00:00`, accounts for the full 60 candidates:
 The report matches and accounting is balanced at 509000 wei. The project still needs
 20 genuine honest judgements and the original negative-case coverage; this
 resumption does not complete that goal.
+
+## SPIRAX continuation and 07:05 checkpoint
+
+SPIRAX GROUP PLC (00596337) became the tenth verified honest control, entry 9,
+ADMITTED with yes/yes/no-conflict votes. The fresh 39-attempt scan has ten
+verified records and twenty-nine absent records, with zero scan errors.
+The current full-60 checkpoint, checked at `2026-10-09T07:05:16.613866+00:00`,
+contains ten judged, six finalized infrastructure, twenty-three unresolved and
+twenty-one unsubmitted. Its report matches and global accounting is balanced
+at 1010000 wei, including the separate frontend namespace. Older snapshots
+remain preserved. Neither the negative phase nor the twenty-control target is
+complete.
