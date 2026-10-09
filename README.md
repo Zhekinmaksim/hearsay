@@ -122,26 +122,33 @@ behaviour.
 
 ## What gets published
 
-Two numbers per run:
+A completed live evaluation reports:
 
 - **false-rejection rate on honest entries with real sources**, first
 - admission rate per attack class, second
 
 That order is deliberate. An admission layer that cuts good-faith entries does
 not survive production, however well it scores against attacks, and almost
-nobody publishes how much good work they break. A class that has not reached the
-space's round threshold is reported as `INCONCLUSIVE`, never as a defence that
-held. A class prevented by the envelope rules is flagged and excluded from the
-caught count.
+nobody publishes how much good work they break. An application judgement that
+does not reach the space's readable-round threshold is `INCONCLUSIVE`.
+Protocol timeouts and missing application state remain separate infrastructure
+or unresolved outcomes; they are never counted as successful defences. An
+input prevented by the envelope rules is reported separately.
+
+The current live evaluation is incomplete. Its dated checkpoint preserves
+verified judgements, unresolved attempts, infrastructure outcomes and candidates
+not yet submitted. The scripted offline corpus does not measure live attack
+resistance.
 
 ## The page
 
-`web/index.html` is the record: every entry offered to the space, kept whatever
-the outcome, with the false-rejection rate on honest entries printed before any
-score against attacks.
+`web/index.html` presents the scripted offline corpus, including refusals, with
+honest-control results before attack fixtures. Its banner links the separate,
+dated Bradbury checkpoint. `web/app.html` reads the deployed contract and provides
+wallet transactions and canonical receipt tracking.
 
-It opens on the gate doing its job rather than on a statistic. A real claim from
-the record is set at headline size, the way evidence is set, and the ruling
+It opens on an offline fixture. A claim from
+the scripted record is set at headline size, the way evidence is set, and the ruling
 arrives under it — one orchestrated moment on load, and after that the same
 reveal only answers a click. Two controls step through the attempts and the
 honest entries so the two sides can be read against each other, which is the
@@ -150,8 +157,7 @@ would be a claim about the gate; this is the gate. The corpus is baked into the 
 reads from a saved file, from the repository, and from anywhere that will not
 let a page call out.
 
-Three things on the page do something no other corpus page can, because they
-are the product rather than a picture of it.
+Three controls let visitors inspect and reproduce the offline behaviour.
 
 **Revoke an entry** replays the cascade in the browser. Who leans on whom, and
 whether an entry's own source carried its claim, are recorded facts from the

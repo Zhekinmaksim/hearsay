@@ -11,9 +11,11 @@ its verified receipt and reproduced the verdict with the CLI. **Space creation t
 claim transaction and verdict remain pending.** That remaining check matters to the Portal's full-transaction-lifecycle quality bar.
 The app is published on Vercel, and its CI checks passed. On 9 October the
 pending queue cleared, allowing the same cohort to resume. The current
-published checkpoint contains **16/20 verified honest controls** after seventy honest attempts.
+published checkpoint contains **18/20 verified honest controls** after eighty honest attempts.
 The conditional third reserve is now included in master110; original
-master60 and master80 remain preserved. The negative phase has not started.
+master60 and master80 remain preserved. All ten original negative cases were
+attempted: five UNSOURCED verdicts, four unresolved protocol timeouts, and one
+local refusal before consensus. Twenty declared honest candidates remain.
 The authorized frontend `open_space` was sent and accepted, with matching
 space 1. It remains provisional. The subsequent TESCO claim is prepared and
 authorized only after creation finalizes; no claim transaction has been sent.
@@ -77,7 +79,7 @@ Agents reuse shared memory, so one unsupported entry can become a premise for ma
 
 The contract fetches each claim's source, asks two independent support framings and checks consistency against recent admitted entries. It records ADMITTED, UNSOURCED, CONTRADICTED or INCONCLUSIVE with pinned evidence and votes. Unreadable or disagreeing rounds do not admit. Challenges revoke an entry and taint its dependents; a bounded cascade rejudges them without the revoked premise.
 
-The app reads Bradbury, connects a wallet and supports separate memory spaces, claim submission and canonical transaction tracking. Verified receipts replay locally. The public checkpoint has 16/20 judged honest controls; the attack phase has not started. Space creation ran live; a new claim transaction remains pending. Offline fixtures verify the implementation, not attack resistance.
+The app reads Bradbury, connects a wallet and supports separate memory spaces, claim submission and canonical transaction tracking. Verified receipts replay locally. The dated checkpoint has 18/20 judged honest controls and five UNSOURCED negative cases; four negative timeouts remain unresolved. Space creation ran live; a new claim transaction remains pending. Offline fixtures verify the implementation, not attack resistance.
 ```
 
 **Website — required**
@@ -121,7 +123,7 @@ flow and downloaded receipt were also verified on the public production app.
 | Inspect a finalized judgement | Under Transaction activity, paste 0x45e19a6288faf1376f2a055c1da060734490f392ce25bd8f126987863406f9b0 and click Resume receipt. Its canonical Finalized receipt matches BP entry 0: ADMITTED, support votes yes/yes, consistency none, and SHA-verified original source bytes. |
 | Reproduce the verdict | Click Download replayable receipt. From the repository, run python3 cli/gate.py verify --receipt ~/Downloads/hearsay-entry-0-replay.json. The expected result is reproduces: true and exit 0. Download current receipt is the separate canonical audit wrapper. |
 | Connect a wallet | Click Connect wallet. If needed, click Switch to Bradbury. The wallet approves each transaction and pays testnet network fees. |
-| Create your memory space | Expand Create a space for your wallet. Review the name, policy and optional initial pool, which defaults to 500000 wei. Click Create space in wallet and approve. Wait for the created space to load; its ID must be nonzero. Space 0 is the read-only benchmark in this app. |
+| Create your memory space | Expand Create a space for your wallet. Review the name, policy and optional initial pool, which defaults to 500000 wei. Click Create space in wallet and approve. Wait until its canonical receipt is Finalized and the created space has loaded with a nonzero ID. Accepted is provisional; the app blocks the next write until finalization. Space 0 is the read-only benchmark in this app. |
 | Prepare a sourced claim | Click Use the Companies House example. It states that TESCO PLC (00445790) is an active public limited company incorporated on 27 November 1947 and cites https://find-and-update.company-information.service.gov.uk/company/00445790. Check the source before submitting; validators fetch it again. |
 | Submit the entry | Review the 1000 wei write bond and gas fee. Click Submit claim in wallet and approve the write_entry transaction. |
 | Follow consensus | Open Transaction activity. Follow the saved EVM and protocol hashes and canonical status. Reloading resumes reads; Resume receipt tracks a saved hash, and Check receipt now refreshes it. Pending or appealed transactions remain unresolved. |
@@ -267,14 +269,15 @@ The existing verified results are:
 | Honest scripted fixtures | 0 refused out of 9; not a measured live false-rejection rate |
 | Recorded verdict replay | 18/18 reproduce |
 | Python/JavaScript parity | 67 checks passed |
-| Interactive offline page | 50 checks passed |
+| Interactive offline page and hero controls | 61 checks passed |
 | Receipt collection and diagnosis | 46 tests passed |
 | Optional explorer enrichment boundary | 7 tests passed |
-| Checkpoint accounting | 8 tests passed |
+| Checkpoint accounting | 22 tests passed |
+| Bounded read retries and concurrency | 6 retry tests and 10 concurrency tests passed |
 | Actual SDK queue guard | 37 checks passed |
 | Broadcast journal | 13 checks passed |
 | Live app SDK and wallet paths | 43 checks passed using the browser bundle; zero real sends |
-| Live app DOM controls | 22 checks passed; zero real sends |
+| Live app DOM controls | 30 checks passed; zero real sends |
 | Submission publication accounting | 16 tests passed |
 | Submission signing guard | 40 checks passed with actual SDK, dummy accounts and fake RPC |
 | Gate examples | Exit codes 0, 1, 2 and 2; malformed-input parity also covers exit 3 |
@@ -345,13 +348,19 @@ The expected result is a reproduced verdict and exit 0.
 ## Live evidence and remaining submission work
 
 The [current checkpoint](https://hearsay-psi.vercel.app/bradbury-prompt-checkpoint.json)
-was checked at **2026-10-09 13:24:28 UTC** (**18:24:28 Asia/Tashkent**), exact
-`2026-10-09T13:24:28.361826+00:00`. It accounts for all 110 active candidates:
-**16 verified honest judgements, 6 finalized infrastructure outcomes,
-48 unresolved, 40 unsubmitted and 0 construction-only cases completed**.
+was checked at **2026-10-09 16:02:14 UTC** (**21:02:14 Asia/Tashkent**), exact
+`2026-10-09T16:02:14.552116+00:00`. It accounts for all 110 active candidates:
+**23 verified judgements (18 honest and 5 negative), 6 finalized infrastructure
+outcomes, 60 unresolved, 20 unsubmitted and 1 locally prevented case**.
 The report matches the verified entries; held, escrowed and pools are each
-**1016000 wei**, balanced, including the separate frontend-created namespace.
-It remains incomplete, with no defence conclusion.
+**1023000 wei**, balanced, including the separate frontend-created namespace.
+It remains incomplete, with no defence conclusion. All five negative verdicts
+are UNSOURCED with verified full registry pages and no/no votes. Four negative
+protocol timeouts remain unresolved and are not counted as successful refusals.
+See the [negative-phase observations and limits](live-negative-preflight.md#executed-negative-phase).
+
+The [saved 13:24 checkpoint](../web/bradbury-prompt-checkpoint-20261009-1324.json)
+preserves the earlier sixteen-judgement snapshot before the negative phase.
 
 The [original-eighty milestone](../web/bradbury-prompt-checkpoint-original80.json)
 at `2026-10-09T13:14:24.244308+00:00` preserves the complete seventy honest
@@ -606,14 +615,17 @@ supplied form requirements:
 
 - [ ] Reach at least **20 genuinely judged honest controls** on this same
   contract and source version, retaining every infrastructure outcome and
-  original attempt. At the cited public checkpoint, at least 4 more judged
+  original attempt. At the cited public checkpoint, at least 2 more judged
   controls remain.
-- [ ] Complete the **original ten negative cases** in
+- [x] Attempt the **original ten negative cases** in
   [`corpus/live.json`](../corpus/live.json): nine independent cases submitted
   for genuine judgement, plus the citation-laundering case with `supports:
   [999999]`, refused by construction with zero consensus rounds. Retain that
   prevention separately from judged outcomes. No extra case is required by
-  this target. The live negative phase has not started.
+  this target. The phase produced five verified UNSOURCED entries, four
+  unresolved protocol timeouts and one local prevention. The four timeouts
+  have no application verdict; attempting every case does not establish
+  complete attack-resistance measurement.
 - [ ] Reconcile current application state, canonical receipts, source bytes,
   recorded votes and solvency; account for all campaign candidates. Run the
   full live publisher only when its cohort and coverage checks pass, then

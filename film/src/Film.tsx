@@ -498,7 +498,7 @@ const S7Number: React.FC<{ t: number; th: Theme }> = ({ t, th }) => t >= d(15) ?
       verified honest controls. Evaluation incomplete.
     </div>
     <div style={{ fontFamily: SANS, fontSize: 30, color: th.flag, marginTop: 24, ...enter(t, d(15) + 0.25) }}>
-      Live attack results are not established. Accepted receipts remain provisional.
+      {checkpoint.coverage.judged - checkpoint.coverage.honest_judged} negative-case verdicts. Accepted receipts remain provisional.
     </div>
     <div style={{ fontFamily: MONO, fontSize: 25, color: th.soft, marginTop: 30, ...enter(t, d(15) + 0.35) }}>
       {checkpoint.checked_at.replace("T", " ").replace(/\.\d+\+00:00$/, " UTC")}

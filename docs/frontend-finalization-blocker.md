@@ -52,3 +52,9 @@ simulation with `InsufficientActiveValidators(34,33)`. Consensus version and
 Main, Data and Queues implementation bindings are unchanged. No recovery or
 frontend claim transaction was sent. Fresh evidence is saved in
 `runs/frontend-live-oct9/fresh-finality/check-24013797.json`.
+
+The next check, block **24026853**, **9 October 15:49:38 UTC**
+(20:49:38 Asia/Tashkent), found the same creation status, finalization head,
+votes and recovery error. The pending queue was empty at 91/91. No signature
+or broadcast was made. The complete pinned read and both decoded simulations
+are saved in `runs/frontend-live-oct9/fresh-finality/check-24026853.json`.

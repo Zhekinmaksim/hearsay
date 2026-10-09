@@ -31,7 +31,7 @@ reported its existing injection conflict; no Hearsay page errors were observed.
 
 The sixty-second explainer labels its fictional fixtures and local cascade
 throughout those scenes. The current export's live scene shows the separate
-checkpoint checked at `2026-10-09T13:24:28.361826+00:00`: 16/20 verified honest judgements,
+checkpoint checked at `2026-10-09T16:02:14.552116+00:00`: 18/20 verified honest judgements and five negative-case verdicts,
 incomplete evaluation and provisional Accepted receipts. It does not claim
 live attack resistance. Gate exit 2 covers inconclusive or absent verdicts;
 exit 3 means malformed input. The owner confirmed music usage rights and the
