@@ -19,7 +19,7 @@ function check(title, fn) { fn(); passes++; console.log('ok ' + title); }
 function fixture({ stored = null, receipt = baseReceipt, networkError = false, noProvider = false, walletConnection = null } = {}) {
   const dom = new JSDOM(readFileSync(new URL('../web/app.html', import.meta.url), 'utf8'), { url: 'https://hearsay.test/app.html', pretendToBeVisual: true });
   if (stored) dom.window.localStorage.setItem(STORAGE_KEY, json([stored]));
-  let current = receipt, account = sender, chain = '0x107d', requests = [], callbacks = {};
+  let current = receipt, account = sender, chain = '0x107d', requests = [], callbacks = {}, reads = [], spaceMatches = 0;
   const provider = noProvider ? undefined : { on: (name, fn) => callbacks[name] = fn, removeListener: name => delete callbacks[name], async request({ method, params }) {
     requests.push({ method, params });
     if (method === 'eth_requestAccounts' && walletConnection) return walletConnection;
@@ -32,14 +32,15 @@ function fixture({ stored = null, receipt = baseReceipt, networkError = false, n
   const live = {
     public: { async getBalance() { return 10000000n; }, async getTransaction() { return { from: sender, to: BINDINGS.main, nonce: 1, input: '0xdead', value: 1000n }; } },
     async verifiedBlock() { if (networkError) throw new Error('Public RPC offline'); return { block: { number: 33n }, version: '2.0.0' }; },
-    async read(method, args = []) { if (networkError) throw new Error('Public RPC offline'); if (method === 'solvency') return { balanced: true, held: 1000n }; if (method === 'get_space') return { space_id: args[0], name: 'Registry memory', owner: sender, policy: 'Official sources', write_bond: 1000n, challenge_bond: 2000n, pool: 500000n, min_rounds: 2, admit_ttl: 1000, cascade_depth: 3, admitted: 1, open: true }; if (method === 'report') return { honest_attempts: 1, honest_admitted: 1, deferred: 0 }; if (method === 'get_entry') return entry; throw new Error('Unexpected read: ' + method); },
+    async read(method, args = []) { reads.push({ method, args }); if (networkError) throw new Error('Public RPC offline'); if (method === 'solvency') return { balanced: true, held: 1000n }; if (method === 'get_space') return { space_id: args[0], name: 'Registry memory', owner: sender, policy: 'Official sources', write_bond: 1000n, challenge_bond: 2000n, pool: 500000n, min_rounds: 2, admit_ttl: 1000, cascade_depth: 3, admitted: 1, open: true }; if (method === 'report') return { honest_attempts: 1, honest_admitted: 1, deferred: 0 }; if (method === 'get_entry') return entry; throw new Error('Unexpected read: ' + method); },
     async entries(id) { return Number(id) === 1 ? [entry] : []; },
     async receipt(tx, expected) { assert.equal(tx, hash); if (expected) assert.equal(expected, sender); return current; },
     async matchEntry(record) { assert.equal(record.envelopeHash, entry.envelope_hash); return entry; },
+    async matchSpace(record) { spaceMatches++; assert.equal(record.method, 'open_space'); const space = await live.read('get_space', [record.firstSpace]); assert.equal(space.owner, record.sender); assert.equal(space.name, record.spaceName); return space; },
     async protocolFromEvm(record) { assert.equal(record.evmHash, evmHash); return { hash, evmBlock: '32' }; }
   };
   const app = mountApp({ window: dom.window, live, provider, autoStart: false, pollInterval: 1000000 });
-  return { dom, app, requests, live, setReceipt(value) { current = value; }, changeAccount(value) { account = value; callbacks.accountsChanged?.([value]); }, changeChain(value) { chain = value; callbacks.chainChanged?.(value); } };
+  return { dom, app, requests, reads, live, spaceMatches: () => spaceMatches, setReceipt(value) { current = value; }, changeAccount(value) { account = value; callbacks.accountsChanged?.([value]); }, changeChain(value) { chain = value; callbacks.chainChanged?.(value); } };
 }
 const deferred = () => { let resolve, reject; const promise = new Promise((yes, no) => { resolve = yes; reject = no; }); return { promise, resolve, reject }; };
 const settled = () => new Promise(resolve => setTimeout(resolve, 0));
@@ -113,11 +114,52 @@ f = fixture({ stored: { version: 1, id: 'legacy-public-watch', contract: CONTRAC
 await f.app.pollOnce();
 check('old saved public watches infer the claim safely from a fresh canonical receipt', () => { assert.equal(f.app.journal.records[0].envelopeHash, envelopeHash(env)); assert.equal(f.app.journal.records[0].readOnly, true); assert.equal(f.app.journal.active(), undefined); assert([...f.dom.window.document.getElementById('receipt-panel').querySelectorAll('button')].some(button => button.textContent === 'Download replayable receipt')); });
 f.app.destroy();
+f = fixture(); await f.app.refreshWallet(); await f.app.loadSpace(1);
+let spaceRead = deferred(), originalRead = f.live.read;
+f.live.read = async (method, args = []) => { if (method === 'get_space') await spaceRead.promise; return originalRead(method, args); };
+const loadedSpace = f.app.state.space, refresh = f.app.loadSpace(1);
+check('a delayed same-space refresh keeps the coherent bond and facts while blocking submission', () => {
+  const d = f.dom.window.document;
+  assert.equal(f.app.state.space, loadedSpace);
+  assert.match(d.getElementById('claim-cost').textContent, /1000 wei/);
+  assert.match(d.getElementById('space-details').textContent, /1000 wei/);
+  assert(d.getElementById('claim-submit').disabled);
+  assert.equal(f.app.state.loadingSpace, true);
+});
+spaceRead.resolve(); await refresh;
+check('a completed same-space refresh restores submission without losing the namespace', () => { assert.equal(f.app.state.loadingSpace, false); assert.equal(Number(f.app.state.space.space_id), 1); assert(!f.dom.window.document.getElementById('claim-submit').disabled); });
+spaceRead = deferred();
+f.live.read = async (method, args = []) => { if (method === 'get_space' && args[0] === 2) await spaceRead.promise; return originalRead(method, args); };
+const olderLoad = f.app.loadSpace(2); await f.app.loadSpace(1); spaceRead.resolve(); await olderLoad;
+check('a late older namespace read cannot replace the latest selected space', () => { assert.equal(Number(f.app.state.space.space_id), 1); assert.equal(f.dom.window.document.getElementById('space-id').value, '1'); assert.equal(f.app.state.loadingSpace, false); });
+f.app.destroy();
+const creation = { version: 1, id: 'own-space', contract: CONTRACT, sender, createdAt: Date.now(), method: 'open_space', phase: 'protocol_pending', sendAttempted: true, protocolHash: hash, firstSpace: 1, spaceName: 'Registry memory', value: '500000' };
+const creationReceipt = { ...baseReceipt, value: 500000n, txCalldata: calldata('open_space', ['Registry memory', 'Official sources', 1000n, 3n, 2n, 1000n, 2000n]) };
+f = fixture({ stored: creation, receipt: creationReceipt }); await f.app.refreshWallet(); await f.app.loadSpace(1);
+const reportsBeforePoll = f.reads.filter(read => read.method === 'report').length;
+await f.app.pollOnce(); await f.app.pollOnce();
+check('accepted creation polls revalidate the match without repeatedly loading an already selected space', () => {
+  const d = f.dom.window.document;
+  assert.equal(f.spaceMatches(), 2);
+  assert.equal(f.reads.filter(read => read.method === 'report').length, reportsBeforePoll);
+  assert.equal(Number(f.app.state.space.space_id), 1);
+  assert.match(d.getElementById('claim-cost').textContent, /1000 wei/);
+  assert.match(d.getElementById('wallet-message').textContent, /Space 1 created/);
+  assert(!/application verdict/.test(d.getElementById('wallet-message').textContent));
+  assert.match(d.getElementById('receipt-panel').textContent, /Space creation is accepted and provisional/);
+});
+check('an owned Accepted creation still blocks both writes until Finalized', () => { assert.equal(f.app.journal.active().id, creation.id); assert(f.dom.window.document.getElementById('claim-submit').disabled); assert(f.dom.window.document.getElementById('create-submit').disabled); });
+f.setReceipt({ ...creationReceipt, status: 9, statusName: 'Appeal revealing', result: 0 }); await f.app.pollOnce();
+check('a replay removes the creation proof and copy while keeping the owned attempt blocked', () => { assert.equal(f.app.journal.records[0].space, null); assert(!/Space 1 created/.test(f.dom.window.document.getElementById('wallet-message').textContent)); assert(!/Space 1 created/.test(f.dom.window.document.getElementById('receipt-panel').textContent)); assert(f.dom.window.document.getElementById('claim-submit').disabled); assert.equal(f.spaceMatches(), 2); });
+f.setReceipt({ ...creationReceipt, status: 7, statusName: 'Finalized' }); await f.app.pollOnce();
+check('Finalized creation permits the next reviewed write and retains creation-specific copy', () => { assert.equal(f.app.journal.active(), undefined); assert(!f.dom.window.document.getElementById('claim-submit').disabled); assert.match(f.dom.window.document.getElementById('wallet-message').textContent, /Space 1 creation finalized/); assert(!/application verdict/.test(f.dom.window.document.getElementById('receipt-panel').textContent)); assert.equal(f.requests.filter(request => request.method === 'eth_sendTransaction').length, 0); });
+f.app.destroy();
 const own = { version: 1, id: 'own-send', contract: CONTRACT, sender, createdAt: Date.now(), method: 'write_entry', phase: 'broadcast_pending', sendAttempted: true, evmHash, args: [1, 'honest', JSON.stringify(env)], envelope: env, envelopeHash: envelopeHash(env), spaceId: 1, value: '1000' };
 f = fixture({ stored: own }); await f.app.refreshWallet(); await f.app.loadSpace(1);
 check('saved own EVM acknowledgement blocks a duplicate while public tracking resumes', () => assert(f.dom.window.document.getElementById('claim-submit').disabled));
 await f.app.pollOnce();
 check('reload recovers the protocol ID from the existing EVM hash without wallet sends', () => { assert.equal(f.app.journal.records[0].protocolHash, hash); assert.equal(f.requests.filter(x => x.method === 'eth_sendTransaction').length, 0); });
+check('an owned Accepted claim continues to block further writes', () => { assert.equal(f.app.journal.active().id, own.id); assert(f.dom.window.document.getElementById('claim-submit').disabled); assert(f.dom.window.document.getElementById('create-submit').disabled); });
 f.app.destroy();
 f = fixture({ stored: { ...own, phase: 'awaiting_wallet', evmHash: undefined, intent: { to: BINDINGS.main, nonce: '0x1', data: '0xbeef', value: '0x3e8' } } });
 check('reload during wallet uncertainty keeps intent and stops duplicate sending', () => { assert.equal(f.app.journal.active().phase, 'broadcast_unknown'); assert(f.dom.window.document.getElementById('claim-submit').disabled); });

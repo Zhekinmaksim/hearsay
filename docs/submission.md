@@ -7,17 +7,15 @@ by the user is the requirements source for this package. The Portal showed
 **Preparation status: not ready to submit.** The live app at `/app.html` is
 implemented. Its SDK and page checks pass, and a real browser has read Bradbury,
 connected the wallet, matched BP's finalized transaction to entry 0, downloaded
-its verified receipt and reproduced the verdict with the CLI. **A new
-transaction through the frontend wallet has not been demonstrated live.** That
-remaining check matters to the Portal's full-transaction-lifecycle quality bar.
+its verified receipt and reproduced the verdict with the CLI. **Space creation through the frontend wallet is now demonstrated live. A new
+claim transaction and verdict remain pending.** That remaining check matters to the Portal's full-transaction-lifecycle quality bar.
 The app is published on Vercel, and its CI checks passed. On 9 October the
 pending queue cleared, allowing the same cohort to resume. The current
 published checkpoint contains **9/20 verified honest controls** after 31
 attempts, including Whitbread and BAT. The negative phase has not started.
-The exact paid browser space-creation
-request is **explicitly authorized; awaiting wallet signature**. The browser
-now shows no connected wallet, so initiation remains on hold.
-No frontend wallet transaction has been sent.
+The authorized frontend `open_space` was sent and accepted, with matching
+space 1. It remains provisional. The subsequent TESCO claim is prepared and
+authorized only after creation finalizes; no claim transaction has been sent.
 
 The user requested on 9 October that Portal work stop until the project is
 fully ready. The existing unsubmitted draft is historical preparation; no
@@ -65,11 +63,11 @@ weekly slot was not consumed.
 Source-backed admission for shared agent memory: GenLayer judges claims, records evidence and votes, and cascades revocation through dependent entries.
 ```
 
-**Description — 943/1000 characters**
+**Description — local draft within 1000 characters**
 
 The text describes the implemented app and discloses its remaining live-write
 and evaluation limits. Update those disclosures only after verified evidence
-supersedes them. The field below is the updated local 943-character draft.
+supersedes them. The field below is the updated local draft.
 The earlier Portal draft still contains 7/20; it has not been changed under
 the user's instruction to finish the project before returning to the form.
 
@@ -78,7 +76,7 @@ Agents reuse shared memory, so one unsupported entry can become a premise for ma
 
 The contract fetches each claim's source, asks two independent support framings and checks consistency against recent admitted entries. It records ADMITTED, UNSOURCED, CONTRADICTED or INCONCLUSIVE with pinned evidence and votes. Unreadable or disagreeing rounds do not admit. Challenges revoke an entry and taint its dependents; a bounded cascade rejudges them without the revoked premise.
 
-The app reads Bradbury, connects a wallet and supports separate memory spaces, claim submission and canonical transaction tracking. Verified receipts replay locally. The public checkpoint has 9/20 judged honest controls; the attack phase has not started. New wallet sends are tested offline and remain unproven live. Offline fixtures verify the implementation, not attack resistance.
+The app reads Bradbury, connects a wallet and supports separate memory spaces, claim submission and canonical transaction tracking. Verified receipts replay locally. The public checkpoint has 9/20 judged honest controls; the attack phase has not started. Space creation ran live; a new claim transaction remains pending. Offline fixtures verify the implementation, not attack resistance.
 ```
 
 **Website — required**
@@ -216,7 +214,7 @@ from recorded votes; it does not repeat the semantic model judgement.
 | Current contract | [0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7](https://explorer-bradbury.genlayer.com/address/0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7) |
 | Deployment transaction | [0x7767c789…6267f3c](https://explorer-bradbury.genlayer.com/tx/0x7767c7897d9439503377111501bc020b6a159a092c3e7bd2f5a0bb5116267f3c) |
 | Deployment metadata | [deployments/bradbury-prompt.json](../deployments/bradbury-prompt.json) |
-| CI evidence, including the live app and submission guards | [GitHub Actions run 37831154855](https://github.com/Zhekinmaksim/hearsay/actions/runs/37831154855) |
+| CI evidence, including the live app and submission guards | [GitHub Actions run 37890921250](https://github.com/Zhekinmaksim/hearsay/actions/runs/37890921250) |
 
 Network: Bradbury testnet, chain ID **4221**. Current protocol parameters are
 five initial validators and `maxRotations=3`. The deployed ConsensusMain is
@@ -228,7 +226,7 @@ Readable contract SHA-256:
 `d2670d4204d769ce14f26328d3f8a4a86c4b645f0a54c5149d5269804ce53296`.
 Packed deployment source SHA-256:
 `2125f18b442bface1d2538563ff9d4fb40bb6e3f690ff8b42a3d5916ffece97c`.
-The linked green source-check CI run verifies commit `6f639fd`, including the
+The linked green source-check CI run verifies commit `9818be0`, including the
 live frontend and submission guards. Those implementations remain unchanged;
 later documentation commits do not change this evidence. Its additional
 fallback controls are preflight data, not active submissions or measured
@@ -441,6 +439,10 @@ additional preflight controls, SHA-256
 It is unsubmitted and inactive. It does not alter the current 60-candidate
 cohort or add any judged controls.
 
+The [negative-input preflight](live-negative-preflight.md) verifies the real
+URLs and authentic archive, and defines the limits of each declared class.
+Its checks are preflight only; no negative application verdict is implied.
+
 The live control group uses Companies House company profiles. It does not
 establish performance across arbitrary websites. Demonstration bonds are not
 an economic-security calibration. Full live attack resistance, measured
@@ -486,10 +488,10 @@ not yet been approved. The user then **explicitly authorized initiation** for
 the specified network, contract, name and pool; the final wallet signature
 remains pending.
 
-The wallet switched away from the authorized account and then disconnected.
-No request was initiated. The authorized
-`0x771388495F34d21C5574FeFc04cd1D5811E00aDa` must be reconnected before the
-paid request proceeds. Browser automation is available again after the earlier
+The wallet briefly switched accounts and disconnected. The browser later
+restored the authorized funded account
+`0x771388495F34d21C5574FeFc04cd1D5811E00aDa` on Bradbury 4221. No request was
+initiated; the campaign signer must hold before the paid request proceeds. Browser automation is available again after the earlier
 extension update requirement. No browser send or transaction-journal entry
 occurred. The earlier authentication-identity and Rabby reputational-alert gaps
 are no longer current.
@@ -502,7 +504,7 @@ calls the contract and handles its transaction lifecycle, and useful behaviour
 beyond boilerplate. Hearsay's source-admission and dependent-revocation rules
 address the trust problem; its pinned Companies House evidence is authoritative
 registry data. Its frontend now makes genuine public contract reads and exports
-a verified live receipt. Demonstrating a new frontend wallet transaction
+a verified live receipt. Demonstrating a new frontend claim transaction and matching verdict
 remains the product gap; the app is already published.
 
 Form preparation:
@@ -540,15 +542,15 @@ Live app acceptance:
 
 - [x] Receive explicit authorization to initiate the exact prepared paid
   `open_space` request, with Bradbury, contract, name and 500000 wei pool pinned.
-- [ ] Reconnect the authorized funded `0x771…0aDa` wallet. The browser
-  switched accounts, then disconnected; no request was sent.
+- [x] Restore the authorized funded `0x771…0aDa` wallet on Bradbury 4221.
 - [x] Restore browser automation after the extension update requirement.
-- [ ] Initiate only the authorized request after a safe signer hold, and let the
-  user approve its final wallet signature.
+- [x] Initiate the authorized space request after a safe signer hold; its
+  public wallet transaction is mined and its canonical creation is Accepted.
 - [x] Connect the wallet and verify Bradbury chain ID 4221 and the exact current
   contract in the real browser. Offline tests cover wallet rejection and
   wrong-network state.
-- [ ] Create and load the reviewer's own nonzero memory space. Disclose the
+- [x] Create and load the reviewer's own nonzero memory space (space 1, Accepted
+  and provisional; finalization still pending). Disclose the
   optional 500000 wei initial pool, 1000 wei write bond, 2000 wei challenge
   bond and additional network fees; keep benchmark space 0 read-only here.
 - [ ] Submit a real `write_entry` transaction with the 1000 wei bond from the
@@ -591,3 +593,14 @@ Final Portal action:
 - [ ] Review the completed form against the published app and evidence, then
   submit it through Builder → Projects. This consumes the remaining weekly
   Project spot. This package has not created or submitted a Portal project.
+
+## Frontend space creation: 9 October
+
+The [wallet EVM transaction](https://explorer-bradbury.genlayer.com/tx/0x985528494b4e78767ee3bf74f38bafd18bb40d3455c679fd9987673c03bff620)
+and [GenLayer protocol receipt](https://explorer-bradbury.genlayer.com/tx/0x91b4a237aff71bdd4b90ac3b097cd232479926f0accea4daf0879064f2f02653)
+are distinct public identifiers. The app loaded matching space 1 with the
+authorized owner, policy and 500000 wei pool. Canonical Accepted / Majority
+agree / Finished with return establishes provisional creation, not finality
+or a claim judgement. The user has separately authorized the prepared TESCO
+claim after creation finalizes. The sole campaign signer reconciled this
+UI transaction separately and resumed the original space 0 cohort.

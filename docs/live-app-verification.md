@@ -53,3 +53,32 @@ The wallet connection UI also displays its pending approval state and blocks
 duplicate connection requests. A runner regression verifies that every
 transaction in a fresh progress proof remains in the diagnosis exclusion set;
 it is retained as unresolved, never reclassified as a judgement.
+
+On 9 October, the production frontend initiated `open_space` with the
+explicitly authorized wallet and 500000 wei pool. The wallet returned public
+EVM hash
+`0x985528494b4e78767ee3bf74f38bafd18bb40d3455c679fd9987673c03bff620`,
+mined successfully at block 23919176 with nonce 683, and protocol ID
+`0x91b4a237aff71bdd4b90ac3b097cd232479926f0accea4daf0879064f2f02653`.
+At block 23919604 its canonical status was Accepted, Majority agree and
+Finished with return, with Consensus 2.0.0 and unchanged 5/3 parameters.
+Independent reads matched space 1, Hearsay reviewer · 9 October 2026, to the
+expected owner, policy and pool. The app selected it. This demonstrates a new
+frontend contract transaction; it remains provisional until finalization and
+does not demonstrate a new claim verdict.
+
+The user authorized one subsequent TESCO `write_entry` with a 1000 wei bond
+only after this creation finalizes. The claim and official source are prepared;
+no claim transaction has been initiated. Public nonce reconciliation was
+684/684, all 55 known EVM hashes mined, and global accounting balanced at
+1009000 wei. The browser-created namespace is separate from the space 0
+evaluation cohort. Local proof is under `runs/frontend-live-oct9`.
+
+The live creation poll exposed a transient UI defect: reloading the same
+namespace cleared its bond state while leaving the previous facts card. The
+fix preserves a coherent view during an explicit refresh, blocks submission
+while reading, and still verifies canonical receipts and the created-space
+match on each poll. Creation-specific messages replace claim-verdict copy.
+Regressions passed 43 SDK/wallet and 30 DOM checks; owned Accepted attempts
+still block writes until Finalized. No encoding, signing or finality guard
+changed.

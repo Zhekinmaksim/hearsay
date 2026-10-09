@@ -51,3 +51,11 @@ This completes the archive/hero/explainer checks. Submission remains pending
 at least twenty current honest judgements, the original negative phase, full
 candidate reconciliation and a new frontend wallet transaction. The Portal
 was not changed after the user instructed us to finish the project first.
+
+Production source commit `9818be0e0ca49baed1b5a493077f7b862d13bb8e` passed
+[CI 37890921250](https://github.com/Zhekinmaksim/hearsay/actions/runs/37890921250).
+Vercel deployment `dpl_5U7y74ZeEmhyC2cnZ6RWXFQ1KCB1` is READY. The public
+homepage, library, corpus, checkpoint, video, manifest, poster, app HTML and
+four fonts all matched local bytes. The MP4 answered a 1024-byte HTTP range
+with 206 and the exact local bytes. The production browser reproduced a
+source pin and played the full 60.011-second media without an error.

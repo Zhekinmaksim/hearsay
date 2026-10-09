@@ -7,7 +7,8 @@ export function mountApp({ window: win = window, document: doc = win.document, l
     catch { storage = { getItem() { throw new Error('This browser blocked transaction storage. Public reads work, but wallet submission is disabled until storage is available.'); }, setItem() { throw new Error('Transaction storage is blocked.'); } }; }
   }
   const $ = id => doc.getElementById(id);
-  const state = { account: '', chainId: null, balance: null, space: null, entries: [], selected: null, busy: false, connectingWallet: false, refreshing: false, polling: false, timer: null, stopped: false, walletError: '', checkedAt: null };
+  const state = { account: '', chainId: null, balance: null, space: null, entries: [], selected: null, busy: false, connectingWallet: false, refreshing: false, loadingSpace: false, polling: false, timer: null, stopped: false, walletError: '', checkedAt: null };
+  let spaceLoad = 0;
   const text = (id, value) => { $(id).textContent = value; };
   const message = (id, value, error = false) => { const node = $(id); node.textContent = value; node.hidden = !value; node.classList.toggle('error', error); };
   const element = (tag, content, className) => { const node = doc.createElement(tag); if (content !== undefined) node.textContent = String(content); if (className) node.className = className; return node; };
@@ -29,13 +30,26 @@ export function mountApp({ window: win = window, document: doc = win.document, l
     text('wallet-status', state.account ? state.account : 'No wallet connected.');
     text('wallet-balance', state.account ? `${chainReady ? 'GenLayer Bradbury Testnet · 4221' : 'Wallet is on another network'}${state.balance !== null ? ' · ' + formatEther(state.balance) + ' GEN' : ''}` : 'Your wallet approves each transaction.');
     const benchmark = Number(state.space?.space_id) === 0;
-    const reason = journal.error || (state.busy ? 'A transaction is being prepared or approved.' : active ? 'An earlier attempt is unresolved. Resume its receipt below before submitting another transaction.' : !state.account ? 'Connect your wallet to submit.' : !chainReady ? 'Switch your wallet to GenLayer Bradbury Testnet.' : !state.space ? 'Load an open memory space.' : benchmark ? 'Space 0 holds the published benchmark. Create your own space below, or load a separate space.' : !state.space.open ? 'This space is closed.' : 'The wallet will show the bond and network fee before you approve.');
+    const reason = journal.error || (state.busy ? 'A transaction is being prepared or approved.' : active ? 'An earlier attempt is unresolved. Resume its receipt below before submitting another transaction.' : state.loadingSpace ? 'Reading the selected memory space. Wait for this read before submitting.' : !state.account ? 'Connect your wallet to submit.' : !chainReady ? 'Switch your wallet to GenLayer Bradbury Testnet.' : !state.space ? 'Load an open memory space.' : benchmark ? 'Space 0 holds the published benchmark. Create your own space below, or load a separate space.' : !state.space.open ? 'This space is closed.' : 'The wallet will show the bond and network fee before you approve.');
     text('submit-blocked', reason);
-    $('claim-submit').disabled = !!journal.error || state.busy || !!active || !state.account || !chainReady || !state.space?.open || benchmark;
+    $('claim-submit').disabled = !!journal.error || state.busy || state.loadingSpace || !!active || !state.account || !chainReady || !state.space?.open || benchmark;
     $('create-submit').disabled = !!journal.error || state.busy || !!active || !state.account || !chainReady;
     text('claim-cost', state.space ? `Write bond: ${wei(state.space.write_bond)}. The wallet also pays network fees.` : 'Load a space to see its required write bond.');
     $('connect').disabled = state.busy || state.connectingWallet;
     $('refresh').disabled = state.refreshing;
+  }
+  function activityPhase(record) {
+    const phase = phaseText(record);
+    if (record.method !== 'open_space' || !record.receipt) return phase;
+    const receipt = record.receipt;
+    const detail = materialized(receipt)
+      ? Number(receipt.status) === 5
+        ? 'Space creation is accepted and provisional. It may be replayed; further wallet writes wait for finalization.'
+        : 'Space creation is finalized. Its matching space is shown when verified from current contract state.'
+      : terminal(record)
+        ? 'Space creation settled without a verified created space. Review the current receipt.'
+        : 'Space creation has no verified result in this current receipt. Tracking continues until the protocol settles.';
+    return { ...phase, detail };
   }
   function entryView(entry, { matched = false, receipt = null } = {}) {
     const node = element(matched ? 'div' : 'details', undefined, matched ? 'application' : 'entry');
@@ -56,7 +70,7 @@ export function mountApp({ window: win = window, document: doc = win.document, l
     if (!journal.records.length) list.append(element('li', 'No local transactions yet.', 'empty'));
     for (const record of journal.records) {
       const item = element('li'); const button = element('button'); button.type = 'button'; button.setAttribute('aria-current', String(record.id === state.selected));
-      const phase = phaseText(record); button.append(element('strong', `${record.method === 'open_space' ? 'Create space' : record.method === 'write_entry' ? 'Submit claim' : 'Public transaction'} · ${phase.title}`));
+      const phase = activityPhase(record); button.append(element('strong', `${record.method === 'open_space' ? 'Create space' : record.method === 'write_entry' ? 'Submit claim' : 'Public transaction'} · ${phase.title}`));
       button.append(element('span', record.protocolHash || record.evmHash || date(record.createdAt), 'hash'));
       button.addEventListener('click', () => { state.selected = record.id; renderActivity(); void pollOnce(); }); item.append(button); list.append(item);
     }
@@ -64,7 +78,7 @@ export function mountApp({ window: win = window, document: doc = win.document, l
     const panel = $('receipt-panel'); panel.replaceChildren();
     if (!record) { panel.append(element('p', 'Submit a claim or paste a protocol transaction ID to inspect its current receipt.', 'empty')); return; }
     state.selected = record.id;
-    const phase = phaseText(record); panel.append(element('h3', phase.title), element('p', phase.detail, 'small'));
+    const phase = activityPhase(record); panel.append(element('h3', phase.title), element('p', phase.detail, 'small'));
     if (record.error) panel.append(element('p', `${record.error}${record.receipt ? ' The displayed receipt is the last successful observation; it is not a fresh network read.' : ''}`, 'notice error'));
     if (!record.error && record.checkedAt) panel.append(element('p', `Last read ${date(record.checkedAt)}. ${!terminal(record) ? 'Tracking continues automatically while this page is open.' : ''}`, 'small'));
     if (!terminal(record) && Date.now() - record.createdAt > 120000) panel.append(element('p', 'This is taking longer than two minutes. Keep the saved hash; reloading resumes public reads and does not send another transaction.', 'notice'));
@@ -88,7 +102,7 @@ export function mountApp({ window: win = window, document: doc = win.document, l
           if (replay) { const button = element('button', 'Download replayable receipt', 'secondary download'); button.type = 'button'; button.addEventListener('click', () => downloadFile(json(replay), `hearsay-entry-${record.entry.entry_id}-replay.json`, 'application/json')); panel.append(button); panel.append(element('p', 'This flat receipt reproduces the verdict from its recorded votes and verified source bytes with cli/gate.py verify --receipt <file>.', 'small')); }
         } else panel.append(element('p', 'Verified snapshot bytes are unavailable in this stored receipt. Only its hash is displayed; no cached text is offered as proof.', 'small snapshot-note'));
       } else if (materialized(receipt) && record.space) panel.append(element('p', `Space ${record.space.space_id} created for ${record.space.owner}. It is selected above.`, 'notice'));
-      else panel.append(element('p', 'No matching application record is verified for this current receipt. The protocol state alone is not a Hearsay verdict.', 'notice'));
+      else panel.append(element('p', record.method === 'open_space' ? 'No matching created space is verified for this current receipt.' : 'No matching application record is verified for this current receipt. The protocol state alone is not a Hearsay verdict.', 'notice'));
       const raw = element('details', undefined, 'raw'); raw.append(element('summary', 'Current canonical receipt & validator rounds'), element('pre', json(receipt))); panel.append(raw);
       const download = element('button', 'Download current receipt', 'secondary download'); download.type = 'button'; download.addEventListener('click', () => downloadFile(json({ transaction: record.protocolHash, evm_transaction: record.evmHash || null, checked_at: record.checkedAt, observation_error: record.error || null, receipt, application_entry: materialized(receipt) ? record.entry || null : null }), `hearsay-${record.protocolHash}.json`, 'application/json')); panel.append(download);
     }
@@ -115,12 +129,18 @@ export function mountApp({ window: win = window, document: doc = win.document, l
   }
   async function loadSpace(id = Number($('space-id').value)) {
     if (!Number.isSafeInteger(id) || id < 0) throw new Error('Enter a nonnegative integer space ID.');
+    const token = ++spaceLoad;
+    state.loadingSpace = true;
     text('space-message', 'Reading current space, report, and entries…');
-    state.space = null; state.entries = []; renderControls();
-    const space = await live.read('get_space', [id]);
-    const [report, entries] = await Promise.all([live.read('report', [id]), live.entries(id)]);
-    state.space = space; state.entries = entries; state.checkedAt = Date.now(); $('space-id').value = String(id);
-    text('space-message', id === 0 ? `Loaded ${space.name}. This benchmark space is read-only here. Create your own space to submit a claim.` : `Loaded ${space.name}. Writes are public; ownership is not required.`); renderSpace(); renderMemory(report); renderControls();
+    if (Number(state.space?.space_id) !== id) { state.space = null; state.entries = []; renderSpace(); }
+    renderControls();
+    try {
+      const space = await live.read('get_space', [id]);
+      const [report, entries] = await Promise.all([live.read('report', [id]), live.entries(id)]);
+      if (token !== spaceLoad) return;
+      state.space = space; state.entries = entries; state.checkedAt = Date.now(); $('space-id').value = String(id);
+      text('space-message', id === 0 ? `Loaded ${space.name}. This benchmark space is read-only here. Create your own space to submit a claim.` : `Loaded ${space.name}. Writes are public; ownership is not required.`); renderSpace(); renderMemory(report);
+    } finally { if (token === spaceLoad) { state.loadingSpace = false; renderControls(); } }
   }
   async function refreshPublic() {
     if (state.refreshing) return;
@@ -198,8 +218,8 @@ export function mountApp({ window: win = window, document: doc = win.document, l
         record = createRecord(method, { args, value: value.toString(), spaceName: name, firstSpace });
       }
       state.selected = record.id;
-      await sendWrite({ live, provider, account: state.account, journal, record, functionName: method, args, value, getWallet: () => state.account, onSent: () => { message(msg, 'Transaction sent. Follow its saved EVM and protocol hashes below.'); schedulePoll(0); } });
-      message(msg, 'Submitted to GenLayer consensus. The application verdict is not available until a matching record is verified.');
+      await sendWrite({ live, provider, account: state.account, journal, record, functionName: method, args, value, getWallet: () => state.account, onSent: () => { message(msg, method === 'open_space' ? 'Space-creation transaction sent. Follow its saved EVM and protocol hashes below.' : 'Claim transaction sent. Follow its saved EVM and protocol hashes below.'); schedulePoll(0); } });
+      message(msg, method === 'open_space' ? 'Space creation submitted to GenLayer consensus. Waiting for the matching created space.' : 'Claim submitted to GenLayer consensus. Its verdict is not available until a matching entry is verified.');
       await pollOnce();
     } catch (error) { message(msg, errorText(error), true); }
     finally { state.busy = false; renderActivity(); renderControls(); schedulePoll(); }
@@ -220,6 +240,7 @@ export function mountApp({ window: win = window, document: doc = win.document, l
     }
     // Clear any previous application view as soon as replay changes its status.
     journal.save(record);
+    if (record.method === 'open_space' && !materialized(receipt)) message('wallet-message', activityPhase(record).detail);
     if (materialized(receipt)) {
       if (record.method === 'write_entry') {
         const intent = claimIntentFromReceipt(receipt);
@@ -227,7 +248,16 @@ export function mountApp({ window: win = window, document: doc = win.document, l
         record.entry = await live.matchEntry(record);
         if (record.entry) { record.proof = snapshotProof(receipt, record.entry); record.minRounds = Number((await live.read('get_space', [record.spaceId])).min_rounds); }
       }
-      if (record.method === 'open_space') { record.space = await live.matchSpace(record); if (record.space) { await loadSpace(Number(record.space.space_id)); } }
+      if (record.method === 'open_space') {
+        record.space = await live.matchSpace(record);
+        if (record.space) {
+          const id = Number(record.space.space_id);
+          if (Number(state.space?.space_id) !== id) await loadSpace(id);
+          message('wallet-message', Number(receipt.status) === 5
+            ? `Space ${id} created. Accepted is provisional; wait for finalization before another wallet write.`
+            : `Space ${id} creation finalized. Review your sourced claim before submitting.`);
+        }
+      }
       journal.save(record);
     }
   }
