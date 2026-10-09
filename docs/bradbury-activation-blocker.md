@@ -1,11 +1,11 @@
 # Bradbury activation blocker
 
-The latest pinned observation is **2026-10-08 19:11:46 UTC**, block
-**23825889**, after Burberry's original validity bound expired at **19:08:22 UTC**:
-**BURBERRY GROUP PLC** still occupies pending head 30 of tail 31.
-The campaign has **7 verified judgements from 29 honest attempts**, below
-the required 20, and the negative phase has not started. The appended post-expiry
-section records this blocker; earlier observations remain dated history.
+The pending queue cleared on **9 October**. At block **23904318**,
+**04:45:30 UTC**, it was empty **31/31**, and Burberry had no application
+judgement. Continuation then produced a verified Whitbread admission: the
+frozen 31-attempt scan has **9 honest judgements**, below the required 20,
+and no negative case has been submitted. The appended resumption section
+preserves these observations alongside the earlier blocker history.
 
 ## Historical National Grid blocker: 11:17 UTC
 
@@ -160,7 +160,7 @@ Post-expiry local proofs under `runs/bradbury-prompt` are
 `expired-burberry-29-receipts/`, `expired-burberry-journal-reconcile.json`,
 `expired-burberry-summary.json` and `expired-burberry-report.md`.
 
-The [final checkpoint](../web/bradbury-prompt-checkpoint.json) has exact
+The [8 October checkpoint](../web/bradbury-prompt-checkpoint-20261008-1917.json) has exact
 `checked_at` `2026-10-08T19:17:41.483065+00:00` (**19:17:41 UTC**, **9 October
 00:17:41 Asia/Tashkent**). Its full 60-candidate accounting remains **7 judged,
 6 finalized infrastructure outcomes, 16 unresolved and 31 unsubmitted**, with
@@ -168,6 +168,49 @@ The [final checkpoint](../web/bradbury-prompt-checkpoint.json) has exact
 and solvency is balanced. The 18:35 and earlier checkpoint archives remain
 preserved.
 
-The project remains **not ready**. Resumption requires a fresh actually empty
-pending queue and the same full signing guards. Neither expiry nor a successful
-EVM recovery receipt substitutes for that proof or for an application judgement.
+At that stop, the project remained **not ready**. Resumption required a fresh
+actually empty pending queue and the same full signing guards. Neither expiry
+nor a successful EVM recovery receipt substituted for that proof or for an
+application judgement.
+
+## 9 October queue release and continuation
+
+At block **23904318**, timestamp `1791521130` (**2026-10-09 04:45:30 UTC**),
+pending head and tail were both **31**, with a zero pending-head transaction.
+Consensus VERSION `2.0.0`, bindings and implementations were unchanged.
+Burberry was now `UNDETERMINED / IDLE / NOT_VOTED`, without matching
+application state; it is not a judged control or a contract refusal. The fresh
+29-attempt scan retained seven source- and vote-verified entries. All 48 public
+hashes were mined, nonce remained 677, and the same signing guards permitted
+continuation. The release is not attributed to the earlier recovery call.
+
+**WHITBREAD PLC**, company **04120344**, was the thirtieth honest attempt,
+protocol transaction
+`0xa0037e22bcf7f3bf5f4f62959202d69ceb9f6a0fe7a7062b011e045f7ccd0785`.
+At block **23905621**, timestamp `1791521547` (**04:52:27 UTC**), its
+canonical receipt was Accepted with successful execution and five validator
+votes. The matching entry 7 was `ADMITTED`; its `yes / yes / none` votes and
+exact stored EQ source snapshot reproduce. Accepted state remains provisional.
+
+The frozen full scan after that write has **30 honest attempts**, **8 verified
+entries**, **22 missing application records** and **0 scan errors**. Every
+source snapshot and recorded vote was freshly verified. At block **23905861**,
+timestamp `1791521626` (**04:53:46 UTC**), the pending queue was empty
+**32/32**. All **49 public EVM hashes** were mined, latest/pending nonce was
+**678/678**, and held, escrowed and pools were each **508000 wei**, balanced.
+Continuation remains in progress. The original full 60-candidate master cohort
+is unchanged, and no negative case has been submitted.
+
+Frozen proof paths under `runs/bradbury-prompt/oct9-resume-audit/` are
+`fresh-29-verified-records.jsonl`, `fresh-30-verified-records.jsonl`, their
+fresh raw records/issue companions/receipt captures, and
+`before-next-30-reconcile.json`. BAT then produced entry 8 with verified
+`yes / yes / none` votes and source bytes, bringing the frozen 31-attempt scan
+to nine judgements, 22 absent records and zero scan errors. Its protocol hash
+is `0x3f7c4996daa603e9559729fbf76727051fe058fa550425ec5386708665a2804d`;
+proof uses `fresh-31-verified-records.jsonl`. The current checkpoint, checked
+at `2026-10-09T05:19:03.085954+00:00`, accounts for the full 60 candidates:
+9 judged, 6 finalized infrastructure, 16 unresolved and 29 unsubmitted.
+The report matches and accounting is balanced at 509000 wei. The project still needs
+20 genuine honest judgements and the original negative-case coverage; this
+resumption does not complete that goal.

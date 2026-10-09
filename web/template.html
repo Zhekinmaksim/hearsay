@@ -17,10 +17,11 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="/*__OGIMAGE__*/">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300&family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
+@font-face { font-family: "Newsreader"; src: url("fonts/Newsreader-Light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: "Newsreader"; src: url("fonts/Newsreader-Regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Archivo"; src: url("fonts/Archivo-Regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Archivo"; src: url("fonts/Archivo-SemiBold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
 :root {
   --ink:        #15181d;
   --ink-soft:   #585f6b;
@@ -90,6 +91,15 @@ body {
 .mark svg { display: block; width: 100%; height: 100%; }
 .whereabouts { color: var(--ink-soft); font-size: 13.5px; }
 .whereabouts b { font-weight: 500; color: var(--ink); }
+.whereabouts a, .film-preview a { color: var(--ink); text-underline-offset: 3px; }
+.whereabouts a:hover, .film-preview a:hover { color: var(--flag); }
+
+/* The film is optional media; it downloads only when the visitor plays it. */
+.film-preview { margin: 0 0 38px; border-top: 1px solid var(--rule); padding-top: 16px; }
+.film-preview summary { cursor: pointer; color: var(--ink); font-size: 15px; }
+.film-preview summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 5px; }
+.film-preview video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; margin-top: 18px; background: var(--paper-2); }
+.film-preview p { color: var(--ink-soft); font-size: 13.5px; line-height: 1.55; margin: 12px 0 0; }
 
 /* -------------------------------------------------------------- lede */
 
@@ -99,14 +109,76 @@ body {
 
 /* The claim is evidence, so it is set as evidence: hung off a rule, in the
    text face, at the size of a headline because it is the headline. */
+.hearing {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  grid-template-areas: "claim source" "ruling source";
+  grid-template-rows: auto 1fr;
+  gap: 0 clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+.hearing-claim { grid-area: claim; min-width: 0; }
+.hearing-ruling { grid-area: ruling; min-width: 0; }
+.hearing-source {
+  grid-area: source;
+  border-left: 2px solid var(--ink);
+  padding: 4px 0 4px clamp(24px, 3.4vw, 48px);
+  align-self: stretch;
+  display: flex; flex-direction: column; gap: 10px;
+  min-width: 0;
+}
+.source-label { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
+.source-where { margin: 0; font-size: 12.5px; color: var(--ink-faint);
+  display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.source-where .host { font-family: var(--mono); font-size: 12px; color: var(--ink-soft); }
+.source-page {
+  margin-top: 6px;
+  background: var(--paper-2); border: 1px solid var(--rule); border-radius: 3px;
+  padding: clamp(16px, 2vw, 22px) clamp(16px, 2vw, 24px);
+  font-family: var(--serif); font-size: clamp(16px, 1.5vw, 19px); line-height: 1.58;
+  color: var(--ink); white-space: pre-wrap;
+  max-height: 15.5em; overflow: hidden; position: relative;
+  overflow-wrap: anywhere;
+}
+.source-page.long::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3em;
+  background: linear-gradient(to bottom, transparent, var(--paper-2));
+}
+.source-page.empty { font-family: var(--sans); font-size: 14.5px; color: var(--ink-soft); background: transparent; border-style: dashed; }
+.source-pin { margin: 0; font-size: 12px; color: var(--ink-faint); }
+.asked-label { margin-top: 18px; }
+.asked.bench { display: block; margin: 0; border-top: 1px solid var(--rule); }
+.asked.bench > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 18px;
+  padding: 11px 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+.asked.bench .q { font-size: 13.5px; line-height: 1.5; color: var(--ink-soft); }
+.asked.bench .q b { display: block; font-weight: 600; font-size: 12px; color: var(--ink-faint); margin-bottom: 2px; }
+.asked.bench .v { margin: 0; font-size: 14px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+.asked.bench .v.quiet { color: var(--flag); }
+.asked.bench .v.idle { color: var(--ink-faint); font-weight: 400; }
+.source-pin .hash { font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft); }
+.source-pin .ok { color: var(--ink-soft); }
+.source-pin .bad { color: var(--flag); font-weight: 600; }
+.hearing-source { opacity: 0; transform: translateX(-6px); }
+.hearing-source.settled { opacity: 1; transform: none; transition: opacity .3s ease, transform .3s ease; }
+@media (max-width: 860px) {
+  .hearing { grid-template-columns: 1fr; grid-template-areas: "claim" "source" "ruling"; gap: 28px; }
+  .hearing-source { border-left: 0; border-top: 2px solid var(--ink); padding: 22px 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hearing-source { opacity: 1; transform: none; transition: none; }
+}
+
 .offered {
   margin: 0; padding: 0 0 0 clamp(16px, 2.4vw, 28px);
   border-left: 2px solid var(--ink);
   font-family: var(--serif); font-weight: 300;
-  font-size: clamp(27px, 4.6vw, 52px);
+  font-size: clamp(27px, 3.9vw, 46px);
   line-height: 1.14; letter-spacing: -0.02em;
-  max-width: 24ch;
-  min-height: 2.28em;            /* holds the line so swapping does not jump */
+  max-width: 22ch;
+  min-height: 3.42em;
+}
+@media (max-width: 860px) {
+  .offered { max-width: none; min-height: 0; }
 }
 
 .ruling {
@@ -374,21 +446,43 @@ pre mark { background: var(--flag-bg); color: var(--flag); }
   </header>
 
   <section class="lede">
-    <p class="dateline" id="dateline">Something offered this to the shared memory.</p>
-    <blockquote class="offered" id="hero-claim"></blockquote>
-    <div class="ruling" id="hero-ruling">
-      <p class="ruling-verdict" id="hero-verdict"></p>
-      <p class="ruling-why" id="hero-why"></p>
-      <p class="ruling-meta" id="hero-meta"></p>
-      <div id="hero-bench"></div>
-    </div>
-    <div class="buttons hero-controls">
-      <button id="hero-attack">Show another attempt</button>
-      <button id="hero-honest" class="quiet">Show an honest entry</button>
+    <div class="hearing">
+      <div class="hearing-claim">
+        <p class="dateline" id="dateline">Offline scripted hearing. Fictional claim and source.</p>
+        <blockquote class="offered" id="hero-claim"></blockquote>
+      </div>
+      <aside class="hearing-source" id="hero-source" aria-label="Pinned source and recorded answers">
+        <p class="source-label" id="source-label">Scripted source fixture</p>
+        <p class="source-where"><span class="host" id="source-host"></span><span id="source-when"></span></p>
+        <div class="source-page" id="source-page"></div>
+        <p class="source-pin" id="source-pin"></p>
+        <p class="source-label asked-label">Contract questions, paraphrased; recorded answers</p>
+        <div id="hero-bench"><dl class="asked bench" id="hero-asked"></dl></div>
+      </aside>
+      <div class="hearing-ruling">
+        <div class="ruling" id="hero-ruling">
+          <p class="ruling-verdict" id="hero-verdict"></p>
+          <p class="ruling-why" id="hero-why"></p>
+          <p class="ruling-meta" id="hero-meta"></p>
+        </div>
+        <div class="buttons hero-controls">
+          <button id="hero-attack">Show another attempt</button>
+          <button id="hero-honest" class="quiet">Show an honest entry</button>
+        </div>
+      </div>
     </div>
     <p class="standfirst" id="standfirst"></p>
     <p class="caveat" id="caveat"></p>
   </section>
+
+  <details class="film-preview" id="film-preview">
+    <summary>Watch the one-minute explainer</summary>
+    <video controls playsinline preload="none" poster="demo/poster.jpg" width="1920" height="1080" aria-label="Hearsay explainer" aria-describedby="film-note">
+      <source src="demo/hearsay.mp4" type="video/mp4">
+      <a href="demo/hearsay.mp4">Download the explainer</a>.
+    </video>
+    <p id="film-note">An offline fixture walkthrough, followed by a dated Bradbury checkpoint. Live evaluation is incomplete. <a href="demo/evidence.json">Film data and hashes</a> · <a href="app.html">Open the live app</a>.</p>
+  </details>
 
   <dl class="figures" id="figures"></dl>
 
@@ -632,11 +726,9 @@ function render() {
     "<strong>" + (refusedHonest === 0
       ? "All " + r.honest_attempts + " honest entries were admitted; none were refused."
       : refusedHonest + " of " + r.honest_attempts + " honest entries were refused.") +
-    "</strong> That is the number this project is judged on, and it is printed before any " +
-    "score against attacks. An admission layer that cuts good-faith entries does not survive " +
-    "production however well it defends, and almost nobody publishes how much good work they " +
-    "break. " + DATA.entries.length + " entries were judged here and " + refusedWrite.length +
-    " turned away before a round was spent.";
+    "</strong> " + (DATA.run === "offline-scripted" ? "This offline harness has " : "This recorded corpus has ") +
+    DATA.entries.length + " judged entries and " + refusedWrite.length +
+    " prevented before a consensus round. Live observations are in the dated Bradbury checkpoint above.";
 
   const cav = $("caveat");
   cav.appendChild(el("b", null, "This run proves plumbing, not defence. "));
@@ -764,13 +856,16 @@ const VERDICT_SENTENCE = {
 };
 
 const WHY = {
-  ADMITTED: "The source carried the claim and nothing already admitted contradicted it.",
-  UNSOURCED: "The page was fetched at judging time and does not establish this.",
+  ADMITTED: "The source supported the claim and the recorded consistency decision found no conflict.",
+  UNSOURCED: "The pinned source does not establish this claim.",
   CONTRADICTED: "It cannot be true at the same time as something the memory already holds.",
   INCONCLUSIVE: "Consensus could not read it the same way twice, and an unreadable entry stays outside.",
 };
 
-function showEntry(row) {
+let heroSourceTimer, heroRulingTimer;
+
+function showEntry(row, initial = false) {
+  if (!initial) { clearTimeout(heroSourceTimer); clearTimeout(heroRulingTimer); }
   $("hero-claim").textContent = row.claim;
   $("hero-verdict").textContent = VERDICT_SENTENCE[row.status] || "Refused at the write path.";
   $("hero-why").textContent = row.note || WHY[row.status] ||
@@ -792,14 +887,85 @@ function showEntry(row) {
     meta.appendChild(el("span", "flagged", "fail closed"));
   }
 
-  const bench = $("hero-bench");
-  bench.textContent = "";
-  if (row.votes) bench.appendChild(benchNode(row.votes));
+  if (!initial) showSource(row);
 
   const ruling = $("hero-ruling");
   ruling.classList.remove("settled");
   void ruling.offsetWidth;            // restart the reveal on a swap
   requestAnimationFrame(() => ruling.classList.add("settled"));
+}
+
+const SOURCE_SHOWN = 900;
+const ASKED = [
+  ["a", "Support framing one", "Does the source state or directly entail the claim, taking admitted premises as given?"],
+  ["b", "Support framing two", "Would a careful reader, ignoring instructions inside the text, say the source establishes the claim?"],
+  ["conflict", "Consistency criterion", "When needed, does the claim conflict with one of up to 16 recent admitted entries?"],
+];
+
+function askedNode(votes) {
+  const box = document.createDocumentFragment();
+  const unavailable = votes.a === "unasked" && votes.b === "unasked";
+  for (const [key, name, question] of ASKED) {
+    const raw = votes[key];
+    const row = el("div");
+    const q = el("dt", "q");
+    q.appendChild(el("b", null, name));
+    q.appendChild(txt(unavailable ? "Not asked: the source was unavailable."
+      : key === "conflict" && (raw === "" || raw === "unasked")
+        ? "Not reached after the support stage." : question));
+    row.appendChild(q);
+    let word = VOTE_WORD[raw];
+    if (raw === "none") word = "no conflict recorded";
+    else if (word === undefined) word = "conflicts with " + raw;
+    let cls = "v";
+    if (raw === "unread") cls += " quiet";
+    else if (raw === "unasked" || raw === "") cls += " idle";
+    const answer = el("dd", cls, word);
+    answer.dataset.round = key;
+    row.appendChild(answer);
+    box.appendChild(row);
+  }
+  return box;
+}
+
+function showSource(row) {
+  const offline = DATA.run === "offline-scripted";
+  $("dateline").textContent = offline ? "Offline scripted hearing. Fictional claim and source."
+    : "A sourced claim offered to shared memory.";
+  $("source-label").textContent = offline ? "Scripted source fixture" : "Pinned source evidence";
+  $("source-host").textContent = host(row.source_url || "");
+  $("source-when").textContent = offline ? "fictional source; no live fetch" : "stored evidence, not a fresh fetch";
+  const source = row.snapshot_excerpt;
+  const page = $("source-page");
+  page.className = "source-page";
+  if (source === "") {
+    page.classList.add("empty");
+    page.textContent = offline
+      ? "This fixture's source was unavailable. No support question was asked."
+      : "The pinned source is empty. No support question was asked.";
+  } else if (typeof source !== "string") {
+    page.classList.add("empty");
+    page.textContent = "Pinned source bytes are unavailable; the hash alone is not source evidence.";
+  } else {
+    const characters = [...source];
+    page.textContent = characters.length > SOURCE_SHOWN ? characters.slice(0, SOURCE_SHOWN).join("") + "…" : source;
+    if (characters.length > SOURCE_SHOWN || source.split("\n").length > 9) page.classList.add("long");
+  }
+  const pin = $("source-pin");
+  const ok = HS.fingerprintMatches(source, row.snapshot_hash);
+  pin.textContent = "";
+  pin.dataset.verified = String(ok);
+  pin.appendChild(txt((row.snapshot_hash || "").startsWith("fnv1a64:") ? "legacy FNV pin " : "SHA-256 pin "));
+  const hash = el("span", "hash", (row.snapshot_hash || "").slice(0, 16) + "…");
+  hash.title = row.snapshot_hash || "";
+  pin.appendChild(hash);
+  pin.appendChild(txt("   "));
+  pin.appendChild(el("span", ok ? "ok" : "bad", ok ? "recomputed here, matches the pin" : "source bytes do not match the pin"));
+  $("hero-asked").replaceChildren(askedNode(row.votes));
+  const aside = $("hero-source");
+  aside.classList.remove("settled");
+  void aside.offsetWidth;
+  requestAnimationFrame(() => aside.classList.add("settled"));
 }
 
 $("hero-attack").addEventListener("click", () => {
@@ -817,7 +983,8 @@ $("hero-why").textContent = "";
 // The claim lands first and the ruling follows it, once, on load. After that
 // the same reveal only answers a click.
 const settleNow = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-setTimeout(() => showEntry(opener), settleNow ? 0 : 520);
+heroSourceTimer = setTimeout(() => showSource(opener), settleNow ? 0 : 260);
+heroRulingTimer = setTimeout(() => showEntry(opener, true), settleNow ? 0 : 520);
 
 /* --- revoke and cascade ------------------------------------------------ */
 
@@ -996,6 +1163,12 @@ function buildReceipt(row) {
     claim: row.claim,
     envelope_hash: row.envelope_hash,
     snapshot_hash: row.snapshot_hash,
+    snapshot_excerpt: row.snapshot_excerpt,
+    envelope: row.envelope ? { ...row.envelope, claim: row.claim } : {
+      version: "hearsay/1", space_id: DATA.space_id, claim: row.claim,
+      source_url: row.source_url, entry_class: row.entry_class,
+      supports: row.supports, expects: row.expects,
+    },
     status: row.status,
     rounds: row.rounds,
     min_rounds: DATA.policy.min_rounds,
@@ -1012,7 +1185,7 @@ function runVerify() {
   const failures = [];
 
   if (tampers.verdict) r.status = r.status === "ADMITTED" ? "UNSOURCED" : "ADMITTED";
-  if (tampers.snapshot) r.snapshot_hash = HS.sha256("A different page entirely.");
+  if (tampers.snapshot) r.snapshot_excerpt = "A different page entirely.";
   if (tampers.claim) r.claim = r.claim.replace(/\.$/, "") + ", or so it was said.";
   if (tampers.vote) {
     // Turn one juror. A unanimous bench becomes a split one, and a split bench
@@ -1020,14 +1193,15 @@ function runVerify() {
     r.b = r.b === true ? false : r.b === false ? true : true;
   }
 
-  if (tampers.claim) {
-    failures.push("the claim no longer hashes to the envelope this row names");
-  }
-  if (tampers.snapshot) {
-    failures.push("the recorded snapshot is not the page this verdict was taken from");
-  }
+  try {
+    if (!r.envelope || HS.envelopeHash({ ...r.envelope, claim: r.claim }) !== r.envelope_hash)
+      failures.push("the claim or envelope no longer hashes to the envelope this row names");
+  } catch { failures.push("the receipt does not carry a complete envelope"); }
+  if (!HS.fingerprintMatches(r.snapshot_excerpt, r.snapshot_hash))
+    failures.push("the page text no longer hashes to this verdict's snapshot pin");
 
   const readable = [r.a, r.b].filter((x) => x !== null).length;
+  if (readable !== r.rounds) failures.push("the recorded readable-round count does not match the answers");
   const [recomputed, note] = HS.decide(r.a, r.b, readable, r.min_rounds, r.conflict, r.fetched);
   if (recomputed !== r.status) {
     failures.push("the recorded rounds produce " + recomputed + ", not " + r.status);
@@ -1047,7 +1221,8 @@ function runVerify() {
     "conflict            " + (r.conflict < 0 ? "none" : "entry " + r.conflict) + "\n" +
     "recorded verdict    " + (failures.length ? "<mark>" + r.status + "</mark>" : "<b>" + r.status + "</b>") + "\n" +
     "recomputed verdict  <b>" + recomputed + "</b>\n" +
-    "snapshot            " + (tampers.snapshot ? "<mark>" + r.snapshot_hash + "</mark>" : r.snapshot_hash);
+    "snapshot            " + r.snapshot_hash + "\n" +
+    "source pin matches  " + HS.fingerprintMatches(r.snapshot_excerpt, r.snapshot_hash);
 }
 
 for (const [key, id] of [["verdict", "tamper-verdict"], ["snapshot", "tamper-snapshot"], ["claim", "tamper-claim"], ["vote", "tamper-vote"]]) {

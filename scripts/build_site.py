@@ -11,6 +11,8 @@ repository, and from anywhere that will not let a page call out.
 Reads only the published corpus. Dry runs write to runs/offline separately.
 """
 
+import copy
+import hashlib
 import json
 import os
 import sys
@@ -25,14 +27,59 @@ MARK = os.path.join(ROOT, "web", "mark.svg")
 FAVICON = os.path.join(ROOT, "web", "favicon.svg")
 LIB_MARKER = "/*__LIB__*/"
 LIB = os.path.join(ROOT, "web", "lib.mjs")
+SEED = os.path.join(ROOT, "corpus", "seed.json")
 
 
-def main():
+def enrich_offline_snapshots(corpus, seed=None):
+    """Copy the scripted corpus and attach only its exact hash-pinned pages.
+
+    Match dry_run.py's source dictionary, including the last fixture for a URL.
+    The published golden corpus is never changed. Live evidence is not enriched
+    from fictional fixtures.
+    """
+    enriched = copy.deepcopy(corpus)
+    if enriched.get("run") != "offline-scripted":
+        return enriched
+    if seed is None:
+        with open(SEED, encoding="utf-8") as fh:
+            seed = json.load(fh)
+    pages = {row["source_url"]: row["page"] for row in seed["entries"]
+             if row.get("page") is not None}
+    by_id = {row["id"]: row for row in seed["entries"]}
+    for row in enriched["entries"]:
+        page = pages.get(row["source_url"], "")
+        if not isinstance(page, str):
+            raise ValueError("scripted source text must be a string")
+        digest = hashlib.sha256(page.encode("utf-8")).hexdigest()
+        if digest != row.get("snapshot_hash"):
+            raise ValueError("scripted source does not match snapshot pin for %s" % row.get("id"))
+        if "snapshot_excerpt" in row and row["snapshot_excerpt"] != page:
+            raise ValueError("existing scripted excerpt differs from pinned fixture")
+        row["snapshot_excerpt"] = page
+        # The archived golden rows omit inert author notes. Recover the full
+        # receipt envelope only when its canonical hash proves every field.
+        envelope = {"version": "hearsay/1", "space_id": enriched["space_id"],
+                    "claim": row["claim"], "source_url": row["source_url"],
+                    "entry_class": row["entry_class"]}
+        for key, value in [("supports", row.get("supports")),
+                           ("expects", row.get("expects")),
+                           ("author_note", by_id.get(row.get("id"), {}).get("note"))]:
+            if value:
+                envelope[key] = value
+        canonical = json.dumps(envelope, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+        if hashlib.sha256(canonical.encode("utf-8")).hexdigest() != row.get("envelope_hash"):
+            raise ValueError("scripted envelope does not match recorded pin")
+        row["envelope"] = envelope
+    return enriched
+
+
+def render_page():
+    """Render in memory. Only main() writes the generated index."""
     if not os.path.exists(CORPUS):
         print("no published corpus at %s" % CORPUS, file=sys.stderr)
         return 2
 
-    corpus = json.load(open(CORPUS, encoding="utf-8"))
+    corpus = enrich_offline_snapshots(json.load(open(CORPUS, encoding="utf-8")))
     template = open(TEMPLATE, encoding="utf-8").read()
     if os.path.exists(os.path.join(ROOT, "web", "app.html")):
         template = template.replace(
@@ -79,7 +126,8 @@ def main():
     lib = open(LIB, encoding="utf-8").read()
     lib = "\n".join(l for l in lib.splitlines() if not l.startswith("export {"))
     names = ["sha256", "flatten", "dedupKey", "canonical", "envelopeHash",
-             "defuse", "fence", "decide", "localGate", "cascade"]
+             "defuse", "fence", "decide", "localGate", "cascade",
+             "fnv1a64", "fingerprintMatches"]
     lib += "\nconst HS = { " + ", ".join(names) + " };\n"
 
     # `</script>` inside a string literal would close the host script tag early,
@@ -118,6 +166,14 @@ def main():
             .replace("/*__OGIMAGE__*/", og)
             .replace(MARKER, blob))
 
+    return page, corpus, og, base
+
+
+def main():
+    rendered = render_page()
+    if isinstance(rendered, int):
+        return rendered
+    page, corpus, og, base = rendered
     with open(OUT, "w", encoding="utf-8") as fh:
         fh.write(page)
 

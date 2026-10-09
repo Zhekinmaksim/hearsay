@@ -7,3 +7,6 @@ runs/**
 .vercel/
 .env*
 .DS_Store
+hearsay.tar.gz
+film/out/
+film/sheet/

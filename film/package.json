@@ -1,0 +1,28 @@
+{
+  "name": "hearsay-film",
+  "version": "1.0.0",
+  "description": "Hearsay explainer from verified offline receipts and a dated Bradbury checkpoint",
+  "main": "index.js",
+  "scripts": {
+    "sync": "node scripts/sync.mjs",
+    "studio": "remotion studio src/index.ts",
+    "sheet": "node sheet.mjs",
+    "render": "node render.mjs",
+    "check": "tsc --noEmit && node scripts/check.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@remotion/bundler": "4.0.533",
+    "@remotion/cli": "4.0.533",
+    "@remotion/renderer": "4.0.533",
+    "@types/react": "19.3.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.533",
+    "typescript": "7.0.2"
+  },
+  "private": true,
+  "type": "module"
+}

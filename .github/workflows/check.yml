@@ -41,3 +41,5 @@ jobs:
       - run: make gate-parity
       - run: make page
       - run: make live-page
+      - run: npm ci --prefix film --ignore-scripts
+      - run: make film-check

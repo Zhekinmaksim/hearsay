@@ -10,12 +10,18 @@ connected the wallet, matched BP's finalized transaction to entry 0, downloaded
 its verified receipt and reproduced the verdict with the CLI. **A new
 transaction through the frontend wallet has not been demonstrated live.** That
 remaining check matters to the Portal's full-transaction-lifecycle quality bar.
-The app is published on Vercel, and its CI checks passed. The campaign remains
-at **7/20 judged honest controls from 29 honest attempts**. At pinned block
-**23825889** (**2026-10-08 19:11:46 UTC**, **9 October 00:11:46 Asia/Tashkent**),
-Burberry still occupies the pending queue after its original expiry. The live
-negative phase has not started. Logo upload, the Rabby reputational alert and
-the wallet identity for Portal authentication await explicit browser approval.
+The app is published on Vercel, and its CI checks passed. On 9 October the
+pending queue cleared, allowing the same cohort to resume. The current
+published checkpoint contains **9/20 verified honest controls** after 31
+attempts, including Whitbread and BAT. The negative phase has not started.
+The exact paid browser space-creation
+request is **explicitly authorized; awaiting wallet signature**. The browser
+now shows no connected wallet, so initiation remains on hold.
+No frontend wallet transaction has been sent.
+
+The user requested on 9 October that Portal work stop until the project is
+fully ready. The existing unsubmitted draft is historical preparation; no
+further filling, upload or submission is authorized at this stage.
 
 ## Copy-ready Portal fields
 
@@ -25,12 +31,14 @@ the wallet identity for Portal authentication await explicit browser approval.
 Hearsay
 ```
 
-**Project logo**
+**Project logo — optional identity asset**
 
 Upload [`web/favicon-180.png`](../web/favicon-180.png): PNG, **180 × 180 px**,
 **786 bytes**. Its dimensions and file type were inspected. It meets the
 supplied PNG/JPEG/WebP, 128–2048 px and ≤2 MB requirements. The 32 px favicon
-does not meet the minimum size.
+does not meet the minimum size. The prepared PNG remains unuploaded. The
+actual Portal DOM reports all mandatory fields complete without it; optional
+upload approval remains pending.
 
 **Primary tag and topic tags**
 
@@ -41,12 +49,15 @@ Selected in the unsubmitted Portal draft:
 
 The inspected topic choices were Autonomous Execution, Multi-Agent
 Coordination, Model Evaluation, AI Policy Enforcement, Verifiable Inference,
-and Source Verification. The unsubmitted draft also contains the project name,
-151-character one-liner, exact contract link and a GitHub Repository item added
-through Add Evidence. The Portal reports **6/7 required fields complete**. The
-description, nine how-to steps, expected outcome and public app website are entered;
-the logo has not been uploaded. The GitHub evidence/base-URL field still needs
-final validation after its duplicate URL was cleared.
+and Source Verification. On **9 October**, the actual Portal DOM and
+screenshots verified unsubmitted draft **1079417206**, logged in as
+**Zhekin**, with **7/7 mandatory fields complete**. The project name,
+151-character one-liner, 943-character description, nine how-to steps,
+439-character expected outcome, public app website, exact contract link,
+selected tags and Application date are entered. The required GitHub URL is
+filled and one valid GitHub Repository item is attached through Add Evidence.
+No authentication-wallet signature was made. No project was submitted and the
+weekly slot was not consumed.
 
 **One-liner — 151/180 characters**
 
@@ -58,14 +69,16 @@ Source-backed admission for shared agent memory: GenLayer judges claims, records
 
 The text describes the implemented app and discloses its remaining live-write
 and evaluation limits. Update those disclosures only after verified evidence
-supersedes them.
+supersedes them. The field below is the updated local 943-character draft.
+The earlier Portal draft still contains 7/20; it has not been changed under
+the user's instruction to finish the project before returning to the form.
 
 ```text
 Agents reuse shared memory, so one unsupported entry can become a premise for many later decisions. Hearsay puts a GenLayer Intelligent Contract in front of admission.
 
 The contract fetches each claim's source, asks two independent support framings and checks consistency against recent admitted entries. It records ADMITTED, UNSOURCED, CONTRADICTED or INCONCLUSIVE with pinned evidence and votes. Unreadable or disagreeing rounds do not admit. Challenges revoke an entry and taint its dependents; a bounded cascade rejudges them without the revoked premise.
 
-The app reads Bradbury, connects a wallet and supports separate memory spaces, claim submission and canonical transaction tracking. Verified receipts replay locally. The public checkpoint has 7/20 judged honest controls; the attack phase has not started. New wallet sends are tested offline and remain unproven live. Offline fixtures verify the implementation, not attack resistance.
+The app reads Bradbury, connects a wallet and supports separate memory spaces, claim submission and canonical transaction tracking. Verified receipts replay locally. The public checkpoint has 9/20 judged honest controls; the attack phase has not started. New wallet sends are tested offline and remain unproven live. Offline fixtures verify the implementation, not attack resistance.
 ```
 
 **Website — required**
@@ -203,7 +216,7 @@ from recorded votes; it does not repeat the semantic model judgement.
 | Current contract | [0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7](https://explorer-bradbury.genlayer.com/address/0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7) |
 | Deployment transaction | [0x7767c789…6267f3c](https://explorer-bradbury.genlayer.com/tx/0x7767c7897d9439503377111501bc020b6a159a092c3e7bd2f5a0bb5116267f3c) |
 | Deployment metadata | [deployments/bradbury-prompt.json](../deployments/bradbury-prompt.json) |
-| CI evidence, including the live app and submission guards | [GitHub Actions run 37825911441](https://github.com/Zhekinmaksim/hearsay/actions/runs/37825911441) |
+| CI evidence, including the live app and submission guards | [GitHub Actions run 37831154855](https://github.com/Zhekinmaksim/hearsay/actions/runs/37831154855) |
 
 Network: Bradbury testnet, chain ID **4221**. Current protocol parameters are
 five initial validators and `maxRotations=3`. The deployed ConsensusMain is
@@ -215,7 +228,7 @@ Readable contract SHA-256:
 `d2670d4204d769ce14f26328d3f8a4a86c4b645f0a54c5149d5269804ce53296`.
 Packed deployment source SHA-256:
 `2125f18b442bface1d2538563ff9d4fb40bb6e3f690ff8b42a3d5916ffece97c`.
-The linked green source-check CI run verifies commit `f26072e`, including the
+The linked green source-check CI run verifies commit `6f639fd`, including the
 live frontend and submission guards. Those implementations remain unchanged;
 later documentation commits do not change this evidence. Its additional
 fallback controls are preflight data, not active submissions or measured
@@ -333,6 +346,14 @@ The expected result is a reproduced verdict and exit 0.
 ## Live evidence and remaining submission work
 
 The [current checkpoint](https://hearsay-psi.vercel.app/bradbury-prompt-checkpoint.json)
+was checked at **2026-10-09 05:19:03 UTC** (**10:19:03 Asia/Tashkent**), exact
+`2026-10-09T05:19:03.085954+00:00`. It accounts for all 60 candidates:
+**9 verified honest judgements, 6 finalized infrastructure outcomes,
+16 unresolved, 29 unsubmitted and 0 construction-only cases completed**.
+The report matches the verified entries; held, escrowed and pools are each
+**509000 wei**, balanced. It remains incomplete, with no defence conclusion.
+
+The [saved 19:17 checkpoint](../web/bradbury-prompt-checkpoint-20261008-1917.json)
 was checked at **2026-10-08 19:17:41 UTC** (**9 October 00:17:41 Asia/Tashkent**),
 exact `checked_at` `2026-10-08T19:17:41.483065+00:00`. It accounts for all
 60 candidates: **7 verified judgements, 6 finalized infrastructure outcomes,
@@ -348,7 +369,7 @@ its solvency is balanced. The [saved 17:31 checkpoint](../web/bradbury-prompt-ch
 preserves the earlier 26-attempt state: 7 verified, 6 finalized infrastructure,
 13 unresolved and 34 unsubmitted.
 
-The newer frozen scan retains **29 honest attempts**, **7 verified entries**,
+The dated 8 October frozen scan retained **29 honest attempts**, **7 verified entries**,
 **22 attempts without matching application state**, and **0 scan errors**.
 The exact submitted names are BP P.L.C., ASTRAZENECA PLC, BT GROUP PLC,
 LLOYDS BANKING GROUP PLC, MARKS AND SPENCER GROUP P.L.C., CENTRICA PLC, and
@@ -407,10 +428,10 @@ The exact planned cohort is public at
 50 honest candidates and the original ten negative cases. Its SHA-256 is
 `6970d7ec5437f47f3705e9318143a4c37a33f29beecb31603c2b52d366820487`.
 The original [11:22 checkpoint](../web/bradbury-prompt-checkpoint-20261008-1122.json)
-remains preserved. A later empty pending queue permitted continuation, but the
-new Burberry blocker now prevents the next write. Unresolved appeals, protocol
-timeouts and no-execution outcomes are retained as infrastructure history,
-never counted as application refusals.
+remains preserved. Burberry's queue blockage is now dated history: the pending
+queue cleared on 9 October without creating a Burberry judgement. Unresolved
+appeals, protocol timeouts and no-execution outcomes remain infrastructure
+history, never counted as application refusals.
 The [liveness report](bradbury-liveness-report.md) includes the published
 upstream issues.
 
@@ -424,6 +445,54 @@ The live control group uses Companies House company profiles. It does not
 establish performance across arbitrary websites. Demonstration bonds are not
 an economic-security calibration. Full live attack resistance, measured
 latency savings, and a reliable protocol recovery method remain unproven.
+
+## 9 October continuation
+
+At block **23904318**, **2026-10-09 04:45:30 UTC**, the pending queue was
+empty, head/tail **31/31**. Consensus VERSION `2.0.0`, bindings and
+implementations were unchanged. Burberry was `UNDETERMINED / IDLE /
+NOT_VOTED`, without an application judgement. The fresh full 29-attempt scan
+retained all seven verified controls. No causal link between the overnight
+release and the earlier recovery is established.
+
+The thirtieth honest attempt was **WHITBREAD PLC**, company **04120344**,
+transaction
+`0xa0037e22bcf7f3bf5f4f62959202d69ceb9f6a0fe7a7062b011e045f7ccd0785`.
+At block **23905621**, **04:52:27 UTC**, it was Accepted with successful
+execution and five votes. The matching entry 7 is `ADMITTED`, with
+`yes / yes / none` recorded application votes. Its exact stored EQ snapshot
+matches the source hash and its verdict reproduces. Accepted remains
+provisional.
+
+The frozen full 30-attempt scan has **8 verified entries**, **22 missing
+application records** and **0 scan errors**. All eight source snapshots and
+recorded votes are freshly verified. At block **23905861**, **04:53:46 UTC**,
+the pending queue was empty **32/32**, all **49 public EVM hashes were mined**,
+latest/pending nonce was **678/678**, and held, escrowed and pools were each
+**508000 wei**, balanced. These are dated observations; continuation is still
+in progress. No negative case has been submitted, and the original
+50-honest/10-negative master cohort remains unchanged.
+
+Frozen local proofs are under `runs/bradbury-prompt/oct9-resume-audit/`:
+`fresh-29-verified-records.jsonl`, `fresh-30-verified-records.jsonl` and their
+fresh raw records, issues and receipt captures, plus `before-next-30-reconcile.json`.
+
+The browser already had permission for wallet
+`0x771388495F34d21C5574FeFc04cd1D5811E00aDa`; Bradbury 4221 and funding were
+confirmed. Space **Hearsay reviewer · 9 October 2026**, with a **500000 wei**
+pool, is prepared. Automatic approval review initially rejected **Create space
+in wallet** before any click or send because the exact paid transaction had
+not yet been approved. The user then **explicitly authorized initiation** for
+the specified network, contract, name and pool; the final wallet signature
+remains pending.
+
+The wallet switched away from the authorized account and then disconnected.
+No request was initiated. The authorized
+`0x771388495F34d21C5574FeFc04cd1D5811E00aDa` must be reconnected before the
+paid request proceeds. Browser automation is available again after the earlier
+extension update requirement. No browser send or transaction-journal entry
+occurred. The earlier authentication-identity and Rabby reputational-alert gaps
+are no longer current.
 
 ## Pre-submission checklist
 
@@ -451,23 +520,31 @@ Form preparation:
   how-to instructions match the route, controls and outputs.
 - [x] Add the GitHub Repository item through Add Evidence in the unsubmitted
   draft.
-- [ ] Confirm the required GitHub/evidence field validates after duplicate URL
-  cleanup and the repository contains the published frontend and current docs.
+- [x] Confirm the required GitHub URL and attached GitHub Repository evidence
+  are selected and valid in the actual Portal DOM.
 - [x] Enter the prepared description, nine how-to steps, expected outcome and
   verified public website.
-- [ ] Upload the valid prepared logo; browser upload approval is pending.
-- [ ] Confirm the wallet identity for Portal authentication before proceeding;
-  explicit browser approval remains pending.
+- [ ] Optionally upload the valid prepared logo; upload approval is pending.
+  Its absence does not block the verified 7/7 mandatory-field completion.
+- [x] Verify Portal draft identity as Zhekin without an authentication-wallet
+  signature.
 - [x] Enter the 439-character expected-outcome field for the submitting role.
 
+The [local Remotion film](../film/README.md) now distinguishes fictional
+offline examples from the dated live checkpoint. `hearsay.run` is the owner's
+planned domain; the working site remains on Vercel until it is connected.
 The optional YouTube/X demo field can remain blank. No direct video or post URL
 has been supplied. The optional contract link is ready to paste.
 
 Live app acceptance:
 
-- [ ] Obtain explicit browser approval for the Rabby reputational alert before
-  proceeding with a new wallet transaction. No new frontend financial send
-  has been made.
+- [x] Receive explicit authorization to initiate the exact prepared paid
+  `open_space` request, with Bradbury, contract, name and 500000 wei pool pinned.
+- [ ] Reconnect the authorized funded `0x771…0aDa` wallet. The browser
+  switched accounts, then disconnected; no request was sent.
+- [x] Restore browser automation after the extension update requirement.
+- [ ] Initiate only the authorized request after a safe signer hold, and let the
+  user approve its final wallet signature.
 - [x] Connect the wallet and verify Bradbury chain ID 4221 and the exact current
   contract in the real browser. Offline tests cover wallet rejection and
   wrong-network state.

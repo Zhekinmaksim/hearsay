@@ -6,6 +6,11 @@ An admission layer in front of shared agent memory, on GenLayer.
 [Offline harness](https://hearsay-psi.vercel.app/) ·
 [Submission and review instructions](docs/submission.md)
 
+The updated [one-minute film](film/README.md) uses the site's visual language,
+the supplied music and the planned `hearsay.run` domain. It labels its fictional
+offline examples and shows a separate dated Bradbury checkpoint. Until the
+owner connects the domain, the working app remains at the Vercel link above.
+
 The live app reads the deployed contract, connects an injected EVM wallet,
 creates a separate memory space and submits sourced claims. It preserves EVM
 and protocol hashes across reloads, distinguishes consensus failures from
@@ -297,7 +302,9 @@ Dry runs now write only to `runs/offline/corpus.json` and
 `runs/offline/entries/`. They leave `web/corpus.json` and the submitted example
 envelopes intact. An explicit output pointing at a published live corpus is
 refused. The archived offline corpus remains the reference for the 95 Python
-checks, 18 replayed entries, 67 JavaScript checks and 50 page checks.
+checks, 18 replayed entries, 67 JavaScript checks and 50 original page checks.
+The current source-pane hero adds eleven page checks, for **61 passed**.
+`make film-check` also binds the reviewed video to its data, code and fonts.
 
 Before a Bradbury write, both collection and diagnosis must pass
 `make receipts-test`. Keep a JSONL manifest with `tx`, `envelope_hash`, `file`

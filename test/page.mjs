@@ -13,8 +13,11 @@
  */
 
 import { readFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { sha256, fnv1a64, fingerprintMatches } from "../web/lib.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -27,7 +30,10 @@ try {
   process.exit(0);
 }
 
-const html = readFileSync(process.argv[2] || join(ROOT, "web", "index.html"), "utf-8");
+const goldenBefore = readFileSync(join(ROOT, "web", "corpus.json"));
+const html = process.argv.includes("--template")
+  ? execFileSync("python3", ["-c", "import runpy,sys; result=runpy.run_path('scripts/build_site.py')['render_page'](); assert not isinstance(result,int); sys.stdout.write(result[0])"], { cwd: ROOT, encoding: "utf8", maxBuffer: 4 * 1024 * 1024 })
+  : readFileSync(process.argv[2] || join(ROOT, "web", "index.html"), "utf-8");
 const errors = [];
 
 const dom = new JSDOM(html, { runScripts: "dangerously", pretendToBeVisual: true });
@@ -62,6 +68,51 @@ check("hero opens on an attempt, not an honest entry",
   text("#hero-meta"));
 check("hero ruling is a refusal", text("#hero-verdict").toLowerCase().includes("refus") ||
   text("#hero-verdict").toLowerCase().includes("inconclusive"), text("#hero-verdict"));
+check("hearing identifies fictional scripted evidence", text("#dateline").includes("Offline scripted") && text("#dateline").includes("Fictional"));
+check("source explicitly disclaims a live fetch", text("#source-when").includes("no live fetch"));
+check("questions are labeled as paraphrases", text(".asked-label").includes("paraphrased"));
+check("consistency is bounded to recent entries", html.includes("up to 16 recent admitted entries"));
+check("external font requests are removed", !/fonts\.(googleapis|gstatic)\.com/.test(html));
+check("all four local font faces use swap", (html.match(/font-display: swap/g) || []).length === 4);
+
+const corpus = dom.window.eval("DATA");
+let sourceErrors = [];
+for (const kind of ["attack", "honest"]) {
+  const rows = corpus.entries.filter(row => (row.entry_class === "honest") === (kind === "honest"));
+  for (let index = 0; index < rows.length; index++) {
+    document.querySelector("#hero-" + kind).dispatchEvent(new dom.window.Event("click", { bubbles: true }));
+    const id = Number(text("#hero-meta span").replace("entry ", ""));
+    const row = corpus.entries.find(item => item.entry_id === id);
+    if (!fingerprintMatches(row.snapshot_excerpt, row.snapshot_hash) || document.querySelector("#source-pin").dataset.verified !== "true") sourceErrors.push(row.id + " pin");
+    if (row.snapshot_excerpt && text("#source-page") !== row.snapshot_excerpt.trim()) sourceErrors.push(row.id + " source");
+    if (!row.snapshot_excerpt && (!text("#source-page").includes("No support question was asked") || [...document.querySelectorAll("#hero-asked dd")].some(node => node.textContent !== "not asked"))) sourceErrors.push(row.id + " unasked");
+    if (document.querySelectorAll("#hero-asked dd").length !== 3) sourceErrors.push(row.id + " answers");
+  }
+}
+check("every hero entry shows its exact pinned source and recorded answers", sourceErrors.length === 0, sourceErrors.join(" | "));
+check("legacy FNV vectors and Unicode lengths remain explicit", fnv1a64("") === "fnv1a64:cbf29ce484222325:0" && fnv1a64("hello") === "fnv1a64:a430d84680aabd0b:5" && fnv1a64("😀").endsWith(":1"));
+check("fingerprint comparison fails closed on malformed or substituted pins", !fingerprintMatches("hello", null) && !fingerprintMatches("hello", "not-a-pin") && !fingerprintMatches("hello", sha256("other")) && fingerprintMatches("hello", fnv1a64("hello")));
+const enrichmentProof = execFileSync("python3", ["-c", `
+import copy,json,runpy
+from pathlib import Path
+enrich=runpy.run_path('scripts/build_site.py')['enrich_offline_snapshots']
+raw=json.loads(Path('web/corpus.json').read_text()); original=copy.deepcopy(raw)
+seed=json.loads(Path('corpus/seed.json').read_text())
+enrich(raw,seed); assert raw==original
+for mode in ['page','pin','excerpt','note']:
+    bad=copy.deepcopy(raw); bad_seed=copy.deepcopy(seed)
+    if mode=='page': bad_seed['entries'][-1]['page']+=' forged'
+    elif mode=='pin': bad['entries'][0]['snapshot_hash']='00'*32
+    elif mode=='excerpt': bad['entries'][0]['snapshot_excerpt']='forged'
+    else: next(row for row in bad_seed['entries'] if row.get('note'))['note']+=' forged'
+    try: enrich(bad,bad_seed)
+    except ValueError: pass
+    else: raise AssertionError(mode+' was accepted')
+live={'run':'bradbury-live','entries':[{'snapshot_excerpt':'actual chain evidence'}]}
+assert enrich(live,seed)==live
+print('passed')
+`], { cwd: ROOT, encoding: "utf8" }).trim();
+check("enrichment preserves inputs/live data and rejects changed pages, pins, excerpts or envelope metadata", enrichmentProof === "passed");
 
 const heroClaimBefore = text(".offered");
 document.querySelector("#hero-honest").dispatchEvent(new dom.window.Event("click", { bubbles: true }));
@@ -133,8 +184,14 @@ for (const opt of vp.options) {
   vp.dispatchEvent(new dom.window.Event("change", { bubbles: true }));
   if (text("#verify-headline") === "Reproduces.") replayed++;
   else broke.push(opt.textContent.slice(0, 40));
+  for (const id of ["tamper-verdict", "tamper-snapshot", "tamper-claim", "tamper-vote"]) {
+    document.querySelector("#" + id).dispatchEvent(new dom.window.Event("click", { bubbles: true }));
+    if (text("#verify-headline") !== "Does not reproduce.") broke.push(opt.value + " " + id);
+    document.querySelector("#" + id).dispatchEvent(new dom.window.Event("click", { bubbles: true }));
+  }
 }
 check("every row reproduces from its recorded votes in the page", broke.length === 0, broke.join(" | "));
+check("golden corpus remains byte-identical", readFileSync(join(ROOT, "web", "corpus.json")).equals(goldenBefore) && createHash("sha256").update(goldenBefore).digest("hex") === "02ac47d18234ca9665ec5a64114491bde980ecac5676ce2fc691c78f8f32171e");
 
 // --- the bench: every vote shown beside the verdict it produced
 check("record entries show their votes", document.querySelectorAll(".entry .bench").length >= 18,

@@ -1,4 +1,4 @@
-.PHONY: test receipts-test enrichment-test checkpoint-test submission-test chain-test bridge-test queue-test submission-signing-test app-test gate-parity parity page live-page vectors replay dry-run assets site gate check lint all
+.PHONY: test receipts-test enrichment-test checkpoint-test submission-test chain-test bridge-test queue-test submission-signing-test app-test film-check gate-parity parity page live-page vectors replay dry-run assets site gate check lint all
 
 all: lint test receipts-test enrichment-test checkpoint-test submission-test chain-test bridge-test queue-test submission-signing-test app-test dry-run replay assets site parity gate-parity page live-page
 
@@ -32,6 +32,10 @@ submission-signing-test:
 app-test:
 	node test/app-wallet.mjs
 	node test/app-page.mjs
+
+# Optional film dependencies: npm ci --prefix film --ignore-scripts.
+film-check:
+	npm --prefix film run check
 
 gate-parity:
 	node test/gate-parity.mjs

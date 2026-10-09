@@ -1,0 +1,45 @@
+{
+  "format": "hearsay-film/1",
+  "duration_frames": 1800,
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "checkpoint": {
+    "checked_at": "2026-10-09T05:19:03.085954+00:00",
+    "contract_address": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
+    "complete": false,
+    "defence_conclusion": null,
+    "required_honest_judgements": 20,
+    "coverage": {
+      "candidates": 60,
+      "judged": 9,
+      "honest_judged": 9,
+      "infrastructure_failures": 6,
+      "unresolved": 16,
+      "prevented": 0,
+      "unsubmitted": 29
+    },
+    "source_sha256": "d2670d4204d769ce14f26328d3f8a4a86c4b645f0a54c5149d5269804ce53296",
+    "published_checkpoint_sha256": "eabed242d52b92bf5db99faa867c6115366ff24c77228877f8fe8e7909ec339f"
+  },
+  "input_sha256": {
+    "src/Film.tsx": "674387f340fa70b39ba770111da5f8b388089303947a49c2294897a1ac3dd3e5",
+    "src/Root.tsx": "52ca0e0bda41bfeb8069ff0e1683848b646d67c093283ca1ac4788822e345ae2",
+    "src/index.ts": "b9900e8f2d9dd0508919db76ded7f60ef532157750339d786c3c395643fc6675",
+    "src/corpus.json": "5b4994ec23eb7a20bd83f4b03e165ae6ed0146c63d6d1d2832a6fc02ab2cabdd",
+    "src/checkpoint.json": "ec776c0378c9d1c9a7aeb78a9b54c680dc5e7be068998a9c30b6eba05fb58218",
+    "src/lib.mjs": "c815bbc60583053ada03d94086eefbf291e7a30568b170b6619cdf5c509c4aa5",
+    "src/beats.json": "10f9cb60db299329f0dd0f8aba40b3c68e93f54e0a301e808a6897173777eb3a",
+    "src/time.ts": "11cd780e39cd8693d0f6cf5b31a43ea2f2bca6aa78842a293c09d4a97225eb6e",
+    "src/tokens.ts": "d93b12e849857179bfbdd2139ed205ebab684ba8ad4e0457cd986089349f8063",
+    "public/track.wav": "abf520d356524a53007f4e622a8cd6e19f0e1bb912a45aa4b351dd254ad41cf4",
+    "public/fonts/Newsreader-Light.ttf": "e3d79afaf062c52ce73d2ec3f8725a2853dc705195c9ba91e73b94dff381a5d7",
+    "public/fonts/Newsreader-Regular.ttf": "c2ec89ba628d158fba3aa3fd34cae3818c549d89efab0e2f048e9b0f3640b3c5",
+    "public/fonts/Archivo-Regular.ttf": "8066efdf4962dfbaedca30721c08975b91077c7226e09005cf25c0c237853ed0",
+    "public/fonts/Archivo-SemiBold.ttf": "9e01f000a022ea1b98f77e106a7a8a5c7eb9d6f9646eb41a785b35b63bc589f9",
+    "package.json": "3c4632eaf508ac97d5d855beb561eac6bb7f97ec9d2b0719dd8a017f13bf5344",
+    "package-lock.json": "527385cf1110ba412a8d9aa25ceb4d7e00f96fadbbff2c2c0f345ae2ea5a2944",
+    "render.mjs": "3721da8ad3d1ce3f683bb6199db2ad62e7362258d7040a552afc9baa8336addc"
+  },
+  "video_sha256": "660d9ee3cea442ded1b4240b467ad5eaf9582a3224cbf47227e066c808e5e2f7"
+}
