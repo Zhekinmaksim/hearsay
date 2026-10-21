@@ -96,7 +96,7 @@ It retains five initial validators, three leader rotations, two independent
 support framings and strict equality of parsed decisions. Earlier deployments
 are excluded from its denominator.
 
-The [current incomplete checkpoint](https://hearsay-psi.vercel.app/bradbury-prompt-checkpoint.json)
+The [current incomplete checkpoint](https://hearsay.run/bradbury-prompt-checkpoint.json)
 contains three real `ADMITTED` controls: BP P.L.C. (00102498), ASTRAZENECA PLC
 (02723534), and BT GROUP PLC (04190816). Their exact source bytes came from
 stored equivalence outputs, match the contract's SHA-256, and reproduce the
@@ -134,7 +134,7 @@ recovered, such as BP, remains in history and is excluded from current failures.
 - Can an appeal/idle transition get stuck when it cannot select the next committee?
 - How should SDK consumers obtain the actual initial validator count during appeal?
 
-Original checkpoint: https://hearsay-psi.vercel.app/bradbury-checkpoint.json.
+Original checkpoint: https://hearsay.run/bradbury-checkpoint.json.
 Raw RPC, explorer, VM trace and simulation captures remain in the local run
 archives and can be supplied after reviewing them. No signing keys, credentials
 or serialized signed transaction bytes are included in this report.

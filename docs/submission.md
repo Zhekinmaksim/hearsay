@@ -86,7 +86,7 @@ The app reads Bradbury, connects a wallet and supports separate memory spaces, c
 **Website — required**
 
 Prepared value:
-[https://hearsay-psi.vercel.app/app.html](https://hearsay-psi.vercel.app/app.html).
+[https://hearsay.run/app.html](https://hearsay.run/app.html).
 The production app's public reads and BP replay download were verified. The
 root homepage remains the supplementary offline evidence
 stand.
@@ -120,7 +120,7 @@ flow and downloaded receipt were also verified on the public production app.
 
 | Optional heading | Instruction |
 | --- | --- |
-| Open the live app | Open https://hearsay-psi.vercel.app/app.html. Public reads need no wallet. Confirm Bradbury, chain ID 4221, and contract 0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7. |
+| Open the live app | Open https://hearsay.run/app.html. Public reads need no wallet. Confirm Bradbury, chain ID 4221, and contract 0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7. |
 | Inspect a finalized judgement | Under Transaction activity, paste 0x45e19a6288faf1376f2a055c1da060734490f392ce25bd8f126987863406f9b0 and click Resume receipt. Its canonical Finalized receipt matches BP entry 0: ADMITTED, support votes yes/yes, consistency none, and SHA-verified original source bytes. |
 | Reproduce the verdict | Click Download replayable receipt. From the repository, run python3 cli/gate.py verify --receipt ~/Downloads/hearsay-entry-0-replay.json. The expected result is reproduces: true and exit 0. Download current receipt is the separate canonical audit wrapper. |
 | Connect a wallet | Click Connect wallet. If needed, click Switch to Bradbury. The wallet approves each transaction and pays testnet network fees. |
@@ -212,9 +212,9 @@ from recorded votes; it does not repeat the semantic model judgement.
 | Item | Link |
 | --- | --- |
 | Source repository | [Zhekinmaksim/hearsay](https://github.com/Zhekinmaksim/hearsay) |
-| Live app | [app.html](https://hearsay-psi.vercel.app/app.html) |
-| Interactive offline demo | [hearsay-psi.vercel.app](https://hearsay-psi.vercel.app/) |
-| Incomplete current-cohort checkpoint | [bradbury-prompt-checkpoint.json](https://hearsay-psi.vercel.app/bradbury-prompt-checkpoint.json) |
+| Live app | [app.html](https://hearsay.run/app.html) |
+| Interactive offline demo | [hearsay.run](https://hearsay.run/) |
+| Incomplete current-cohort checkpoint | [bradbury-prompt-checkpoint.json](https://hearsay.run/bradbury-prompt-checkpoint.json) |
 | Current contract | [0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7](https://explorer-bradbury.genlayer.com/address/0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7) |
 | Deployment transaction | [0x7767c789…6267f3c](https://explorer-bradbury.genlayer.com/tx/0x7767c7897d9439503377111501bc020b6a159a092c3e7bd2f5a0bb5116267f3c) |
 | Deployment metadata | [deployments/bradbury-prompt.json](../deployments/bradbury-prompt.json) |
@@ -313,7 +313,7 @@ dependencies before running its build checks.
 This supplements the live-app instructions above. It verifies local controls
 and makes no live transaction.
 
-1. Open the [demo](https://hearsay-psi.vercel.app/). Read the incomplete Bradbury
+1. Open the [demo](https://hearsay.run/). Read the incomplete Bradbury
    notice and the scripted-run warning. Use **Show an honest entry** and
    **Show another attempt** to compare recorded claims and their votes.
 2. In **Run the gate**, keep the preloaded whitespace variant. It is refused as
@@ -326,7 +326,7 @@ and makes no live transaction.
 4. In **Revoke an entry**, choose entry 0 and click **Revoke and cascade**.
    Follow the tainted dependents, the surviving independent source, and the
    entry deferred beyond depth 3. This replays recorded facts locally.
-5. Open the [Bradbury checkpoint](https://hearsay-psi.vercel.app/bradbury-prompt-checkpoint.json).
+5. Open the [Bradbury checkpoint](https://hearsay.run/bradbury-prompt-checkpoint.json).
    Inspect `complete: false`, `checked_at`, `coverage`, and one entry's
    `snapshot_provenance`, `votes`, and `consensus_checkpoint`. Its `tx` can be
    inspected at the [Bradbury explorer](https://explorer-bradbury.genlayer.com).
@@ -348,7 +348,7 @@ The expected result is a reproduced verdict and exit 0.
 
 ## Live evidence and remaining submission work
 
-The [current checkpoint](https://hearsay-psi.vercel.app/bradbury-prompt-checkpoint.json)
+The [current checkpoint](https://hearsay.run/bradbury-prompt-checkpoint.json)
 was checked at **2026-10-09 16:28:30 UTC** (**21:28:30 Asia/Tashkent**), exact
 `2026-10-09T16:28:30.559681+00:00`. It accounts for all 110 active candidates:
 **25 verified judgements (20 honest and 5 negative), 6 finalized infrastructure
@@ -577,8 +577,8 @@ Form preparation:
 - [x] Enter the 439-character expected-outcome field for the submitting role.
 
 The [local Remotion film](../film/README.md) now distinguishes fictional
-offline examples from the dated live checkpoint. `hearsay.run` is the owner's
-planned domain; the working site remains on Vercel until it is connected.
+offline examples from the dated live checkpoint. The project website is
+https://hearsay.run/ and the app URL is https://hearsay.run/app.html.
 The optional YouTube/X demo field can remain blank. No direct video or post URL
 has been supplied. The optional contract link is ready to paste.
 

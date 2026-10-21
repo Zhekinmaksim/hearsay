@@ -1,5 +1,22 @@
 # Frontend finalization blocker: 9 October 2026
 
+**Resolved by the 17 October read.** At pinned block **25368710**, the frontend
+space-creation transaction and the older Vodafone transaction were both
+`FINALIZED`. Pending and finalization heads equalled tail 95, and all three
+queue-head transaction IDs were zero. Consensus 2.0.0 and the verified
+implementation bindings were unchanged. The read establishes recovery of
+this queue; it does not establish who advanced it or which intervention caused
+the change. No additional recovery transaction was sent by this project.
+
+Full local proof:
+`runs/frontend-live-oct9/fresh-finality/check-25368710.json`.
+The frontend independently refreshed its saved creation receipt to Finalized,
+loaded the matching space 1 and enabled the previously authorized TESCO claim.
+That claim's wallet request was initiated on 17 October; its outcome is
+documented separately after signature and canonical reconciliation.
+
+The observations below preserve the earlier blocker and its recovery errors.
+
 The production wallet successfully created space 1. Its protocol transaction
 [91b4a237…f2f02653](https://explorer-bradbury.genlayer.com/tx/0x91b4a237aff71bdd4b90ac3b097cd232479926f0accea4daf0879064f2f02653)
 is Accepted, Majority agree, Finished with return, and matches the created

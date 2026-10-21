@@ -35,8 +35,7 @@ checkpoint checked at `2026-10-09T16:28:30.559681+00:00`: 20/20 verified honest 
 incomplete evaluation and provisional Accepted receipts. It does not claim
 live attack resistance. Gate exit 2 covers inconclusive or absent verdicts;
 exit 3 means malformed input. The owner confirmed music usage rights and the
-planned `hearsay.run` domain. The working app stays on Vercel until that domain
-is connected.
+project domain `hearsay.run`.
 
 The final export is H264/AAC, 1920 × 1080, 30 fps, 1800 video frames; the
 60.011-second container includes normal AAC padding. Full decode completed

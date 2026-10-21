@@ -1,8 +1,8 @@
 # Hearsay explainer transcript
 
 The film has music and on-screen text, with no spoken narration. The owner has
-confirmed the right to use the supplied soundtrack. `hearsay.run` is the planned
-domain; the working app is https://hearsay-psi.vercel.app/app.html.
+confirmed the right to use the supplied soundtrack. The project domain is
+`hearsay.run`; the app URL is https://hearsay.run/app.html.
 
 An agent reads shared memory and acts on what it finds. One unsupported sentence
 can become a premise for later decisions. Hearsay judges source support before

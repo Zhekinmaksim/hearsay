@@ -2,14 +2,13 @@
 
 An admission layer in front of shared agent memory, on GenLayer.
 
-[Live Bradbury app](https://hearsay-psi.vercel.app/app.html) ·
-[Offline harness](https://hearsay-psi.vercel.app/) ·
+[Live Bradbury app](https://hearsay.run/app.html) ·
+[Offline harness](https://hearsay.run/) ·
 [Submission and review instructions](docs/submission.md)
 
 The updated [one-minute film](film/README.md) uses the site's visual language,
-the supplied music and the planned `hearsay.run` domain. It labels its fictional
-offline examples and shows a separate dated Bradbury checkpoint. Until the
-owner connects the domain, the working app remains at the Vercel link above.
+the supplied music and the project domain `hearsay.run`. It labels its fictional
+offline examples and shows a separate dated Bradbury checkpoint.
 
 The live app reads the deployed contract, connects an injected EVM wallet,
 creates a separate memory space and submits sourced claims. It preserves EVM

@@ -1,8 +1,8 @@
 # Hearsay film
 
 A 60-second Remotion explainer, 1920 × 1080 at 30 fps, using the site's
-Newsreader and Archivo fonts and the supplied soundtrack. `hearsay.run` is the
-owner's planned domain. The working demo is https://hearsay-psi.vercel.app/app.html.
+Newsreader and Archivo fonts and the supplied soundtrack. The project domain is
+`hearsay.run`; the app URL is https://hearsay.run/app.html.
 
 ```sh
 npm ci --ignore-scripts
