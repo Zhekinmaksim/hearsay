@@ -15,7 +15,7 @@ const record = () => ({ version: 1, id: 'review', contract: CONTRACT, sender, cr
 let passes = 0;
 function check(title, fn) { fn(); passes++; console.log('ok ' + title); }
 check('receipt bindings match the production queue verifier', () => assert.deepEqual(BINDINGS, VERIFIED_BINDINGS));
-check('benchmark space cannot be written through this frontend', () => assert.throws(() => validateClaim({ ...space, space_id: 0 }, 'test', 'https://example.org'), /benchmark/));
+check('reference space cannot be written through this frontend', () => assert.throws(() => validateClaim({ ...space, space_id: 0 }, 'test', 'https://example.org'), /preserved review run/));
 check('multi-byte oversized claims fail before the wallet', () => assert.throws(() => validateClaim(space, 'é'.repeat(1025), 'https://example.org'), /UTF-8 bytes/));
 check('normalized duplicate and unsafe source credentials are rejected', () => {
   assert.throws(() => validateClaim(space, '  A  COMPANY ', 'https://example.org', [{ space_id: 1, claim: 'a company' }]), /already recorded/);

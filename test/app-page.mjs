@@ -94,7 +94,7 @@ await f.app.refreshPublic();
 check('network failure is shown explicitly and retry remains available', () => { const d = f.dom.window.document; assert.match(d.getElementById('global-error').textContent, /offline/); assert.equal(d.getElementById('network-status').textContent, 'Public read unavailable'); assert(!d.getElementById('refresh').disabled); });
 f.app.destroy();
 f = fixture(); await f.app.refreshWallet(); await f.app.loadSpace(0);
-check('benchmark space is read-only while create-own-space remains enabled', () => { const d = f.dom.window.document; assert(d.getElementById('claim-submit').disabled); assert(!d.getElementById('create-submit').disabled); assert.match(d.getElementById('submit-blocked').textContent, /published benchmark/); });
+check('reference space is read-only while create-own-space remains enabled', () => { const d = f.dom.window.document; assert(d.getElementById('claim-submit').disabled); assert(!d.getElementById('create-submit').disabled); assert.match(d.getElementById('submit-blocked').textContent, /preserved review run/); });
 await f.app.loadSpace(1);
 check('own nonzero open space enables a genuine wallet submission', () => assert(!f.dom.window.document.getElementById('claim-submit').disabled));
 await f.app.track(hash);

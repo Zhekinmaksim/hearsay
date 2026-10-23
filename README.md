@@ -27,9 +27,9 @@ The live app reads the deployed contract, connects an injected EVM wallet,
 creates a separate memory space and submits sourced claims. It preserves EVM
 and protocol hashes across reloads, distinguishes consensus failures from
 application verdicts, and downloads pinned source bytes and replayable receipts.
-Space 0 is read-only in the app to keep visitor writes separate from the live
-benchmark. The benchmark remains incomplete; its checkpoint is not a defence
-measurement.
+Space 0 is read-only in the app to preserve the corrected-version review run.
+Visitor writes use separate spaces. The old deployment’s benchmark remains
+incomplete; its historical checkpoint is not a defence measurement.
 
 `make app-test` runs the checked-in SDK bundle against a dummy wallet and fake
 RPC, then drives the DOM controls. Rebuild that bundle explicitly with

@@ -29,10 +29,10 @@ export function mountApp({ window: win = window, document: doc = win.document, l
     $('switch-chain').hidden = !state.account || chainReady;
     text('wallet-status', state.account ? state.account : 'No wallet connected.');
     text('wallet-balance', state.account ? `${chainReady ? 'GenLayer Bradbury Testnet · 4221' : 'Wallet is on another network'}${state.balance !== null ? ' · ' + formatEther(state.balance) + ' GEN' : ''}` : 'Your wallet approves each transaction.');
-    const benchmark = Number(state.space?.space_id) === 0;
-    const reason = journal.error || (state.busy ? 'A transaction is being prepared or approved.' : active ? 'An earlier attempt is unresolved. Resume its receipt below before submitting another transaction.' : state.loadingSpace ? 'Reading the selected memory space. Wait for this read before submitting.' : !state.account ? 'Connect your wallet to submit.' : !chainReady ? 'Switch your wallet to GenLayer Bradbury Testnet.' : !state.space ? 'Load an open memory space.' : benchmark ? 'Space 0 holds the published benchmark. Create your own space below, or load a separate space.' : !state.space.open ? 'This space is closed.' : 'The wallet will show the bond and network fee before you approve.');
+    const referenceSpace = Number(state.space?.space_id) === 0;
+    const reason = journal.error || (state.busy ? 'A transaction is being prepared or approved.' : active ? 'An earlier attempt is unresolved. Resume its receipt below before submitting another transaction.' : state.loadingSpace ? 'Reading the selected memory space. Wait for this read before submitting.' : !state.account ? 'Connect your wallet to submit.' : !chainReady ? 'Switch your wallet to GenLayer Bradbury Testnet.' : !state.space ? 'Load an open memory space.' : referenceSpace ? 'Space 0 holds the preserved review run. Create your own space below, or load a separate space.' : !state.space.open ? 'This space is closed.' : 'The wallet will show the bond and network fee before you approve.');
     text('submit-blocked', reason);
-    $('claim-submit').disabled = !!journal.error || state.busy || state.loadingSpace || !!active || !state.account || !chainReady || !state.space?.open || benchmark;
+    $('claim-submit').disabled = !!journal.error || state.busy || state.loadingSpace || !!active || !state.account || !chainReady || !state.space?.open || referenceSpace;
     $('create-submit').disabled = !!journal.error || state.busy || !!active || !state.account || !chainReady;
     text('claim-cost', state.space ? `Write bond: ${wei(state.space.write_bond)}. The wallet also pays network fees.` : 'Load a space to see its required write bond.');
     $('connect').disabled = state.busy || state.connectingWallet;
@@ -139,7 +139,7 @@ export function mountApp({ window: win = window, document: doc = win.document, l
       const [report, entries] = await Promise.all([live.read('report', [id]), live.entries(id)]);
       if (token !== spaceLoad) return;
       state.space = space; state.entries = entries; state.checkedAt = Date.now(); $('space-id').value = String(id);
-      text('space-message', id === 0 ? `Loaded ${space.name}. This benchmark space is read-only here. Create your own space to submit a claim.` : `Loaded ${space.name}. Writes are public; ownership is not required.`); renderSpace(); renderMemory(report);
+      text('space-message', id === 0 ? `Loaded ${space.name}. This reference space is read-only here. Create your own space to submit a claim.` : `Loaded ${space.name}. Writes are public; ownership is not required.`); renderSpace(); renderMemory(report);
     } finally { if (token === spaceLoad) { state.loadingSpace = false; renderControls(); } }
   }
   async function refreshPublic() {

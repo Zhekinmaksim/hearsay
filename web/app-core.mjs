@@ -45,7 +45,7 @@ export function errorText(error) {
 }
 export function validateClaim(space, claim, sourceURL, entries = []) {
   demand(space?.open === true, 'Load an open memory space before submitting.');
-  demand(Number(space.space_id) !== 0, 'Space 0 is the published benchmark. Create or load a separate space for your claim.');
+  demand(Number(space.space_id) !== 0, 'Space 0 is the preserved review run. Create or load a separate space for your claim.');
   demand(typeof claim === 'string' && claim.trim(), 'Write a claim.');
   demand(new TextEncoder().encode(claim).length <= 2048, 'The claim must contain at most 2,048 UTF-8 bytes.');
   let source;
