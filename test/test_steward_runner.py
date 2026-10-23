@@ -28,6 +28,13 @@ class StewardRunner(unittest.TestCase):
         self.assertEqual(lookup.call_count, 4)
         self.assertEqual(len({call.args[2] for call in lookup.call_args_list}), 1)
 
+    def test_accepted_application_error_stops_without_waiting_or_resending(self):
+        with tempfile.TemporaryDirectory() as directory, \
+             patch("steward_live.collector.lookup_receipt", return_value=receipt("ACCEPTED", 1, 2)), \
+             patch("steward_live.time.sleep", side_effect=AssertionError("unexpected wait")):
+            with self.assertRaisesRegex(RuntimeError, "application execution error"):
+                Campaign(Path(directory)).wait({"id": "original", "tx": "0x" + "11" * 32})
+
     def test_finalized_timeout_is_not_a_successful_application_call(self):
         with tempfile.TemporaryDirectory() as directory, \
              patch("steward_live.collector.lookup_receipt", return_value=receipt("FINALIZED", 3, 1)):

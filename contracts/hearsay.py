@@ -135,6 +135,53 @@ RETURNED = "RETURNED"
 SLASHED = "SLASHED"
 
 
+class _PayoutDeposit:
+    def __init__(self, address: Address, value: u256):
+        self.address = address
+        self.value = value
+
+    def deposit(self, withdrawal_id: u256, beneficiary: Address) -> None:
+        # The pinned v0.2.11 generated EVM send proxy drops its value dict.
+        # Use the same pinned EthSend host boundary with explicit calldata/value.
+        from genlayer.gl._internal.gl_call import gl_call_generic
+        encoder = gl.evm.MethodEncoder("deposit", (u256, Address), type(None))
+        gl_call_generic({"EthSend": {"address": self.address,
+                                    "calldata": encoder.encode_call((withdrawal_id, beneficiary)),
+                                    "value": self.value}}, lambda raw: None).get()
+
+
+class _PayoutVault:
+    """Typed adapter for the pinned runner's EthCall/EthSend host interface.
+
+    Its generated EVM proxy has incompatible view-parent and send-value handling.
+    MethodEncoder/decode and the host requests are the pinned SDK's own ABI path.
+    """
+    def __init__(self, address: Address):
+        self.address = address
+
+    def view(self):
+        return self
+
+    def _read(self, name, params, result, args):
+        from genlayer.gl._internal.gl_call import gl_call_generic
+        encoder = gl.evm.MethodEncoder(name, params, result)
+        return gl_call_generic({"EthCall": {"address": self.address,
+                                           "calldata": encoder.encode_call(args)}},
+                               lambda raw: gl.evm.decode(result, raw)).get()
+
+    def controller(self) -> Address:
+        return self._read("controller", (), Address, ())
+
+    def amountOf(self, withdrawal_id: u256) -> u256:
+        return self._read("amountOf", (u256,), u256, (withdrawal_id,))
+
+    def beneficiaryOf(self, withdrawal_id: u256) -> Address:
+        return self._read("beneficiaryOf", (u256,), Address, (withdrawal_id,))
+
+    def emit(self, *, value: u256):
+        return _PayoutDeposit(self.address, value)
+
+
 # --------------------------------------------------------------------- text
 
 
@@ -1169,17 +1216,7 @@ class Hearsay(gl.Contract):
         if not self.payout_vault or getattr(gl, "evm", None) is None:
             raise gl.vm.UserError("verified EVM payout vault required")
 
-        @gl.evm.contract_interface
-        class Vault:
-            class View:
-                def controller(self) -> Address: ...
-                def amountOf(self, withdrawal_id: u256) -> u256: ...
-                def beneficiaryOf(self, withdrawal_id: u256) -> Address: ...
-
-            class Write:
-                def deposit(self, withdrawal_id: u256, beneficiary: Address) -> None: ...
-
-        vault = Vault(Address(self.payout_vault))
+        vault = _PayoutVault(Address(self.payout_vault))
         if vault.view().controller() != gl.message.contract_address:
             raise gl.vm.UserError("payout vault controller mismatch")
         return vault

@@ -49,10 +49,12 @@ class FakeVault:
 
 class StewardRegressions(unittest.TestCase):
     def setUp(self):
+        self.original_vault_adapter = hs._PayoutVault
         self.model = ScriptedModel()
         self.c, _ = fresh(self.model, cascade_depth=1, admit_ttl=1)
 
     def tearDown(self):
+        hs._PayoutVault = self.original_vault_adapter
         if hasattr(gl, "evm"):
             del gl.evm
 
@@ -221,12 +223,8 @@ class StewardRegressions(unittest.TestCase):
         gl.message.contract_address = glmod.Address("0x" + "88" * 20)
         vault = FakeVault(gl.message.contract_address)
 
-        class EVM:
-            @staticmethod
-            def contract_interface(cls):
-                return lambda address: vault
-
-        gl.evm = EVM()
+        gl.evm = object()
+        hs._PayoutVault = lambda address: vault
         self.c.balance = self.c.solvency()["held"]
         as_(CHALLENGER)
         return vault

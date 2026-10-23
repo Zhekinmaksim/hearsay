@@ -44,7 +44,13 @@ class Campaign:
         return result["result"]
 
     def call(self, method, args=None):
-        return collector.read_call(RPC, self.contract, method, args or [], 45)
+        for attempt in range(3):
+            try:
+                return collector.read_call(RPC, self.contract, method, args or [], 45)
+            except Exception as error:
+                if attempt == 2 or not any(text in str(error).lower() for text in ("block not found", "could not be found", "header not found")):
+                    raise
+                time.sleep(1)
 
     def save(self, name, value):
         collector.checkpoint(self.folder / name, value)
@@ -84,7 +90,7 @@ class Campaign:
     def wait(self, row):
         deadline, last = time.monotonic() + 1200, None
         while True:
-            receipt = collector.lookup_receipt(collector.EXPLORER, RPC, row["tx"], 45)
+            receipt = collector.lookup_receipt("", RPC, row["tx"], 45)
             self.save(row["id"] + ".receipt.json", receipt)
             status = collector.status_of(receipt)
             if status != last:
@@ -92,6 +98,9 @@ class Campaign:
                 last = status
             if collector.has_application_execution(receipt):
                 return receipt
+            stored = receipt.get("stored_receipt", {})
+            if status in ("ACCEPTED", "FINALIZED") and stored.get("result") in (1, "1") and stored.get("txExecutionResult") not in (1, "1"):
+                raise RuntimeError(row["id"] + " consensus accepted an application execution error; inspect its trace")
             # A timeout phase can rotate its leader or start another round.
             # It is not final application failure until consensus finalizes.
             # Keep tracking this exact intent rather than sending a new one.
@@ -170,12 +179,22 @@ def main():
     parser.add_argument("--run-dir", default="runs/steward-live-oct23")
     parser.add_argument("--space", type=int, default=0)
     parser.add_argument("--address", default=CONTRACT)
-    parser.add_argument("--profile", choices=("registry", "immutable"), default="registry")
+    parser.add_argument("--profile", choices=("registry", "immutable", "raw-header"), default="registry")
+    parser.add_argument("--direct-rejudge", action="store_true", help="Rejudge invalidated entries directly, then consume bounded stale queue slots")
     args = parser.parse_args()
     c = Campaign(Path(args.run_dir), args.space, args.address)
     opening = next(row for row in c.rows() if row.get("id") == "review-open-space")
     c.wait(opening)
-    if args.profile == "immutable":
+    if args.profile == "raw-header":
+        source_a = "https://raw.githubusercontent.com/python/cpython/v3.12.0/Include/patchlevel.h"
+        source_b = source_a
+        claim = "The CPython v3.12.0 patchlevel header defines PY_VERSION as 3.12.0."
+        combination = "The CPython v3.12.0 patchlevel header defines PY_MAJOR_VERSION as 3."
+        independent = combination
+        second_claim = "The CPython v3.12.0 patchlevel header defines PY_MINOR_VERSION as 12."
+        third_claim = "The CPython v3.12.0 patchlevel header defines PY_MICRO_VERSION as 0."
+        ground = "The pinned header defines PY_VERSION as 2.7 rather than 3.12.0."
+    elif args.profile == "immutable":
         source_a = "https://raw.githubusercontent.com/python/cpython/v3.12.0/README.rst"
         source_b = "https://raw.githubusercontent.com/nodejs/node/v20.0.0/README.md"
         claim = "The CPython v3.12.0 README identifies the Python version as 3.12.0."
@@ -192,7 +211,8 @@ def main():
         second_claim = "Companies House records 27 November 1947 as the incorporation date of TESCO PLC."
         third_claim = "Companies House gives AL7 1GA as the registered office postcode of TESCO PLC."
         ground = "The cited snapshot lists J SAINSBURY PLC as Dissolved rather than Active."
-    bad = c.entry("wrong-source", claim, source_b, entry_class="source_forgery")
+    bad_url = "https://raw.githubusercontent.com/python/cpython/v3.11.0/Include/patchlevel.h" if args.profile == "raw-header" else source_b
+    bad = c.entry("wrong-source", claim, bad_url, entry_class="source_forgery")
     if bad["status"] not in ("UNSOURCED", "INCONCLUSIVE"):
         raise RuntimeError("wrong source unexpectedly admitted or contradicted; inspect evidence")
     root = c.entry("corrected-source", claim, source_a)
@@ -232,15 +252,27 @@ def main():
     for row in (dependent, second, third):
         if expired["entries"][row["entry_id"]]["status"] != "TAINTED":
             raise RuntimeError("deep dependent remained trusted")
-    for i in range(12):
-        if not c.call("deferred_queue"):
-            break
-        c.step("deferred-%02d" % i, "process_deferred", [1])
+    if args.direct_rejudge:
+        for identity, eid in (("rejudge-root", a), ("direct-rejudge-deep", third["entry_id"]),
+                              ("direct-rejudge-mid", second["entry_id"]),
+                              ("direct-rejudge-child", dependent["entry_id"])):
+            rejudged = c.step(identity, "rejudge", [eid])
+            if rejudged["entries"][eid]["status"] != "ADMITTED":
+                raise RuntimeError(identity + " did not readmit the authoritative claim")
+        # The depth-one walk stored two queue slots. Direct rejudge clears their
+        # flags; bounded processing must still consume the physical slots.
+        for i in range(2):
+            c.step("deferred-clear-%02d" % i, "process_deferred", [1])
+    else:
+        for i in range(12):
+            if not c.call("deferred_queue"):
+                break
+            c.step("deferred-%02d" % i, "process_deferred", [1])
+        rejudged = c.step("rejudge-root", "rejudge", [a])
+        if rejudged["entries"][a]["status"] != "ADMITTED":
+            raise RuntimeError("root rejudgement did not readmit the authoritative claim")
     if c.call("deferred_queue"):
         raise RuntimeError("deferred queue did not complete within the planned bound")
-    rejudged = c.step("rejudge-root", "rejudge", [a])
-    if rejudged["entries"][a]["status"] != "ADMITTED":
-        raise RuntimeError("root rejudgement did not readmit the authoritative claim")
     c.save("after-lifecycle.json", c.snapshot())
     print("LIVE LIFECYCLE EXECUTED; receipts remain provisional until canonical finalization", flush=True)
 
