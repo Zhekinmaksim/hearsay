@@ -517,6 +517,29 @@ class Hearsay(gl.Contract):
         UNSOURCED. An unreachable source is not a reason to trust a claim.
         """
 
+        # This origin serves raw repository files, not a script-rendered page.
+        # Avoid the browser and semantic comparison for its text/plain bodies:
+        # every validator fetches independently and must return identical text.
+        if url.startswith("https://raw.githubusercontent.com/"):
+            def raw_file() -> str:
+                try:
+                    response = gl.nondet.web.get(url)
+                    content_type = response.headers.get("content-type", b"")
+                    if isinstance(content_type, bytes):
+                        content_type = content_type.decode("ascii")
+                    if response.status != 200 or content_type.split(";", 1)[0].strip().lower() != "text/plain":
+                        return ""
+                    if response.body is None:
+                        return ""
+                    return response.body.decode("utf-8")[:MAX_SOURCE]
+                except Exception:
+                    return ""
+            try:
+                got = gl.eq_principle.strict_eq(raw_file)
+                return str(got)[:MAX_SOURCE] if got else ""
+            except Exception:
+                return ""
+
         def run() -> str:
             try:
                 page = gl.nondet.web.render(url, mode="text")

@@ -27,9 +27,10 @@ SAINSBURY = "https://find-and-update.company-information.service.gov.uk/company/
 
 
 class Campaign:
-    def __init__(self, folder, space_id=0):
+    def __init__(self, folder, space_id=0, contract=CONTRACT):
         self.folder = folder
         self.space_id = space_id
+        self.contract = contract
         self.manifest = folder / "transactions.jsonl"
         self.events = folder / "lifecycle.json"
         self.history = json.loads(self.events.read_text()) if self.events.exists() else []
@@ -43,7 +44,7 @@ class Campaign:
         return result["result"]
 
     def call(self, method, args=None):
-        return collector.read_call(RPC, CONTRACT, method, args or [], 45)
+        return collector.read_call(RPC, self.contract, method, args or [], 45)
 
     def save(self, name, value):
         collector.checkpoint(self.folder / name, value)
@@ -62,7 +63,7 @@ class Campaign:
         pending = self.rpc("eth_getTransactionCount", [ACCOUNT, "pending"])
         if pending != self.rpc("eth_getTransactionCount", [ACCOUNT, "latest"]):
             raise RuntimeError("previous account transaction remains pending")
-        request = {"id": identity, "method": method, "address": CONTRACT,
+        request = {"id": identity, "method": method, "address": self.contract,
                    "expected_account": ACCOUNT, "expected_nonce": int(pending, 16),
                    "expected_genesis": GENESIS, "max_fee_wei": "50000000000000000",
                    "args": args, "value": str(value), "consensus_max_rotations": 3}
@@ -91,7 +92,10 @@ class Campaign:
                 last = status
             if collector.has_application_execution(receipt):
                 return receipt
-            if status in collector.FAILED | collector.TIMEOUTS | {"FINALIZED", "UNDETERMINED"}:
+            # A timeout phase can rotate its leader or start another round.
+            # It is not final application failure until consensus finalizes.
+            # Keep tracking this exact intent rather than sending a new one.
+            if status in collector.FAILED | {"FINALIZED"}:
                 raise RuntimeError(row["id"] + " did not establish successful application execution: " + status)
             if time.monotonic() >= deadline:
                 raise RuntimeError(row["id"] + " still settling; resume this same manifest")
@@ -136,14 +140,14 @@ class Campaign:
             return record
         if self.history:
             raise RuntimeError("initial record absent after lifecycle mutations; recover the original evidence first")
-        command = [sys.executable, "scripts/collect_receipts.py", str(self.manifest), "--address", CONTRACT,
+        command = [sys.executable, "scripts/collect_receipts.py", str(self.manifest), "--address", self.contract,
                    "--endpoint", RPC, "--out", str(self.folder / "records.jsonl"), "--raw-dir", str(self.folder / "receipts"), "--wait", "0"]
         result = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, timeout=180)
         (self.folder / (identity + ".collection.log")).write_text(result.stdout + result.stderr)
         records = [json.loads(line) for line in (self.folder / "records.jsonl").read_text().splitlines() if line.strip()]
         matches = [record for record in records if record.get("tx") == row["tx"]]
         if len(matches) != 1:
-            subprocess.run([sys.executable, "scripts/diagnose_missing.py", "--address", CONTRACT,
+            subprocess.run([sys.executable, "scripts/diagnose_missing.py", "--address", self.contract,
                             "--manifest", str(self.manifest), "--records", str(self.folder / "records.jsonl"),
                             "--out", str(self.folder / (identity + ".diagnosis.json"))], cwd=ROOT, timeout=180, check=True)
             raise RuntimeError(identity + " missing matched entry; no next write")
@@ -165,9 +169,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-dir", default="runs/steward-live-oct23")
     parser.add_argument("--space", type=int, default=0)
+    parser.add_argument("--address", default=CONTRACT)
     parser.add_argument("--profile", choices=("registry", "immutable"), default="registry")
     args = parser.parse_args()
-    c = Campaign(Path(args.run_dir), args.space)
+    c = Campaign(Path(args.run_dir), args.space, args.address)
     opening = next(row for row in c.rows() if row.get("id") == "review-open-space")
     c.wait(opening)
     if args.profile == "immutable":

@@ -6,6 +6,8 @@ test:
 	python3 test/run_tests.py
 	python3 test/test_steward_regressions.py
 	python3 test/test_deploy_codec.py
+	python3 test/test_raw_source.py
+	python3 test/test_steward_runner.py
 
 steward-test:
 	python3 test/test_steward_regressions.py
