@@ -1,9 +1,17 @@
-.PHONY: test receipts-test enrichment-test checkpoint-test submission-test chain-test bridge-test queue-test submission-signing-test app-test film-check gate-parity parity page live-page vectors replay dry-run assets site gate check lint all
+.PHONY: test steward-test payout-test receipts-test enrichment-test checkpoint-test submission-test chain-test bridge-test queue-test submission-signing-test app-test film-check gate-parity parity page live-page vectors replay dry-run assets site gate check lint all
 
 all: lint test receipts-test enrichment-test checkpoint-test submission-test chain-test bridge-test queue-test submission-signing-test app-test dry-run replay assets site parity gate-parity page live-page
 
 test:
 	python3 test/run_tests.py
+	python3 test/test_steward_regressions.py
+
+steward-test:
+	python3 test/test_steward_regressions.py
+
+# Separate toolchain; the Python/offline checks remain dependency-free.
+payout-test:
+	forge test -vv
 
 receipts-test:
 	python3 -m unittest discover -s test -p 'test_receipts.py'
@@ -64,6 +72,7 @@ replay:
 # This is the only thing that makes a third copy acceptable.
 parity: vectors
 	node test/parity.mjs
+	node test/steward-browser.mjs
 
 # Drives every control on the built page. Skips itself if jsdom is absent.
 page: site

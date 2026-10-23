@@ -122,7 +122,7 @@ def _rows(corpus):
 # ------------------------------------------------------------------- gate
 
 
-def run_gate(env, corpus, strict=False):
+def run_gate(env, corpus, strict=False, retry_failed=False):
     """Local checks first, then the recorded verdict.
 
     Order matters. Everything the gate can settle without the chain is settled
@@ -143,9 +143,12 @@ def run_gate(env, corpus, strict=False):
     key = dedup_key(env.get("space_id", 0), env.get("claim", ""))
     rows = _rows(corpus)
 
-    for row in rows:
+    retryable = (UNSOURCED, CONTRADICTED, INCONCLUSIVE)
+    for row in reversed(rows):
         if row.get("envelope_hash") == ehash:
             verdict = row.get("status") or row.get("verdict")
+            if retry_failed and verdict in retryable:
+                continue
             return (
                 _EXIT_FOR.get(verdict, EXIT_INCONCLUSIVE),
                 {
@@ -158,10 +161,11 @@ def run_gate(env, corpus, strict=False):
             )
 
     # A different envelope that flattens to the same claim in the same space.
-    # The contract would raise on this, so the gate refuses rather than sending
-    # a caller to certain failure.
+    # Only a previously admitted claim reserves the global key. Failed attempts
+    # remain evidence, but cannot squat on a corrected envelope from any author.
     for row in rows:
-        if row.get("dedup_key") == key:
+        if (row.get("dedup_key") == key
+                and (row.get("status") or row.get("verdict")) not in retryable):
             return (
                 EXIT_REFUSED,
                 {
@@ -287,6 +291,8 @@ def main(argv=None):
     g.add_argument("--entry", required=True)
     g.add_argument("--corpus", required=True)
     g.add_argument("--strict", action="store_true")
+    g.add_argument("--retry-failed", action="store_true",
+                   help="request fresh judgement after a failed attempt; never admits locally")
     g.add_argument("--quiet", action="store_true")
 
     v = sub.add_parser("verify", help="recompute a verdict from a receipt, offline")
@@ -296,7 +302,7 @@ def main(argv=None):
     args = ap.parse_args(argv)
 
     if args.cmd == "gate":
-        code, payload = run_gate(_load(args.entry), _load(args.corpus), args.strict)
+        code, payload = run_gate(_load(args.entry), _load(args.corpus), args.strict, args.retry_failed)
     else:
         code, payload = run_verify(_load(args.receipt))
 

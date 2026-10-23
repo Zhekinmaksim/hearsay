@@ -6,6 +6,12 @@ An admission layer in front of shared agent memory, on GenLayer.
 [Offline harness](https://hearsay.run/) ·
 [Submission and review instructions](docs/submission.md)
 
+**23 October correction:** the source and browser harness include the steward's
+state-machine fixes. See the [review response and reproduction steps](docs/steward-resubmit.md).
+The old Bradbury address and dated receipts describe the original deployment;
+the corrected contract and payout vault have not been deployed. No archived
+live result is presented as evidence of the corrected version.
+
 The updated [one-minute film](film/README.md) uses the site's visual language,
 the supplied music and the project domain `hearsay.run`. It labels its fictional
 offline examples and shows a separate dated Bradbury checkpoint.
@@ -61,6 +67,28 @@ entries go to a deferred queue rather than into the same transaction —
 unwinding an unbounded graph in one call is the largest source of unexpected
 cost in a design like this.
 
+Deferred entries are immediately untrusted, including descendants not yet
+visited by the storage walk. Bounded ancestor checks and support-revision pins
+prevent their use as premises. Anyone may call `process_deferred(limit)` with
+1–16 queue slots per call. The storage walk also has a 32-node expansion budget;
+each entry allows at most 32 direct dependents and a 256-entry ancestry check.
+Revocation and expiry use the same invalidation path.
+
+Failed admission no longer reserves a claim globally. Corrected evidence is
+fetched and judged again, under a new entry id and a fresh bond. There are at
+most three attempts per author per normalized claim; identical evidence from
+the same author is refused. Another author's allowance cannot be exhausted by
+the first writer. Successfully admitted claims retain global deduplication.
+
+Withdrawals reserve a persistent pending claim. An immutable
+[`HearsayPayoutVault`](contracts/HearsayPayoutVault.sol) records finalized GEN
+deposits, and `reconcile_withdrawal` verifies its receipt before clearing the
+pending liability. The beneficiary calls the vault's EVM `claim(recipient)`;
+failed delivery reverts atomically and preserves the credit for another
+recipient. A deployment without a bound vault refuses withdrawals and keeps
+the available credit intact. The corrected implementation requires a new
+deployment; this mechanism does not retrofit the old Bradbury contract.
+
 Cycles cannot be built: an entry may only cite entries that already exist, so
 the graph is acyclic by construction. What that does not stop — entries
 propping each other up with no external source — is stopped separately, by
@@ -102,9 +130,12 @@ not tell, which is a fact about the entry. 3 means nothing was ever asked. A
 caller that collapses them will eventually treat "we could not read it" as "it
 is fine".
 
-Everything the gate can settle locally is settled locally, before the chain: a
-malformed envelope and a claim that flattens onto one already in the space are
-both refused without spending a bond.
+Everything the gate can settle locally is settled locally, before the chain:
+malformed envelopes and normalized duplicates of admitted claims are refused
+without spending a bond. A changed source after failed admission receives exit
+2 pending judgement. `--retry-failed` also requests fresh judgement for an
+unchanged envelope whose source may have changed; it never grants admission,
+and `--strict` still refuses an unjudged retry.
 
 `verify` recomputes a verdict from a receipt with no chain, no network and no
 model. It checks three things, and each catches a different lie: the envelope
@@ -163,7 +194,8 @@ whether an entry's own source carried its claim, are recorded facts from the
 run; what re-executes is the contract's own walk — breadth-first, bounded at the
 space's depth, then a rejudge of everything tainted with the dead premise
 removed. Entries past the bound go to the deferred queue in front of you rather
-than being unrolled in one transaction.
+than being unrolled in one transaction. They remain `TAINTED`; **Process deferred
+batch** replays their later revalidation using the recorded scripted facts.
 
 **Run the gate** is the half of `cli/gate.py` that needs no chain, live. Paste a
 claim that already exists with different spacing and watch dedup flattening

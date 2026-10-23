@@ -551,6 +551,7 @@ pre mark { background: var(--flag-bg); color: var(--flag); }
       <p class="explain">Who leans on whom, and whether an entry's own source carried its claim, are both recorded in this corpus. What runs in your browser is the contract's walk over those facts: breadth-first, bounded at depth <b id="depth-bound"></b> by the space policy, then a rejudge of everything tainted with the dead premise removed.</p>
       <div class="buttons">
         <button id="cascade-run">Revoke and cascade</button>
+        <button id="cascade-deferred" class="quiet" disabled>Process deferred batch</button>
         <button id="cascade-reset" class="quiet">Put it back</button>
       </div>
     </div>
@@ -781,7 +782,7 @@ const EXIT = { ADMITTED: 0, UNSOURCED: 1, CONTRADICTED: 1, INCONCLUSIVE: 2 };
 /* The half of cli/gate.py that needs no chain. Structural checks and the dedup
  * collision are settled here, because a caller should not spend a bond to be
  * told its envelope was malformed. */
-function localGate(env, rows) {
+function localGate(env, rows, retryFailed = false) {
   const problems = [];
   if (!env || typeof env !== "object" || Array.isArray(env)) return { code: 3, verdict: null, problems: ["envelope must be an object"] };
   if (env.version !== "hearsay/1") problems.push("version must be exactly hearsay/1");
@@ -798,12 +799,13 @@ function localGate(env, rows) {
   if (problems.length) return { code: 3, verdict: null, problems };
 
   const hash = envelopeHash(env);
-  const hit = rows.find((r) => r.envelope_hash === hash);
+  const retryable = new Set(["UNSOURCED", "CONTRADICTED", "INCONCLUSIVE"]);
+  const hit = [...rows].reverse().find((r) => r.envelope_hash === hash && !(retryFailed && retryable.has(r.status)));
   if (hit) {
     return { code: EXIT[hit.status] ?? 2, verdict: hit.status, entry_id: hit.entry_id, note: hit.note, hash };
   }
   const key = dedupKey(env.space_id, env.claim);
-  const twin = rows.find((r) => r.dedup_key === key);
+  const twin = rows.find((r) => r.dedup_key === key && !retryable.has(r.status));
   if (twin) {
     return { code: 1, verdict: null, duplicate_of: twin.entry_id, duplicate_claim: twin.claim, hash };
   }
@@ -818,7 +820,7 @@ function localGate(env, rows) {
  * breadth-first walk, the depth bound, and the rule that a tainted entry has to
  * restand without the dead premise.
  */
-function cascade(rows, rootId, depthBound) {
+function cascade(rows, rootId, depthBound, deferredLimit = 0) {
   const byId = new Map(rows.map((r) => [r.entry_id, r]));
   const children = new Map();
   for (const r of rows) {
@@ -841,12 +843,15 @@ function cascade(rows, rootId, depthBound) {
     const [current, depth] = frontier.shift();
     for (const kid of children.get(current) || []) {
       if (state.get(kid) !== "ADMITTED") continue;
+      state.set(kid, "TAINTED");
       if (depth + 1 > depthBound) {
         deferred.push(kid);
         steps.push({ id: kid, depth: depth + 1, became: "DEFERRED" });
+        // Browser fixtures are finite. Reflect logical invalidation all the
+        // way down, even where the contract defers physical storage writes.
+        frontier.push([kid, depth + 1]);
         continue;
       }
-      state.set(kid, "TAINTED");
       tainted.push(kid);
       steps.push({ id: kid, depth: depth + 1, became: "TAINTED" });
       frontier.push([kid, depth + 1]);
@@ -860,7 +865,7 @@ function cascade(rows, rootId, depthBound) {
   const died = [];
   for (const id of tainted) {
     if (state.get(id) !== "TAINTED") continue;
-    if (byId.get(id).stands_alone) {
+    if (byId.get(id).stands_alone || (byId.get(id).supports || []).some(i => state.get(i) === "ADMITTED")) {
       state.set(id, "ADMITTED");
       survived.push(id);
       steps.push({ id, depth: null, became: "ADMITTED", rejudged: true });
@@ -878,6 +883,15 @@ function cascade(rows, rootId, depthBound) {
     }
   }
 
+  const processed = deferred.splice(0, Math.max(0, deferredLimit));
+  for (const id of processed) {
+    const row = byId.get(id);
+    const survives = row.stands_alone || (row.supports || []).some(i => state.get(i) === "ADMITTED");
+    state.set(id, survives ? "ADMITTED" : "REVOKED");
+    (survives ? survived : died).push(id);
+    tainted.push(id);
+    steps.push({ id, depth: null, became: state.get(id), rejudged: true });
+  }
   return { state, tainted, deferred, survived, died, steps };
 }
 
@@ -1260,6 +1274,7 @@ heroRulingTimer = setTimeout(() => showEntry(opener, true), settleNow ? 0 : 520)
 /* --- revoke and cascade ------------------------------------------------ */
 
 const depthBound = DATA.policy.cascade_depth;
+let deferredLimit = 0;
 $("depth-bound").textContent = depthBound;
 
 const leanedOn = new Set();
@@ -1284,6 +1299,8 @@ function describeDependents(id) {
 }
 
 function resetCascade() {
+  deferredLimit = 0;
+  $("cascade-deferred").disabled = true;
   $("cascade-headline").textContent = "Nothing revoked.";
   $("cascade-summary").textContent = describeDependents(Number(pick.value));
   $("cascade-walk").textContent = "";
@@ -1291,7 +1308,8 @@ function resetCascade() {
 
 function runCascade() {
   const root = Number(pick.value);
-  const out = HS.cascade(DATA.entries, root, depthBound);
+  const out = HS.cascade(DATA.entries, root, depthBound, deferredLimit);
+  $("cascade-deferred").disabled = out.deferred.length === 0;
   const walk = $("cascade-walk");
   walk.textContent = "";
 
@@ -1304,7 +1322,7 @@ function runCascade() {
     row.appendChild(left);
     const what = el("div", "what", "entry " + step.id + " — " + shorten(byId.get(step.id).claim, 86));
     if (step.became === "DEFERRED") {
-      what.appendChild(el("span", "depth-shift", "past the bound, queued for a later sweep rather than unrolled in this transaction"));
+      what.appendChild(el("span", "depth-shift", "TAINTED and unusable as a premise; queued for a later sweep"));
     }
     if (step.rejudged && step.became === "ADMITTED") {
       what.appendChild(el("span", "depth-shift", "its own source carried the claim without the dead premise"));
@@ -1328,7 +1346,8 @@ function runCascade() {
 }
 
 pick.addEventListener("change", resetCascade);
-$("cascade-run").addEventListener("click", runCascade);
+$("cascade-run").addEventListener("click", () => { deferredLimit = 0; runCascade(); });
+$("cascade-deferred").addEventListener("click", () => { deferredLimit += 16; runCascade(); });
 $("cascade-reset").addEventListener("click", resetCascade);
 resetCascade();
 

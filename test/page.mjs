@@ -155,14 +155,18 @@ check("dependents were tainted", becames.includes("TAINTED"));
 check("a rejudge resolved them", becames.includes("ADMITTED") || becames.includes("REVOKED"));
 check("summary names survivors and deaths", text("#cascade-summary").includes("survived"));
 
-// Revoke the root of the chain and the entry four deep must be deferred, not
-// tainted. When the bound was read from the wrong object this never happened.
+// Deferred is a scheduling label; the entry is TAINTED until revalidated.
 pick.value = "0";
 pick.dispatchEvent(new dom.window.Event("change", { bubbles: true }));
 document.querySelector("#cascade-run").dispatchEvent(new dom.window.Event("click", { bubbles: true }));
 const rootWalk = [...document.querySelectorAll("#cascade-walk .step")].map((s) => s.dataset.became);
 check("the cascade bound actually defers", rootWalk.includes("DEFERRED"), rootWalk.join(","));
 check("and the independent dependent survives", rootWalk.includes("ADMITTED"), rootWalk.join(","));
+check("deferred batch control is enabled", !document.querySelector("#cascade-deferred").disabled);
+check("deferred entry is visibly untrusted", text("#cascade-walk").includes("TAINTED and unusable as a premise"));
+document.querySelector("#cascade-deferred").dispatchEvent(new dom.window.Event("click", { bubbles: true }));
+check("deferred queue completes", document.querySelector("#cascade-deferred").disabled);
+check("completed queue is reported", text("#cascade-summary").includes("0 sat past"));
 
 document.querySelector("#cascade-reset").dispatchEvent(new dom.window.Event("click", { bubbles: true }));
 check("reset clears the walk", document.querySelectorAll("#cascade-walk .step").length === 0);

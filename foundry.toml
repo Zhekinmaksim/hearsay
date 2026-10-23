@@ -1,0 +1,6 @@
+[profile.default]
+src = "contracts"
+test = "test/evm"
+out = "runs/payout-solidity/out"
+cache_path = "runs/payout-solidity/cache"
+solc = "0.8.30"

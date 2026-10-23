@@ -63,7 +63,7 @@ def fresh(model, cascade_depth=3, admit_ttl=50, min_rounds=2):
     gl.nondet.web.pages = dict(PAGES)
     gl.nondet.web.fetches = []
     gl.advanced.transfers = []
-    c = hs.Hearsay()
+    c = hs.Hearsay("0x" + "77" * 20)
     as_(OWNER, POOL)
     sid = c.open_space(
         name="test space",
@@ -290,8 +290,9 @@ def test_challenge_upheld_revokes_and_pays():
     )
     check("solvent after payout", solvent(c))
     as_(CHALLENGER, 0)
-    moved = c.withdraw()
-    check("withdraw moves the credited balance", moved == CHALLENGE_BOND + WRITE_BOND)
+    check("unconfigured withdrawal fails closed", expect_error(c.withdraw, "payout vault required"))
+    check("unconfigured withdrawal preserves the credit",
+          c.balance_of(CHALLENGER.as_hex) == CHALLENGE_BOND + WRITE_BOND)
     check("solvent after withdraw", solvent(c))
 
 
@@ -356,7 +357,7 @@ def test_cascade_taints_dependents():
     check("revoked root", c.get_entry(a)["status"] == hs.REVOKED)
     check("direct dependent tainted", c.get_entry(b)["status"] == hs.TAINTED)
     check("second level tainted", c.get_entry(d)["status"] == hs.TAINTED)
-    check("nothing deferred within the bound", c.deferred_queue() == [])
+    check("tainted descendants are queued for revalidation", c.deferred_queue() == [b, d])
     check("solvent after cascade", solvent(c))
 
 
@@ -370,8 +371,8 @@ def test_cascade_respects_the_depth_bound():
     as_(CHALLENGER, 0)
     c.confirm_challenge(cid)
     check("first level still tainted", c.get_entry(b)["status"] == hs.TAINTED)
-    check("second level untouched", c.get_entry(d)["status"] == hs.ADMITTED)
-    check("second level deferred instead", c.deferred_queue() == [d], c.deferred_queue())
+    check("second level immediately untrusted", c.get_entry(d)["status"] == hs.TAINTED)
+    check("both levels queued for revalidation", c.deferred_queue() == [b, d], c.deferred_queue())
 
 
 def test_entry_with_its_own_source_survives_rejudge():

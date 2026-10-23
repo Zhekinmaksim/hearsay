@@ -536,6 +536,7 @@ pre mark { background: var(--flag-bg); color: var(--flag); }
       <p class="explain">Who leans on whom, and whether an entry's own source carried its claim, are both recorded in this corpus. What runs in your browser is the contract's walk over those facts: breadth-first, bounded at depth <b id="depth-bound"></b> by the space policy, then a rejudge of everything tainted with the dead premise removed.</p>
       <div class="buttons">
         <button id="cascade-run">Revoke and cascade</button>
+        <button id="cascade-deferred" class="quiet" disabled>Process deferred batch</button>
         <button id="cascade-reset" class="quiet">Put it back</button>
       </div>
     </div>
@@ -989,6 +990,7 @@ heroRulingTimer = setTimeout(() => showEntry(opener, true), settleNow ? 0 : 520)
 /* --- revoke and cascade ------------------------------------------------ */
 
 const depthBound = DATA.policy.cascade_depth;
+let deferredLimit = 0;
 $("depth-bound").textContent = depthBound;
 
 const leanedOn = new Set();
@@ -1013,6 +1015,8 @@ function describeDependents(id) {
 }
 
 function resetCascade() {
+  deferredLimit = 0;
+  $("cascade-deferred").disabled = true;
   $("cascade-headline").textContent = "Nothing revoked.";
   $("cascade-summary").textContent = describeDependents(Number(pick.value));
   $("cascade-walk").textContent = "";
@@ -1020,7 +1024,8 @@ function resetCascade() {
 
 function runCascade() {
   const root = Number(pick.value);
-  const out = HS.cascade(DATA.entries, root, depthBound);
+  const out = HS.cascade(DATA.entries, root, depthBound, deferredLimit);
+  $("cascade-deferred").disabled = out.deferred.length === 0;
   const walk = $("cascade-walk");
   walk.textContent = "";
 
@@ -1033,7 +1038,7 @@ function runCascade() {
     row.appendChild(left);
     const what = el("div", "what", "entry " + step.id + " — " + shorten(byId.get(step.id).claim, 86));
     if (step.became === "DEFERRED") {
-      what.appendChild(el("span", "depth-shift", "past the bound, queued for a later sweep rather than unrolled in this transaction"));
+      what.appendChild(el("span", "depth-shift", "TAINTED and unusable as a premise; queued for a later sweep"));
     }
     if (step.rejudged && step.became === "ADMITTED") {
       what.appendChild(el("span", "depth-shift", "its own source carried the claim without the dead premise"));
@@ -1057,7 +1062,8 @@ function runCascade() {
 }
 
 pick.addEventListener("change", resetCascade);
-$("cascade-run").addEventListener("click", runCascade);
+$("cascade-run").addEventListener("click", () => { deferredLimit = 0; runCascade(); });
+$("cascade-deferred").addEventListener("click", () => { deferredLimit += 16; runCascade(); });
 $("cascade-reset").addEventListener("click", resetCascade);
 resetCascade();
 

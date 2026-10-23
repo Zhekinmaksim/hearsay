@@ -94,7 +94,8 @@ def main():
     gl.nondet.web.fetches = []
     gl.advanced.transfers = []
 
-    c = hs.Hearsay()
+    # Offline placeholder only. This scripted run never attempts EVM custody.
+    c = hs.Hearsay("0x" + "77" * 20)
     _as(OWNER, POOL)
     space_id = c.open_space(
         name=policy["name"],

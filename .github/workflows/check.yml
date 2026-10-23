@@ -15,6 +15,10 @@ jobs:
       # the money or the verdict parity broke, not that an RPC was down.
       - run: make lint
       - run: make test
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.5.1
+      - run: make payout-test
       - run: make receipts-test
       - run: make enrichment-test
       - run: make checkpoint-test

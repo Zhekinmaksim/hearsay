@@ -27,8 +27,9 @@ independent source survives; an entry that only ever stood on the revoked one
 dies with it. The walk is bounded by a per-space depth, and anything past that
 depth goes to a deferred queue rather than into the same transaction.
 
-Money is pull-based: judging credits a balance, `withdraw` moves value. One
-line in the contract touches native value.
+Money is pull-based: judging credits a balance; withdrawals remain pending
+until an EVM escrow receipt proves custody. The beneficiary claims from that
+escrow atomically and can redirect a failed payment to a working address.
 """
 
 from genlayer import *
@@ -45,7 +46,12 @@ MAX_SUPPORTS = 8
 MAX_GROUND = 1024
 CONTRADICTION_WINDOW = 16
 CASCADE_DEPTH_CAP = 8
-MIN_ROUNDS_CAP = 1000
+MIN_ROUNDS_CAP = 2
+MAX_CLAIM_ATTEMPTS_PER_AUTHOR = 3
+MAX_ANCESTORS = 256
+DEFERRED_BATCH_CAP = 16
+MAX_DEPENDENTS = 32
+CASCADE_NODE_CAP = 32
 
 # Closed vocabulary. `honest` is the control group and is not optional: an
 # admission layer that cuts good-faith entries does not survive production, so
@@ -241,6 +247,8 @@ class Entry:
     snapshot_hash: str
     envelope_hash: str
     supports: str
+    support_revisions: str
+    revision: u32
     depth: u32
     status: str
     note: str
@@ -274,6 +282,14 @@ class Challenge:
     seq: u32
 
 
+@allow_storage
+@dataclass
+class Withdrawal:
+    beneficiary: Address
+    amount: u256
+    status: str
+
+
 class Hearsay(gl.Contract):
     spaces: TreeMap[u32, Space]
     entries: DynArray[Entry]
@@ -281,19 +297,32 @@ class Hearsay(gl.Contract):
 
     dependents: TreeMap[u32, str]      # entry_id -> csv of entries leaning on it
     seen: TreeMap[str, bool]           # space_id + flattened claim fingerprint
+    admitted_claims: TreeMap[str, bool]
+    claim_attempts: TreeMap[str, u32]
+    attempted_evidence: TreeMap[str, bool]
     balances: TreeMap[Address, u256]
     deferred: DynArray[u32]            # entries past the cascade depth bound
+    queued: TreeMap[u32, bool]
+    deferred_head: u32
+    withdrawals: DynArray[Withdrawal]
+    payout_vault: str
+    withdrawing: u256
 
     next_space: u32
     seq: u32
     escrowed: u256
     credited: u256
 
-    def __init__(self) -> None:
+    def __init__(self, payout_vault: str) -> None:
+        if not payout_vault or Address(payout_vault).as_hex == "0x" + "00" * 20:
+            raise gl.vm.UserError("nonzero payout vault required at deployment")
         self.next_space = u32(0)
         self.seq = u32(0)
         self.escrowed = u256(0)
         self.credited = u256(0)
+        self.withdrawing = u256(0)
+        self.deferred_head = u32(0)
+        self.payout_vault = Address(payout_vault).as_hex
 
     # ------------------------------------------------------------ space
 
@@ -402,27 +431,42 @@ class Hearsay(gl.Contract):
             dep = self._entry(dep_id)
             if int(dep.space_id) != space_id:
                 raise gl.vm.UserError("support from another space")
-            if dep.status != ADMITTED:
+            if not self._trusted(dep_id):
                 raise gl.vm.UserError("support is not admitted: %d" % dep_id)
             if dep_id in supports:
                 raise gl.vm.UserError("duplicate support: %d" % dep_id)
+            if len(_ids_from_csv(self._dependents(dep_id))) >= MAX_DEPENDENTS:
+                raise gl.vm.UserError("support dependent limit reached")
             supports.append(dep_id)
             if int(dep.depth) + 1 > depth:
                 depth = int(dep.depth) + 1
+        if not self._dependencies_fit(supports):
+            raise gl.vm.UserError("dependency verification budget exceeded")
 
         dedup_key = "%d:%s" % (space_id, _fingerprint(_flatten(claim)))
-        if self._seen(dedup_key):
+        if dedup_key in self.admitted_claims and bool(self.admitted_claims[dedup_key]):
             raise gl.vm.UserError("claim already recorded in this space")
-        self.seen[dedup_key] = True
+        author_key = dedup_key + ":" + gl.message.sender_address.as_hex
+        attempts = int(self.claim_attempts[author_key]) if author_key in self.claim_attempts else 0
+        if attempts >= MAX_CLAIM_ATTEMPTS_PER_AUTHOR:
+            raise gl.vm.UserError("claim attempt limit for this author")
 
         envelope_hash = _fingerprint(
             json.dumps(env, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
         )
 
-        self.seq = u32(int(self.seq) + 1)
         eid = u32(len(self.entries))
 
         snapshot = self._fetch(source_url)
+        evidence_key = author_key + ":" + _fingerprint(
+            json.dumps([source_url, _fingerprint(snapshot), supports], separators=(",", ":"))
+        )
+        if evidence_key in self.attempted_evidence and bool(self.attempted_evidence[evidence_key]):
+            raise gl.vm.UserError("unchanged evidence already attempted by this author")
+        self.seen[dedup_key] = True
+        self.claim_attempts[author_key] = u32(attempts + 1)
+        self.attempted_evidence[evidence_key] = True
+        self.seq = u32(int(self.seq) + 1)
         entry = Entry(
             entry_id=eid,
             space_id=u32(space_id),
@@ -434,6 +478,8 @@ class Hearsay(gl.Contract):
             snapshot_hash=_fingerprint(snapshot),
             envelope_hash=envelope_hash,
             supports=_csv_from_ids(supports),
+            support_revisions=_csv_from_ids([int(self.entries[i].revision) for i in supports]),
+            revision=u32(0),
             depth=u32(depth),
             status=INCONCLUSIVE,
             note="",
@@ -453,6 +499,8 @@ class Hearsay(gl.Contract):
         self.escrowed = u256(int(self.escrowed) + int(gl.message.value))
 
         self._judge(int(eid))
+        if self.entries[int(eid)].status == ADMITTED:
+            self.admitted_claims[dedup_key] = True
         self._settle_write(int(eid))
         return int(eid)
 
@@ -590,7 +638,7 @@ class Hearsay(gl.Contract):
         lines = []
         for dep_id in _ids_from_csv(e.supports):
             dep = self.entries[dep_id]
-            if dep.status != ADMITTED:
+            if not self._trusted(dep_id):
                 continue
             lines.append("[%d] %s" % (dep_id, dep.claim))
         return "\n".join(lines)
@@ -598,6 +646,7 @@ class Hearsay(gl.Contract):
     def _judge(self, entry_id: int) -> None:
         e = self.entries[entry_id]
         s = self.spaces[e.space_id]
+        e.revision = u32(int(e.revision) + 1)
 
         if len(e.snapshot) == 0:
             status, note, _ = decide(None, None, 0, int(s.min_rounds), -1, fetched=False)
@@ -716,7 +765,7 @@ class Hearsay(gl.Contract):
         i = len(self.entries) - 1
         while i >= 0 and len(out) < CONTRADICTION_WINDOW:
             e = self.entries[i]
-            if i != exclude and int(e.space_id) == space_id and e.status == ADMITTED:
+            if i != exclude and int(e.space_id) == space_id and self._trusted(i):
                 out.append((i, e.claim))
             i -= 1
         return out
@@ -888,34 +937,65 @@ class Hearsay(gl.Contract):
         if was_admitted and int(s.admitted) > 0:
             s.admitted = u32(int(s.admitted) - 1)
 
-        frontier = _ids_from_csv(self._dependents(entry_id))
+        self._invalidate_descendants(entry_id)
+
+    def _taint(self, entry_id: int, reason: str) -> None:
+        e = self.entries[entry_id]
+        if e.status == ADMITTED:
+            e.status = TAINTED
+            e.note = reason
+            s = self.spaces[e.space_id]
+            s.admitted = u32(int(s.admitted) - 1)
+
+    def _invalidate_descendants(self, entry_id: int) -> None:
+        s = self.spaces[self.entries[entry_id].space_id]
+
+        frontier = self._live_dependents(entry_id)
         level = 1
         limit = int(s.cascade_depth)
+        visited = 0
         while len(frontier) > 0:
-            if level > limit:
+            if level > limit or visited + len(frontier) > CASCADE_NODE_CAP:
                 for child in frontier:
+                    self._taint(child, "dependency changed, deferred revalidation")
                     self._defer(child)
                 return
             nxt: list = []
             for child in frontier:
+                visited += 1
                 ce = self.entries[child]
-                if ce.status != ADMITTED:
+                if ce.status not in (ADMITTED, TAINTED):
                     continue
-                ce.status = TAINTED
-                ce.note = "support %d revoked, awaiting rejudge" % entry_id
-                if int(s.admitted) > 0:
-                    s.admitted = u32(int(s.admitted) - 1)
-                for grand in _ids_from_csv(self._dependents(child)):
+                self._taint(child, "support %d changed, awaiting rejudge" % entry_id)
+                self._defer(child)
+                for grand in self._live_dependents(child):
                     if grand not in nxt:
                         nxt.append(grand)
             frontier = nxt
             level += 1
 
     def _defer(self, entry_id: int) -> None:
-        for i in range(len(self.deferred)):
-            if int(self.deferred[i]) == entry_id:
-                return
+        if self._queued(entry_id):
+            return
+        self.queued[u32(entry_id)] = True
         self.deferred.append(u32(entry_id))
+
+    @gl.public.write
+    def process_deferred(self, limit: int) -> int:
+        """Permissionless bounded sweep. Stale queue slots also consume budget."""
+        if limit <= 0 or limit > DEFERRED_BATCH_CAP:
+            raise gl.vm.UserError("deferred batch out of range")
+        processed = 0
+        while int(self.deferred_head) < len(self.deferred) and processed < limit:
+            eid = int(self.deferred[int(self.deferred_head)])
+            self.deferred_head = u32(int(self.deferred_head) + 1)
+            processed += 1
+            if not self._queued(eid):
+                continue
+            self.queued[u32(eid)] = False
+            if self._effective_status(eid) in (TAINTED, EXPIRED):
+                self.rejudge(eid)
+        return processed
 
     @gl.public.write
     def rejudge(self, entry_id: int) -> str:
@@ -929,15 +1009,24 @@ class Hearsay(gl.Contract):
         question being asked is whether the entry stands *now*.
         """
         e = self._entry(entry_id)
-        if e.status not in (TAINTED, EXPIRED):
+        if self._effective_status(entry_id) not in (TAINTED, EXPIRED):
             raise gl.vm.UserError("entry does not need rejudging")
+        self._taint(entry_id, "dependency changed, rejudging")
+        self.queued[u32(entry_id)] = False
 
         self.seq = u32(int(self.seq) + 1)
+        previous_supports = _ids_from_csv(e.supports)
         surviving = [
-            i for i in _ids_from_csv(e.supports)
-            if self.entries[i].status == ADMITTED
+            i for i in previous_supports
+            if self._trusted(i)
         ]
+        for dep_id in previous_supports:
+            if dep_id not in surviving:
+                self.dependents[u32(dep_id)] = _csv_from_ids(
+                    [i for i in _ids_from_csv(self._dependents(dep_id)) if i != entry_id]
+                )
         e.supports = _csv_from_ids(surviving)
+        e.support_revisions = _csv_from_ids([int(self.entries[i].revision) for i in surviving])
         depth = 0
         for i in surviving:
             if int(self.entries[i].depth) + 1 > depth:
@@ -954,7 +1043,9 @@ class Hearsay(gl.Contract):
         if e.status != ADMITTED:
             self._revoke(entry_id, "rejudge failed: " + e.status)
             return REVOKED
-        # Deferred children of a survivor no longer need the deferred pass.
+        # Even a survivor has a new judgement revision. Descendants must not
+        # silently inherit it without revalidation.
+        self._invalidate_descendants(entry_id)
         return ADMITTED
 
     @gl.public.write
@@ -993,37 +1084,87 @@ class Hearsay(gl.Contract):
             self.credited = u256(int(self.credited) + amount)
             e.bond_state = RETURNED
 
-        for child in _ids_from_csv(self._dependents(entry_id)):
-            ce = self.entries[child]
-            if ce.status == ADMITTED:
-                ce.status = TAINTED
-                ce.note = "support %d expired, awaiting rejudge" % entry_id
-                if int(s.admitted) > 0:
-                    s.admitted = u32(int(s.admitted) - 1)
+        self._invalidate_descendants(entry_id)
         return EXPIRED
 
     @gl.public.write
     def withdraw(self) -> int:
+        """Reserve a claim and fund the EVM pull-payment vault on finalization.
+
+        Emitting a message is not delivery. The durable withdrawal remains
+        pending until the vault's on-chain receipt is verified. A vault-less
+        deployment fails closed without clearing any credit.
+        """
         amount = self._balance(gl.message.sender_address)
         if amount <= 0:
             raise gl.vm.UserError("nothing to withdraw")
+        vault = self._vault()
+        if int(self.balance) < int(self.escrowed) + int(self.credited) + int(self.withdrawing):
+            raise gl.vm.UserError("withdrawal reserves unavailable")
+        wid = len(self.withdrawals)
+        self.withdrawals.append(Withdrawal(gl.message.sender_address, u256(amount), "PENDING"))
         self.balances[gl.message.sender_address] = u256(0)
         self.credited = u256(int(self.credited) - amount)
-        if getattr(gl, "evm", None) is not None:
-            @gl.evm.contract_interface
-            class _Recipient:
-                class View:
-                    pass
+        self.withdrawing = u256(int(self.withdrawing) + amount)
+        vault.emit(value=u256(amount)).deposit(u256(wid), gl.message.sender_address)
+        return wid
 
-                class Write:
-                    pass
+    @gl.public.write
+    def reconcile_withdrawal(self, withdrawal_id: int) -> str:
+        w = self._withdrawal(withdrawal_id)
+        if w.status == "FUNDED":
+            return w.status
+        vault = self._vault()
+        amount = int(vault.view().amountOf(u256(withdrawal_id)))
+        if amount == 0:
+            return "PENDING"
+        if amount != int(w.amount) or vault.view().beneficiaryOf(u256(withdrawal_id)) != w.beneficiary:
+            raise gl.vm.UserError("vault receipt mismatch")
+        w.status = "FUNDED"
+        self.withdrawing = u256(int(self.withdrawing) - amount)
+        return w.status
 
-            _Recipient(Address(gl.message.sender_address)).emit_transfer(
-                value=u256(amount)
-            )
-        else:
-            gl.advanced.emit_transfer(gl.message.sender_address, amount)
-        return amount
+    @gl.public.write
+    def retry_withdrawal(self, withdrawal_id: int) -> str:
+        """Retry an unfunded deposit only from funds covering ALL liabilities.
+
+        A late first delivery cannot pay twice: the immutable vault rejects a
+        duplicate withdrawal id atomically. Missing acknowledgement alone is
+        never evidence that reserved value has been returned.
+        """
+        w = self._withdrawal(withdrawal_id)
+        if gl.message.sender_address != w.beneficiary:
+            raise gl.vm.UserError("only beneficiary may retry")
+        if self.reconcile_withdrawal(withdrawal_id) == "FUNDED":
+            return "FUNDED"
+        if int(self.balance) < int(self.escrowed) + int(self.credited) + int(self.withdrawing):
+            raise gl.vm.UserError("withdrawal reserves unavailable")
+        self._vault().emit(value=w.amount).deposit(u256(withdrawal_id), w.beneficiary)
+        return "PENDING"
+
+    def _vault(self):
+        if not self.payout_vault or getattr(gl, "evm", None) is None:
+            raise gl.vm.UserError("verified EVM payout vault required")
+
+        @gl.evm.contract_interface
+        class Vault:
+            class View:
+                def controller(self) -> Address: ...
+                def amountOf(self, withdrawal_id: u256) -> u256: ...
+                def beneficiaryOf(self, withdrawal_id: u256) -> Address: ...
+
+            class Write:
+                def deposit(self, withdrawal_id: u256, beneficiary: Address) -> None: ...
+
+        vault = Vault(Address(self.payout_vault))
+        if vault.view().controller() != gl.message.contract_address:
+            raise gl.vm.UserError("payout vault controller mismatch")
+        return vault
+
+    def _withdrawal(self, withdrawal_id: int) -> Withdrawal:
+        if withdrawal_id < 0 or withdrawal_id >= len(self.withdrawals):
+            raise gl.vm.UserError("unknown withdrawal")
+        return self.withdrawals[withdrawal_id]
 
     # ------------------------------------------------------------ views
 
@@ -1042,7 +1183,8 @@ class Hearsay(gl.Contract):
             "challenge_bond": int(s.challenge_bond),
             "pool": int(s.pool),
             "entries": int(s.entries),
-            "admitted": int(s.admitted),
+            "admitted": sum(1 for i in range(len(self.entries))
+                            if self.entries[i].space_id == s.space_id and self._trusted(i)),
             "open": s.is_open,
         }
 
@@ -1061,7 +1203,10 @@ class Hearsay(gl.Contract):
             "supports": _ids_from_csv(e.supports),
             "dependents": _ids_from_csv(self._dependents(entry_id)),
             "depth": int(e.depth),
-            "status": e.status,
+            "status": self._effective_status(entry_id),
+            "stored_status": e.status,
+            "revision": int(e.revision),
+            "support_revisions": _ids_from_csv(e.support_revisions),
             "note": e.note,
             "conflicts_with": int(e.conflicts_with),
             "rounds": int(e.rounds),
@@ -1142,14 +1287,25 @@ class Hearsay(gl.Contract):
             "false_rejection_milli": _div_milli(honest_n - honest_ok, honest_n),
             "honest_attempts": honest_n,
             "honest_admitted": honest_ok,
-            "deferred": len(self.deferred),
+            "deferred": len(self.deferred_queue()),
             "prevented_by_construction": list(PREVENTED_BY_CONSTRUCTION),
             "classes": classes,
         }
 
     @gl.public.view
     def deferred_queue(self) -> typing.Any:
-        return [int(x) for x in self.deferred]
+        return [int(self.deferred[i]) for i in range(int(self.deferred_head), len(self.deferred))
+                if self._queued(int(self.deferred[i]))]
+
+    @gl.public.view
+    def get_withdrawal(self, withdrawal_id: int) -> typing.Any:
+        w = self._withdrawal(withdrawal_id)
+        return {"withdrawal_id": withdrawal_id, "beneficiary": w.beneficiary.as_hex,
+                "amount": int(w.amount), "status": w.status, "vault": self.payout_vault}
+
+    @gl.public.view
+    def withdrawal_count(self) -> int:
+        return len(self.withdrawals)
 
     @gl.public.view
     def solvency(self) -> typing.Any:
@@ -1162,7 +1318,8 @@ class Hearsay(gl.Contract):
             "escrowed": int(self.escrowed),
             "pools": pools,
             "credited": int(self.credited),
-            "held": int(self.escrowed) + int(self.credited),
+            "withdrawing": int(self.withdrawing),
+            "held": int(self.escrowed) + int(self.credited) + int(self.withdrawing),
             "balanced": pools == int(self.escrowed),
         }
 
@@ -1175,6 +1332,58 @@ class Hearsay(gl.Contract):
         return len(self.entries)
 
     # ------------------------------------------------------------ helpers
+
+    def _queued(self, entry_id: int) -> bool:
+        return u32(entry_id) in self.queued and bool(self.queued[u32(entry_id)])
+
+    def _live_dependents(self, entry_id: int) -> list:
+        return [i for i in _ids_from_csv(self._dependents(entry_id))
+                if entry_id in _ids_from_csv(self.entries[i].supports)]
+
+    def _dependencies_fit(self, supports: list) -> bool:
+        pending = list(supports)
+        visited: list = []
+        while pending:
+            i = pending.pop()
+            if i in visited:
+                continue
+            visited.append(i)
+            if len(visited) >= MAX_ANCESTORS:
+                return False
+            pending.extend(_ids_from_csv(self.entries[i].supports))
+        return True
+
+    def _trusted(self, entry_id: int) -> bool:
+        """Fail closed through the whole DAG, including unswept descendants.
+
+        Support revisions prevent a repaired ancestor from silently restoring
+        trust in an entry which has not itself been rejudged.
+        """
+        pending = [entry_id]
+        visited: list = []
+        while pending:
+            i = pending.pop()
+            if i in visited:
+                continue
+            visited.append(i)
+            if len(visited) > MAX_ANCESTORS:
+                return False
+            e = self.entries[i]
+            if e.status != ADMITTED:
+                return False
+            supports = _ids_from_csv(e.supports)
+            revisions = _ids_from_csv(e.support_revisions)
+            if len(supports) != len(revisions):
+                return False
+            for j in range(len(supports)):
+                if int(self.entries[supports[j]].revision) != revisions[j]:
+                    return False
+            pending.extend(supports)
+        return True
+
+    def _effective_status(self, entry_id: int) -> str:
+        status = self.entries[entry_id].status
+        return TAINTED if status == ADMITTED and not self._trusted(entry_id) else status
 
     def _space(self, space_id: int) -> Space:
         if u32(space_id) not in self.spaces:

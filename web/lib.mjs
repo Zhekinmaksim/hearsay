@@ -153,7 +153,7 @@ const EXIT = { ADMITTED: 0, UNSOURCED: 1, CONTRADICTED: 1, INCONCLUSIVE: 2 };
 /* The half of cli/gate.py that needs no chain. Structural checks and the dedup
  * collision are settled here, because a caller should not spend a bond to be
  * told its envelope was malformed. */
-function localGate(env, rows) {
+function localGate(env, rows, retryFailed = false) {
   const problems = [];
   if (!env || typeof env !== "object" || Array.isArray(env)) return { code: 3, verdict: null, problems: ["envelope must be an object"] };
   if (env.version !== "hearsay/1") problems.push("version must be exactly hearsay/1");
@@ -170,12 +170,13 @@ function localGate(env, rows) {
   if (problems.length) return { code: 3, verdict: null, problems };
 
   const hash = envelopeHash(env);
-  const hit = rows.find((r) => r.envelope_hash === hash);
+  const retryable = new Set(["UNSOURCED", "CONTRADICTED", "INCONCLUSIVE"]);
+  const hit = [...rows].reverse().find((r) => r.envelope_hash === hash && !(retryFailed && retryable.has(r.status)));
   if (hit) {
     return { code: EXIT[hit.status] ?? 2, verdict: hit.status, entry_id: hit.entry_id, note: hit.note, hash };
   }
   const key = dedupKey(env.space_id, env.claim);
-  const twin = rows.find((r) => r.dedup_key === key);
+  const twin = rows.find((r) => r.dedup_key === key && !retryable.has(r.status));
   if (twin) {
     return { code: 1, verdict: null, duplicate_of: twin.entry_id, duplicate_claim: twin.claim, hash };
   }
@@ -190,7 +191,7 @@ function localGate(env, rows) {
  * breadth-first walk, the depth bound, and the rule that a tainted entry has to
  * restand without the dead premise.
  */
-function cascade(rows, rootId, depthBound) {
+function cascade(rows, rootId, depthBound, deferredLimit = 0) {
   const byId = new Map(rows.map((r) => [r.entry_id, r]));
   const children = new Map();
   for (const r of rows) {
@@ -213,12 +214,15 @@ function cascade(rows, rootId, depthBound) {
     const [current, depth] = frontier.shift();
     for (const kid of children.get(current) || []) {
       if (state.get(kid) !== "ADMITTED") continue;
+      state.set(kid, "TAINTED");
       if (depth + 1 > depthBound) {
         deferred.push(kid);
         steps.push({ id: kid, depth: depth + 1, became: "DEFERRED" });
+        // Browser fixtures are finite. Reflect logical invalidation all the
+        // way down, even where the contract defers physical storage writes.
+        frontier.push([kid, depth + 1]);
         continue;
       }
-      state.set(kid, "TAINTED");
       tainted.push(kid);
       steps.push({ id: kid, depth: depth + 1, became: "TAINTED" });
       frontier.push([kid, depth + 1]);
@@ -232,7 +236,7 @@ function cascade(rows, rootId, depthBound) {
   const died = [];
   for (const id of tainted) {
     if (state.get(id) !== "TAINTED") continue;
-    if (byId.get(id).stands_alone) {
+    if (byId.get(id).stands_alone || (byId.get(id).supports || []).some(i => state.get(i) === "ADMITTED")) {
       state.set(id, "ADMITTED");
       survived.push(id);
       steps.push({ id, depth: null, became: "ADMITTED", rejudged: true });
@@ -250,6 +254,15 @@ function cascade(rows, rootId, depthBound) {
     }
   }
 
+  const processed = deferred.splice(0, Math.max(0, deferredLimit));
+  for (const id of processed) {
+    const row = byId.get(id);
+    const survives = row.stands_alone || (row.supports || []).some(i => state.get(i) === "ADMITTED");
+    state.set(id, survives ? "ADMITTED" : "REVOKED");
+    (survives ? survived : died).push(id);
+    tainted.push(id);
+    steps.push({ id, depth: null, became: state.get(id), rejudged: true });
+  }
   return { state, tainted, deferred, survived, died, steps };
 }
 

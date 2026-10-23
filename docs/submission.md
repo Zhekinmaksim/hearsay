@@ -1,5 +1,11 @@
 # Hearsay — GenLayer Portal project submission
 
+**23 October steward correction.**
+
+The [correction report and resubmit text](steward-resubmit.md) supersede earlier
+descriptions of deduplication, deferred processing and withdrawals in this
+document. The corrected source is regression-tested but not deployed; the old
+Bradbury contract and checkpoints below remain historical evidence.
 Destination: **GenLayer Portal → Builder → Projects**. The form text supplied
 by the user is the requirements source for this package. The Portal showed
 **one weekly Project spot remaining**; final submission consumes that spot.

@@ -1,5 +1,10 @@
 # Hearsay film
 
+This export documents the original, dated version. Its pinned inputs are kept
+unchanged. The [23 October contract corrections](../docs/steward-resubmit.md)
+and the updated browser deferred-queue control are not demonstrated by this
+video; do not present it as a live demonstration of the corrected deployment.
+
 A 60-second Remotion explainer, 1920 × 1080 at 30 fps, using the site's
 Newsreader and Archivo fonts and the supplied soundtrack. The project domain is
 `hearsay.run`; the app URL is https://hearsay.run/app.html.
