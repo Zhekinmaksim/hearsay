@@ -14,7 +14,8 @@ with a bound [EVM payout vault](https://explorer-bradbury.genlayer.com/address/0
 [Deployment identity](deployments/bradbury-steward-final.json) pins its source,
 runtime and controller. The [live checkpoint](https://hearsay.run/steward-final-checkpoint.json)
 records source correction, a rejected challenge, deep invalidation, direct
-rejudgement and bounded queue completion, with exact canonical statuses.
+rejudgement and bounded queue completion. All 15 lifecycle transactions are
+Finalized, with exact canonical receipts and validator rounds.
 [Diagnostic history](https://hearsay.run/steward-diagnostics.json) retains earlier
 timeouts and the intermediate SDK proxy failure. Historical controls and video
 belong to the original contract. Native EVM tests cover failed-payment recovery;

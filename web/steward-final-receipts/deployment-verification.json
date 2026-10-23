@@ -1,10 +1,10 @@
 {
-  "checked_at": "2026-10-23T15:55:56.805Z",
+  "checked_at": "2026-10-23T16:20:47.391Z",
   "network": "bradbury-phase1",
   "genesis": "0xef97917ce9bd9fa7d12ad6a8d81ea26c80ac1d727acc37cbb9799ae199788dc5",
   "block": {
-    "number": "26276318",
-    "hash": "0x549ac27f75d874660d6e5f73a94b13471cacaebae5e763b39606d444c4f89f16"
+    "number": "26280010",
+    "hash": "0x34cbb5703d215c3aee1c60f8650e02b79f5a93dfad97dc1373cf317e8facea8c"
   },
   "address": "0xD0B85aB75f479d060A1680E220931c5001f7ba46",
   "deployment_source_verified": true,

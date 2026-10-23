@@ -7,7 +7,8 @@ Repository: https://github.com/Zhekinmaksim/hearsay
 The source corrections requested by the steward are deployed on **Bradbury
 Phase 1**, chain ID 4221. This is a new IC and a separate EVM vault, not an
 upgrade to the historical contract. Source bytes, vault runtime and the one-time controller binding were verified
-from RPC; the final checkpoint records canonical finalization separately.
+from RPC. All 15 operations in the final live lifecycle run are canonically
+Finalized; the checkpoint retains exact status and validator rounds.
 The [review response](steward-resubmit.md) describes each correction and tests.
 
 The live review uses fresh pinned CPython release files. Its canonical proof is

@@ -1,6 +1,6 @@
 Fixed all review issues: failed claims allow bounded, freshly verified correction without deleting history; dependency revision checks immediately invalidate deep descendants; direct rejudge and bounded queue processing restore trust. Withdrawals remain pending until verified vault funding; failed recipient delivery preserves the beneficiary's claim. min_rounds is limited to 1–2.
 
-Live proof: wrong source UNSOURCED, corrected same claim ADMITTED; false challenge REJECTED; expiry tainted all three descendants; rejudge restored the root and descendants; bounded calls consumed the remaining queue slots. Canonical receipts, source pins and prior diagnostic failures are linked below. Focused regressions and native EVM recovery tests pass.
+Finalized live proof: wrong source UNSOURCED, corrected same claim ADMITTED; false challenge REJECTED; expiry tainted all three descendants; rejudge restored the root and descendants; bounded calls consumed the remaining queue slots. Canonical receipts, source pins and prior diagnostic failures are linked below. Focused regressions and native EVM recovery tests pass.
 
 IC: 0xD0B85aB75f479d060A1680E220931c5001f7ba46
 Vault: 0x81f29ce35b2624c3e04764cad423fc660ef4d3a7

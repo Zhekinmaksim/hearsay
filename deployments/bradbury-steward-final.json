@@ -11,7 +11,7 @@
   "deployment_source_sha256": "02df3ea8c9f4f8181681d3adaf46df785998af27fee4a968271de653beb3df7b",
   "codec": "lzss",
   "execution_result": "FINISHED_WITH_RETURN",
-  "deployment_status": "ACCEPTED",
+  "deployment_status": "FINALIZED",
   "protocol": {
     "initial_validators": 5,
     "max_rotations": 3
@@ -29,7 +29,7 @@
   },
   "previous_deployment": "0x764FB8E341a1956bcD7CF0bce3c28C79Dc694f8C",
   "historical_checkpoint": "steward-checkpoint.json",
-  "lifecycle_verification": "accepted-provisional",
+  "lifecycle_verification": "finalized",
   "source_fetch_policy": "Strict equality of independently fetched text/plain HTTP bodies on raw.githubusercontent.com; comparative rendered-text equivalence for other sources.",
   "adapter_preflight": "Exact adapter classes passed leader and validator gen_call with typed controller/receipt reads and 1000 wei EthSend."
 }

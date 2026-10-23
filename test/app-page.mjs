@@ -110,6 +110,30 @@ check('wrong chain disables writing and exposes the explicit switch control', ()
 await f.app.switchChain();
 check('unknown Bradbury chain is added using exact chain/RPC/currency/explorer settings', () => { const request = f.requests.find(x => x.method === 'wallet_addEthereumChain'); assert.equal(request.params[0].chainId, '0x107d'); assert.equal(request.params[0].chainName, CHAIN.name); assert.deepEqual(request.params[0].rpcUrls, CHAIN.rpcUrls.default.http); assert.equal(f.app.state.chainId, 4221); });
 f.app.destroy();
+f = fixture();
+const matchRead = deferred();
+f.live.matchEntry = async () => matchRead.promise;
+const delayedTracking = f.app.track(hash);
+await settled();
+check('pending application read is not reported as an absent record', () => {
+  const panel = f.dom.window.document.getElementById('receipt-panel');
+  assert.match(panel.textContent, /Checking the matching application record/);
+  assert(!panel.textContent.includes('No matching application record'));
+  assert(!panel.querySelector('.application'));
+});
+matchRead.resolve(entry); await delayedTracking;
+check('completed delayed match exposes the verified record and snapshot', () => {
+  const panel = f.dom.window.document.getElementById('receipt-panel');
+  assert(panel.querySelector('.application'));
+  assert(panel.textContent.includes(snapshot));
+});
+f.live.matchEntry = async () => null; await f.app.pollOnce();
+check('completed unmatched read still refuses an application verdict', () => {
+  const panel = f.dom.window.document.getElementById('receipt-panel');
+  assert.match(panel.textContent, /No matching application record/);
+  assert(!panel.querySelector('.application'));
+});
+f.app.destroy();
 f = fixture({ stored: { version: 1, id: 'legacy-public-watch', contract: CONTRACT, sender, createdAt: Date.now(), method: 'tracked', phase: 'protocol_pending', protocolHash: hash, receipt: { ...baseReceipt, status: 7, statusName: 'Finalized' } } });
 await f.app.pollOnce();
 check('old saved public watches infer the claim safely from a fresh canonical receipt', () => { assert.equal(f.app.journal.records[0].envelopeHash, envelopeHash(env)); assert.equal(f.app.journal.records[0].readOnly, true); assert.equal(f.app.journal.active(), undefined); assert([...f.dom.window.document.getElementById('receipt-panel').querySelectorAll('button')].some(button => button.textContent === 'Download replayable receipt')); });

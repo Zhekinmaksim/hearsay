@@ -119,6 +119,12 @@ def main():
                   "Live completion used direct rejudge followed by bounded stale-slot processing; no successful queued AI batch is claimed.",
                   "Payment recovery is covered by native EVM tests and real GenVM adapter simulation; this lifecycle checkpoint does not claim an IC-to-vault withdrawal.",
                   "RPC timings do not establish the private cause of other validators' timeouts."]}
+    if (public / "browser-replay.json").exists():
+        browser = json.loads((public / "browser-replay.json").read_text())
+        if not collector.gate.run_verify(browser)[1]["reproduces"]:
+            raise ValueError("browser-downloaded receipt does not reproduce")
+        report["browser_replay"] = {"file": prefix + "/browser-replay.json",
+                                    "scope": "Current rejudged entry and canonical finalized initial-write receipt; not the initial entry state"}
     collector.checkpoint(args.out, report)
     print(json.dumps({"complete": complete, "assertions": assertions,
                       "transactions": [{k: t[k] for k in ("id", "status")} for t in transactions]}, indent=2))

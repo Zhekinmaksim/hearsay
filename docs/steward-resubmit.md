@@ -142,7 +142,8 @@ correct evidence. Expiry tests deep invalidation, including the descendant
 whose stored flag remains ADMITTED while its effective status is TAINTED.
 Direct rejudge of the root and all three descendants restores their independent
 source support; two bounded calls consume the remaining stale queue slots.
-The final checkpoint determines whether each operation is Accepted or Finalized.
+All 15 operations in this final lifecycle run reached canonical Finalized status.
+The checkpoint preserves the complete consensus receipts and individual rounds.
 No successful queued AI batch or second referee stage is claimed by this path.
 
 | Live operation | Transaction |
@@ -154,6 +155,12 @@ No successful queued AI batch or second referee stage is claimed by this path.
 
 The checkpoint links the remaining rejudgements, both bounded sweeps, full
 canonical receipts, calldata-bound intents and initial source-pinned records.
+The production browser read all five entries, automatically followed the
+corrected write from Accepted to Finalized, verified its source bytes and
+downloaded a [replayable receipt](https://hearsay.run/steward-final-receipts/browser-replay.json).
+`cli/gate.py verify` reproduced ADMITTED from that browser download. This file
+contains the current rejudged entry; the initial five write records remain
+separate.
 
 
 The sequential, resumable live runner is `scripts/steward_live.py`. It writes
@@ -205,7 +212,7 @@ make film-check
 
 These cover 67 existing parity checks, five additional retry parity cases and
 deep cascade regressions, 17 gate cases, 65 page assertions and the unchanged
-video's source/hash binding. The app adds 48 wallet/core and 30 DOM checks;
+video's source/hash binding. The app adds 48 wallet/core and 33 DOM checks;
 the broadcast journal has 15 checks. The historical corpus still reproduces 18/18
 verdicts. Its bytes, live checkpoints and video were not regenerated.
 

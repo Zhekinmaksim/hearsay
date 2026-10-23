@@ -1,5 +1,5 @@
 {
-  "currentTimestamp": "1792770973",
+  "currentTimestamp": "1792772464",
   "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
   "recipient": "0xD0B85aB75f479d060A1680E220931c5001f7ba46",
   "initialRotations": "3",
@@ -16,7 +16,7 @@
   "queuePosition": "0",
   "activator": "0xfd811B16001077243e07173ec72a4735FF04C3AA",
   "lastLeader": "0x4f36CB2C58385575fafb443d80E3c290b12DA6aE",
-  "status": 5,
+  "status": 7,
   "txId": "0xb9e814a0a03ed646a0ec7a0f4a0150fd7addc818bd8f1c1dc01c9d6c1f464f2f",
   "readStateBlockRange": {
     "activationBlock": "26274234",
@@ -76,7 +76,7 @@
     "type": "call"
   },
   "numOfInitialValidators": "5",
-  "statusName": "ACCEPTED",
+  "statusName": "FINALIZED",
   "resultName": "MAJORITY_AGREE",
   "txExecutionResultName": "FINISHED_WITH_RETURN",
   "previousStatus": 0,
@@ -98,15 +98,15 @@
   "consensus_version": "2.0.0",
   "status_basis": "getTransactionAllData",
   "stored_block": {
-    "number": "26276335",
-    "hash": "0x0ba764a1cce4dcdeada860a8ea4e5e70f915c88c0dbe93fd31d53121d41e5ad7",
-    "timestamp": "1792770973"
+    "number": "26280028",
+    "hash": "0xb69c88e9e9b115a9bf9f01e188badc7024ae4915c3b89550bc0252ce6c4e3416",
+    "timestamp": "1792772464"
   },
   "stored_receipt": {
     "result": 1,
     "txExecutionResult": 1,
     "previousStatus": 0,
-    "status": 5,
+    "status": 7,
     "txOrigin": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
     "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
     "recipient": "0xD0B85aB75f479d060A1680E220931c5001f7ba46",
@@ -133,7 +133,7 @@
     "lockedStorageUnitPrice": "0",
     "storageFeeUsed": "0",
     "txId": "0xb9e814a0a03ed646a0ec7a0f4a0150fd7addc818bd8f1c1dc01c9d6c1f464f2f",
-    "statusName": "ACCEPTED",
+    "statusName": "FINALIZED",
     "numOfRounds": "0",
     "lastRound": {
       "round": "0",
@@ -220,7 +220,7 @@
     }
   ],
   "projected_receipt": {
-    "currentTimestamp": "1792770962",
+    "currentTimestamp": "1792772452",
     "sender": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
     "recipient": "0xD0B85aB75f479d060A1680E220931c5001f7ba46",
     "initialRotations": "3",
@@ -237,7 +237,7 @@
     "queuePosition": "0",
     "activator": "0xfd811B16001077243e07173ec72a4735FF04C3AA",
     "lastLeader": "0x4f36CB2C58385575fafb443d80E3c290b12DA6aE",
-    "status": 5,
+    "status": 7,
     "txId": "0xb9e814a0a03ed646a0ec7a0f4a0150fd7addc818bd8f1c1dc01c9d6c1f464f2f",
     "readStateBlockRange": {
       "activationBlock": "26274234",
@@ -304,7 +304,7 @@
       "type": "call"
     },
     "numOfInitialValidators": "3",
-    "statusName": "ACCEPTED",
+    "statusName": "FINALIZED",
     "resultName": "AGREE",
     "txExecutionResultName": "FINISHED_WITH_RETURN"
   }
