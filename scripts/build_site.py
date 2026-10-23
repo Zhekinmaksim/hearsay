@@ -87,7 +87,13 @@ def render_page():
             '<p class="whereabouts"><a href="app.html">Open the live Bradbury app</a></p></header>',
             1,
         )
-    if os.path.exists(os.path.join(ROOT, "web", "live.html")):
+    if os.path.exists(os.path.join(ROOT, "web", "steward-checkpoint.json")):
+        template = template.replace(
+            "</header>",
+            '</header>\n  <p class="whereabouts">23 October: corrected Phase 1 deployment finalized; live AI writes timed out, so challenge/rejudge remain unverified. <a href="steward-checkpoint.json">New deployment &amp; canonical receipts</a> · <a href="bradbury-prompt-checkpoint.json">Historical 9 October checkpoint</a> · offline stand below</p>',
+            1,
+        )
+    elif os.path.exists(os.path.join(ROOT, "web", "live.html")):
         template = template.replace(
             "</header>",
             '</header>\n  <p class="whereabouts"><a href="live.html">Live Bradbury record — sources, votes and receipts</a> · offline stand below</p>',

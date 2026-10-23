@@ -60,7 +60,8 @@ export async function broadcastWithJournal(parameters, send, journal, options = 
         checkpoint("capacity_exhausted", { attempt });
         throw new Error("RPC capacity retries exhausted; reconcile EVM hash " + expectedHash + " before another submission");
       }
-      checkpoint("broadcast_unacknowledged", { attempt });
+      checkpoint("broadcast_unacknowledged", { attempt,
+        ...(error.safeRpcError ? { rpc_error: error.safeRpcError } : {}) });
       // Never propagate an error that may contain signed request bytes.
       throw new Error("Broadcast not acknowledged; reconcile EVM hash " + expectedHash + " before another submission");
     }
@@ -74,7 +75,7 @@ export async function broadcastWithJournal(parameters, send, journal, options = 
 }
 
 export function createBroadcastFetch(fetchRpc, options) {
-  const { rpcUrl, hashTransaction, parseTransaction, journal, expectedNonce, gasMarginNumerator = 125n, gasMarginDenominator = 100n, retry } = options;
+  const { rpcUrl, hashTransaction, parseTransaction, journal, expectedNonce, maxFeeWei, gasMarginNumerator = 125n, gasMarginDenominator = 100n, retry } = options;
   const endpoint = new URL(rpcUrl).href.replace(/\/$/, "");
   let estimatedGas;
   let estimationFailed = false;
@@ -110,6 +111,10 @@ export function createBroadcastFetch(fetchRpc, options) {
     } catch { throw new Error("Invalid signed transaction; no broadcast occurred"); }
     if (parsed.gas !== estimatedGas) throw new Error("Signed transaction gas differs from the guarded estimate");
     if (expectedNonce !== undefined && BigInt(parsed.nonce) !== BigInt(expectedNonce)) throw new Error("Signed transaction nonce differs from expected_nonce; no broadcast occurred");
+    if (maxFeeWei !== undefined) {
+      const price = parsed.maxFeePerGas ?? parsed.gasPrice;
+      if (price === undefined || parsed.gas * price > BigInt(maxFeeWei)) throw new Error("Signed transaction exceeds reviewed fee cap; no broadcast occurred");
+    }
     // SDK ABI fallback must not submit a newly signed transaction after an
     // acknowledgement or ambiguous result. Retries stay inside the loop below.
     if (attemptedHash) throw new Error("Another SDK broadcast blocked; reconcile EVM hash " + attemptedHash);
@@ -122,7 +127,12 @@ export function createBroadcastFetch(fetchRpc, options) {
       if (!response.ok || payload.error) {
         // This object is consumed internally and never logged or journaled.
         if (payload.error && capacityDelay(payload.error) !== null) throw payload.error;
-        throw new Error("RPC raw transaction request failed");
+        const error = new Error("RPC raw transaction request failed");
+        if (payload.error) error.safeRpcError = {
+          code: payload.error.code,
+          message: String(payload.error.message || "").replace(/0x[0-9a-f]{80,}/gi, "[hex omitted]").slice(0, 600),
+        };
+        throw error;
       }
       return payload.result;
     }, { ...journal, expectedHash }, retry);

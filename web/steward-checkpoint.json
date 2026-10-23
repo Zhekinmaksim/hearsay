@@ -1,0 +1,191 @@
+{
+  "checked_at": "2026-10-23T10:12:01.472674+00:00",
+  "complete": false,
+  "deployment": {
+    "network": "bradbury-phase1",
+    "chain_id": 4221,
+    "rpc": "https://rpc-bradbury.genlayer.com",
+    "genesis": "0xef97917ce9bd9fa7d12ad6a8d81ea26c80ac1d727acc37cbb9799ae199788dc5",
+    "address": "0xC51157f16406AD13527E1DBEa455374531Dd0396",
+    "deployment_tx": "0x857b5ebc79d09a4c36fa8eeb6ab3965b06b40677794e07512b39c19c59f6115b",
+    "deployment_evm_tx": "0x4e85eff2921fd2b51a866e71f80c4a9da6f505d5ce294f38f4f90f86e018374c",
+    "source_commit": "c61c2d767af1ccdf4c667e19a984af2cf1706afe",
+    "source_sha256": "83b605c9e21deff5a3587cb81157634c9f0f590d40feada2d6025231701bee7f",
+    "deployment_source_sha256": "2a0cc73ea3ce7d8cc4db8fadd57fe08838641eb2530be488d22238c3804abdb8",
+    "codec": "lzss",
+    "execution_result": "FINISHED_WITH_RETURN",
+    "deployment_status": "FINALIZED",
+    "protocol": {
+      "initial_validators": 5,
+      "max_rotations": 3
+    },
+    "vault": {
+      "address": "0x40bf182ae03c2cca0123be64ac43d25da5adb7d7",
+      "binder": "0x771388495f34d21c5574fefc04cd1d5811e00ada",
+      "deployment_tx": "0xf342bf336f8774351f4eac59966ab3b95c51c9efc712a575592fc8befc44226b",
+      "binding_tx": "0x3865a34c90d517b9b7ac065b3f35173bc6fd784f9d22e68429250303ec94adc8",
+      "source_sha256": "1487874e73c11bc16d691c8b22b45eb21dd6af3004979bffb41820da7ccfb310",
+      "artifact_sha256": "424a55b0a49c6ac1bdb53a98a9ad379b88488d27ecb5ab25432b6383016f12e9",
+      "compiler": "solc 0.8.30",
+      "optimizer_runs": 200,
+      "evm_version": "paris"
+    },
+    "previous_deployment": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
+    "historical_checkpoint": "bradbury-prompt-checkpoint.json",
+    "lifecycle_verification": "pending"
+  },
+  "deployment_verification": "steward-receipts/deployment-verification.json",
+  "application_state": "steward-receipts/application-state.json",
+  "entry_count": 0,
+  "solvency": {
+    "balanced": true,
+    "credited": 0,
+    "escrowed": 1000000,
+    "held": 1000000,
+    "pools": 1000000,
+    "withdrawing": 0
+  },
+  "transactions": [
+    {
+      "id": "registry/hearsay-deploy-compact",
+      "method": "deploy",
+      "tx": "0x857b5ebc79d09a4c36fa8eeb6ab3965b06b40677794e07512b39c19c59f6115b",
+      "status": "FINALIZED",
+      "result": "MAJORITY_AGREE",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26225789",
+        "hash": "0xbd0d4a15df8e73148662e375f5daf383fa203e92ec4368489d28f596009ee37f",
+        "timestamp": "1792750296"
+      },
+      "receipt": "steward-receipts/registry-hearsay-deploy-compact.json"
+    },
+    {
+      "id": "registry/review-open-space",
+      "method": "open_space",
+      "tx": "0x357c5197225072143ace59a08946c267a89a4fce81584c713776e4f50e6ee3e7",
+      "status": "FINALIZED",
+      "result": "MAJORITY_AGREE",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26225798",
+        "hash": "0xcbfefb886b2d9b4fb120ad37eb0b559e10e6a8ba91077d4c9ba8f9a5d8143af1",
+        "timestamp": "1792750300"
+      },
+      "receipt": "steward-receipts/registry-review-open-space.json"
+    },
+    {
+      "id": "registry/wrong-source",
+      "method": "write_entry",
+      "tx": "0x3e784cbf319938734cbf7803a3a93f7c2824ecf4edd90ddee0ab2a8c0e623ae9",
+      "status": "FINALIZED",
+      "result": "MAJORITY_TIMEOUT",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26225805",
+        "hash": "0x29c2a49f8fe18bf7d6abe99d6ab39850fe94a38a0ce1279758880100c71b9fa8",
+        "timestamp": "1792750303"
+      },
+      "receipt": "steward-receipts/registry-wrong-source.json",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "entry_class": "source_forgery",
+        "claim": "Companies House lists J SAINSBURY PLC (company number 00185647) as an active public limited company.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00445790"
+      }
+    },
+    {
+      "id": "registry/honest-probe",
+      "method": "write_entry",
+      "tx": "0x54b0030ecea7aced4d3b22c8cc2060d20f21705011e8305ef9526db72120071a",
+      "status": "FINALIZED",
+      "result": "MAJORITY_TIMEOUT",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26225814",
+        "hash": "0x0fc84d2f5ec6e40dfb66a37b62fb59976c0504872a1c80d7ff200fc658e6538b",
+        "timestamp": "1792750306"
+      },
+      "receipt": "steward-receipts/registry-honest-probe.json",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "entry_class": "honest",
+        "claim": "Companies House identifies TESCO PLC by company number 00445790.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00445790"
+      }
+    },
+    {
+      "id": "registry/finalized-parent-honest",
+      "method": "write_entry",
+      "tx": "0x5da8ace2a0638c1b7ddffb973b61300002a0aae67f4b1b51ed03e8c31a17e5ed",
+      "status": "FINALIZED",
+      "result": "MAJORITY_TIMEOUT",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26225839",
+        "hash": "0x5ee343c30831a79d545766c9f05172367fd34bb509730517aad823f0316ced26",
+        "timestamp": "1792750317"
+      },
+      "receipt": "steward-receipts/registry-finalized-parent-honest.json",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 0,
+        "entry_class": "honest",
+        "claim": "Companies House lists J SAINSBURY PLC (company number 00185647) as an active public limited company.",
+        "source_url": "https://find-and-update.company-information.service.gov.uk/company/00185647"
+      }
+    },
+    {
+      "id": "immutable/review-open-space",
+      "method": "open_space",
+      "tx": "0xaab537310e25b3f596fde1521b579e7c216af9d133def1256bfac4bf8445fe97",
+      "status": "FINALIZED",
+      "result": "MAJORITY_AGREE",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26225845",
+        "hash": "0xc126930941d2b0f4cd904137b24bd880b9da848cbc980f82eea5a8e60a762dc4",
+        "timestamp": "1792750319"
+      },
+      "receipt": "steward-receipts/immutable-review-open-space.json"
+    },
+    {
+      "id": "immutable/wrong-source",
+      "method": "write_entry",
+      "tx": "0x91ea68714c7073e2e01b5c06dd1fbdc5f79be9764c59d50cc175d618d2471dd3",
+      "status": "FINALIZED",
+      "result": "MAJORITY_TIMEOUT",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26225852",
+        "hash": "0x03fd66dbae6dba0b950707d0f34f0f61cb8accac76c2e177c0c89fcbfe2c3064",
+        "timestamp": "1792750322"
+      },
+      "receipt": "steward-receipts/immutable-wrong-source.json",
+      "envelope": {
+        "version": "hearsay/1",
+        "space_id": 1,
+        "entry_class": "source_forgery",
+        "claim": "The CPython v3.12.0 README identifies the Python version as 3.12.0.",
+        "source_url": "https://raw.githubusercontent.com/nodejs/node/v20.0.0/README.md"
+      }
+    }
+  ],
+  "limitations": [
+    "Deployment and controller binding are verified separately from live AI execution.",
+    "No live challenge/rejudge or bridge payout is claimed by this checkpoint.",
+    "Historical October 9 controls and video belong to the previous contract.",
+    "A protocol timeout is not UNSOURCED, INCONCLUSIVE or an attack rejection."
+  ],
+  "recovery": {
+    "process_idleness": {
+      "tx": "0xc4c468cff5414bc95aabfc07383c488134fd84eed68636fffaa875b1d5e6d5fa",
+      "receipt": "steward-receipts/wrong-source-idle-0.receipt.json",
+      "application_progress": false
+    },
+    "simulation": "steward-receipts/wrong-source.recovery-simulation.json",
+    "paid_appeal_sent": false
+  }
+}

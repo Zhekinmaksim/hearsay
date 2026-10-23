@@ -8,9 +8,16 @@ An admission layer in front of shared agent memory, on GenLayer.
 
 **23 October correction:** the source and browser harness include the steward's
 state-machine fixes. See the [review response and reproduction steps](docs/steward-resubmit.md).
-The old Bradbury address and dated receipts describe the original deployment;
-the corrected contract and payout vault have not been deployed. No archived
-live result is presented as evidence of the corrected version.
+The corrected Intelligent Contract is deployed at
+[`0xC51157f16406AD13527E1DBEa455374531Dd0396`](https://explorer-bradbury.genlayer.com/address/0xC51157f16406AD13527E1DBEa455374531Dd0396),
+with a bound [EVM payout vault](https://explorer-bradbury.genlayer.com/address/0x40bf182ae03c2cca0123be64ac43d25da5adb7d7).
+Deployment is finalized. [Deployment identity](deployments/bradbury-steward.json)
+and the [dated live checkpoint](https://hearsay.run/steward-checkpoint.json)
+separate these facts from the live lifecycle test: four AI writes timed out at
+protocol level without an entry, so challenge/rejudge and bridge payout have
+not been verified live. Historical receipts and video belong to the old contract.
+This deployment uses **Bradbury Phase 1**, not the reset Phase 2 network;
+the app checks the genesis hash in addition to chain ID 4221.
 
 The updated [one-minute film](film/README.md) uses the site's visual language,
 the supplied music and the project domain `hearsay.run`. It labels its fictional
@@ -165,7 +172,7 @@ Protocol timeouts and missing application state remain separate infrastructure
 or unresolved outcomes; they are never counted as successful defences. An
 input prevented by the envelope rules is reported separately.
 
-The current live evaluation is incomplete. Its dated checkpoint preserves
+The historical October 9 live evaluation is incomplete. Its dated checkpoint preserves
 verified judgements, unresolved attempts, infrastructure outcomes and candidates
 not yet submitted. The scripted offline corpus does not measure live attack
 resistance.
@@ -505,7 +512,7 @@ finalized timeouts or finalized no-execution results without matching applicatio
 state count as completed infrastructure outcomes.
 
 The public `web/bradbury-checkpoint.json` is an explicitly incomplete snapshot
-of the current run, with pinned source bytes, finalized receipts, diagnosed
+of the original run, with pinned source bytes, finalized receipts, diagnosed
 infrastructure failures and the unresolved transaction. It is not the live
 defence measurement. Resume `scripts/run_live.py` with the same manifest after
 the pending consensus round resolves; it will not resend existing transactions.
@@ -514,7 +521,7 @@ and coverage of every declared candidate. It binds the full manifest to that
 cohort; use the full campaign seed, preserving unresolved attempts and
 infrastructure history. After provisional replay, collect to a new output path
 and verify its current entries, receipts, votes and pinned bytes again.
-The current declared seed is [`corpus/bradbury-prompt-campaign.json`](corpus/bradbury-prompt-campaign.json):
+The historical evaluation seed is [`corpus/bradbury-prompt-campaign.json`](corpus/bradbury-prompt-campaign.json):
 50 planned honest controls and the original ten negative cases. It is an exact
 copy of the runner's campaign seed, not a collection of successful results.
 Additional primary-source controls in `corpus/live-second-reserve.json` and

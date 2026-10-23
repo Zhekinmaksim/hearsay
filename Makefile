@@ -5,6 +5,7 @@ all: lint test receipts-test enrichment-test checkpoint-test submission-test cha
 test:
 	python3 test/run_tests.py
 	python3 test/test_steward_regressions.py
+	python3 test/test_deploy_codec.py
 
 steward-test:
 	python3 test/test_steward_regressions.py
@@ -96,4 +97,6 @@ lint:
 	python3 -m py_compile contracts/hearsay.py cli/entry.py cli/gate.py \
 		scripts/dry_run.py scripts/build_site.py scripts/replay_corpus.py \
 		scripts/collect_receipts.py scripts/diagnose_missing.py scripts/run_live.py \
-		scripts/build_deploy.py scripts/publish_live.py scripts/publish_checkpoint.py scripts/enrich_snapshots.py test/run_tests.py test/model.py
+		scripts/build_deploy.py scripts/steward_live.py scripts/checkpoint_steward.py scripts/publish_live.py scripts/publish_checkpoint.py scripts/enrich_snapshots.py test/run_tests.py test/model.py
+	node --check scripts/evm_vault.mjs
+	node --check scripts/verify_steward_deployment.mjs

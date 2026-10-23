@@ -1,0 +1,33 @@
+{
+  "network": "bradbury-phase1",
+  "chain_id": 4221,
+  "rpc": "https://rpc-bradbury.genlayer.com",
+  "genesis": "0xef97917ce9bd9fa7d12ad6a8d81ea26c80ac1d727acc37cbb9799ae199788dc5",
+  "address": "0xC51157f16406AD13527E1DBEa455374531Dd0396",
+  "deployment_tx": "0x857b5ebc79d09a4c36fa8eeb6ab3965b06b40677794e07512b39c19c59f6115b",
+  "deployment_evm_tx": "0x4e85eff2921fd2b51a866e71f80c4a9da6f505d5ce294f38f4f90f86e018374c",
+  "source_commit": "c61c2d767af1ccdf4c667e19a984af2cf1706afe",
+  "source_sha256": "83b605c9e21deff5a3587cb81157634c9f0f590d40feada2d6025231701bee7f",
+  "deployment_source_sha256": "2a0cc73ea3ce7d8cc4db8fadd57fe08838641eb2530be488d22238c3804abdb8",
+  "codec": "lzss",
+  "execution_result": "FINISHED_WITH_RETURN",
+  "deployment_status": "FINALIZED",
+  "protocol": {
+    "initial_validators": 5,
+    "max_rotations": 3
+  },
+  "vault": {
+    "address": "0x40bf182ae03c2cca0123be64ac43d25da5adb7d7",
+    "binder": "0x771388495f34d21c5574fefc04cd1d5811e00ada",
+    "deployment_tx": "0xf342bf336f8774351f4eac59966ab3b95c51c9efc712a575592fc8befc44226b",
+    "binding_tx": "0x3865a34c90d517b9b7ac065b3f35173bc6fd784f9d22e68429250303ec94adc8",
+    "source_sha256": "1487874e73c11bc16d691c8b22b45eb21dd6af3004979bffb41820da7ccfb310",
+    "artifact_sha256": "424a55b0a49c6ac1bdb53a98a9ad379b88488d27ecb5ab25432b6383016f12e9",
+    "compiler": "solc 0.8.30",
+    "optimizer_runs": 200,
+    "evm_version": "paris"
+  },
+  "previous_deployment": "0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7",
+  "historical_checkpoint": "bradbury-prompt-checkpoint.json",
+  "lifecycle_verification": "pending"
+}

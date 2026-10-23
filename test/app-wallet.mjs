@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { abi, fromRlp, hexToBytes, decodeFunctionData, encodeEventTopics, toRlp, toHex } from '../web/app-sdk.mjs';
-import { LiveHearsay, TransactionJournal, CONTRACT, CHAIN, BINDINGS, STORAGE_KEY, json, validateClaim, walletProvider, sendWrite, materialized, normalizeReceipt, phaseText, snapshotProof, terminal, errorText } from '../web/app-core.mjs';
+import { LiveHearsay, TransactionJournal, CONTRACT, CHAIN, GENESIS, BINDINGS, STORAGE_KEY, json, validateClaim, walletProvider, sendWrite, materialized, normalizeReceipt, phaseText, snapshotProof, terminal, errorText } from '../web/app-core.mjs';
 import { sha256 } from '../web/lib.mjs';
 import { VERIFIED_BINDINGS } from '../scripts/queue_progress.mjs';
 const sender = '0x' + '12'.repeat(20), other = '0x' + '13'.repeat(20);
@@ -24,10 +24,11 @@ check('normalized duplicate and unsafe source credentials are rejected', () => {
 async function scenario(setup = {}) {
   const storage = store(), row = record(), journal = new TransactionJournal(storage);
   if (setup.openSpace) { row.method = 'open_space'; row.args = ['Visitor registry memory', 'Primary company registry facts only', 1000n, 3n, 2n, 1000n, 2000n]; row.value = '500000'; delete row.envelope; delete row.envelopeHash; delete row.spaceId; }
-  let account = sender, chainId = '0x107d', sends = 0, publicCalls = [], callback = false;
+  let account = sender, chainId = '0x107d', genesis = setup.wrongGenesis ? '0x' + 'ff'.repeat(32) : GENESIS, sends = 0, publicCalls = [], callback = false;
   const injected = { async request({ method, params }) {
     if (method === 'eth_accounts') return [account];
     if (method === 'eth_chainId') return chainId;
+    if (method === 'eth_getBlockByNumber') return { hash: genesis };
     if (method === 'eth_sendTransaction') {
       sends++;
       const saved = JSON.parse(storage.getItem(STORAGE_KEY))[0];
@@ -47,6 +48,7 @@ async function scenario(setup = {}) {
     async estimateGas() { if (setup.estimateError || setup.sdkEstimateFallback) throw new Error('Estimate rejected'); return 100000n; }, async getGasPrice() { return 1n; }, async getBalance() {
       if (setup.accountChanges) account = other;
       if (setup.chainChanges) chainId = '0x1';
+      if (setup.genesisChanges) genesis = '0x' + 'ff'.repeat(32);
       return setup.unfunded ? 0n : 10000000n;
     }
   } };
@@ -85,7 +87,7 @@ result = await scenario({ reject: true });
 check('wallet rejection is explicit, stores no hashes, and permits a new reviewed attempt', () => { assert.equal(result.sends, 1); assert.equal(result.row.phase, 'wallet_rejected'); assert.equal(result.row.evmHash, undefined); assert.equal(result.journal.active(), undefined); assert.match(errorText(result.error), /declined/); });
 result = await scenario({ ambiguous: true });
 check('lost wallet response retains intent and blocks duplicate submissions', () => { assert.equal(result.sends, 1); assert.equal(result.row.phase, 'broadcast_unknown'); assert(result.row.intent.data); assert(result.journal.active()); assert.equal(new TransactionJournal(result.storage).active().phase, 'broadcast_unknown'); });
-for (const option of ['unfunded', 'estimateError', 'sdkEstimateFallback', 'bindingError', 'wrongValue', 'wrongMethod', 'wrongClaim', 'wrongSpace', 'accountChanges', 'chainChanges']) {
+for (const option of ['unfunded', 'estimateError', 'sdkEstimateFallback', 'bindingError', 'wrongValue', 'wrongMethod', 'wrongClaim', 'wrongSpace', 'accountChanges', 'chainChanges', 'wrongGenesis', 'genesisChanges']) {
   result = await scenario({ [option]: true });
   check(option + ' fails before the wallet send', () => { assert(result.error); assert.equal(result.sends, 0); assert.equal(result.row.phase, 'safe_error'); });
 }
@@ -105,7 +107,7 @@ const receipt = { ...transaction, status_basis: 'getTransactionAllData', eqBlock
 check('proof requires exact stored EQ source bytes and a matching SHA-256', () => { assert.equal(snapshotProof(receipt, { snapshot_hash: sha256(snapshot) }).text, snapshot); assert.equal(snapshotProof(receipt, { snapshot_hash: '00'.repeat(32) }), null); assert.equal(snapshotProof({ ...receipt, status: 12 }, { snapshot_hash: sha256(snapshot) }), null); assert.equal(snapshotProof({ ...receipt, eqBlocksOutputs: '0xc0' }, { snapshot_hash: sha256(snapshot) }), null); });
 const allReads = [];
 const publicClient = {
-  async getBlock() { return block; },
+  async getBlock(args) { return args?.blockNumber === 0n ? { hash: GENESIS } : block; },
   async getStorageAt(args) { allReads.push(args); const impl = args.address === BINDINGS.main ? BINDINGS.mainImplementation : args.address === BINDINGS.data ? BINDINGS.dataImplementation : BINDINGS.queueImplementation; return '0x' + '00'.repeat(12) + impl.slice(2); },
   async readContract(args) { allReads.push(args); if (args.functionName === 'VERSION') return '2.0.0'; if (args.functionName === 'addressManager') return BINDINGS.manager; if (args.functionName === 'getAddress') return BINDINGS.queues; if (args.functionName === 'getTransactionAllData') return [transaction, []]; throw new Error('Unexpected read'); }
 };
@@ -114,6 +116,15 @@ const pinned = await live.receipt(protocolHash, sender);
 check('canonical receipt and version/binding/implementation guards share one pinned block', () => { assert.equal(pinned.status_basis, 'getTransactionAllData'); assert.equal(allReads.length, 7); assert(allReads.every(read => read.blockNumber === 33n)); });
 await assert.rejects(live.receipt(protocolHash, other), /different wallet/); passes++;
 check('application matching requires exact envelope and author, not protocol success alone', () => { assert(!materialized({ ...transaction, result: 2 })); });
+check('a failed claim can be corrected without treating its old verdict as admission', () => {
+  const rows = [{ space_id: 1, claim: 'a company', status: 'UNSOURCED' }];
+  assert(validateClaim(space, 'a company', 'https://example.org/corrected', rows));
+});
+const wrongNetwork = new LiveHearsay({ publicClient: { ...publicClient, getBlock: async args => args?.blockNumber === 0n ? { hash: '0x' + 'ff'.repeat(32) } : block } });
+await assert.rejects(wrongNetwork.verifiedBlock(), /different Bradbury deployment/); passes++;
+const ambiguous = new LiveHearsay();
+ambiguous.entries = async () => Array(2).fill({ envelope_hash: claim.hash, author: sender, entry_class: 'honest', claim: claim.envelope.claim, source_url: claim.envelope.source_url });
+await assert.rejects(ambiguous.matchEntry({ receipt: transaction, envelopeHash: claim.hash, sender, envelope: claim.envelope, spaceId: 1 }), /Multiple attempts/); passes++;
 const userError = toHex(abi.calldata.encode({ data: 'unknown space', kind: 'UserError' }));
 check('encoded GenVM read errors are decoded without exposing its entire trace', () => assert.equal(errorText({ cause: { data: userError } }), 'unknown space'));
 console.log(`app wallet/core: ${passes} checks passed (offline, zero real sends).`);

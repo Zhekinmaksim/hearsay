@@ -4,9 +4,10 @@
 import { createClient, testnetBradbury, createPublicClient, http, fromRlp, hexToBytes, parseEventLogs, decodeFunctionData, abi } from './app-sdk.mjs';
 import { canonical, envelopeHash, sha256, flatten, decide } from './lib.mjs';
 export { envelopeHash };
-export const CONTRACT = '0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7';
+export const CONTRACT = '0xC51157f16406AD13527E1DBEa455374531Dd0396';
 export const CHAIN = testnetBradbury;
-export const STORAGE_KEY = 'hearsay.bradbury.app.v1';
+export const GENESIS = '0xef97917ce9bd9fa7d12ad6a8d81ea26c80ac1d727acc37cbb9799ae199788dc5';
+export const STORAGE_KEY = 'hearsay.bradbury.phase1.steward.oct23.v1';
 export const STATUSES = ['Uninitialized', 'Pending', 'Proposing', 'Committing', 'Revealing', 'Accepted', 'Undetermined', 'Finalized', 'Canceled', 'Appeal revealing', 'Appeal committing', 'Ready to finalize', 'Validators timeout', 'Leader timeout', 'Leader revealing'];
 export const RESULTS = ['Idle', 'Majority agree', 'Majority disagree', 'Majority timeout', 'Deterministic violation', 'No majority'];
 export const EXECUTIONS = ['Not voted', 'Finished with return', 'Finished with error', 'Timeout', 'Nondeterministic disagreement'];
@@ -50,7 +51,7 @@ export function validateClaim(space, claim, sourceURL, entries = []) {
   let source;
   try { source = new URL(sourceURL.trim()); } catch { throw new Error('Enter a full http or https source URL.'); }
   demand(['https:', 'http:'].includes(source.protocol) && !source.username && !source.password, 'Use a public http or https source URL without credentials.');
-  demand(!entries.some(entry => Number(entry.space_id) === Number(space.space_id) && flatten(entry.claim) === flatten(claim)), 'This claim is already recorded in this space. Read its existing verdict.');
+  demand(!entries.some(entry => Number(entry.space_id) === Number(space.space_id) && flatten(entry.claim) === flatten(claim) && !['UNSOURCED', 'INCONCLUSIVE', 'CONTRADICTED'].includes(entry.status)), 'This claim is already recorded in this space. Read its existing verdict.');
   const envelope = { version: 'hearsay/1', space_id: Number(space.space_id), entry_class: 'honest', claim, source_url: source.href };
   return { envelope, serialized: canonical(envelope), hash: envelopeHash(envelope), value: BigInt(space.write_bond) };
 }
@@ -140,7 +141,8 @@ export class LiveHearsay {
   async read(functionName, args = []) { return plain(await bounded(this.reader.readContract({ address: CONTRACT, functionName, args: args.map(arg => typeof arg === 'number' ? BigInt(arg) : arg), jsonSafeReturn: false, transactionHashVariant: 'latest-nonfinal' }))); }
   async verifiedBlock() {
     demand(equal(CHAIN.consensusMainContract.address, BINDINGS.main) && equal(CHAIN.consensusDataContract.address, BINDINGS.data), 'The SDK consensus binding changed.');
-    const block = await this.public.getBlock();
+    const [block, genesis] = await Promise.all([this.public.getBlock(), this.public.getBlock({ blockNumber: 0n })]);
+    demand(genesis.hash === GENESIS, 'The public RPC points to a different Bradbury deployment. Writes are paused.');
     const read = (spec, functionName, args = []) => this.public.readContract({ ...spec, functionName, args, blockNumber: block.number });
     const checks = await Promise.all([
       read(CHAIN.consensusMainContract, 'VERSION'), read(CHAIN.consensusMainContract, 'addressManager'),
@@ -175,7 +177,9 @@ export class LiveHearsay {
   async matchEntry(record) {
     if (!materialized(record.receipt) || !record.envelopeHash) return null;
     const rows = await this.entries(record.spaceId);
-    return rows.find(entry => entry.envelope_hash === record.envelopeHash && equal(entry.author, record.sender) && entry.entry_class === record.envelope.entry_class && entry.claim === record.envelope.claim && entry.source_url === record.envelope.source_url) || null;
+    const matches = rows.filter(entry => entry.envelope_hash === record.envelopeHash && equal(entry.author, record.sender) && entry.entry_class === record.envelope.entry_class && entry.claim === record.envelope.claim && entry.source_url === record.envelope.source_url);
+    demand(matches.length <= 1, 'Multiple attempts share this envelope. Inspect the canonical transaction and entry history; no unambiguous application match can be claimed.');
+    return matches[0] || null;
   }
   async matchSpace(record) {
     if (!materialized(record.receipt) || record.method !== 'open_space') return null;
@@ -234,8 +238,9 @@ export function walletProvider(provider, record, journal, live, getWallet, { onS
     request: async ({ method, params = [] }) => {
       if (method !== 'eth_sendTransaction') return provider.request({ method, params });
       demand(!record.sendAttempted && !record.evmHash && !record.protocolHash, 'This attempt already reached the wallet. Resume its receipt; do not submit it again.');
-      const [accounts, chain] = await Promise.all([provider.request({ method: 'eth_accounts' }), provider.request({ method: 'eth_chainId' })]);
+      const [accounts, chain, genesis] = await Promise.all([provider.request({ method: 'eth_accounts' }), provider.request({ method: 'eth_chainId' }), provider.request({ method: 'eth_getBlockByNumber', params: ['0x0', false] })]);
       demand(Number.parseInt(chain, 16) === CHAIN.id, 'Switch your wallet to GenLayer Bradbury Testnet (4221).');
+      demand(genesis?.hash === GENESIS, 'Your wallet points to a different Bradbury network. This deployment uses the Phase 1 RPC https://rpc-bradbury.genlayer.com.');
       demand(equal(accounts[0], record.sender) && equal(getWallet(), record.sender), 'The connected wallet account changed. Review the form again.');
       const tx = { ...params[0] };
       demand(equal(tx.from, record.sender) && equal(tx.to, BINDINGS.main) && (tx.chainId === undefined || Number.parseInt(tx.chainId, 16) === CHAIN.id), 'The SDK proposed an unexpected transaction.');
@@ -255,8 +260,9 @@ export function walletProvider(provider, record, journal, live, getWallet, { onS
       tx.gasPrice = '0x' + price.toString(16);
       const balance = await live.public.getBalance({ address: record.sender });
       demand(balance >= BigInt(tx.value || '0x0') + BigInt(tx.gas) * price, 'Insufficient funds for the write bond and network fees.');
-      const [currentAccounts, currentChain] = await Promise.all([provider.request({ method: 'eth_accounts' }), provider.request({ method: 'eth_chainId' })]);
+      const [currentAccounts, currentChain, currentGenesis] = await Promise.all([provider.request({ method: 'eth_accounts' }), provider.request({ method: 'eth_chainId' }), provider.request({ method: 'eth_getBlockByNumber', params: ['0x0', false] })]);
       demand(equal(currentAccounts[0], record.sender) && equal(getWallet(), record.sender) && Number.parseInt(currentChain, 16) === CHAIN.id, 'Wallet account or network changed during preflight. Review the transaction again.');
+      demand(currentGenesis?.hash === GENESIS, 'The wallet changed to another Bradbury deployment during preflight.');
       record.phase = 'awaiting_wallet'; record.sendAttempted = true;
       record.intent = { ...tx }; // Unsigned, public calldata; used to reconcile a lost response.
       journal.save(record);

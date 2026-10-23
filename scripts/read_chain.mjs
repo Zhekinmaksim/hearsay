@@ -102,7 +102,7 @@ if (progress) {
 if (call) {
   const address = input[1], method = input[2], args = JSON.parse(input[3] || "[]");
   if (!/^0x[0-9a-f]{40}$/i.test(address) || !Array.isArray(args)) throw new Error("invalid read arguments");
-  if (!["get_space", "get_entry", "get_challenge", "entry_count", "report", "deferred_queue", "solvency"].includes(method)) throw new Error("unknown read-only Hearsay method");
+  if (!["get_space", "get_entry", "get_challenge", "entry_count", "report", "deferred_queue", "solvency", "get_withdrawal", "withdrawal_count", "balance_of"].includes(method)) throw new Error("unknown read-only Hearsay method");
   const value = await client.readContract({ address, functionName: method, args: args.map(arg => typeof arg === "number" ? BigInt(arg) : arg) });
   console.log(JSON.stringify(value, (_, item) => {
     if (typeof item === "bigint") return { $bigint: item.toString() };

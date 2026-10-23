@@ -1,0 +1,29 @@
+{
+  "checked_at": "2026-10-23T10:11:53.030767+00:00",
+  "space": {
+    "admit_ttl": 1,
+    "admitted": 0,
+    "cascade_depth": 1,
+    "challenge_bond": 2000,
+    "entries": 0,
+    "min_rounds": 2,
+    "name": "Hearsay steward review · 23 October 2026",
+    "open": true,
+    "owner": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+    "policy": "Primary Companies House evidence; claims may use currently trusted premises. Separate correction and dependency lifecycle demonstration, not an attack-resistance benchmark.",
+    "pool": 500000,
+    "space_id": 0,
+    "write_bond": 1000
+  },
+  "solvency": {
+    "balanced": true,
+    "credited": 0,
+    "escrowed": 1000000,
+    "held": 1000000,
+    "pools": 1000000,
+    "withdrawing": 0
+  },
+  "deferred": [],
+  "entries": [],
+  "read_basis": "sequential latest-nonfinal application views"
+}

@@ -33,7 +33,7 @@ if (!requestPath || !manifest) fail("--request and --manifest are required");
 const request = JSON.parse(readFileSync(requestPath, "utf8"));
 if (!/^0x[0-9a-f]{40}$/i.test(request.address)) fail("invalid contract address");
 if (!/^0x[0-9a-f]{40}$/i.test(request.expected_account)) fail("expected_account is required");
-if (!["deploy", "open_space", "write_entry", "challenge", "confirm_challenge", "rejudge", "expire", "withdraw", "fund_space"].includes(request.method)) fail("unknown Hearsay write method");
+if (!["deploy", "open_space", "write_entry", "challenge", "confirm_challenge", "rejudge", "expire", "withdraw", "fund_space", "process_deferred", "reconcile_withdrawal", "retry_withdrawal"].includes(request.method)) fail("unknown Hearsay write method");
 if (!Array.isArray(request.args) || !/^\d+$/.test(String(request.value))) fail("invalid args or value");
 if (request.method === "write_entry" && !request.envelope_hash) fail("write requires envelope_hash metadata");
 if (request.consensus_max_rotations !== undefined && (!Number.isSafeInteger(request.consensus_max_rotations) || request.consensus_max_rotations < 0)) fail("invalid rotation limit");
@@ -88,6 +88,14 @@ const account = request.progress_guard ? accountWithProgressGuard(signingAccount
 }) : signingAccount;
 if (account.address.toLowerCase() !== request.expected_account.toLowerCase()) fail("active account differs from expected_account");
 const client = sdk.createClient({ chain: chains.testnetBradbury, account });
+if (request.expected_genesis) {
+  const publicClient = createPublicClient({ chain: chains.testnetBradbury, transport: http() });
+  const genesis = await publicClient.getBlock({ blockNumber: 0n });
+  if (genesis.hash !== request.expected_genesis) fail("network genesis differs from reviewed deployment");
+  const pending = await publicClient.getTransactionCount({ address: account.address, blockTag: "pending" });
+  const mined = await publicClient.getTransactionCount({ address: account.address, blockTag: "latest" });
+  if (pending !== mined || String(pending) !== String(request.expected_nonce)) fail("account nonce changed or an earlier transaction is pending");
+}
 // SDK 1.1.8 closes over intermediate client copies. Its lexical fetch transport
 // bypasses changes to finalClient.sendRawTransaction/estimateTransactionGas.
 // Intercept the actual transport, preserving SDK encoding/signing and receipts.
@@ -96,6 +104,7 @@ globalThis.fetch = createBroadcastFetch(originalFetch, {
   rpcUrl: client.chain.rpcUrls.default.http[0], hashTransaction: keccak256, parseTransaction,
   journal: { path: manifest + ".broadcasts.jsonl", method: request.method, id: request.id },
   expectedNonce: request.expected_nonce,
+  maxFeeWei: request.max_fee_wei,
   gasMarginNumerator: request.method === "deploy" ? 100n : 125n,
 });
 let hash;

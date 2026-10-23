@@ -109,6 +109,7 @@ try {
           assert.equal(submission.args[2], 5n);
           assert.equal(submission.args[3], 3n);
           if (setup.ambiguous) throw new Error("lost response with secret signed bytes " + signed);
+          if (setup.rpcReject) return reply(body, { error: { code: -32000, message: "transaction gas limit exceeds cap; signed=" + signed } });
           if (rawCount <= (setup.capacityRejections || 0)) return reply(body, { error: { code: -32005, message: "transaction gas rate limit exceeded: node is at capacity", data: { retryAfterMs: 110 } } });
           return reply(body, { result: rawHash });
         }
@@ -131,6 +132,7 @@ try {
     globalThis.fetch = createBroadcastFetch(mockFetch, {
       rpcUrl: chain.rpcUrls.default.http[0], hashTransaction: viem.keccak256, parseTransaction: viem.parseTransaction,
       journal: { path, method: "write_entry", id: name }, expectedNonce: setup.wrongNonce ? 625 : 624,
+      maxFeeWei: setup.lowFeeCap ? '100' : undefined,
       retry: { wait: async ms => delays.push(ms) },
     });
     console.error = (...items) => errorLogs.push(items.map(item => item?.message || String(item)).join(" "));
@@ -175,6 +177,21 @@ try {
   assert.match(String(nonceFailure.error), /expected_nonce/);
   assert.equal(nonceFailure.rawCount, 0);
   assert(!existsSync(nonceFailure.path));
+  passes++;
+
+  const feeFailure = await sdkScenario("sdk-fee-cap", { lowFeeCap: true });
+  assert.match(String(feeFailure.error), /reviewed fee cap/);
+  assert.equal(feeFailure.rawCount, 0);
+  assert(!existsSync(feeFailure.path));
+  passes++;
+
+  const rejection = await sdkScenario("sdk-explicit-rejection", { rpcReject: true });
+  assert.match(String(rejection.error), /not acknowledged/);
+  const rejectionRecord = records(rejection.path).at(-1);
+  assert.equal(rejectionRecord.rpc_error.code, -32000);
+  assert.match(rejectionRecord.rpc_error.message, /transaction gas limit exceeds cap/);
+  assert.match(rejectionRecord.rpc_error.message, /\[hex omitted\]/);
+  assert(!rejectionRecord.rpc_error.message.includes(rejection.rawBytes[0]));
   passes++;
 
   const journalFailure = await sdkScenario("sdk-journal-failure", { badJournal: true });

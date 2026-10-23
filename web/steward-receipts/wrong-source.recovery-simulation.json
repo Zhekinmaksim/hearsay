@@ -1,0 +1,14 @@
+{
+  "processIdleness": {
+    "simulation": "success"
+  },
+  "leaderIdleness": {
+    "simulation": "success"
+  },
+  "finalizeTransaction": {
+    "error": "The contract function \"finalizeTransaction\" reverted with the following signature:\n0xe1b3b3b7"
+  },
+  "trace": {
+    "error": "Invalid parameters were provided to the RPC method.\nDouble check you have provided the correct parameters."
+  }
+}
