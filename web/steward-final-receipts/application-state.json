@@ -1,0 +1,176 @@
+{
+  "checked_at": "2026-10-23T15:56:03.472825+00:00",
+  "space": {
+    "admit_ttl": 1,
+    "admitted": 4,
+    "cascade_depth": 1,
+    "challenge_bond": 2000,
+    "entries": 5,
+    "min_rounds": 2,
+    "name": "Hearsay final steward replay · 23 October 2026",
+    "open": true,
+    "owner": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+    "policy": "Pinned CPython release source: failed-claim correction, challenge, expiry, deep dependency invalidation and direct rejudgement. Separate demonstration, not an attack-rate benchmark.",
+    "pool": 506000,
+    "space_id": 0,
+    "write_bond": 1000
+  },
+  "solvency": {
+    "balanced": true,
+    "credited": 1000,
+    "escrowed": 506000,
+    "held": 507000,
+    "pools": 506000,
+    "withdrawing": 0
+  },
+  "deferred": [],
+  "entries": [
+    {
+      "admitted_at": 0,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "SLASHED",
+      "claim": "The CPython v3.12.0 patchlevel header defines PY_VERSION as 3.12.0.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "source_forgery",
+      "entry_id": 0,
+      "envelope_hash": "44ee216837f74e7ddd2b91bb95427358fbdbe18c9b4fe5d077689620b6add057",
+      "note": "source does not support the claim",
+      "revision": 1,
+      "rounds": 2,
+      "snapshot_hash": "a15860570d536f984f470fc889b7f9c73dd78d5f21b4e7b5d364a4ef45bfcc83",
+      "source_url": "https://raw.githubusercontent.com/python/cpython/v3.11.0/Include/patchlevel.h",
+      "space_id": 0,
+      "status": "UNSOURCED",
+      "stored_status": "UNSOURCED",
+      "support_revisions": [],
+      "supports": [],
+      "votes": {
+        "a": "no",
+        "b": "no",
+        "conflict": ""
+      }
+    },
+    {
+      "admitted_at": 8,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "RETURNED",
+      "claim": "The CPython v3.12.0 patchlevel header defines PY_VERSION as 3.12.0.",
+      "conflicts_with": 0,
+      "dependents": [
+        2
+      ],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 1,
+      "envelope_hash": "df6c61ad7ada0c13e719603571f12c2f616999f857e7aad25dd878432777fd80",
+      "note": "",
+      "revision": 2,
+      "rounds": 2,
+      "snapshot_hash": "6934133c187c7720f6810d630995b9bb36c4405d21e8629ab67b0d8d95ce9cfd",
+      "source_url": "https://raw.githubusercontent.com/python/cpython/v3.12.0/Include/patchlevel.h",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "stored_status": "ADMITTED",
+      "support_revisions": [],
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      }
+    },
+    {
+      "admitted_at": 11,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "The CPython v3.12.0 patchlevel header defines PY_MAJOR_VERSION as 3.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 1,
+      "entry_class": "honest",
+      "entry_id": 2,
+      "envelope_hash": "5d0f7c022457965c38dbcda4c15e81f0a83b1f2b8df63d9564e2b02f3894b9aa",
+      "note": "",
+      "revision": 2,
+      "rounds": 2,
+      "snapshot_hash": "6934133c187c7720f6810d630995b9bb36c4405d21e8629ab67b0d8d95ce9cfd",
+      "source_url": "https://raw.githubusercontent.com/python/cpython/v3.12.0/Include/patchlevel.h",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "stored_status": "ADMITTED",
+      "support_revisions": [
+        2
+      ],
+      "supports": [
+        1
+      ],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      }
+    },
+    {
+      "admitted_at": 10,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "The CPython v3.12.0 patchlevel header defines PY_MINOR_VERSION as 12.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 3,
+      "envelope_hash": "eaba09813989575bf217a5c095475ac4d076502ddcd92084fba20f0ce546d7bf",
+      "note": "",
+      "revision": 2,
+      "rounds": 2,
+      "snapshot_hash": "6934133c187c7720f6810d630995b9bb36c4405d21e8629ab67b0d8d95ce9cfd",
+      "source_url": "https://raw.githubusercontent.com/python/cpython/v3.12.0/Include/patchlevel.h",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "stored_status": "ADMITTED",
+      "support_revisions": [],
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      }
+    },
+    {
+      "admitted_at": 9,
+      "author": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+      "bond": 1000,
+      "bond_state": "LOCKED",
+      "claim": "The CPython v3.12.0 patchlevel header defines PY_MICRO_VERSION as 0.",
+      "conflicts_with": 0,
+      "dependents": [],
+      "depth": 0,
+      "entry_class": "honest",
+      "entry_id": 4,
+      "envelope_hash": "cf6ae25daaf80b4662e86ecf1269cd9a06b87f6707eca10306e8cd197dc615a6",
+      "note": "",
+      "revision": 2,
+      "rounds": 2,
+      "snapshot_hash": "6934133c187c7720f6810d630995b9bb36c4405d21e8629ab67b0d8d95ce9cfd",
+      "source_url": "https://raw.githubusercontent.com/python/cpython/v3.12.0/Include/patchlevel.h",
+      "space_id": 0,
+      "status": "ADMITTED",
+      "stored_status": "ADMITTED",
+      "support_revisions": [],
+      "supports": [],
+      "votes": {
+        "a": "yes",
+        "b": "yes",
+        "conflict": "none"
+      }
+    }
+  ],
+  "read_basis": "sequential latest-nonfinal application views"
+}

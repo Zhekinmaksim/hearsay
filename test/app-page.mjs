@@ -87,7 +87,7 @@ f = fixture({ noProvider: true });
 await f.app.refreshPublic();
 check('public reads and empty memory work with no injected wallet', () => { assert.match(f.dom.window.document.getElementById('network-status').textContent, /connected/); assert.match(f.dom.window.document.getElementById('entries').textContent, /no recorded entries/); assert(f.dom.window.document.getElementById('claim-submit').disabled); });
 f.dom.window.document.getElementById('example').click();
-check('source example inserts the exact source URL without sending anything', () => { assert.match(f.dom.window.document.getElementById('claim').value, /TESCO PLC/); assert.equal(f.dom.window.document.getElementById('source-url').value, 'https://find-and-update.company-information.service.gov.uk/company/00445790'); assert.equal(f.requests.length, 0); });
+check('source example inserts the exact source URL without sending anything', () => { assert.match(f.dom.window.document.getElementById('claim').value, /PY_VERSION/); assert.equal(f.dom.window.document.getElementById('source-url').value, 'https://raw.githubusercontent.com/python/cpython/v3.12.0/Include/patchlevel.h'); assert.equal(f.requests.length, 0); });
 f.app.destroy();
 f = fixture({ networkError: true });
 await f.app.refreshPublic();

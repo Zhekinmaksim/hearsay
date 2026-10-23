@@ -1,0 +1,318 @@
+{
+  "checked_at": "2026-10-23T15:56:25.902831+00:00",
+  "complete": false,
+  "deployment": {
+    "network": "bradbury-phase1",
+    "chain_id": 4221,
+    "rpc": "https://rpc-bradbury.genlayer.com",
+    "genesis": "0xef97917ce9bd9fa7d12ad6a8d81ea26c80ac1d727acc37cbb9799ae199788dc5",
+    "address": "0xD0B85aB75f479d060A1680E220931c5001f7ba46",
+    "deployment_tx": "0x54379576848362be645869046b7ca85125d792f5731a85c8e33040f59eeaefd1",
+    "deployment_evm_tx": "0xaa2318ae4aee88435df73626be101377322fa35c058d6b291ccb56dea4f5f730",
+    "source_commit": "e1c90fe5c39a8c17ad89708054831f719ae5057b",
+    "source_sha256": "c2b201acf49c5791d45eb75e09210977f73f977f54ff8b089113504109ab2118",
+    "deployment_source_sha256": "02df3ea8c9f4f8181681d3adaf46df785998af27fee4a968271de653beb3df7b",
+    "codec": "lzss",
+    "execution_result": "FINISHED_WITH_RETURN",
+    "deployment_status": "ACCEPTED",
+    "protocol": {
+      "initial_validators": 5,
+      "max_rotations": 3
+    },
+    "vault": {
+      "address": "0x81f29ce35b2624c3e04764cad423fc660ef4d3a7",
+      "binder": "0x771388495f34d21c5574fefc04cd1d5811e00ada",
+      "deployment_tx": "0x8f4e704a1f83cbab6884d5daf5943cefc0c9b01a8677e6069e4155de1ba8d540",
+      "binding_tx": "0x126eea874e456aafd6710e22724d75ce2c2675429ffac879ef52b515f1682bbc",
+      "source_sha256": "1487874e73c11bc16d691c8b22b45eb21dd6af3004979bffb41820da7ccfb310",
+      "artifact_sha256": "424a55b0a49c6ac1bdb53a98a9ad379b88488d27ecb5ab25432b6383016f12e9",
+      "compiler": "solc 0.8.30",
+      "optimizer_runs": 200,
+      "evm_version": "paris"
+    },
+    "previous_deployment": "0x764FB8E341a1956bcD7CF0bce3c28C79Dc694f8C",
+    "historical_checkpoint": "steward-checkpoint.json",
+    "lifecycle_verification": "accepted-provisional",
+    "source_fetch_policy": "Strict equality of independently fetched text/plain HTTP bodies on raw.githubusercontent.com; comparative rendered-text equivalence for other sources.",
+    "adapter_preflight": "Exact adapter classes passed leader and validator gen_call with typed controller/receipt reads and 1000 wei EthSend."
+  },
+  "deployment_verification": "steward-final-receipts/deployment-verification.json",
+  "reviewed_intents": "steward-final-receipts/reviewed-intents.json",
+  "initial_records": "steward-final-receipts/initial-records.jsonl",
+  "lifecycle": "steward-final-receipts/lifecycle.json",
+  "application_state": "steward-final-receipts/application-state.json",
+  "transactions": [
+    {
+      "id": "hearsay-final-deploy",
+      "method": "deploy",
+      "tx": "0x54379576848362be645869046b7ca85125d792f5731a85c8e33040f59eeaefd1",
+      "status": "ACCEPTED",
+      "result": "MAJORITY_AGREE",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26276325",
+        "hash": "0xa7eae8fb7040ae8d4f17a5859f1fc83b63c4780ebdef042eee913770f2ed0a32",
+        "timestamp": "1792770969"
+      },
+      "last_vote_timestamp": "1792769445",
+      "successful_application_execution": true,
+      "receipt": "steward-final-receipts/hearsay-final-deploy.json"
+    },
+    {
+      "id": "review-open-space",
+      "method": "open_space",
+      "tx": "0x9ba5797ebefd1d67230fb49d0047865209008d027e982051b010d5eba271522e",
+      "status": "ACCEPTED",
+      "result": "MAJORITY_AGREE",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26276325",
+        "hash": "0xa7eae8fb7040ae8d4f17a5859f1fc83b63c4780ebdef042eee913770f2ed0a32",
+        "timestamp": "1792770969"
+      },
+      "last_vote_timestamp": "1792769471",
+      "successful_application_execution": true,
+      "receipt": "steward-final-receipts/review-open-space.json"
+    },
+    {
+      "id": "wrong-source",
+      "method": "write_entry",
+      "tx": "0xa9560016a1417239f4fbb51c118517920437568ff7560150b938bfc5969ccdbb",
+      "status": "ACCEPTED",
+      "result": "MAJORITY_AGREE",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26276325",
+        "hash": "0xa7eae8fb7040ae8d4f17a5859f1fc83b63c4780ebdef042eee913770f2ed0a32",
+        "timestamp": "1792770969"
+      },
+      "last_vote_timestamp": "1792769627",
+      "successful_application_execution": true,
+      "receipt": "steward-final-receipts/wrong-source.json"
+    },
+    {
+      "id": "corrected-source",
+      "method": "write_entry",
+      "tx": "0xafe652c5a19f4d4598e8409c8c59d4308f116dd27440332aa7235ebb3eef08c7",
+      "status": "ACCEPTED",
+      "result": "MAJORITY_AGREE",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26276328",
+        "hash": "0x47b43b9b10d14a976c0596deecaaba530b66dbb67b7960313b22f4758df3acf4",
+        "timestamp": "1792770971"
+      },
+      "last_vote_timestamp": "1792769662",
+      "successful_application_execution": true,
+      "receipt": "steward-final-receipts/corrected-source.json"
+    },
+    {
+      "id": "dependent-combination",
+      "method": "write_entry",
+      "tx": "0xc15e909fe8f639b1f48d9b3a533e7ddd1b45056914a8e2d42b2fcbb26fafb438",
+      "status": "ACCEPTED",
+      "result": "MAJORITY_AGREE",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26276328",
+        "hash": "0x47b43b9b10d14a976c0596deecaaba530b66dbb67b7960313b22f4758df3acf4",
+        "timestamp": "1792770971"
+      },
+      "last_vote_timestamp": "1792769711",
+      "successful_application_execution": true,
+      "receipt": "steward-final-receipts/dependent-combination.json"
+    },
+    {
+      "id": "dependent-incorporation",
+      "method": "write_entry",
+      "tx": "0x16d7bf2a60a0d98563f595c58909d9d1dbaab07035c23a1006bbc4fc3dd0500a",
+      "status": "ACCEPTED",
+      "result": "MAJORITY_AGREE",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26276328",
+        "hash": "0x47b43b9b10d14a976c0596deecaaba530b66dbb67b7960313b22f4758df3acf4",
+        "timestamp": "1792770971"
+      },
+      "last_vote_timestamp": "1792769792",
+      "successful_application_execution": true,
+      "receipt": "steward-final-receipts/dependent-incorporation.json"
+    },
+    {
+      "id": "dependent-number",
+      "method": "write_entry",
+      "tx": "0xc6b21c84ca2f2fe25627fd6c11f41b6f8d4e476b6c1eee338fd23f74035eadb2",
+      "status": "ACCEPTED",
+      "result": "MAJORITY_AGREE",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26276332",
+        "hash": "0xd34d3198d130227211673ff9c043e819414527a15696022ebe47f6672c180ccf",
+        "timestamp": "1792770972"
+      },
+      "last_vote_timestamp": "1792769835",
+      "successful_application_execution": true,
+      "receipt": "steward-final-receipts/dependent-number.json"
+    },
+    {
+      "id": "challenge",
+      "method": "challenge",
+      "tx": "0x13861334e540a06d6b7291e19669109228add120bcabc97a6c9b8eded370f4f3",
+      "status": "ACCEPTED",
+      "result": "MAJORITY_AGREE",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26276332",
+        "hash": "0xd34d3198d130227211673ff9c043e819414527a15696022ebe47f6672c180ccf",
+        "timestamp": "1792770972"
+      },
+      "last_vote_timestamp": "1792769916",
+      "successful_application_execution": true,
+      "receipt": "steward-final-receipts/challenge.json"
+    },
+    {
+      "id": "expire-root",
+      "method": "expire",
+      "tx": "0x47a51c496d618146ed19b8675398c15f42e15814fd79aec53fdcb3daf5df9855",
+      "status": "ACCEPTED",
+      "result": "MAJORITY_AGREE",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26276332",
+        "hash": "0xd34d3198d130227211673ff9c043e819414527a15696022ebe47f6672c180ccf",
+        "timestamp": "1792770972"
+      },
+      "last_vote_timestamp": "1792769984",
+      "successful_application_execution": true,
+      "receipt": "steward-final-receipts/expire-root.json"
+    },
+    {
+      "id": "rejudge-root",
+      "method": "rejudge",
+      "tx": "0x2bcb3899ff83b6bbcff0ca7d5cfd9db3635f92ea5148925be0bab8346b14ba60",
+      "status": "ACCEPTED",
+      "result": "MAJORITY_AGREE",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26276335",
+        "hash": "0x0ba764a1cce4dcdeada860a8ea4e5e70f915c88c0dbe93fd31d53121d41e5ad7",
+        "timestamp": "1792770973"
+      },
+      "last_vote_timestamp": "1792770056",
+      "successful_application_execution": true,
+      "receipt": "steward-final-receipts/rejudge-root.json"
+    },
+    {
+      "id": "direct-rejudge-deep",
+      "method": "rejudge",
+      "tx": "0xb9e814a0a03ed646a0ec7a0f4a0150fd7addc818bd8f1c1dc01c9d6c1f464f2f",
+      "status": "ACCEPTED",
+      "result": "MAJORITY_AGREE",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26276335",
+        "hash": "0x0ba764a1cce4dcdeada860a8ea4e5e70f915c88c0dbe93fd31d53121d41e5ad7",
+        "timestamp": "1792770973"
+      },
+      "last_vote_timestamp": "1792770209",
+      "successful_application_execution": true,
+      "receipt": "steward-final-receipts/direct-rejudge-deep.json"
+    },
+    {
+      "id": "direct-rejudge-mid",
+      "method": "rejudge",
+      "tx": "0x6febb3d3c8c2c46220cd2ae65872b125f9e8f2691f6f75ee091fc2c80122ce62",
+      "status": "ACCEPTED",
+      "result": "MAJORITY_AGREE",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26276335",
+        "hash": "0x0ba764a1cce4dcdeada860a8ea4e5e70f915c88c0dbe93fd31d53121d41e5ad7",
+        "timestamp": "1792770973"
+      },
+      "last_vote_timestamp": "1792770301",
+      "successful_application_execution": true,
+      "receipt": "steward-final-receipts/direct-rejudge-mid.json"
+    },
+    {
+      "id": "direct-rejudge-child",
+      "method": "rejudge",
+      "tx": "0x0970ce840c5ec8bae5540de8fa6f508671eb82af45819c403085ccd67bac9732",
+      "status": "ACCEPTED",
+      "result": "MAJORITY_AGREE",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26276338",
+        "hash": "0x4e277a1a2da220c142c2a6088a3b7a0413454415393b98d01a8057803fc096b8",
+        "timestamp": "1792770974"
+      },
+      "last_vote_timestamp": "1792770403",
+      "successful_application_execution": true,
+      "receipt": "steward-final-receipts/direct-rejudge-child.json"
+    },
+    {
+      "id": "deferred-clear-00",
+      "method": "process_deferred",
+      "tx": "0x823894b2646e20253801d158db375dd52b0be00e5075a483f5340c6ce7f45244",
+      "status": "ACCEPTED",
+      "result": "MAJORITY_AGREE",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26276339",
+        "hash": "0x1710eddc7fbee59a7a8ae3332691fab64494e1331543b46a8adc5723b657d0d5",
+        "timestamp": "1792770975"
+      },
+      "last_vote_timestamp": "1792770482",
+      "successful_application_execution": true,
+      "receipt": "steward-final-receipts/deferred-clear-00.json"
+    },
+    {
+      "id": "deferred-clear-01",
+      "method": "process_deferred",
+      "tx": "0x77285bc5d2a18ecb6cb824516049a4b4737077e3aee2738bcc5a68d0910344af",
+      "status": "ACCEPTED",
+      "result": "MAJORITY_AGREE",
+      "execution": "FINISHED_WITH_RETURN",
+      "stored_block": {
+        "number": "26276339",
+        "hash": "0x1710eddc7fbee59a7a8ae3332691fab64494e1331543b46a8adc5723b657d0d5",
+        "timestamp": "1792770975"
+      },
+      "last_vote_timestamp": "1792770550",
+      "successful_application_execution": true,
+      "receipt": "steward-final-receipts/deferred-clear-01.json"
+    }
+  ],
+  "assertions": {
+    "wrong_source": "UNSOURCED",
+    "same_claim_correction": "ADMITTED",
+    "challenge": "REJECTED",
+    "expired_root": "EXPIRED",
+    "immediately_untrusted_descendants": 3,
+    "outside_walk_stored_status": "ADMITTED",
+    "outside_walk_trust_status": "TAINTED",
+    "direct_unswept_rejudge": "ADMITTED",
+    "deferred_remaining": 0,
+    "surviving_dependents": 3,
+    "root_rejudge": "ADMITTED",
+    "queue_completion_path": "Direct rejudge of three tainted descendants, then bounded consumption of stale queue slots"
+  },
+  "entry_count": 5,
+  "diagnostics": "steward-diagnostics.json",
+  "solvency": {
+    "balanced": true,
+    "credited": 1000,
+    "escrowed": 506000,
+    "held": 507000,
+    "pools": 506000,
+    "withdrawing": 0
+  },
+  "limitations": [
+    "Challenge rejected in the first referee stage; a second stage and upheld-challenge revocation are not claimed.",
+    "Five initial write records are a lifecycle demonstration, not a twenty-control attack-resistance benchmark.",
+    "Initial write receipts are preserved separately from later rejudged state.",
+    "Live completion used direct rejudge followed by bounded stale-slot processing; no successful queued AI batch is claimed.",
+    "Payment recovery is covered by native EVM tests and real GenVM adapter simulation; this lifecycle checkpoint does not claim an IC-to-vault withdrawal.",
+    "RPC timings do not establish the private cause of other validators' timeouts."
+  ]
+}

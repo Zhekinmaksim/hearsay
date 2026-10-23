@@ -1,0 +1,42 @@
+{
+  "simulation_only": true,
+  "probe_source_sha256": "6fb5ea56ed3c567d5fc23c9cb41ff8e5128a455ab3ae1d86cd65b4f84cb22f01",
+  "roles": {
+    "leader": {
+      "status": {
+        "code": 0,
+        "message": "success"
+      },
+      "elapsed_ms": 1226,
+      "messages": [
+        {
+          "messageType": 0,
+          "recipient": "0x725B9BBd5665e7aa722e915Ae29EE427f4213cb1",
+          "value": "0x3e8",
+          "data": "0x6e553f65000000000000000000000000000000000000000000000000000000000000002a000000000000000000000000771388495f34d21c5574fefc04cd1d5811e00ada",
+          "onAcceptance": false,
+          "saltNonce": "0x0"
+        }
+      ],
+      "synced_block": "0x190e204"
+    },
+    "validator": {
+      "status": {
+        "code": 0,
+        "message": "success"
+      },
+      "elapsed_ms": 1182,
+      "messages": [
+        {
+          "messageType": 0,
+          "recipient": "0x725B9BBd5665e7aa722e915Ae29EE427f4213cb1",
+          "value": "0x3e8",
+          "data": "0x6e553f65000000000000000000000000000000000000000000000000000000000000002a000000000000000000000000771388495f34d21c5574fefc04cd1d5811e00ada",
+          "onAcceptance": false,
+          "saltNonce": "0x0"
+        }
+      ],
+      "synced_block": "0x190e235"
+    }
+  }
+}

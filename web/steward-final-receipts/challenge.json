@@ -1,0 +1,10 @@
+{
+  "bond": 2000,
+  "challenge_id": 0,
+  "challenger": "0x771388495F34d21C5574FeFc04cd1D5811E00aDa",
+  "entry_id": 1,
+  "ground": "The pinned header defines PY_VERSION as 2.7 rather than 3.12.0.",
+  "outcome": "REJECTED",
+  "stage_a": "REJECTED",
+  "stage_b": "PENDING"
+}

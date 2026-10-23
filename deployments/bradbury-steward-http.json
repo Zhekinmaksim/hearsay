@@ -1,0 +1,35 @@
+{
+  "network": "bradbury-phase1",
+  "chain_id": 4221,
+  "rpc": "https://rpc-bradbury.genlayer.com",
+  "genesis": "0xef97917ce9bd9fa7d12ad6a8d81ea26c80ac1d727acc37cbb9799ae199788dc5",
+  "address": "0x764FB8E341a1956bcD7CF0bce3c28C79Dc694f8C",
+  "deployment_tx": "0x7776240d6a0488e44af0847e460f2894cefb8327e722822f21371bc1bad18783",
+  "deployment_evm_tx": "0x02a719f982c6a6d7b01cb6827699fd4d7580a7561c219cdb219fc85804cc8ac4",
+  "source_commit": "1f07fc5676a018b633492a2379f6e40f41053e0c",
+  "source_sha256": "44b9e42eb99cc11241fec87b4488cf341c89c6e241798de3afa21a9ceb3cfc0c",
+  "deployment_source_sha256": "b5079a4de6191ee397f077ad1d43f382f769d58e5b2e063ffbe78123303d9a95",
+  "codec": "lzss",
+  "execution_result": "FINISHED_WITH_RETURN",
+  "deployment_status": "FINALIZED",
+  "protocol": {
+    "initial_validators": 5,
+    "max_rotations": 3
+  },
+  "vault": {
+    "address": "0x725b9bbd5665e7aa722e915ae29ee427f4213cb1",
+    "binder": "0x771388495f34d21c5574fefc04cd1d5811e00ada",
+    "deployment_tx": "0xecc1268059e545e209acc5b765b66f90032f8346c8832605f8d57d408a903b97",
+    "binding_tx": "0xd7160b6602595ea2e403dd15436cba1d495b522122d1bdfa12b71d41347c3d3f",
+    "source_sha256": "1487874e73c11bc16d691c8b22b45eb21dd6af3004979bffb41820da7ccfb310",
+    "artifact_sha256": "424a55b0a49c6ac1bdb53a98a9ad379b88488d27ecb5ab25432b6383016f12e9",
+    "compiler": "solc 0.8.30",
+    "optimizer_runs": 200,
+    "evm_version": "paris"
+  },
+  "previous_deployment": "0xC51157f16406AD13527E1DBEa455374531Dd0396",
+  "historical_checkpoint": "steward-checkpoint.json",
+  "lifecycle_verification": "finalized",
+  "source_fetch_policy": "Strict equality of independently fetched text/plain HTTP bodies on raw.githubusercontent.com; comparative rendered-text equivalence for other sources.",
+  "superseded_reason": "Generated EVM proxy withdrawal error; replaced by explicit typed host adapter in the final deployment."
+}

@@ -4,10 +4,10 @@
 import { createClient, testnetBradbury, createPublicClient, http, fromRlp, hexToBytes, parseEventLogs, decodeFunctionData, abi } from './app-sdk.mjs';
 import { canonical, envelopeHash, sha256, flatten, decide } from './lib.mjs';
 export { envelopeHash };
-export const CONTRACT = '0xC51157f16406AD13527E1DBEa455374531Dd0396';
+export const CONTRACT = '0xD0B85aB75f479d060A1680E220931c5001f7ba46';
 export const CHAIN = testnetBradbury;
 export const GENESIS = '0xef97917ce9bd9fa7d12ad6a8d81ea26c80ac1d727acc37cbb9799ae199788dc5';
-export const STORAGE_KEY = 'hearsay.bradbury.phase1.steward.oct23.v1';
+export const STORAGE_KEY = 'hearsay.bradbury.phase1.steward.final.oct23.v1';
 export const STATUSES = ['Uninitialized', 'Pending', 'Proposing', 'Committing', 'Revealing', 'Accepted', 'Undetermined', 'Finalized', 'Canceled', 'Appeal revealing', 'Appeal committing', 'Ready to finalize', 'Validators timeout', 'Leader timeout', 'Leader revealing'];
 export const RESULTS = ['Idle', 'Majority agree', 'Majority disagree', 'Majority timeout', 'Deterministic violation', 'No majority'];
 export const EXECUTIONS = ['Not voted', 'Finished with return', 'Finished with error', 'Timeout', 'Nondeterministic disagreement'];

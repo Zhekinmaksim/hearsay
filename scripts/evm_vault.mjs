@@ -53,6 +53,11 @@ async function main() {
     demand(/^0x[0-9a-f]{64}$/i.test(r.argument) && /^0x[0-9a-f]{40}$/i.test(r.required_recipient), 'protocol transaction/recipient pin required');
     const [tx] = await publicClient.readContract({ ...chain.consensusDataContract, functionName: 'getTransactionAllData', args: [r.argument] });
     demand(tx.id.toLowerCase() === r.argument.toLowerCase() && tx.recipient.toLowerCase() === r.required_recipient.toLowerCase() && tx.sender.toLowerCase() === r.expected_account.toLowerCase(), 'foreign protocol transaction');
+    if (r.method === 'protocol_finalize') {
+      const [eligible] = await publicClient.readContract({ ...chain.consensusDataContract,
+        functionName: 'canFinalize', args: [r.argument, block.timestamp], blockNumber: block.number });
+      demand(eligible === true, 'canonical finalization window or parent dependency is not ready');
+    }
   }
   const data = r.method === 'deploy' ? '0x' + artifact.evm.bytecode.object : encodeFunctionData({ abi: artifact.abi, functionName: protocol ? ({ protocol_idle: 'processIdleness', protocol_finalize: 'finalizeTransaction', protocol_appeal: 'submitAppeal' }[r.method]) : r.method === 'bindController' ? 'bindController' : 'claim', args: [r.argument] });
   const to = r.method === 'deploy' ? undefined : r.address;

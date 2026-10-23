@@ -1,22 +1,26 @@
 # Steward corrections — 23 October 2026
 
-The steward's state-machine corrections are implemented, tested and deployed
-on Bradbury **Phase 1**. The new Intelligent Contract is
-[`0xC51157f16406AD13527E1DBEa455374531Dd0396`](https://explorer-bradbury.genlayer.com/address/0xC51157f16406AD13527E1DBEa455374531Dd0396),
+The steward's state-machine corrections are implemented and deployed on
+Bradbury **Phase 1**. The final Intelligent Contract is
+[`0xD0B85aB75f479d060A1680E220931c5001f7ba46`](https://explorer-bradbury.genlayer.com/address/0xD0B85aB75f479d060A1680E220931c5001f7ba46),
 and its bound EVM vault is
-[`0x40bf182ae03c2cca0123be64ac43d25da5adb7d7`](https://explorer-bradbury.genlayer.com/address/0x40bf182ae03c2cca0123be64ac43d25da5adb7d7).
-Deployment is finalized. Source bytes, native vault runtime and controller
-binding were checked against the chain. The frontend uses the corrected IC.
+[`0x81f29ce35b2624c3e04764cad423fc660ef4d3a7`](https://explorer-bradbury.genlayer.com/address/0x81f29ce35b2624c3e04764cad423fc660ef4d3a7).
+Source bytes, native runtime and controller binding match the pinned artifacts.
+The [final checkpoint](https://hearsay.run/steward-final-checkpoint.json)
+records canonical status separately from application outcomes.
 
-**Live lifecycle verification is incomplete.** Four new AI writes reached
-finalized `MAJORITY_TIMEOUT` outcomes and created no entries. Thus there is no
-standing entry on which to demonstrate challenge/rejudge. Live bridge funding
-and payout are also unverified. The [dated checkpoint](https://hearsay.run/steward-checkpoint.json)
-links all canonical receipts; a protocol timeout is not an application refusal.
+Earlier timeout attempts and the intermediate deployment's generated EVM-proxy
+failure remain in [diagnostic evidence](https://hearsay.run/steward-diagnostics.json)
+and the [timeout investigation](timeout-investigation.md).
+The final adapter uses the pinned SDK's typed ABI and EthCall/EthSend host
+interface with an explicit recipient and value. Exact adapter classes passed
+both leader and validator runtime simulation before deployment. Five native EVM
+tests verify failed recipient delivery and successful recovery. The live
+challenge/rejudge checkpoint does not claim an IC-to-vault withdrawal.
 
-The old contract `0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7`, October 9
+The original contract `0x2a5c1aA4Ae9e2292B737FE574aF44A2d8a5bB3F7`, October 9
 checkpoint and film remain historical. Their 20 honest controls and five
-negative judgements are not results for this corrected version.
+negative judgements are not results for the corrected version.
 
 ## Failed-claim correction
 
@@ -106,7 +110,7 @@ claimed verified by Studio's simulated transfer support.
 
 ## Deployment and live verification
 
-[Deployment metadata](../deployments/bradbury-steward.json) records both
+[Deployment metadata](../deployments/bradbury-steward-final.json) records both
 addresses, deployment/binding transactions, source commit and source hashes.
 The IC was deployed with the vault as its required constructor argument;
 the vault deployer then bound its immutable controller to the IC. The actual
@@ -114,7 +118,9 @@ IC source bytes and compiled vault runtime match the pinned artifacts.
 
 ```sh
 node scripts/verify_steward_deployment.mjs
-python3 scripts/checkpoint_steward.py
+python3 scripts/checkpoint_steward_http.py --run-dir runs/steward-final-oct23 \
+  --deployment deployments/bradbury-steward-final.json \
+  --receipts-dir web/steward-final-receipts --out web/steward-final-checkpoint.json
 ```
 
 These commands only read public chain data. The checkpoint preserves the
@@ -128,26 +134,27 @@ RPC `https://rpc-bradbury.genlayer.com`, chain 4221. Both frontend public reads
 and wallet sends check genesis as well as protocol bindings. The reset Phase 2
 chain uses the same ID and cannot be substituted while keeping these addresses.
 
-Live operations, as verified at **10:12 UTC on October 23**:
+The final run preserves five initial source-pinned write records before any
+lifecycle mutation: a wrong CPython header version, corrected admission of the
+same claim, and a four-entry admitted dependency chain. A deliberately false
+challenge tests rejection; it does not manufacture an upheld objection against
+correct evidence. Expiry tests deep invalidation, including the descendant
+whose stored flag remains ADMITTED while its effective status is TAINTED.
+Direct rejudge of the root and all three descendants restores their independent
+source support; two bounded calls consume the remaining stale queue slots.
+The final checkpoint determines whether each operation is Accepted or Finalized.
+No successful queued AI batch or second referee stage is claimed by this path.
 
-| Operation | Canonical outcome | Application effect |
-| --- | --- | --- |
-| Deploy corrected IC | Finalized / majority agree / finished with return | Corrected schema and source verified |
-| Open registry review space 0 | Finalized / majority agree | Pool 500,000 wei; TTL 1; cascade depth 1; two support rounds |
-| Wrong Companies House source | Finalized / majority timeout | No entry; not UNSOURCED |
-| Honest Companies House control | Finalized / majority timeout | No entry |
-| Honest control after parent finalization | Finalized / majority timeout | No entry; accepted-parent state is not sufficient to explain the earlier failures |
-| Open immutable-source review space 1 | Finalized / majority agree | Separate pool 500,000 wei |
-| Wrong immutable Node.js README for CPython claim | Finalized / majority timeout | Source returned by leader, but no successful validator quorum or committed entry |
+| Live operation | Transaction |
+| --- | --- |
+| False challenge rejected | [Canonical challenge receipt](https://explorer-bradbury.genlayer.com/tx/0x13861334e540a06d6b7291e19669109228add120bcabc97a6c9b8eded370f4f3) |
+| Root expiry invalidated all three descendants | [Expiry](https://explorer-bradbury.genlayer.com/tx/0x47a51c496d618146ed19b8675398c15f42e15814fd79aec53fdcb3daf5df9855) |
+| Expired root independently readmitted | [Root rejudge](https://explorer-bradbury.genlayer.com/tx/0x2bcb3899ff83b6bbcff0ca7d5cfd9db3635f92ea5148925be0bab8346b14ba60) |
+| Logically tainted / stored-admitted descendant readmitted | [Deep rejudge](https://explorer-bradbury.genlayer.com/tx/0xb9e814a0a03ed646a0ec7a0f4a0150fd7addc818bd8f1c1dc01c9d6c1f464f2f) |
 
-All four writes used five initial validators and three maximum rotations.
-Expanded rounds also failed to establish successful consensus. `processIdleness`
-on the first failed write succeeded as a native transaction but emitted no
-progress events and did not change its application outcome. An appeal reverted
-in read-only simulation; no paid appeal was sent. The final state has zero
-entries and balanced pool accounting, so no meaningful challenge, rejudge or
-withdrawal can be initiated yet. No claim about the root cause of validator
-timeouts is made from these receipts alone.
+The checkpoint links the remaining rejudgements, both bounded sweeps, full
+canonical receipts, calldata-bound intents and initial source-pinned records.
+
 
 The sequential, resumable live runner is `scripts/steward_live.py`. It writes
 a public intent and hash journal before broadcast, resumes saved transaction
@@ -163,10 +170,10 @@ python3 scripts/build_deploy.py --codec lzss --out runs/reproduce-steward/hearsa
 ```
 
 Its SHA-256 is
-`2a0cc73ea3ce7d8cc4db8fadd57fe08838641eb2530be488d22238c3804abdb8`.
+`02df3ea8c9f4f8181681d3adaf46df785998af27fee4a968271de653beb3df7b`.
 The codec preserves executable AST and exact prompt strings; five codec tests
 exercise lossless decoding, Unicode, overlap and executable AST identity.
-The IC source is pinned to commit `c61c2d767af1ccdf4c667e19a984af2cf1706afe`.
+The IC source is pinned to commit `e1c90fe5c39a8c17ad89708054831f719ae5057b`.
 
 ## Reproduce the checks
 
@@ -178,7 +185,8 @@ make dry-run replay gate
 ```
 
 `make test` reports 96 baseline assertions, 18 focused unittest cases and five
-deployment-codec cases. The
+deployment-codec cases, seven source transport cases, three runner cases and
+eight publication guards. The
 original 95-assertion count changes because the withdrawal regression now also
 asserts that an unconfigured vault preserves the beneficiary's credit. The
 focused cases cover corrected claims, author-specific limits, fresh bytes and
@@ -214,52 +222,5 @@ CI installs the pinned Foundry toolchain and runs `make payout-test`.
 
 ## Final resubmit response
 
-Thank you for the detailed review. The requested corrections are implemented
-and deployed on Bradbury Phase 1:
-
-Intelligent Contract:
-https://explorer-bradbury.genlayer.com/address/0xC51157f16406AD13527E1DBEa455374531Dd0396
-
-EVM payout vault:
-https://explorer-bradbury.genlayer.com/address/0x40bf182ae03c2cca0123be64ac43d25da5adb7d7
-
-1. Failed admission no longer permanently occupies the global claim key.
-   Correction creates a new audited entry with a fresh bond, source retrieval
-   and both support assessments. Attempts are bounded per author; another
-   participant cannot consume the legitimate author's correction allowance.
-   Admitted claims remain deduplicated, and unchanged evidence from the same
-   author is refused.
-2. Revocation and expiry immediately invalidate dependency chains for trust
-   decisions, including descendants outside the storage walk. Support-revision
-   pins prevent silent recovery when an ancestor is readmitted. Permissionless
-   bounded deferred processing rejudges queued entries to completion.
-3. Withdrawals remain durable pending claims until a verified EVM vault receipt
-   proves funding. Beneficiaries pull their vault credit to a chosen recipient;
-   failed delivery reverts atomically, preserving the enforceable credit for a
-   later attempt. Recovery checks reserves and immutable receipt data, and a
-   withdrawal ID cannot be funded twice.
-4. `min_rounds` is restricted to 1–2, matching the implemented support rounds.
-
-Validation passes: 96 baseline assertions, 18 focused regression cases, five
-native EVM payout tests, five lossless deployment-codec tests, 67 original JS
-parity checks plus retry/cascade regressions, 17 gate parity checks, 48 wallet/core
-checks, 30 app DOM checks, 65 harness-page checks and 18/18 archived replays.
-The deployed IC source, native vault runtime and one-time controller binding
-were verified from public RPC. The frontend points to the corrected deployment.
-
-Live verification limitation: deployment and both review-space creations are
-Finalized with successful consensus. Four AI-write attempts, including honest
-controls and immutable authoritative sources, instead finalized with
-MAJORITY_TIMEOUT and created no entries. Therefore the corrected-version live
-challenge/rejudge and IC-to-vault payout are not claimed as completed. These
-protocol failures are not counted as application refusals. The previous
-contract's checkpoint and video remain explicitly historical.
-
-Correction details and reproduction commands:
-https://github.com/Zhekinmaksim/hearsay/blob/main/docs/steward-resubmit.md
-
-Dated canonical receipts and deployment proof:
-https://hearsay.run/steward-checkpoint.json
-
-Updated application:
-https://hearsay.run/app.html
+Use [resubmit.txt](resubmit.txt), kept below 1,000 characters. The canonical
+checkpoint and current deployment metadata are the source of completion claims.

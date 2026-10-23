@@ -87,7 +87,15 @@ def render_page():
             '<p class="whereabouts"><a href="app.html">Open the live Bradbury app</a></p></header>',
             1,
         )
-    if os.path.exists(os.path.join(ROOT, "web", "steward-checkpoint.json")):
+    if os.path.exists(os.path.join(ROOT, "web", "steward-final-checkpoint.json")):
+        checkpoint = json.load(open(os.path.join(ROOT, "web", "steward-final-checkpoint.json"), encoding="utf-8"))
+        status = "finalized" if checkpoint.get("complete") is True else "executed; canonical finalization pending"
+        template = template.replace(
+            "</header>",
+            '</header>\n  <p class="whereabouts">23 October: corrected Phase 1 lifecycle ' + status + '. Same-claim correction, rejected challenge and deep dependency revalidation. <a href="steward-final-checkpoint.json">Canonical receipts</a> · <a href="steward-diagnostics.json">Diagnostic history</a> · <a href="bradbury-prompt-checkpoint.json">Historical 9 October checkpoint</a> · offline stand below</p>',
+            1,
+        )
+    elif os.path.exists(os.path.join(ROOT, "web", "steward-checkpoint.json")):
         template = template.replace(
             "</header>",
             '</header>\n  <p class="whereabouts">23 October: corrected Phase 1 deployment finalized; live AI writes timed out, so challenge/rejudge remain unverified. <a href="steward-checkpoint.json">New deployment &amp; canonical receipts</a> · <a href="bradbury-prompt-checkpoint.json">Historical 9 October checkpoint</a> · offline stand below</p>',

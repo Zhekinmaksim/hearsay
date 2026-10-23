@@ -1,0 +1,189 @@
+[
+  {
+    "id": "hearsay-final-deploy",
+    "tx": "0x54379576848362be645869046b7ca85125d792f5731a85c8e33040f59eeaefd1",
+    "method": "deploy",
+    "args": [
+      "0x81f29ce35b2624c3e04764cad423fc660ef4d3a7"
+    ],
+    "value": "0",
+    "calldata_sha256": "10be040365344dd9594ddc28861bf82762494d4d52f172a39e138d17bcdffc0c",
+    "verified": true
+  },
+  {
+    "id": "review-open-space",
+    "tx": "0x9ba5797ebefd1d67230fb49d0047865209008d027e982051b010d5eba271522e",
+    "method": "open_space",
+    "args": [
+      "Hearsay final steward replay · 23 October 2026",
+      "Pinned CPython release source: failed-claim correction, challenge, expiry, deep dependency invalidation and direct rejudgement. Separate demonstration, not an attack-rate benchmark.",
+      1,
+      1,
+      2,
+      1000,
+      2000
+    ],
+    "value": "500000",
+    "calldata_sha256": "134fea5e1210be084df0e96de773a7dc03b1f3f055183cfbedd48a0e3d204f49",
+    "verified": true
+  },
+  {
+    "id": "wrong-source",
+    "tx": "0xa9560016a1417239f4fbb51c118517920437568ff7560150b938bfc5969ccdbb",
+    "method": "write_entry",
+    "args": [
+      0,
+      "source_forgery",
+      "{\"claim\":\"The CPython v3.12.0 patchlevel header defines PY_VERSION as 3.12.0.\",\"entry_class\":\"source_forgery\",\"source_url\":\"https://raw.githubusercontent.com/python/cpython/v3.11.0/Include/patchlevel.h\",\"space_id\":0,\"version\":\"hearsay/1\"}"
+    ],
+    "value": "1000",
+    "envelope_hash": "44ee216837f74e7ddd2b91bb95427358fbdbe18c9b4fe5d077689620b6add057",
+    "calldata_sha256": "7ad5ccd780f9436be35dbbb05423eb9e3a6855e8ca2564c1a24031295c6295d9",
+    "verified": true
+  },
+  {
+    "id": "corrected-source",
+    "tx": "0xafe652c5a19f4d4598e8409c8c59d4308f116dd27440332aa7235ebb3eef08c7",
+    "method": "write_entry",
+    "args": [
+      0,
+      "honest",
+      "{\"claim\":\"The CPython v3.12.0 patchlevel header defines PY_VERSION as 3.12.0.\",\"entry_class\":\"honest\",\"source_url\":\"https://raw.githubusercontent.com/python/cpython/v3.12.0/Include/patchlevel.h\",\"space_id\":0,\"version\":\"hearsay/1\"}"
+    ],
+    "value": "1000",
+    "envelope_hash": "df6c61ad7ada0c13e719603571f12c2f616999f857e7aad25dd878432777fd80",
+    "calldata_sha256": "89884144ed16148de6c304c0c3dca434253923fda1b8d29df20e0d25231405a6",
+    "verified": true
+  },
+  {
+    "id": "dependent-combination",
+    "tx": "0xc15e909fe8f639b1f48d9b3a533e7ddd1b45056914a8e2d42b2fcbb26fafb438",
+    "method": "write_entry",
+    "args": [
+      0,
+      "honest",
+      "{\"claim\":\"The CPython v3.12.0 patchlevel header defines PY_MAJOR_VERSION as 3.\",\"entry_class\":\"honest\",\"source_url\":\"https://raw.githubusercontent.com/python/cpython/v3.12.0/Include/patchlevel.h\",\"space_id\":0,\"supports\":[1],\"version\":\"hearsay/1\"}"
+    ],
+    "value": "1000",
+    "envelope_hash": "5d0f7c022457965c38dbcda4c15e81f0a83b1f2b8df63d9564e2b02f3894b9aa",
+    "calldata_sha256": "c68cacedc7761251489ad360b6bdfe163b38187f6dad197c1c4e86ddcb5c7a5b",
+    "verified": true
+  },
+  {
+    "id": "dependent-incorporation",
+    "tx": "0x16d7bf2a60a0d98563f595c58909d9d1dbaab07035c23a1006bbc4fc3dd0500a",
+    "method": "write_entry",
+    "args": [
+      0,
+      "honest",
+      "{\"claim\":\"The CPython v3.12.0 patchlevel header defines PY_MINOR_VERSION as 12.\",\"entry_class\":\"honest\",\"source_url\":\"https://raw.githubusercontent.com/python/cpython/v3.12.0/Include/patchlevel.h\",\"space_id\":0,\"supports\":[2],\"version\":\"hearsay/1\"}"
+    ],
+    "value": "1000",
+    "envelope_hash": "eaba09813989575bf217a5c095475ac4d076502ddcd92084fba20f0ce546d7bf",
+    "calldata_sha256": "ae9c8bdcb968b8d0f47b39010fc086eb5febdadf1620e615716f5fa882f4fb35",
+    "verified": true
+  },
+  {
+    "id": "dependent-number",
+    "tx": "0xc6b21c84ca2f2fe25627fd6c11f41b6f8d4e476b6c1eee338fd23f74035eadb2",
+    "method": "write_entry",
+    "args": [
+      0,
+      "honest",
+      "{\"claim\":\"The CPython v3.12.0 patchlevel header defines PY_MICRO_VERSION as 0.\",\"entry_class\":\"honest\",\"source_url\":\"https://raw.githubusercontent.com/python/cpython/v3.12.0/Include/patchlevel.h\",\"space_id\":0,\"supports\":[3],\"version\":\"hearsay/1\"}"
+    ],
+    "value": "1000",
+    "envelope_hash": "cf6ae25daaf80b4662e86ecf1269cd9a06b87f6707eca10306e8cd197dc615a6",
+    "calldata_sha256": "a06eee53c702c266b4346a0496493a07e1e5cc4236b71a347622a1893c3fd762",
+    "verified": true
+  },
+  {
+    "id": "challenge",
+    "tx": "0x13861334e540a06d6b7291e19669109228add120bcabc97a6c9b8eded370f4f3",
+    "method": "challenge",
+    "args": [
+      1,
+      "The pinned header defines PY_VERSION as 2.7 rather than 3.12.0."
+    ],
+    "value": "2000",
+    "calldata_sha256": "f6546267560b30fc1af693afa99aa11e612d22bde5386a50ca975b1447278128",
+    "verified": true
+  },
+  {
+    "id": "expire-root",
+    "tx": "0x47a51c496d618146ed19b8675398c15f42e15814fd79aec53fdcb3daf5df9855",
+    "method": "expire",
+    "args": [
+      1
+    ],
+    "value": "0",
+    "calldata_sha256": "102386357fb95f7aa1f72ecc8eba924ca065d39fb672d87f6cfe084acfb07e55",
+    "verified": true
+  },
+  {
+    "id": "rejudge-root",
+    "tx": "0x2bcb3899ff83b6bbcff0ca7d5cfd9db3635f92ea5148925be0bab8346b14ba60",
+    "method": "rejudge",
+    "args": [
+      1
+    ],
+    "value": "0",
+    "calldata_sha256": "3e5b1512ff9fe0762c361df84f44824379cc11bf8569608e980fc2139572f9f1",
+    "verified": true
+  },
+  {
+    "id": "direct-rejudge-deep",
+    "tx": "0xb9e814a0a03ed646a0ec7a0f4a0150fd7addc818bd8f1c1dc01c9d6c1f464f2f",
+    "method": "rejudge",
+    "args": [
+      4
+    ],
+    "value": "0",
+    "calldata_sha256": "ffc5bf1205058be57824a3379b5916c15319b88e94f3ee2e16ac794da031663d",
+    "verified": true
+  },
+  {
+    "id": "direct-rejudge-mid",
+    "tx": "0x6febb3d3c8c2c46220cd2ae65872b125f9e8f2691f6f75ee091fc2c80122ce62",
+    "method": "rejudge",
+    "args": [
+      3
+    ],
+    "value": "0",
+    "calldata_sha256": "c61fd3042cb59968ea8d878d396ba8a0ddb4ee191242afc7f9b485ecf7086cb8",
+    "verified": true
+  },
+  {
+    "id": "direct-rejudge-child",
+    "tx": "0x0970ce840c5ec8bae5540de8fa6f508671eb82af45819c403085ccd67bac9732",
+    "method": "rejudge",
+    "args": [
+      2
+    ],
+    "value": "0",
+    "calldata_sha256": "21793aa0d320b7ef555947d4c3f35c5aae1f58c9a80a116f1a471a05eb386895",
+    "verified": true
+  },
+  {
+    "id": "deferred-clear-00",
+    "tx": "0x823894b2646e20253801d158db375dd52b0be00e5075a483f5340c6ce7f45244",
+    "method": "process_deferred",
+    "args": [
+      1
+    ],
+    "value": "0",
+    "calldata_sha256": "a526cb37a8218af2790485d183f9ac804d7d9359db628c223b4bafbe0969be48",
+    "verified": true
+  },
+  {
+    "id": "deferred-clear-01",
+    "tx": "0x77285bc5d2a18ecb6cb824516049a4b4737077e3aee2738bcc5a68d0910344af",
+    "method": "process_deferred",
+    "args": [
+      1
+    ],
+    "value": "0",
+    "calldata_sha256": "a526cb37a8218af2790485d183f9ac804d7d9359db628c223b4bafbe0969be48",
+    "verified": true
+  }
+]

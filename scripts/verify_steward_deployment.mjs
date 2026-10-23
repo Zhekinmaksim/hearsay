@@ -8,7 +8,7 @@ import { createHash } from 'node:crypto';
 
 const sha = value => createHash('sha256').update(value).digest('hex');
 const demand = (ok, message) => { if (!ok) throw new Error(message); };
-const meta = JSON.parse(readFileSync('deployments/bradbury-steward.json'));
+const meta = JSON.parse(readFileSync(process.argv[2] || 'deployments/bradbury-steward-final.json'));
 const artifactBytes = readFileSync('deployments/hearsay-payout-vault.json');
 demand(sha(artifactBytes) === meta.vault.artifact_sha256, 'vault artifact pin mismatch');
 const artifact = JSON.parse(artifactBytes);

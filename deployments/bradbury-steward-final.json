@@ -1,0 +1,35 @@
+{
+  "network": "bradbury-phase1",
+  "chain_id": 4221,
+  "rpc": "https://rpc-bradbury.genlayer.com",
+  "genesis": "0xef97917ce9bd9fa7d12ad6a8d81ea26c80ac1d727acc37cbb9799ae199788dc5",
+  "address": "0xD0B85aB75f479d060A1680E220931c5001f7ba46",
+  "deployment_tx": "0x54379576848362be645869046b7ca85125d792f5731a85c8e33040f59eeaefd1",
+  "deployment_evm_tx": "0xaa2318ae4aee88435df73626be101377322fa35c058d6b291ccb56dea4f5f730",
+  "source_commit": "e1c90fe5c39a8c17ad89708054831f719ae5057b",
+  "source_sha256": "c2b201acf49c5791d45eb75e09210977f73f977f54ff8b089113504109ab2118",
+  "deployment_source_sha256": "02df3ea8c9f4f8181681d3adaf46df785998af27fee4a968271de653beb3df7b",
+  "codec": "lzss",
+  "execution_result": "FINISHED_WITH_RETURN",
+  "deployment_status": "ACCEPTED",
+  "protocol": {
+    "initial_validators": 5,
+    "max_rotations": 3
+  },
+  "vault": {
+    "address": "0x81f29ce35b2624c3e04764cad423fc660ef4d3a7",
+    "binder": "0x771388495f34d21c5574fefc04cd1d5811e00ada",
+    "deployment_tx": "0x8f4e704a1f83cbab6884d5daf5943cefc0c9b01a8677e6069e4155de1ba8d540",
+    "binding_tx": "0x126eea874e456aafd6710e22724d75ce2c2675429ffac879ef52b515f1682bbc",
+    "source_sha256": "1487874e73c11bc16d691c8b22b45eb21dd6af3004979bffb41820da7ccfb310",
+    "artifact_sha256": "424a55b0a49c6ac1bdb53a98a9ad379b88488d27ecb5ab25432b6383016f12e9",
+    "compiler": "solc 0.8.30",
+    "optimizer_runs": 200,
+    "evm_version": "paris"
+  },
+  "previous_deployment": "0x764FB8E341a1956bcD7CF0bce3c28C79Dc694f8C",
+  "historical_checkpoint": "steward-checkpoint.json",
+  "lifecycle_verification": "accepted-provisional",
+  "source_fetch_policy": "Strict equality of independently fetched text/plain HTTP bodies on raw.githubusercontent.com; comparative rendered-text equivalence for other sources.",
+  "adapter_preflight": "Exact adapter classes passed leader and validator gen_call with typed controller/receipt reads and 1000 wei EthSend."
+}

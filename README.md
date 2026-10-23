@@ -8,14 +8,17 @@ An admission layer in front of shared agent memory, on GenLayer.
 
 **23 October correction:** the source and browser harness include the steward's
 state-machine fixes. See the [review response and reproduction steps](docs/steward-resubmit.md).
-The corrected Intelligent Contract is deployed at
-[`0xC51157f16406AD13527E1DBEa455374531Dd0396`](https://explorer-bradbury.genlayer.com/address/0xC51157f16406AD13527E1DBEa455374531Dd0396),
-with a bound [EVM payout vault](https://explorer-bradbury.genlayer.com/address/0x40bf182ae03c2cca0123be64ac43d25da5adb7d7).
-Deployment is finalized. [Deployment identity](deployments/bradbury-steward.json)
-and the [dated live checkpoint](https://hearsay.run/steward-checkpoint.json)
-separate these facts from the live lifecycle test: four AI writes timed out at
-protocol level without an entry, so challenge/rejudge and bridge payout have
-not been verified live. Historical receipts and video belong to the old contract.
+The final Intelligent Contract is deployed at
+[`0xD0B85aB75f479d060A1680E220931c5001f7ba46`](https://explorer-bradbury.genlayer.com/address/0xD0B85aB75f479d060A1680E220931c5001f7ba46),
+with a bound [EVM payout vault](https://explorer-bradbury.genlayer.com/address/0x81f29ce35b2624c3e04764cad423fc660ef4d3a7).
+[Deployment identity](deployments/bradbury-steward-final.json) pins its source,
+runtime and controller. The [live checkpoint](https://hearsay.run/steward-final-checkpoint.json)
+records source correction, a rejected challenge, deep invalidation, direct
+rejudgement and bounded queue completion, with exact canonical statuses.
+[Diagnostic history](https://hearsay.run/steward-diagnostics.json) retains earlier
+timeouts and the intermediate SDK proxy failure. Historical controls and video
+belong to the original contract. Native EVM tests cover failed-payment recovery;
+bridge execution is reported separately from lifecycle evidence.
 This deployment uses **Bradbury Phase 1**, not the reset Phase 2 network;
 the app checks the genesis hash in addition to chain ID 4221.
 
